@@ -1627,7 +1627,7 @@ function xforms_swishe_config()
 
     // Create swish-e.conf
     $file = $doc_path . "/swish-e.conf";
-    $fp = fopen($file, 'w') or die("<BR><BR>Unable to open {$file}");
+    $fp = fopen($file, 'w') || die("<BR><BR>Unable to open {$file}");
 
     $line = "IndexDir " . $doc_path . "/\n";
     fputs($fp, $line);
@@ -1695,7 +1695,7 @@ function xforms_swishe_search($search_query)
         $search_index  = $repository_root . "/index.swish-e"; // path of swish-e index file
         $search_params = "-H1 -m" . $search_limit; // Additional search parameters
 
-        $pipe_handler = popen("$swish -w $search_query -f $search_index $search_params", "r") or die("The search request generated an error...Please try again.");
+        $pipe_handler = popen("$swish -w $search_query -f $search_index $search_params", "r") || die("The search request generated an error...Please try again.");
 
         //print "$swish -w $search_query -f $search_index $search_params<BR>";
 

@@ -20,7 +20,7 @@
 
 if ( !defined('xforms_ROOT_PATH') ) { exit(); }
 
- if ($value[0] != "Y-m-d" and $value[0] != "") {
+ if ($value[0] != "Y-m-d" && $value[0] != "") {
          $date_value = strtotime($value[0]);
  } else {
          $date_value = "";
