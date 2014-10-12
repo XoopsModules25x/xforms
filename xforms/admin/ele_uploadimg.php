@@ -7,7 +7,12 @@ if( !defined('xforms_ROOT_PATH') ){ exit(); }
 $size = !empty($value[0]) ? intval($value[0]) : 0;
 $ext = empty($ele_id) ? 'jpg|jpeg|gif|png|tif|tiff' : $value[1];
 $mime = empty($ele_id) ? 'image/jpeg|image/pjpeg|image/png|image/x-png|image/gif|image/tiff' : $value[2];
-$saveas = $value[3] != 1 ? 0 : 1;
+//$saveas = $value[3] != 1 ? 0 : 1;
+if (isset($value[3]) && $value[3] == 1) {
+    $saveas = $value[3];
+} else {
+    $saveas = 0;
+}
 $width = !empty($value[4]) ? intval($value[4]) : 0;
 $height = !empty($value[5]) ? intval($value[5]) : 0;
 

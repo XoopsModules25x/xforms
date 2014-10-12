@@ -1,31 +1,51 @@
 <?php
-###############################################################################
-##                           See license.txt                                 ##
-###############################################################################
-include '../../../include/cp_header.php';
+/**
+ * XoopsPartners module
+ *
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+ * @copyright::  The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @license::    {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
+ * @package::    XoopsPartners
+ * @subpackage:: admin
+ * @since::		 2.5.0
+ * @author::     XOOPS Team
+ * @version::    $Id $
+**/
+
+
+$path = dirname(dirname(dirname(dirname(__FILE__))));
+include_once $path . '/mainfile.php';
+include_once $path . '/include/cp_functions.php';
+require_once $path . '/include/cp_header.php';
+
 include '../include/common.php';
-define('xforms_ADMIN_URL', xforms_URL.'admin/index.php');
+define('xforms_ADMIN_URL', xforms_URL.'admin/main.php');
 include_once XOOPS_ROOT_PATH.'/class/xoopsformloader.php';
-function adminHtmlHeader(){
-	global $xoopsModule, $xoopsConfig;
-	$langf = xforms_ROOT_PATH.'language/'.$xoopsConfig['language'].'/modinfo.php';
-	if( file_exists($langf) ){
-		include $langf;
-	}else{
-		include xforms_ROOT_PATH.'language/english/modinfo.php';
-	}
-	include 'menu.php';
-	for( $i=0; $i<4; $i++ ){
-		$links[$i] = array(0 => xforms_URL.$adminmenu[$i]['link'], 1 => $adminmenu[$i]['title']);
-	}
-	$links[] = array(0 => XOOPS_URL.'/modules/system/admin.php?fct=preferences&op=showmod&mod='.$xoopsModule->getVar('mid'), 1 => _PREFERENCES);
-	$links[] = array(0=> xforms_URL.'admin/about.php', 1=> 'About');
-	$admin_links = '<table class="outer" width="100%" cellspacing="1"><tr>';
-	for( $i=0; $i<count($links); $i++ ){
-		$admin_links .= '<td class="even" style="width: 20%; text-align: center;"><a href="'.$links[$i][0].'" accesskey="'.($i+1).'">'.$links[$i][1].'</a></td>';
-	}
-	$admin_links .= "</tr></table><br clear='all' />\n";
-	xoops_cp_header();
-	echo $admin_links;
-}
-?>
+
+global $xoopsModule;
+
+$thisModuleDir = $GLOBALS['xoopsModule']->getVar('dirname');
+
+//if functions.php file exist
+require_once dirname(dirname(__FILE__)) . '/include/functions.php';
+
+// Load language files
+xoops_loadLanguage('admin', $thisModuleDir);
+xoops_loadLanguage('modinfo', $thisModuleDir);
+xoops_loadLanguage('main', $thisModuleDir);
+
+$pathIcon16 = '../'.$xoopsModule->getInfo('icons16');
+$pathIcon32 = '../'.$xoopsModule->getInfo('icons32');
+$pathModuleAdmin = $xoopsModule->getInfo('dirmoduleadmin');
+
+if ( file_exists($GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php'))){
+        include_once $GLOBALS['xoops']->path($pathModuleAdmin.'/moduleadmin.php');
+    }else{
+        redirect_header("../../../admin.php", 5, _AM_MODULEADMIN_MISSING, false);
+    }

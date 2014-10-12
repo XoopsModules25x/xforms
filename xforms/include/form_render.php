@@ -45,7 +45,9 @@ foreach( $form_output->getElements() as $e ){
 		$id = str_replace('ele_', '', $e->getName());
 	}elseif( method_exists($e, 'getElements') ){
 		$obj = $e->getElements();
-		$id = str_replace('ele_', '', $obj[0]->getName());
+        if ( isset($obj[0])){
+                $id = str_replace('ele_', '', $obj[0]->getName());
+            }
 		$id = str_replace('[]', '', $id);
 	}
 	if( isset($elements[$id]) ){

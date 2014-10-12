@@ -1,36 +1,29 @@
 <?php
-###############################################################################
-##                           See license.txt                                 ##
-###############################################################################
-include 'admin_header.php';
-adminHtmlHeader();
-?>
-<img src="../images/xforms.png" alt="xforms" style="float: left; margin: 0 10px 5px 0;" />
-<h4 style="margin: 0;">xForms</h4>
-<p style="margin-top: 0;">
-Version <?=number_format($xoopsModule->getVar('version')/100, 2);?><br />
-Presented by <a href="http://www.dylian.melgert.net/software" target="_blank">FliX Software</a> <br />
-Copyright &copy; 2009 Dylian Melgert
-<br clear="all" />
-</p>
+/**
+ * xForms module
+ *
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ *
+* @copyright    The XOOPS Project (http://www.xoops.org)
+ * @license   {@link http://www.gnu.org/licenses/gpl-2.0.html GNU Public License}
+ * @package    xforms
+ * @since        2.5.0
+ * @author     Mage, Mamba
+ * @version    $Id $
+ **/
 
-<h4 style="margin: 0;">License</h4>
-<p style="margin-top: 0;">
-This software is licensed under the CC-GNU GPL.<br />
-<a href="http://creativecommons.org/licenses/GPL/2.0/" target="_blank">Commons Deed</a> |
-<a href="http://www.gnu.org/copyleft/gpl.html" target="_blank">Legal Code</a>
-</p>
+include_once dirname(__FILE__) . '/admin_header.php';
 
-<h4 style="margin: 0;">Who to Contact</h4>
-<p style="margin-top: 0;">
-Whe have not yet created a support page.
-</p>
+xoops_cp_header();
 
-<h4 style="margin: 0;">Special thanks to</h4>
-<p style="margin: 0;">
-<a href="http://www.brandycoke.com/" target="_blank">Brandycoke Productions</a> for creating liaise, the module xforms is based on.
-</p>
+$aboutAdmin = new ModuleAdmin();
 
-<?php
-xoops_cp_footer();
-?>
+echo $aboutAdmin->addNavigation('about.php');
+echo $aboutAdmin->renderAbout('6KJ7RW5DR3VTJ', false);
+
+include 'admin_footer.php';

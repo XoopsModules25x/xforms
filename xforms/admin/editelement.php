@@ -30,7 +30,8 @@ if( isset($_POST['submit']) && $_POST['submit'] == _AM_ELE_ADD_OPT_SUBMIT && int
 
 switch($op){
 	case 'edit':
-		adminHtmlHeader();
+		//adminHtmlHeader();
+		xoops_cp_header();
 		if( !empty($ele_id) ){
 			$element = $xforms_ele_mgr->get($ele_id);
 			$ele_type = $element->getVar('ele_type');
@@ -136,7 +137,8 @@ switch($op){
 			redirect_header(xforms_ADMIN_URL, 0, _AM_NOTHING_SELECTED);
 		}
 		if( empty($_POST['ok']) ){
-			adminHtmlHeader();
+			//adminHtmlHeader();
+			xoops_cp_header();
 			xoops_confirm(array('op' => 'delete', 'ele_id' => $ele_id, 'form_id' => $form_id, 'ok' => 1), _THIS_PAGE, _AM_ELE_CONFIRM_DELETE);
 		}else{
 			$element = $xforms_ele_mgr->get($ele_id);
@@ -249,14 +251,17 @@ switch($op){
 		}
 		$element->setVar('ele_value', $value);
 		if( !$xforms_ele_mgr->insert($element) ){
-			adminHtmlHeader();
+			//adminHtmlHeader();
+			xoops_cp_header();
 			echo $element->getHtmlErrors();
 		}else{
 			redirect_header(xforms_URL.'admin/elements.php?form_id='.$form_id, 0, _AM_DBUPDATED);
 		}
 	break;
 	default:
-		adminHtmlHeader();
+		xoops_cp_header();
+		$indexAdmin = new ModuleAdmin();	
+		echo $indexAdmin->addNavigation('editelement.php') ;			
 		echo "<h4>"._AM_ELE_CREATE."</h4>
 		<ul>
 		<li><a href='"._THIS_PAGE."?op=edit&amp;ele_type=text'>"._AM_ELE_TEXT."</a></li>
@@ -272,7 +277,7 @@ switch($op){
 		;
 	break;
 }
-include 'footer.php';
+include 'admin_footer.php';
 xoops_cp_footer();
 
 

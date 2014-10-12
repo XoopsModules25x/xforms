@@ -103,7 +103,7 @@ class xformsElementRenderer{
 				
 				$form_ele = new XoopsFormElementTray($ele_caption, $delimiter == 'b' ? '<br />' : ' ');
 				while( $o = each($options) ){
-					$t =& new XoopsFormCheckBox(
+					$t = new XoopsFormCheckBox(
 						'',
 						$form_ele_id.'[]',
 						$selected
@@ -141,7 +141,7 @@ class xformsElementRenderer{
 					case 'b':
 						$form_ele = new XoopsFormElementTray($ele_caption, '<br />');
 						while( $o = each($options) ){
-							$t =& new XoopsFormRadio(
+							$t = new XoopsFormRadio(
 								'',
 								$form_ele_id,
 								$selected

@@ -27,7 +27,7 @@ if( isset($_POST['xoops_upload_file']) && is_array($_POST['xoops_upload_file']) 
 }
 // BUG FIX (Captcha wasn't checked)
 if ( $xoopsModuleConfig['captcha'] ) {
-	xoops_load("captcha"); 
+	xoops_load("xoopscaptcha"); 
 	$xoopsCaptcha = XoopsCaptcha::getInstance(); 
 	if (!$xoopsCaptcha->verify()) { 
 		$err[] = $xoopsCaptcha->getMessage(); 
@@ -165,7 +165,7 @@ if( is_dir(xforms_ROOT_PATH."language/".$xoopsConfig['language']."/mail_template
 }else{
 	$template_dir = xforms_ROOT_PATH."language/english/mail_template";
 }
-$xoopsMailer = getMailer();
+$xoopsMailer = xoops_getMailer();
 $xoopsMailer->setTemplateDir($template_dir);
 $xoopsMailer->setTemplate('xforms.tpl');
 $xoopsMailer->setSubject(sprintf(_xforms_MSG_SUBJECT, $myts->stripSlashesGPC($form->getVar('form_title'))));
@@ -271,7 +271,7 @@ if( count($err) > 0 ){
 	$xoopsTpl->assign('error_heading', _xforms_ERR_HEADING);
 	$xoopsTpl->assign('errors', $err);
 	$xoopsTpl->assign('go_back', _BACK);
-	$xoopsTpl->assign('xforms_url', xforms_URL.'/index.php?form_id='.$form_id);
+	$xoopsTpl->assign('xforms_url', xforms_URL.'index.php?form_id='.$form_id);
 	$xoopsTpl->assign('xoops_pagetitle', _xforms_ERR_HEADING);
 	include XOOPS_ROOT_PATH.'/footer.php';
 	exit();

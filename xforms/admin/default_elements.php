@@ -5,7 +5,7 @@
 if( !defined('xforms_ROOT_PATH') ){ exit(); }
 
 $defaults = array();
-$defaults[0]['caption'] = 'Your name';
+$defaults[0]['caption'] = _AM_ELE_YOUR_NAME;
 $defaults[0]['req'] = true;
 $defaults[0]['order'] = 1;
 $defaults[0]['display'] = 1;
@@ -16,7 +16,7 @@ $defaults[0]['value'] = array(
 							2 => '{UNAME}'
 							);
 
-$defaults[1]['caption'] = 'Email address';
+$defaults[1]['caption'] = _AM_ELE_YOUR_EMAIL;
 $defaults[1]['req'] = true;
 $defaults[1]['order'] = 2;
 $defaults[1]['display'] = 1;
@@ -27,7 +27,7 @@ $defaults[1]['value'] = array(
 							2 => '{EMAIL}'
 							);
 
-$defaults[2]['caption'] = 'Your comments';
+$defaults[2]['caption'] = _AM_ELE_YOUR_COMMENTS;
 $defaults[2]['req'] = true;
 $defaults[2]['order'] = 3;
 $defaults[2]['display'] = 1;

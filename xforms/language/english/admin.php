@@ -106,4 +106,13 @@ define("_AM_IMPORT_SUCCES", "xForms has succesfully imported all liaise forms.")
 define("_AM_IMPORT_FAILED", "xForms has failed importing all liaise forms.");
 define("_AM_IMPORT_NFND", "Liaise is not found on your system!");
 
-?>
+//ModuleAdmin
+define('_AM_XFORMS_MODULEADMIN_MISSING','Error: The ModuleAdmin class is missing. Please install the ModuleAdmin Class into /Frameworks (see /docs/readme.txt)');
+
+// Text for Admin footer
+//define("_AM_XFORMS_FOOTER", "<div class='center smallsmall italic pad5'>xForms is maintained by the <a class='tooltip' rel='external' href='http://xoops.org/' title='Visit XOOPS Community'>XOOPS Community</a></div>");
+
+//xForms 1.21 Defaults
+define("_AM_ELE_YOUR_NAME",'Your Name');
+define("_AM_ELE_YOUR_EMAIL",'Email address');
+define("_AM_ELE_YOUR_COMMENTS",'Your comments');

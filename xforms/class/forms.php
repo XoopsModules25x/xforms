@@ -22,13 +22,13 @@ class xformsForms extends XoopsObject {
 	}
 }
 
-class xformsFormsHandler extends XoopsObjectHandler {
+class xformsFormsHandler extends XoopsPersistableObjectHandler {
 	var $db;
 	var $db_table;
 	var $perm_name = 'xforms_form_access';
 	var $obj_class = 'xformsForms';
 
-	function xformsFormsHandler(&$db){
+	function  __construct(&$db){
 		$this->db = $db;
 		$this->db_table = $this->db->prefix('xforms_forms');
 	}

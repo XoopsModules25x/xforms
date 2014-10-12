@@ -27,12 +27,34 @@
 ##  along with this program; if not, write to the Free Software              ##
 ##  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA ##
 ###############################################################################
-$adminmenu[0]['title'] = _MI_xforms_ADMENU1;
-$adminmenu[0]['link'] = "admin/index.php";
-$adminmenu[1]['title'] = _MI_xforms_ADMENU2;
-$adminmenu[1]['link'] = "admin/index.php?op=edit";
-$adminmenu[2]['title'] = _MI_xforms_ADMENU3;
-$adminmenu[2]['link'] = "admin/editelement.php";
-$adminmenu[3]['title'] = _MI_xforms_ADMENU4;
-$adminmenu[3]['link'] = "admin/index.php?op=liaise_import";
-?>
+$module_handler =& xoops_gethandler('module');
+$xoopsModule =& XoopsModule::getByDirname('xforms');
+$moduleInfo =& $module_handler->get($xoopsModule->getVar('mid'));
+$pathIcon32 = $moduleInfo->getInfo('icons32');
+
+$adminmenu = array();
+
+$i = 1;
+$adminmenu[$i]['title'] = _MI_xforms_ADMENU0 ;
+$adminmenu[$i]['link']  = 'admin/index.php' ;
+$adminmenu[$i]['icon']  = $pathIcon32.'/home.png' ;
+$i++;
+$adminmenu[$i]['title'] = _MI_xforms_ADMENU1 ;
+$adminmenu[$i]['link']  = 'admin/main.php' ;
+$adminmenu[$i]['icon']  = $pathIcon32.'/manage.png' ;
+$i++;
+$adminmenu[$i]['title'] = _MI_xforms_ADMENU2 ;
+$adminmenu[$i]['link']  = 'admin/main.php?op=edit';
+$adminmenu[$i]['icon']  = $pathIcon32.'/add.png' ;
+$i++;
+$adminmenu[$i]['title'] = _MI_xforms_ADMENU3 ;
+$adminmenu[$i]['link']  = 'admin/editelement.php' ;
+$adminmenu[$i]['icon']  = $pathIcon32.'/insert_table_row.png' ;
+$i++;
+$adminmenu[$i]['title'] = _MI_xforms_ADMENU4 ;
+$adminmenu[$i]['link']  = 'admin/main.php?op=liaise_import' ;
+$adminmenu[$i]['icon']  = $pathIcon32.'/compfile.png' ;
+$i++;
+$adminmenu[$i]['title'] = _MI_xforms_ADMENU5;
+$adminmenu[$i]['link'] = "admin/about.php";
+$adminmenu[$i]['icon']  = $pathIcon32.'/about.png';

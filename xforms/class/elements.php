@@ -19,12 +19,12 @@ class xformsElements extends XoopsObject {
 	}
 }
 
-class xformsElementsHandler {
+class xformsElementsHandler extends XoopsPersistableObjectHandler{
 	var $db;
 	var $db_table;
 	var $obj_class = 'xformsElements';
 
-	function xformsElementsHandler($db) {
+	function __construct($db) {
 		$this->db = $db;
 		$this->db_table = $this->db->prefix('xforms_formelements');
 	}
@@ -157,9 +157,9 @@ class xformsElementsHandler {
 			$elements = new $this->obj_class();
 			$elements->assignVars($myrow);
 			if( !$id_as_key ){
-				$ret[] = &$elements;
+				$ret[] =& $elements;
 			}else{
-				$ret[$myrow['ele_id']] = &$elements;
+				$ret[$myrow['ele_id']] =& $elements;
 			}
 			unset($elements);
 		}

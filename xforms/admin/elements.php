@@ -5,6 +5,8 @@
 include 'admin_header.php';
 $xforms_ele_mgr = xoops_getmodulehandler('elements');
 include_once xforms_ROOT_PATH.'class/elementrenderer.php';
+global $indexAdmin;
+$indexAdmin = new ModuleAdmin();
 define('_THIS_PAGE', xforms_URL.'admin/elements.php');
 if( !isset($_POST['op']) || $_POST['op'] != 'save' ){
 	$form_id = isset($_GET['form_id']) ? intval($_GET['form_id']) : 0;
@@ -12,7 +14,10 @@ if( !isset($_POST['op']) || $_POST['op'] != 'save' ){
 		redirect_header(xforms_ADMIN_URL, 0, _AM_NOTHING_SELECTED);
 	}
 	$form = $xforms_form_mgr->get($form_id);
-	adminHtmlHeader();
+
+	//adminHtmlHeader();
+	xoops_cp_header();
+    echo $indexAdmin->addNavigation('elements.php') ;
 	$jump = array();
 	$jump[0] = new XoopsFormSelect('', 'ele_type');
 	$jump[0]->addOptionArray(array('text' => _AM_ELE_TEXT,
@@ -72,10 +77,10 @@ if( !isset($_POST['op']) || $_POST['op'] != 'save' ){
 			echo '<td class="even" rowspan="2" align="center">'.$check_req->render()."</td>\n";
 			echo '<td class="even" rowspan="2" align="center">'.$text_order->render()."</td>\n";
 			echo '<td class="even" rowspan="2" align="center">'.$check_display->render().$hidden_id->render()."</td>\n";
-			echo '<td class="even" nowrap="nowrap" rowspan="2">
-					<ul><li><a href="editelement.php?op=edit&amp;ele_id='.$id.'&amp;form_id='.$form_id.'">'._EDIT.'</a></li>
-					<li><a href="editelement.php?op=edit&amp;ele_id='.$id.'&amp;form_id='.$form_id.'&amp;clone=1">'._CLONE.'</a></li>
-					<li><a href="editelement.php?op=delete&amp;ele_id='.$id.'&amp;form_id='.$form_id.'">'._DELETE.'</a></li></ul></td>';
+			echo '<td class="even" align="center" nowrap="nowrap" rowspan="2">
+					<a href="editelement.php?op=edit&amp;ele_id='.$id.'&amp;form_id='.$form_id.'"><img src='.$pathIcon16.'/edit.png title='._EDIT.'></a>
+					<a href="editelement.php?op=edit&amp;ele_id='.$id.'&amp;form_id='.$form_id.'&amp;clone=1"><img src='.$pathIcon16.'/editcopy.png title='._CLONE.'></a>
+					<a href="editelement.php?op=delete&amp;ele_id='.$id.'&amp;form_id='.$form_id.'"><img src='.$pathIcon16.'/delete.png title='._DELETE.'></a></td>';
 			echo '</tr>';
 			echo '<tr><td class="even" colspan="2">'.$ele_value->render()."</td>\n</tr>";
 		}
@@ -228,10 +233,12 @@ if( !isset($_POST['op']) || $_POST['op'] != 'save' ){
 			redirect_header(_THIS_PAGE.'?form_id='.$form_id, 0, _AM_DBUPDATED);
 		}
 	}else{
-		adminHtmlHeader();
+		//adminHtmlHeader();
+		xoops_cp_header();
+        echo $indexAdmin->addNavigation('elements.php') ;
 		echo $error;
 	}
 }
-include 'footer.php';
-xoops_cp_footer();
-?>
+include 'admin_footer.php';
+//xoops_cp_footer();
+//?>

@@ -5,7 +5,12 @@
 if( !defined('xforms_ROOT_PATH') ){ exit(); }
 
 $size = !empty($value[0]) ? intval($value[0]) : 0;
-$saveas = $value[3] != 1 ? 0 : 1;
+//$saveas = $value[3] != 1 ? 0 : 1;
+if (isset($value[3]) && $value[3] == 1) {
+    $saveas = $value[3];
+} else {
+    $saveas = 0;
+}
 
 $size = new XoopsFormText(_AM_ELE_UPLOAD_MAXSIZE, 'ele_value[0]', 10, 20, $size);
 $size->setDescription(_AM_ELE_UPLOAD_MAXSIZE_DESC.'<br />'._AM_ELE_UPLOAD_DESC_SIZE_NOLIMIT);

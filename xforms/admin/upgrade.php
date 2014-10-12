@@ -40,7 +40,7 @@ if( $version >= 1.2 || $count > 0 ){
 	  `form_whereto` varchar(255) NOT NULL default '',
 	  PRIMARY KEY  (`form_id`),
 	  KEY `form_order` (`form_order`)
-	) TYPE=MyISAM;";
+	) ENGINE=MyISAM;";
 	
 	$msgs[] = 'Insert default data into forms table...';
 	$sql[] = 
