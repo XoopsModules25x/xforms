@@ -116,10 +116,10 @@ class xformsMediaUploader {
 			$this->maxFileSize = intval($maxFileSize);
 		}
 		if( !empty($allowedExtensions) ){
-			$this->allowedExtensions =& $allowedExtensions;
+			$this->allowedExtensions = $allowedExtensions;
 		}
 		if( is_array($allowedMimeTypes) ){
-			$this->allowedMimeTypes =& $allowedMimeTypes;
+			$this->allowedMimeTypes = $allowedMimeTypes;
 		}
 		if( !empty($maxWidth) ){
 			$this->maxWidth = intval($maxWidth);

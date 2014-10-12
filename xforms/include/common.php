@@ -11,7 +11,7 @@ if( !defined("xforms_CONSTANTS_DEFINED") ){
 	define("xforms_CONSTANTS_DEFINED", true);
 }
 
-$xforms_form_mgr =& xoops_getmodulehandler('forms');
+$xforms_form_mgr = xoops_getmodulehandler('forms');
 
 if( false != xforms_UPLOAD_PATH ){
 	if( !is_dir(xforms_UPLOAD_PATH) ){

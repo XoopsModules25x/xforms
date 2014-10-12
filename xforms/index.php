@@ -4,7 +4,7 @@
 ###################################
 
 require 'header.php';
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 if( empty($_POST['submit']) ){
 global $xoopsCaptcha, $xoopsModuleConfig;
     if ( $xoopsModuleConfig['captcha'] ) {
@@ -20,9 +20,9 @@ global $xoopsCaptcha, $xoopsModuleConfig;
     }
 	$form_id = isset($_GET['form_id']) ? intval($_GET['form_id']) : 0;
 	if( empty($form_id) ){
-		$forms =& $xforms_form_mgr->getPermittedForms();
+		$forms = $xforms_form_mgr->getPermittedForms();
 		if( false != $forms && count($forms) === 1 ){
-			$form =& $xforms_form_mgr->get($forms[0]->getVar('form_id'));
+			$form = $xforms_form_mgr->get($forms[0]->getVar('form_id'));
 			require 'include/form_render.php';
 		}else{
 			$xoopsOption['template_main'] = 'xforms_index.html';
@@ -42,7 +42,7 @@ global $xoopsCaptcha, $xoopsModuleConfig;
 			}	
 		}
 	}else{
-		if( !$form =& $xforms_form_mgr->get($form_id) ){
+		if( !$form = $xforms_form_mgr->get($form_id) ){
 			header("Location: ".xforms_URL);
 			exit();
 		}else{

@@ -24,11 +24,11 @@ class xformsElementsHandler {
 	var $db_table;
 	var $obj_class = 'xformsElements';
 
-	function xformsElementsHandler(&$db) {
-		$this->db =& $db;
+	function xformsElementsHandler($db) {
+		$this->db = $db;
 		$this->db_table = $this->db->prefix('xforms_formelements');
 	}
-	function &getInstance(&$db) {
+	function &getInstance($db) {
 		static $instance;
 		if (!isset($instance)) {
 			$instance = new xformsElementsHandler($db);
@@ -157,13 +157,13 @@ class xformsElementsHandler {
 			$elements = new $this->obj_class();
 			$elements->assignVars($myrow);
 			if( !$id_as_key ){
-				$ret[] =& $elements;
+				$ret[] = &$elements;
 			}else{
-				$ret[$myrow['ele_id']] =& $elements;
+				$ret[$myrow['ele_id']] = &$elements;
 			}
 			unset($elements);
 		}
-		return count($ret) > 0 ? $ret : false;
+		if(count($ret) > 0){return $ret;}else{return false;}
 	}
 	
     function getCount($criteria = null){
@@ -196,7 +196,7 @@ class xformsElementsHandler {
 		if( count($defaults) > 0 ){
 			$error = '';
 			foreach( $defaults as $d ){
-				$ele =& $this->create();
+				$ele = $this->create();
 				$ele->setVar('form_id', $form_id);
 				$ele->setVar('ele_caption', $d['caption']);
 				$ele->setVar('ele_req', $d['req']);

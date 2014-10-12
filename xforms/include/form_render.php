@@ -5,7 +5,7 @@
 if( !defined('xforms_ROOT_PATH') ){ exit(); }
 
 include_once XOOPS_ROOT_PATH."/class/xoopsformloader.php";
-$xforms_ele_mgr =& xoops_getmodulehandler('elements');
+$xforms_ele_mgr = xoops_getmodulehandler('elements');
 include_once xforms_ROOT_PATH.'class/elementrenderer.php';
 $xoopsOption['template_main'] = 'xforms_form.html';
 include_once XOOPS_ROOT_PATH.'/header.php';
@@ -14,12 +14,12 @@ $criteria->add(new Criteria('form_id', $form->getVar('form_id')));
 $criteria->add(new Criteria('ele_display', 1));
 $criteria->setSort('ele_order');
 $criteria->setOrder('ASC');
-$elements =& $xforms_ele_mgr->getObjects($criteria, true);
+$elements = $xforms_ele_mgr->getObjects($criteria, true);
 
 $form_output = new XoopsThemeForm($form->getVar('form_title'), 'xforms_'.$form->getVar('form_id'), xforms_URL.'index.php');
 foreach( $elements as $i ){
-	$renderer =& new xformsElementRenderer($i);
-	$form_ele =& $renderer->constructElement();
+	$renderer = new xformsElementRenderer($i);
+	$form_ele = $renderer->constructElement();
 	$req = intval($i->getVar('ele_req'));
 	$form_output->addElement($form_ele, $req);
 	unset($form_ele);
@@ -44,7 +44,7 @@ foreach( $form_output->getElements() as $e ){
 	if( !empty($name) ){
 		$id = str_replace('ele_', '', $e->getName());
 	}elseif( method_exists($e, 'getElements') ){
-		$obj =& $e->getElements();
+		$obj = $e->getElements();
 		$id = str_replace('ele_', '', $obj[0]->getName());
 		$id = str_replace('[]', '', $id);
 	}

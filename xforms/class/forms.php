@@ -29,7 +29,7 @@ class xformsFormsHandler extends XoopsObjectHandler {
 	var $obj_class = 'xformsForms';
 
 	function xformsFormsHandler(&$db){
-		$this->db =& $db;
+		$this->db = $db;
 		$this->db_table = $this->db->prefix('xforms_forms');
 	}
 	function &getInstance(&$db){
@@ -176,9 +176,9 @@ class xformsFormsHandler extends XoopsObjectHandler {
 			$forms = new $this->obj_class();
 			$forms->assignVars($myrow);
 			if( !$id_as_key ){
-				$ret[] =& $forms;
+				$ret[] = $forms;
 			}else{
-				$ret[$myrow['form_id']] =& $forms;
+				$ret[$myrow['form_id']] = $forms;
 			}
 			unset($forms);
 		}
@@ -228,7 +228,7 @@ class xformsFormsHandler extends XoopsObjectHandler {
 		$criteria->add(new Criteria('form_order', 1, '>='), 'OR');
 		$criteria->setSort('form_order');
 		$criteria->setOrder('ASC');
-		if( $forms =& $this->getObjects($criteria, 'home_list') ){
+		if( $forms = $this->getObjects($criteria, 'home_list') ){
 			$ret = array();
 			foreach( $forms as $f ){
 				if( false != $moduleperm_handler->checkRight($this->perm_name, $f->getVar('form_id'), $groups, $xoopsModule->getVar('mid')) ){

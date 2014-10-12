@@ -4,13 +4,13 @@
 ###############################################################################
 if( !defined('xforms_ROOT_PATH') ){ exit(); }
 
-$xforms_ele_mgr =& xoops_getmodulehandler('elements');
+$xforms_ele_mgr = xoops_getmodulehandler('elements');
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('form_id', $form->getVar('form_id')), 'AND');
 $criteria->add(new Criteria('ele_display', 1), 'AND');
 $criteria->setSort('ele_order');
 $criteria->setOrder('ASC');
-$elements =& $xforms_ele_mgr->getObjects($criteria, true);
+$elements = $xforms_ele_mgr->getObjects($criteria, true);
 
 $msg = $err = $attachments = array();
 foreach( $_POST as $k => $v ){
@@ -25,6 +25,15 @@ if( isset($_POST['xoops_upload_file']) && is_array($_POST['xoops_upload_file']) 
 		$ele[$n[1]] = $v;
 	}
 }
+// BUG FIX (Captcha wasn't checked)
+if ( $xoopsModuleConfig['captcha'] ) {
+	xoops_load("captcha"); 
+	$xoopsCaptcha = XoopsCaptcha::getInstance(); 
+	if (!$xoopsCaptcha->verify()) { 
+		$err[] = $xoopsCaptcha->getMessage(); 
+	} 
+}
+// ^^^ Thanks to Rob Stockley for the code
 
 foreach( $elements as $i ){
 	$ele_id = $i->getVar('ele_id');
@@ -45,9 +54,9 @@ foreach( $elements as $i ){
 					$mime = empty($ele_value[2]) ? 0 : explode('|', $ele_value[2]);
 
 					if( $ele_type == 'uploadimg' ){
-						$uploader[$ele_id] =& new xformsMediaUploader(xforms_UPLOAD_PATH, $ele_value[0], $ext, $mime, $ele_value[4], $ele_value[5]);
+						$uploader[$ele_id] = new xformsMediaUploader(xforms_UPLOAD_PATH, $ele_value[0], $ext, $mime, $ele_value[4], $ele_value[5]);
 					}else{
-						$uploader[$ele_id] =& new xformsMediaUploader(xforms_UPLOAD_PATH, $ele_value[0], $ext, $mime);
+						$uploader[$ele_id] = new xformsMediaUploader(xforms_UPLOAD_PATH, $ele_value[0], $ext, $mime);
 					}
 					if( $ele_value[0] == 0 ){
 						$uploader[$ele_id]->noAdminSizeCheck(true);
@@ -156,7 +165,7 @@ if( is_dir(xforms_ROOT_PATH."language/".$xoopsConfig['language']."/mail_template
 }else{
 	$template_dir = xforms_ROOT_PATH."language/english/mail_template";
 }
-$xoopsMailer =& getMailer();
+$xoopsMailer = getMailer();
 $xoopsMailer->setTemplateDir($template_dir);
 $xoopsMailer->setTemplate('xforms.tpl');
 $xoopsMailer->setSubject(sprintf(_xforms_MSG_SUBJECT, $myts->stripSlashesGPC($form->getVar('form_title'))));

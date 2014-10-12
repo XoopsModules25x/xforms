@@ -4,10 +4,10 @@
 ###################################
 
 $modversion['name'] = _MI_xforms_NAME;
-$modversion['version'] = '1.0';
+$modversion['version'] = '1.2';
 $modversion['description'] = _MI_xforms_DESC;
-$modversion['author'] = "FliX Software";
-$modversion['credits'] = "Creator of xforms Dylian Melgert and special thanks to Brandycoke Productions (http://www.brandycoke.com/) for creating xforms (The base of this module)";
+$modversion['author'] = "XD Soft";
+$modversion['credits'] = "Creator of xforms Dylian Melgert and special thanks to Brandycoke Productions (http://www.brandycoke.com/) for creating liaise (The base of this module)";
 $modversion['help'] = "";
 $modversion['license'] = "GPL (http://creativecommons.org/licenses/GPL/2.0/)";
 $modversion['official'] = 0;

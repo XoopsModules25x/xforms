@@ -3,7 +3,7 @@
 ##                           See license.txt                                 ##
 ###############################################################################
 include 'admin_header.php';
-$xforms_ele_mgr =& xoops_getmodulehandler('elements');
+$xforms_ele_mgr = xoops_getmodulehandler('elements');
 include_once xforms_ROOT_PATH.'class/elementrenderer.php';
 define('_THIS_PAGE', xforms_URL.'admin/elements.php');
 if( !isset($_POST['op']) || $_POST['op'] != 'save' ){
@@ -11,7 +11,7 @@ if( !isset($_POST['op']) || $_POST['op'] != 'save' ){
 	if( empty($form_id) ){
 		redirect_header(xforms_ADMIN_URL, 0, _AM_NOTHING_SELECTED);
 	}
-	$form =& $xforms_form_mgr->get($form_id);
+	$form = $xforms_form_mgr->get($form_id);
 	adminHtmlHeader();
 	$jump = array();
 	$jump[0] = new XoopsFormSelect('', 'ele_type');
@@ -52,15 +52,15 @@ if( !isset($_POST['op']) || $_POST['op'] != 'save' ){
 	$criteria->setSort('ele_order');
 	$criteria->setOrder('ASC');
 	
-	if( $elements =& $xforms_ele_mgr->getObjects($criteria) ){
+	if( $elements = $xforms_ele_mgr->getObjects($criteria) ){
 		foreach( $elements as $i ){
 			$id = $i->getVar('ele_id');
-			$renderer =& new xformsElementRenderer($i);
+			$renderer = new xformsElementRenderer($i);
 			$ele_type = $i->getVar('ele_type');
 			$req = $i->getVar('ele_req');
 			$check_req = new XoopsFormCheckBox('', 'ele_req['.$id.']', $req);
 			$check_req->addOption(1, ' ');
-			$ele_value =& $renderer->constructElement(true);
+			$ele_value = $renderer->constructElement(true);
 			$order = $i->getVar('ele_order');
 			$text_order = new XoopsFormText('', 'ele_order['.$id.']', 3, 2, $order);
 			$display = $i->getVar('ele_display');
@@ -105,7 +105,7 @@ if( !isset($_POST['op']) || $_POST['op'] != 'save' ){
 	extract($_POST);
 	$error = '';
 	foreach( $ele_id as $id ){
-		$element =& $xforms_ele_mgr->get($id);
+		$element = $xforms_ele_mgr->get($id);
 		$req = !empty($ele_req[$id]) ? 1 : 0;
 		$element->setVar('ele_req', $req);
 		$order = !empty($ele_order[$id]) ? intval($ele_order[$id]) : 0;

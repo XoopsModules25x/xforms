@@ -3,7 +3,7 @@
 ##                           See license.txt                                 ##
 ###############################################################################
 include 'admin_header.php';
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 $op = isset($_GET['op']) ? trim($_GET['op']) : 'list';
 $op = isset($_POST['op']) ? trim($_POST['op']) : $op;
 
@@ -14,7 +14,7 @@ switch($op){
 		$criteria = new Criteria(1, 1);
 		$criteria->setSort('form_order');
 		$criteria->setOrder('ASC');
-		if( $forms =& $xforms_form_mgr->getObjects($criteria, 'admin_list') ){
+		if( $forms = $xforms_form_mgr->getObjects($criteria, 'admin_list') ){
 			echo '<form action="'.xforms_ADMIN_URL.'" method="post">
 				<table class="outer" cellspacing="1" width="100%">
 					<tr><th colspan="5">'._AM_FORM_LISTING.'</th></tr>
@@ -27,15 +27,15 @@ switch($op){
 					</tr>';
 			foreach( $forms as $f ){
 				$id = $f->getVar('form_id');
-				$order =& new XoopsFormText('', 'order['.$id.']', 3, 2, $f->getVar('form_order'));
-				$group_mgr =& xoops_gethandler('group');
+				$order = new XoopsFormText('', 'order['.$id.']', 3, 2, $f->getVar('form_order'));
+				$group_mgr = xoops_gethandler('group');
 				$sendto = $f->getVar('form_send_to_group');
-				if( false != $sendto && $group =& $group_mgr->get($sendto) ){
+				if( false != $sendto && $group = $group_mgr->get($sendto) ){
 					$sendto = $group->getVar('name');
 				}else{
 					$sendto = _AM_FORM_SENDTO_ADMIN;
 				}
-				$ids =& new XoopsFormHidden('ids[]', $id);
+				$ids = new XoopsFormHidden('ids[]', $id);
 				echo '
 					<tr>
 						<td class="odd" align="center">'.$id.'</td>
@@ -62,7 +62,7 @@ switch($op){
 						<td class="foot" colspan="3">&nbsp;</td>
 					</tr>	
 					</table>';
-			$hidden =& new XoopsFormHidden('op', 'saveorder');
+			$hidden = new XoopsFormHidden('op', 'saveorder');
 			echo $hidden->render()."\n</form>\n";
 		}
 	break;
@@ -72,9 +72,9 @@ switch($op){
 		$form_id = isset($_GET['form_id']) ? intval($_GET['form_id']) : 0;
 		adminHtmlHeader();
 		if( !empty($form_id) ){
-			$form =& $xforms_form_mgr->get($form_id);
+			$form = $xforms_form_mgr->get($form_id);
 		}else{
-			$form =& $xforms_form_mgr->create();
+			$form = $xforms_form_mgr->create();
 		}
 
 		$text_form_title = new XoopsFormText(_AM_FORM_TITLE, 'form_title', 50, 255, $form->getVar('form_title', 'e'));
@@ -159,9 +159,9 @@ switch($op){
 			if( empty($form_id) ){
 				redirect_header(xforms_ADMIN_URL, 0, _AM_NOTHING_SELECTED);
 			}
-			$form =& $xforms_form_mgr->get($form_id);
+			$form = $xforms_form_mgr->get($form_id);
 			$xforms_form_mgr->delete($form);
-			$xforms_ele_mgr =& xoops_getmodulehandler('elements');
+			$xforms_ele_mgr = xoops_getmodulehandler('elements');
 			$criteria = new Criteria('form_id', $form_id);
 			$xforms_ele_mgr->deleteAll($criteria);
 			$xforms_form_mgr->deleteFormPermissions($form_id);
@@ -175,7 +175,7 @@ switch($op){
 		}
 		extract($_POST);
 		foreach( $ids as $id ){
-			$form =& $xforms_form_mgr->get($id);
+			$form = $xforms_form_mgr->get($id);
 			$form->setVar('form_order', $order[$id]);
 			$xforms_form_mgr->insert($form);
 		}
@@ -189,9 +189,9 @@ switch($op){
 		$error = '';
 		extract($_POST);
 		if( !empty($form_id) ){
-			$form =& $xforms_form_mgr->get($form_id);
+			$form = $xforms_form_mgr->get($form_id);
 		}else{
-			$form =& $xforms_form_mgr->create();
+			$form = $xforms_form_mgr->create();
 		}
 		$form->setVar('form_send_method', $form_send_method);
 		$form->setVar('form_send_to_group', $form_send_to_group);
@@ -210,13 +210,13 @@ switch($op){
 				$xforms_form_mgr->insertFormPermissions($ret, $form_group_perm);
 			}
 			if( !empty($clone_form_id) ){
-				$xforms_ele_mgr =& xoops_getmodulehandler('elements');
+				$xforms_ele_mgr = xoops_getmodulehandler('elements');
 				$criteria = new Criteria('form_id', $clone_form_id);
 				$count = $xforms_ele_mgr->getCount($criteria);
 				if( $count > 0 ){
-					$elements =& $xforms_ele_mgr->getObjects($criteria);
+					$elements = $xforms_ele_mgr->getObjects($criteria);
 					foreach( $elements as $e ){
-						$cloned =& $e->xoopsClone();
+						$cloned = $e->xoopsClone();
 						$cloned->setVar('form_id', $ret);
 						if( !$xforms_ele_mgr->insert($cloned) ){
 							$error .= $cloned->getHtmlErrors();
@@ -224,7 +224,7 @@ switch($op){
 					}
 				}
 			}elseif( empty($form_id) ){
-				$xforms_ele_mgr =& xoops_getmodulehandler('elements');
+				$xforms_ele_mgr = xoops_getmodulehandler('elements');
 				$error = $xforms_ele_mgr->insertDefaults($ret);
 			}
 		}

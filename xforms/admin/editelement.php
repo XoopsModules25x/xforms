@@ -3,10 +3,10 @@
 ##                           See license.txt                                 ##
 ###############################################################################
 include("admin_header.php");
-$xforms_ele_mgr =& xoops_getmodulehandler('elements');
+$xforms_ele_mgr = xoops_getmodulehandler('elements');
 include_once xforms_ROOT_PATH.'class/elementrenderer.php';
 define('_THIS_PAGE', xforms_URL.'admin/editelement.php');
-$myts =& MyTextSanitizer::getInstance();
+$myts = MyTextSanitizer::getInstance();
 if( $xforms_form_mgr->getCount() < 1 ){
 	redirect_header(xforms_ADMIN_URL, 0, _AM_GO_CREATE_FORM);
 }
@@ -32,11 +32,11 @@ switch($op){
 	case 'edit':
 		adminHtmlHeader();
 		if( !empty($ele_id) ){
-			$element =& $xforms_ele_mgr->get($ele_id);
+			$element = $xforms_ele_mgr->get($ele_id);
 			$ele_type = $element->getVar('ele_type');
 			$output_title = $clone ? _AM_ELE_CREATE : sprintf(_AM_ELE_EDIT, $element->getVar('ele_caption'));
 		}else{
-			$element =& $xforms_ele_mgr->create();
+			$element = $xforms_ele_mgr->create();
 			$output_title = _AM_ELE_CREATE;
 		}
 		$output = new XoopsThemeForm($output_title, 'form_ele', _THIS_PAGE);
@@ -106,7 +106,7 @@ switch($op){
 		
 		if( $clone == true || empty($form_id) ){
 			$select_apply_form = new XoopsFormSelect(_AM_ELE_APPLY_TO_FORM, 'form_id', $form_id);
-			$forms =& $xforms_form_mgr->getObjects(null, 'form_id, form_title');
+			$forms = $xforms_form_mgr->getObjects(null, 'form_id, form_title');
 			foreach( $forms as $f ){
 				$select_apply_form->addOption($f->getVar('form_id'), $f->getVar('form_title'));
 			}
@@ -139,16 +139,16 @@ switch($op){
 			adminHtmlHeader();
 			xoops_confirm(array('op' => 'delete', 'ele_id' => $ele_id, 'form_id' => $form_id, 'ok' => 1), _THIS_PAGE, _AM_ELE_CONFIRM_DELETE);
 		}else{
-			$element =& $xforms_ele_mgr->get($ele_id);
+			$element = $xforms_ele_mgr->get($ele_id);
 			$xforms_ele_mgr->delete($element);
 			redirect_header(xforms_URL.'admin/elements.php?form_id='.$form_id, 0, _AM_DBUPDATED);
 		}
 	break;
 	case 'save':
 		if( !empty($ele_id) ){
-			$element =& $xforms_ele_mgr->get($ele_id);
+			$element = $xforms_ele_mgr->get($ele_id);
 		}else{
-			$element =& $xforms_ele_mgr->create();
+			$element = $xforms_ele_mgr->create();
 		}
 		$element->setVar('form_id', $form_id);
 		$element->setVar('ele_caption', $ele_caption);

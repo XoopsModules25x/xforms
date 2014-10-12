@@ -10,7 +10,7 @@ function xoops_module_install_xforms(&$module){
 	$m = '&nbsp;&nbsp;Grant permission of form id %u to group id %u ......%s';
 	*/
 	for( $i=1; $i<4; $i++ ){
-		$perm =& $moduleperm_handler->create();
+		$perm = $moduleperm_handler->create();
 		$perm->setVar('gperm_name', 'xforms_form_access');
 		$perm->setVar('gperm_itemid', 1);
 		$perm->setVar('gperm_groupid', $i);
