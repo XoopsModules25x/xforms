@@ -1,30 +1,27 @@
 <?php
-######### (liaise) version 1.0  additions #########
-define("_xforms_MSG_SUBJECT", '%s');	// Site name removed since verion 1.22
-define("_xforms_MSG_SENT", "Your message has been sent.<br />Thank you for your comments.");
 
-######### (liaise) version 1.1 #########
+define("_MD_XFORMS_MSG_SUBJECT", '%s');
+define("_MD_XFORMS_MSG_SENT", "Your form has been sent. Thank you for your sending.");
+define("_MD_XFORMS_MSG_SUBJECT_COPY", 'Copy of: %s');
+
 //	"Other" option for check boxes/radio buttons/selections
-define("_xforms_OPT_OTHER", "Other: ");
-define("_xforms_PROXY", " (Proxy: %s)");
+define("_MD_XFORMS_OPT_OTHER", "Other: ");
+define("_MD_XFORMS_PROXY", " (Proxy: %s)");
 
 //	error messages
-define("_xforms_ERR_HEADING", "Wait a minute...");
-define("_xforms_ERR_INVALIDMAIL", "Invalid email address.");
-define("_xforms_ERR_REQ", 'Please enter the required field "%s"');
+define("_MD_XFORMS_ERR_HEADING", "Wait a minute...");
+define("_MD_XFORMS_ERR_INVALIDMAIL", "Invalid email address.");
+define("_MD_XFORMS_ERR_REQ", 'Please enter the required field "%s"');
 
-######### (liaise) version 1.2 additions #########
-define("_xforms_FORM_IS_HIDDEN", "This form is hidden from public.");
-define("_xforms_MSG_UNAME", "Submitted by: %s");
-define("_xforms_MSG_UINFO", "\nURL to user info page:\n%s");
-define("_xforms_MSG_IP", "IP address: %s");
-define("_xforms_MSG_AGENT", "User agent: %s");
-define("_xforms_MSG_FORMURL", "This message is sent by using the following url:\n%s");
+define("_MD_XFORMS_FORM_IS_HIDDEN", "This form is hidden from public.");
+define("_MD_XFORMS_MSG_UNAME", "Submitted by: %s");
+define("_MD_XFORMS_MSG_UINFO", "URL to user info page: %s");
+define("_MD_XFORMS_MSG_IP", "IP address: %s");
+define("_MD_XFORMS_MSG_AGENT", "User agent: %s");
+define("_MD_XFORMS_MSG_FORMURL", "This form is sent by using the following url: %s");
 
-######### (liaise) version 1.23 additions #########
-define("_xforms_ATTACHED_FILE", "Attached file: %s");
-define("_xforms_UPLOADED_FILE", "Uploaded file: %s");
+define("_MD_XFORMS_ATTACHED_FILE", "Attached file: %s");
+define("_MD_XFORMS_UPLOADED_FILE", "Uploaded file: %s");
 
-######### (xforms) version 1.0 additions ##########
-// No additions yet :-D
-?>
+define("_MD_XFORMS_MSG_INACTIVE", "The form is inactive or expired");
+define("_MD_XFORMS_MSG_NOFORM_SELECTED", "You must enter a form number to enter");

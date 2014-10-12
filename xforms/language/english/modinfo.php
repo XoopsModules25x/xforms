@@ -1,66 +1,54 @@
 <?php
-######### (liaise) version 1.0  additions #########
 // The name of this module
-define("_MI_xforms_NAME","xForms");
+define("_MI_XFORMS_NAME", "xForms");
 
 // A brief description of this module
-define("_MI_xforms_DESC","Contact forms generator");
+define("_MI_XFORMS_DESC", "Contact forms generator");
 
 // admin/menu.php
-define("_MI_xforms_ADMENU1","Manage forms");
-define("_MI_xforms_ADMENU2","Create a new form");
-
-//	preferences
-define("_MI_xforms_TEXT_WIDTH","Default width of text boxes");
-define("_MI_xforms_TEXT_MAX","Default maximum length of text boxes");
-define("_MI_xforms_TAREA_ROWS","Default rows of text areas");
-define("_MI_xforms_TAREA_COLS","Default columns of text areas");
-
-######### (liaise) version 1.1  additions #########
-//	preferences
-define("_MI_xforms_MAIL_CHARSET","Text encoding for sending emails");
+define("_MI_XFORMS_ADMENU0", "Home");
+define("_MI_XFORMS_ADMENU1", "Manage forms");
+define("_MI_XFORMS_ADMENU2", "Create a new form");
+define("_MI_XFORMS_ADMENU3", "Create form elements");
+define("_MI_XFORMS_ADMENU4", "Form Report");
+define("_MI_XFORMS_ADMENU5", "About");
 
 //	template descriptions
-define("_MI_xforms_TMPL_MAIN_DESC","Main page of xforms");
-define("_MI_xforms_TMPL_ERROR_DESC","Page to show when error occurs");
-
-######### (liaise) version 1.2 additions #########
-//	template descriptions
-define("_MI_xforms_TMPL_FORM_DESC","Template for forms");
+define("_MI_XFORMS_TMPL_FORM_DESC", "Template for forms");
+define("_MI_XFORMS_TMPL_ERROR_DESC", "Page to show when error occurs");
 
 //	preferences
-define("_MI_xforms_MOREINFO","Send additional information along with the submitted data");
-define("_MI_xforms_MOREINFO_USER","User name and url to user info page");
-define("_MI_xforms_MOREINFO_IP","Submitter's IP address");
-define("_MI_xforms_MOREINFO_AGENT","Submitter's user agent (browser info)");
-define("_MI_xforms_MOREINFO_FORM","URL of the submitted form");
-define("_MI_xforms_MAIL_CHARSET_DESC","Leave blank for "._CHARSET);
-define("_MI_xforms_PREFIX","Text prefix for required fields");
-define("_MI_xforms_SUFFIX","Text suffix for required fields");
-define("_MI_xforms_INTRO","Introduction text in main page");
-define("_MI_xforms_GLOBAL","Text to be displayed in every form page");
+define("_MI_XFORMS_TEXT_WIDTH", "Default width of text boxes");
+define("_MI_XFORMS_TEXT_MAX", "Default maximum length of text boxes");
+define("_MI_XFORMS_TAREA_ROWS", "Default rows of text areas");
+define("_MI_XFORMS_TAREA_COLS", "Default columns of text areas");
+define("_MI_XFORMS_MAIL_CHARSET", "Text encoding for sending emails");
+define("_MI_XFORMS_TMPL_MAIN_DESC", "Main page of xForms");
+define("_MI_XFORMS_MOREINFO", "Send additional information along with the submitted data");
+define("_MI_XFORMS_MOREINFO_USER", "User name and url to user info page");
+define("_MI_XFORMS_MOREINFO_IP", "Submitter's IP address");
+define("_MI_XFORMS_MOREINFO_AGENT", "Submitter's user agent (browser info)");
+define("_MI_XFORMS_MOREINFO_FORM", "URL of the submitted form");
+define("_MI_XFORMS_PREFIX", "Text prefix for required fields");
+define("_MI_XFORMS_SUFFIX", "Text suffix for required fields");
+define("_MI_XFORMS_INTRO", "Introduction text in main page");
+define("_MI_XFORMS_GLOBAL", "Text to be displayed in every form page");
+define("_MI_XFORMS_DEFAULT_TITLE", "Default Title Principal Page");
 
-// admin/menu.php
-define("_MI_xforms_ADMENU3","Create form elements");
-define("_MI_xforms_ADMENU5","About");
-
-######### (liaise) version 1.21 additions #########
 // preferences default values
-define("_MI_xforms_INTRO_DEFAULT","Feel free to contact us via the following means:");
-define("_MI_xforms_GLOBAL_DEFAULT","[b]* Required[/b]");
-
-######### (liaise) version 1.23 additions #########
-define("_MI_xforms_UPLOADDIR","Physical path for storing uploaded files WITHOUT trailing slash");
-define("_MI_xforms_UPLOADDIR_DESC","All upload files will be stored here when a form is sent via private message");
-
-######### (xforms) version 1.0 additions ##########
-define( "_MI_xforms_CAPTCHA", "Use captcha in submit form?" );
-define( "_MI_xforms_CAPTCHADSC", "Select <em>Yes</em> to use captcha in the submit form.<br />Default: <em>Yes</em>" );
-define("_MI_xforms_ADMENU4","Import from Liaise");
-
-######### (xforms) version 1.0.0.1 additions ##########
-define("_MI_xforms_NOFORM","Text showed when there are no forms visible to the current user");
-define("_MI_xforms_NOFORM_DEFAULT","Sorry, there are currently no forms (visible for you).");
+define("_MI_XFORMS_MAIL_CHARSET_DESC", "Leave blank for " . _CHARSET);
+define("_MI_XFORMS_INTRO_DEFAULT", "Feel free to contact us via the following means:");
+define("_MI_XFORMS_GLOBAL_DEFAULT", "[b]* Required[/b]");
+define("_MI_XFORMS_UPLOADDIR", "Physical path for storing uploaded files WITHOUT trailing slash");
+define("_MI_XFORMS_UPLOADDIR_DESC", "All upload files will be stored here when a form is sent via private message");
+define("_MI_XFORMS_CAPTCHA", "Use captcha in submit form?");
+define("_MI_XFORMS_CAPTCHADSC", "Select <em>Yes</em> to use captcha in the submit form.<br />Default: <em>Yes</em>");
+define("_MI_XFORMS_NOFORM", "Text showed when there are no forms visible to the current user");
+define("_MI_XFORMS_NOFORM_DEFAULT", "Sorry, there are currently no forms (visible for you).");
+define("_MI_XFORMS_SHOWFORMS", "Forms available on Home?");
+define("_MI_XFORMS_SHOWFORMS_DESC", "Indicate whether you want to see the forms available to the user when no one indicated parameter. If you select No, the user will be sent to the home page of the site when not indicate a form parameter.");
+define("_MI_XFORMS_DEFAULT_TITLE_DESC", "Forms Page");
 
 define("_MI_xforms_ADMENU0","Home");
-?>
+//1.22
+define("_MI_XFORMS_ELE_SELECT_CTRY_DEFAULT","Select Default Country");

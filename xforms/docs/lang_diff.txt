@@ -7,29 +7,29 @@ Version 1.11
 ----------------
 admin.php
 ----------
-Changed prefixes for defines from '_AM_' to _AM_XPARTNERS_'
+Changed prefixes for defines from '_AM_XFORMS_' to _AM_XFORMS_XPARTNERS_'
 
 // About.php
-define("_AM_XPARTNERS_ABOUT_RELEASEDATE",    "Released: ");
-define("_AM_XPARTNERS_ABOUT_UPDATEDATE",     "Updated: ");
-define("_AM_XPARTNERS_ABOUT_AUTHOR",         "Author: ");
-define("_AM_XPARTNERS_ABOUT_CREDITS",        "Credits: ");
-define("_AM_XPARTNERS_ABOUT_LICENSE",        "License: ");
-define("_AM_XPARTNERS_ABOUT_MODULE_STATUS",  "Status: ");
-define("_AM_XPARTNERS_ABOUT_WEBSITE",        "Website: ");
-define("_AM_XPARTNERS_ABOUT_AUTHOR_NAME",    "Author name: ");
-define("_AM_XPARTNERS_ABOUT_CHANGELOG",      "Change Log");
-define("_AM_XPARTNERS_ABOUT_MODULE_INFO",    "Module Infos");
-define("_AM_XPARTNERS_ABOUT_AUTHOR_INFO",    "Author Infos");
-define("_AM_XPARTNERS_ABOUT_DESCRIPTION",    "Description: ");
-define("_AM_XPARTNERS_EMPTYDATABASE",        "There is nothing to sort. Please add some Partners first!");
+define("_AM_XFORMS_XPARTNERS_ABOUT_RELEASEDATE",    "Released: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_UPDATEDATE",     "Updated: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_AUTHOR",         "Author: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_CREDITS",        "Credits: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_LICENSE",        "License: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_MODULE_STATUS",  "Status: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_WEBSITE",        "Website: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_AUTHOR_NAME",    "Author name: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_CHANGELOG",      "Change Log");
+define("_AM_XFORMS_XPARTNERS_ABOUT_MODULE_INFO",    "Module Infos");
+define("_AM_XFORMS_XPARTNERS_ABOUT_AUTHOR_INFO",    "Author Infos");
+define("_AM_XFORMS_XPARTNERS_ABOUT_DESCRIPTION",    "Description: ");
+define("_AM_XFORMS_XPARTNERS_EMPTYDATABASE",        "There is nothing to sort. Please add some Partners first!");
 
-define("_AM_XPARTNERS_ACTIONS",   "Actions");
-define("_AM_XPARTNERS_INVALIDID", "No partner exists with this ID");
+define("_AM_XFORMS_XPARTNERS_ACTIONS",   "Actions");
+define("_AM_XFORMS_XPARTNERS_INVALIDID", "No partner exists with this ID");
 
 Removed:
-_AM_EDIT
-_AM_DELETE
+_AM_XFORMS_EDIT
+_AM_XFORMS_DELETE
 
 blocks.php
 -----------
@@ -54,3 +54,12 @@ modinfo.php
 define("_MI_XPARTNERS_MENU_01",    "Home");
 define("_PARTNERS_ADMIN_ABOUT",    "About");
 define("_PARTNERS_ADMIN_HELP",     "Help");
+
+Version 2.00
+----------------
+
+admin.php
+-----------
+define("_AM_ELE_DATE","Date Selection");
+define("_AM_ELE_SELECT_CTRY","Country Selection");
+define("_AM_ELE_SELECT_CTRY_DEFAULT","Select Default Country");
