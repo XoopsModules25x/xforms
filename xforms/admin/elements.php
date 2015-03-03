@@ -176,13 +176,13 @@ if (!isset($_POST['op']) || $_POST['op'] != 'save') {
                 $value[0] = ($magicQuotes) ? stripslashes($ele_value[$id]) : $ele_value[$id];
                 $element->setVar('ele_display_row', 0);
                 break;
-			case 'date':
-				$value = array();
+            case 'date':
+                $value = array();
         $value[] = $ele_value[$id];
-			break;
-			case 'select2':
-			   $value[2] = !empty($ele_value[$id]) ? $ele_value[$id] : 'LB';
-			break;
+            break;
+            case 'select2':
+               $value[2] = !empty($ele_value[$id]) ? $ele_value[$id] : 'LB';
+            break;
             case 'select':
                 $new_vars  = array();
                 $opt_count = 1;

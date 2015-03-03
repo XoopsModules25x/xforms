@@ -103,7 +103,6 @@ class XFormsElementRenderer
                     $ele_caption, $form_ele_id, 15, strtotime($ele_value[0])
                 );
 
-
                 break;
 
             case 'select2':

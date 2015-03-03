@@ -112,14 +112,14 @@ switch ($op) {
                 $elementName = _AM_XFORMS_ELE_SELECT;
                 include 'ele_select.php';
                 break;
-			case 'select2':
+            case 'select2':
                 $elementName = _AM_XFORMS_ELE_COUNTRY;
-				include 'ele_select_ctry.php';
-			break;
-			case 'date':
+                include 'ele_select_ctry.php';
+            break;
+            case 'date':
                 $elementName = _AM_XFORMS_ELE_DATE;
-				include 'ele_date.php';
-			break;
+                include 'ele_date.php';
+            break;
             case 'checkbox':
                 $elementName = _AM_XFORMS_ELE_CHECK;
                 include 'ele_check.php';
@@ -275,32 +275,32 @@ switch ($op) {
                 }
                 $value[2] = $v2;
                 break;
-			case 'select2':
-				$value[0] = $ele_value[0]>1 ? intval($ele_value[0]) : 1;
-				$value[1] = !empty($ele_value[1]) ? 1 : 0;
-				$value[2] = !empty($ele_value[2]) ? $ele_value[2] : 'LB';
-				/*
-				$v2 = array();
-				$multi_flag = 1;
-				while( $v = each($ele_value[2]) ){
-					if( !empty($v['value']) ){
-						if( $value[1] == 1 || $multi_flag ){
-							if( $checked[$v['key']] == 1 ){
-								$check = 1;
-								$multi_flag = 0;
-							}else{
-								$check = 0;
-							}
-						}else{
-							$check = 0;
-						}
-						$v2[$v['value']] = $check;
-					}
-				}
-				$value[2] = $v2;
-				*/
-			break;
-			case 'date':
+            case 'select2':
+                $value[0] = $ele_value[0]>1 ? intval($ele_value[0]) : 1;
+                $value[1] = !empty($ele_value[1]) ? 1 : 0;
+                $value[2] = !empty($ele_value[2]) ? $ele_value[2] : 'LB';
+                /*
+                $v2 = array();
+                $multi_flag = 1;
+                while( $v = each($ele_value[2]) ){
+                    if( !empty($v['value']) ){
+                        if( $value[1] == 1 || $multi_flag ){
+                            if( $checked[$v['key']] == 1 ){
+                                $check = 1;
+                                $multi_flag = 0;
+                            }else{
+                                $check = 0;
+                            }
+                        }else{
+                            $check = 0;
+                        }
+                        $v2[$v['value']] = $check;
+                    }
+                }
+                $value[2] = $v2;
+                */
+            break;
+            case 'date':
             $value = array();
             $value[] = $ele_value;
       break;
