@@ -1,0 +1,65 @@
+LANGUAGE DIFFERENCES
+=====================
+
+Below are language differences from a version to next version.
+
+Version 1.11
+----------------
+admin.php
+----------
+Changed prefixes for defines from '_AM_XFORMS_' to _AM_XFORMS_XPARTNERS_'
+
+// About.php
+define("_AM_XFORMS_XPARTNERS_ABOUT_RELEASEDATE",    "Released: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_UPDATEDATE",     "Updated: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_AUTHOR",         "Author: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_CREDITS",        "Credits: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_LICENSE",        "License: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_MODULE_STATUS",  "Status: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_WEBSITE",        "Website: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_AUTHOR_NAME",    "Author name: ");
+define("_AM_XFORMS_XPARTNERS_ABOUT_CHANGELOG",      "Change Log");
+define("_AM_XFORMS_XPARTNERS_ABOUT_MODULE_INFO",    "Module Infos");
+define("_AM_XFORMS_XPARTNERS_ABOUT_AUTHOR_INFO",    "Author Infos");
+define("_AM_XFORMS_XPARTNERS_ABOUT_DESCRIPTION",    "Description: ");
+define("_AM_XFORMS_XPARTNERS_EMPTYDATABASE",        "There is nothing to sort. Please add some Partners first!");
+
+define("_AM_XFORMS_XPARTNERS_ACTIONS",   "Actions");
+define("_AM_XFORMS_XPARTNERS_INVALIDID", "No partner exists with this ID");
+
+Removed:
+_AM_XFORMS_EDIT
+_AM_XFORMS_DELETE
+
+blocks.php
+-----------
+Changed prefix of all defines from '_MB_' to '_MB_XPARTNERS_'
+
+help.php
+-----------
+New file with defines
+
+main.php
+-----------
+//file /admin/index.php
+define("_MD_XPARTNERS_DASHBOARD","Xoops Partner Dashboard");
+define("_MD_XPARTNERS_TOTALPARTNERS","Total Partners: <strong>%s</strong> ");
+define("_MD_XPARTNERS_TOTALACTIVE","Active Partners: <strong>%s</strong> ");
+define("_MD_XPARTNERS_TOTALNONACTIVE","Non-Active Partners: <strong>%s</strong> ");
+//define("_MD_XPARTNERS_TOTALPARTNERS","There are <strong>%s</strong> Active Partners in our Database");
+
+modinfo.php
+-------------
+// index.php
+define("_MI_XPARTNERS_MENU_01",    "Home");
+define("_PARTNERS_ADMIN_ABOUT",    "About");
+define("_PARTNERS_ADMIN_HELP",     "Help");
+
+Version 2.00
+----------------
+
+admin.php
+-----------
+define("_AM_ELE_DATE","Date Selection");
+define("_AM_ELE_SELECT_CTRY","Country Selection");
+define("_AM_ELE_SELECT_CTRY_DEFAULT","Select Default Country");

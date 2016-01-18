@@ -1,0 +1,13 @@
+Credits
+===============
+
+This is a merged version of xForms and eForms.
+
+xForms was developed by Dylian Melgert (http://www.dylian.eu/) and based on Liaise module by Brandycoke Productions (http://www.brandycoke.com)
+
+eForms was a fork of xForms developed by Juan Garcés (http://www.educacioninformatica.com/).
+
+Since it seems like eForms was not further developed, the XOOPS Team has merged the code back into xForms.
+
+
+

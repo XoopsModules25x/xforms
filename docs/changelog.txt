@@ -1,0 +1,47 @@
+2.00 Alpha 1       2014-10-08
+=================================
+- merged eForms with xForms, so there would be migration path for current users, and less fragmentation of modules (mamba).
+- moved all images, CSS, and JS files to /assets (mamba)
+- renamed .html Smarty templates to .tpl (mamba)
+- added Interface for constants from Zyspec's MyLinks (mamba)
+- add Country and Date selection (Mariane)
+
+TODO:
+- import from older xForms modules
+- pagination in reports
+-
+
+
+------------ eForms: ---------------------
+
+1.1
+=================================
+Correct bugs in reports with data from unregistered users.
+
+
+1.0
+=================================
+First release
+
+Developed by Juan Garcés (http://www.educacioninformatica.com/).
+This module is a fork of xforms module by Dylian Melgert (http://www.dylian.eu/) and Liaise module by Brandycoke Productions (http://www.brandycoke.com).
+
+Enjoy this module and send your comments and contributions to wmaster@educacioninformatica.com
+
+
+------------ xForms: ---------------------
+
+1.21                2012-06-26
+=================================
+- fixing some bugs: (black_beard)
+- updated to the XOOPS 2.5.x Admin GUI (mamba)
+- adding default strings for localization (cesag/mamba)
+- fixing bug in form_render.php with empty checkbox (cesag/philou)
+
+1.20                2010-6-30
+=================================
+slight improvements  (Dylian)
+
+1.00                 2009-6-29
+=================================
+- Original release of the clone of Liaise (Dylian)
