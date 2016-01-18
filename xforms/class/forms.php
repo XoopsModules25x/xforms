@@ -27,9 +27,9 @@ if (!defined('XFORMS_ROOT_PATH')) {
  */
 class xFormsForms extends XoopsObject
 {
-    public function xFormsForms()
+    public function __construct()
     {
-        $this->XoopsObject();
+        parent::__construct();
         $this->initVar("form_id", XOBJ_DTYPE_INT);
         $this->initVar("form_save_db", XOBJ_DTYPE_INT, 1, true, 1);
         $this->initVar("form_send_method", XOBJ_DTYPE_TXTBOX, 'e', true, 1);

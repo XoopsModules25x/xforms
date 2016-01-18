@@ -29,7 +29,7 @@ class xFormsElements extends XoopsObject
 {
     public function __construct()
     {
-        $this->XoopsObject();
+        parent::__construct();
         $this->initVar("ele_id", XOBJ_DTYPE_INT, null, false);
         $this->initVar("form_id", XOBJ_DTYPE_INT);
         $this->initVar("ele_type", XOBJ_DTYPE_TXTBOX, null, true, 10);

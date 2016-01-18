@@ -27,9 +27,9 @@ if (!defined('XFORMS_ROOT_PATH')) {
  */
 class xFormsUserdata extends XoopsObject
 {
-    public function xFormsUserdata()
+    public function __construct()
     {
-        $this->XoopsObject();
+        parent::__construct();
         $this->initVar("udata_id", XOBJ_DTYPE_INT);
         $this->initVar("uid", XOBJ_DTYPE_INT);
         $this->initVar("form_id", XOBJ_DTYPE_INT);
