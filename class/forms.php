@@ -1,437 +1,387 @@
 <?php
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * xForms module
+ * Module: xForms
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @category        Module
  * @package         xforms
+ * @author          XOOPS Module Development Team
+ * @copyright       {@see http://xoops.org 2001-2016 XOOPS Project}
+ * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
+ * @see             http://xoops.org XOOPS
  * @since           1.30
- * @author          Xoops Development Team
  */
+use Xmf\Module\Admin;
+use Xmf\Module\Helper;
+use Xmf\Module\Helper\Permission;
 
-if (!defined('XFORMS_ROOT_PATH')) {
-    exit();
+//defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+
+if (!interface_exists('XformsConstants')) {
+    $xformsHelper = Helper::getHelper(basename(dirname(__DIR__)));
+    require_once $xformsHelper->path('/class/constants.php');
 }
 
 /**
- * Class xFormsForms
+ * Class XformsForms
  */
-class xFormsForms extends XoopsObject
+class XformsForms extends XoopsObject
 {
+    /**
+     * this module's directory
+     */
+    protected $dirname;
+
+    /**
+     * XformsForms constructor.
+     */
     public function __construct()
     {
+        /**@todo set var options for form_save_db, form_send_method, form_delimiter, form_display_style, form_active
+         * for example
+         * $this->initVar('form_save_db', XOBJ_DTYPE_INT, XformsConstants::SAVE_IN_DB, true, 1, XformsConstants::SAVE_IN_DB|XformsConstants::DO_NOT_SAVE_IN_DB);
+         * $this->initVar('form_send_method', XOBJ_DTYPE_TXTBOX, XformsConstants::SEND_METHOD_MAIL, true, 1, XformsConstants::SEND_METHOD_MAIL|XformsConstants::SEND_METHOD_PM|XformsConstants::SEND_METHOD_NONE);
+         * $this->initVar('form_delimiter', XOBJ_DTYPE_TXTBOX, XformsConstants::DELIMITER_SPACE, true, 1, XformsConstants::DELIMITER_SPACE|XformsConstants::DELIMITER_BR);
+         * $this->initVar('form_display_style', XOBJ_DTYPE_TXTBOX, XformsConstants::FORM_DISPLAY_STYLE_FORM, true, 1, XformsConstants::FORM_DISPLAY_STYLE_FORM|XformsConstants::FORM_DISPLAY_STYLE_POLL);
+         * $this->initVar('form_active', XOBJ_DTYPE_INT, XformsConstants::FORM_ACTIVE, true, XformsConstants::FORM_ACTIVE|XformsConstants::FORM_INACTIVE);
+         */
         parent::__construct();
-        $this->initVar("form_id", XOBJ_DTYPE_INT);
-        $this->initVar("form_save_db", XOBJ_DTYPE_INT, 1, true, 1);
-        $this->initVar("form_send_method", XOBJ_DTYPE_TXTBOX, 'e', true, 1);
-        $this->initVar("form_send_to_group", XOBJ_DTYPE_INT);
-        $this->initVar("form_send_to_other", XOBJ_DTYPE_TXTBOX, '', false, 255);
-        $this->initVar("form_send_copy", XOBJ_DTYPE_INT);
-        $this->initVar("form_order", XOBJ_DTYPE_INT, 1, false, 3);
-        $this->initVar("form_delimiter", XOBJ_DTYPE_TXTBOX, 's', true, 1);
-        $this->initVar("form_title", XOBJ_DTYPE_TXTBOX, '', true, 255);
-        $this->initVar("form_submit_text", XOBJ_DTYPE_TXTBOX, _SUBMIT, true, 50);
-        $this->initVar("form_desc", XOBJ_DTYPE_TXTAREA);
-        $this->initVar("form_intro", XOBJ_DTYPE_TXTAREA);
-        $this->initVar("form_email_header", XOBJ_DTYPE_TXTAREA);
-        $this->initVar("form_email_footer", XOBJ_DTYPE_TXTAREA);
-        $this->initVar("form_email_uheader", XOBJ_DTYPE_TXTAREA);
-        $this->initVar("form_email_ufooter", XOBJ_DTYPE_TXTAREA);
-        $this->initVar("form_whereto", XOBJ_DTYPE_TXTBOX);
-        $this->initVar("form_display_style", XOBJ_DTYPE_TXTBOX, 'f', true, 1);
-        $this->initVar("form_begin", XOBJ_DTYPE_INT, 0, true);
-        $this->initVar("form_end", XOBJ_DTYPE_INT, 0, false);
-        $this->initVar("form_active", XOBJ_DTYPE_INT, 1, true);
+        $this->initVar('form_id', XOBJ_DTYPE_INT);
+        $this->initVar('form_save_db', XOBJ_DTYPE_INT, XformsConstants::SAVE_IN_DB, true, 1);
+        $this->initVar('form_send_method', XOBJ_DTYPE_TXTBOX, XformsConstants::SEND_METHOD_MAIL, true, 1);
+        $this->initVar('form_send_to_group', XOBJ_DTYPE_INT, 1, false);
+        $this->initVar('form_send_to_other', XOBJ_DTYPE_TXTBOX, '', false, 255);
+        $this->initVar('form_send_copy', XOBJ_DTYPE_INT);
+        $this->initVar('form_order', XOBJ_DTYPE_INT, 1, false, 3);
+        $this->initVar('form_delimiter', XOBJ_DTYPE_TXTBOX, XformsConstants::DELIMITER_SPACE, true, 1);
+        $this->initVar('form_title', XOBJ_DTYPE_TXTBOX, '', true, 255);
+        $this->initVar('form_submit_text', XOBJ_DTYPE_TXTBOX, _SUBMIT, true, 50);
+        $this->initVar('form_desc', XOBJ_DTYPE_TXTAREA);
+        $this->initVar('form_intro', XOBJ_DTYPE_TXTAREA);
+        $this->initVar('form_email_header', XOBJ_DTYPE_TXTAREA);
+        $this->initVar('form_email_footer', XOBJ_DTYPE_TXTAREA);
+        $this->initVar('form_email_uheader', XOBJ_DTYPE_TXTAREA);
+        $this->initVar('form_email_ufooter', XOBJ_DTYPE_TXTAREA);
+        $this->initVar('form_whereto', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('form_display_style', XOBJ_DTYPE_TXTBOX, XformsConstants::FORM_DISPLAY_STYLE_FORM, true, 1);
+        $this->initVar('form_begin', XOBJ_DTYPE_INT, 0, true);
+        $this->initVar('form_end', XOBJ_DTYPE_INT, 0, false);
+        $this->initVar('form_active', XOBJ_DTYPE_INT, XformsConstants::FORM_ACTIVE, true);
+
+        $this->dirname = basename(dirname(__DIR__));
     }
 
     /**
+     * Check to see if form is active
+     *
      * @return bool
      */
     public function isActive()
     {
         $now    = time();
-        $fbegin = intval($this->getVar('form_begin'), 10);
-        $fend   = intval($this->getVar('form_end'), 10);
-        if ($this->getVar('form_active') == 0) {
-            return false;
+        $fbegin = (int)$this->getVar('form_begin');
+        $fend   = (int)$this->getVar('form_end');
+        $retVal = true;
+        if (XformsConstants::FORM_INACTIVE == $this->getVar('form_active')) {
+            $retVal = false;
         }
-        if (($fbegin != 0 && $fbegin > $now) || ($fend != 0 && $fend < $now)) {
+        if ((0 != $fbegin && $fbegin > $now) || (0 != $fend && $fend < $now)) {
+            $retVal = false;
+        }
+
+        return $retVal;
+    }
+
+    /**
+     * get info to create edit links for Admin
+     *
+     * @return string|array empty string if not an admin, else return edit link array
+     */
+    public function getEditLinkInfo()
+    {
+        $xformsHelper = Helper::getHelper($this->dirname);
+        if ($xformsHelper->isUserAdmin()) {
+            $editLink = array(
+                'location'      => $xformsHelper->url('admin/main.php') . '?op=edit&form_id=' . $this->getVar('form_id'),
+                'target'        => '_self',
+                'icon_location' => Admin::iconUrl('edit.png', 16),
+                'icon_title'    => _AM_XFORMS_ACTION_EDITFORM,
+                'icon_alt'      => _AM_XFORMS_ACTION_EDITFORM
+            );
+        } else {
+            $editLink = '';
+        }
+
+        return $editLink;
+    }
+
+    /**
+     * Render the Form
+     *
+     * @since v2.00 ALPHA 2
+     * @return boolean|array false on error|array containing variables for template
+     */
+    public function render()
+    {
+        $xformsHelper = Helper::getHelper($this->dirname);
+        $myts         = MyTextSanitizer::getInstance();
+
+        if ((XformsConstants::FORM_HIDDEN == $this->getVar('form_order')) && (!$xformsHelper->isUserAdmin())) {
+            $this->setErrors(_NOPERM);
+
             return false;
         }
 
-        return true;
+        include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
+        include_once $xformsHelper->path('class/elementrenderer.php');
+        $xformsEleHandler = $xformsHelper->getHandler('element');
+
+        $xformsHelper->loadLanguage('admin');
+        $xformsHelper->loadLanguage('main');
+
+        // Read form elements
+        $criteria = new CriteriaCompo();
+        $criteria->add(new Criteria('form_id', $this->getVar('form_id')));
+        $criteria->add(new Criteria('ele_display', XformsConstants::ELEMENT_DISPLAY));
+        $criteria->setSort('ele_order');
+        $criteria->setOrder('ASC');
+        $eleObjects = $xformsEleHandler->getObjects($criteria, true);
+
+        if (empty($eleObjects)) { // this form doesn't have any elements
+            $this->setErrors(sprintf(_MD_XFORMS_ELE_ERR, $this->getVar('form_title'), 's'));
+
+            return false;
+        }
+
+        $formOutput = new XoopsThemeForm($this->getVar('form_title'), 'xforms_' . $this->getVar('form_id'), $xformsHelper->url('index.php'), 'post', true);
+        $eleCount   = 1;
+        $multipart  = false;
+        foreach ($eleObjects as $elementObj) {
+            $eleRenderer = new XformsElementRenderer($elementObj);
+            $formEle     = $eleRenderer->constructElement(false, $this->getVar('form_delimiter'));
+            $req         = (XformsConstants::ELEMENT_REQD != $elementObj->getVar('ele_req')) ? false : true;
+            if (1 === $eleCount) {
+                $formEle->setExtra('autofocus');  //give the 1st element focus on form load
+            }
+            $formEle->setExtra('tabindex="' . $eleCount++ . '"'); // allow tabbing through fields on form
+            if (in_array($elementObj->getVar('ele_type'), array('upload', 'uploadimg'))) {
+                $multipart = true; // will be a multipart form
+            }
+            $formOutput->addElement($formEle, $req);
+            unset($formEle);
+        }
+
+        if ($multipart) { // set multipart attribute for form
+            $formOutput->setExtra('enctype="multipart/form-data"');
+        }
+        $formOutput->addElement(new XoopsFormHidden('form_id', $this->getVar('form_id')));
+
+        // load captcha
+        xoops_load('formCaptcha', XFORMS_DIRNAME);
+        $xfFormCaptcha = new XformsFormCaptcha();
+        $formOutput->addElement($xfFormCaptcha);
+
+        $subButton = new XoopsFormButton('', 'submit', $this->getVar('form_submit_text'), 'submit');
+        $subButton->setExtra('tabindex="' . $eleCount++ . '"'); // allow tabbing to the Submit button too
+        $formOutput->addElement($subButton, 1);
+
+        $eles = array();
+        foreach ($formOutput->getElements() as $currElement) {
+            $id      = $req = $name = $ele_type = false;
+            $name    = $currElement->getName();
+            $caption = $currElement->getCaption();
+            if (!empty($name)) {
+                $id = str_replace('ele_', '', $currElement->getName());
+            } elseif (method_exists($currElement, 'getElements')) {
+                //            } elseif (method_exists($currElement, 'getElements') && is_callable('getElements')) {
+                $obj = $currElement->getElements();
+                if (count($obj) > 0) {
+                    $id = str_replace('ele_', '', $obj[0]->getName());
+                    $id = str_replace('[]', '', $id);
+                }
+            }
+            $req         = false;
+            $display_row = 1;
+            if (isset($eleObjects[$id])) {
+                $req         = $eleObjects[$id]->getVar('ele_req') ? true : false;
+                $ele_type    = $eleObjects[$id]->getVar('ele_type');
+                $display_row = (int)$eleObjects[$id]->getVar('ele_display_row');
+            }
+
+            $eles[] = array(
+                'caption'     => $caption,
+                'name'        => $name,
+                'body'        => $currElement->render(),
+                'hidden'      => $currElement->isHidden(),
+                'required'    => $req,
+                'display_row' => $display_row,
+                'ele_type'    => $ele_type
+            );
+        }
+
+        $js          = $formOutput->renderValidationJS();
+        $isHiddenTxt = (XformsConstants::FORM_HIDDEN == $this->getVar('form_order')) ? _MD_XFORMS_FORM_IS_HIDDEN : '';
+
+        $assignArray = array(
+            'form_output'      => array(
+                'title'      => $formOutput->getTitle(),
+                'name'       => $formOutput->getName(),
+                'action'     => $formOutput->getAction(),
+                'method'     => $formOutput->getMethod(),
+                'extra'      => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
+                'javascript' => $js,
+                'elements'   => $eles
+            ),
+            'form_req_prefix'  => $xformsHelper->getConfig('prefix'),
+            'form_req_suffix'  => $xformsHelper->getConfig('suffix'),
+            'form_intro'       => $this->getVar('form_intro'),
+            'form_text_global' => $myts->displayTarea($xformsHelper->getConfig('global')),
+            'form_is_hidden'   => $isHiddenTxt,
+            'xoops_pagetitle'  => $this->getVar('form_title'),
+            'form_edit_link'   => $this->getEditLinkInfo()
+
+        );
+
+        return $assignArray;
     }
 }
 
 /**
- * Class xFormsFormsHandler
+ * Class XformsFormsHandler
  */
-class xFormsFormsHandler extends XoopsObjectHandler
+class XformsFormsHandler extends XoopsPersistableObjectHandler
 {
     public $db;
     public $db_table;
     public $perm_name = 'xforms_form_access';
-    public $obj_class = 'xFormsForms';
+    public $obj_class = 'XformsForms';
+    protected $dirname;
 
     /**
-     * @param $db
+     * @param $db XoopsDatabase to use for the form
      */
-    public function xFormsFormsHandler($db)
+    public function __construct(XoopsDatabase $db = null)
     {
         $this->db       = $db;
         $this->db_table = $this->db->prefix('xforms_form');
+        $this->dirname  = basename(dirname(__DIR__));
+        parent::__construct($db, 'xforms_form', 'XformsForms', 'form_id', 'form_title');
     }
 
     /**
-     * @param $db
+     * Set the form inactive and update it in the database
+     * @param XformsForms $form
+     * @param bool        $force
      *
-     * @return xFormsFormsHandler
+     * @return bool true on success
      */
-    public function getInstance($db)
+    public function setInactive(XformsForms $form, $force = true)
     {
-        static $instance;
-        if (!isset($instance)) {
-            $instance = new xFormsFormsHandler($db);
+        $ret = true;
+        if (XformsConstants::FORM_INACTIVE != $form->getVar('form_active')) {
+            $form->setVar('form_active', XformsConstants::FORM_INACTIVE);
+            $result = $this->insert($form, (bool)$force);
+            if (!$result) {
+                $form->setErrors(sprintf(_MD_XFORMS_ERR_DB_INSERT, $this->db->error(), $this->db->errno(), $sql));
+                $ret = false;
+            }
         }
 
-        return $instance;
+        return $ret ? true : false;
     }
 
-    public function create()
+    /**
+     * Set the form active and update it in the database
+     * @param XformsForms $form
+     * @param bool        $force
+     *
+     * @return bool true on success
+     */
+    public function setActive(XformsForms $form, $force = true)
     {
-        $ret = new $this->obj_class();
+        $ret = true;
+        if (XformsConstants::FORM_ACTIVE != $form->getVar('form_active')) {
+            $form->setVar('form_active', XformsConstants::FORM_ACTIVE);
+            $result = $this->insert($form, (bool)$force);
+            if (!$result) {
+                $form->setErrors(sprintf(_MD_XFORMS_ERR_DB_INSERT, $this->db->error(), $this->db->errno(), $sql));
+                $ret = false;
+            }
+        }
+
+        return $ret ? true : false;
+    }
+
+    /**
+     * @param int $formId
+     *
+     * @return bool
+     */
+    public function deleteFormPermissions($formId)
+    {
+        $permHelper = new Permission($this->dirname);
+        $ret        = $permHelper->deletePermissionForItem($this->perm_name, (int)$formId);
+
+        //        $ret = $GLOBALS['modulepermHandler']->deleteByModule($GLOBALS['xoopsModule']->getVar('mid'), $this->perm_name, (int)$formId);
+        return $ret;
+    }
+
+    /**
+     * @param int   $formId
+     * @param array $groupIds an array of integer group ids to insert
+     *
+     * @return bool true if success | false if setting any group perm fails
+     */
+    public function insertFormPermissions($formId, $groupIds)
+    {
+        $permHelper = new Permission($this->dirname);
+
+        $groupIds = (array)$groupIds; //make sure it's an array
+        $groupIds = array_map('intval', $groupIds); //make sure all array elements are integers
+        $ret      = $permHelper->savePermissionForItem($this->perm_name, (int)$formId, $groupIds);
+
+        /*
+                $ret = true;
+                foreach ($groupIds as $id) {
+                    $status = $GLOBALS['modulepermHandler']->addRight($this->perm_name, (int)$formId, $id, $GLOBALS['xoopsModule']->getVar('mid'));
+                    $ret = $ret & ($status) ? true : false;
+                }
+        */
 
         return $ret;
     }
 
     /**
-     * @param int    $id
-     * @param string $fields
+     * Get the forms for this user (permissions aware)
      *
-     * @return bool
-     */
-    public function get($id, $fields = '*')
-    {
-        $id = intval($id);
-        if ($id > 0) {
-            $sql = 'SELECT ' . $fields . ' FROM ' . $this->db_table . ' WHERE form_id=' . $id;
-            if (!$result = $this->db->query($sql)) {
-                return false;
-            }
-            $numrows = $this->db->getRowsNum($result);
-            if ($numrows == 1) {
-                $form = new $this->obj_class();
-                $form->assignVars($this->db->fetchArray($result));
-
-                return $form;
-            }
-        }
-
-        return false;
-    }
-
-    /**
-     * @param object $form
-     * @param bool   $force
-     *
-     * @return bool
-     */
-    public function insert($form, $force = false)
-    {
-        if (strtolower(get_class($form)) != strtolower($this->obj_class)) {
-            return false;
-        }
-        if (!$form->isDirty()) {
-            return true;
-        }
-        if (!$form->cleanVars()) {
-            return false;
-        }
-        foreach ($form->cleanVars as $k => $v) {
-            ${$k} = $v;
-        }
-        if ($form->isNew() || empty($form_id)) {
-            $form_id = $this->db->genId($this->db_table . "_form_id_seq");
-            $sql     = sprintf(
-                "INSERT INTO %s (
-                                form_id, form_save_db, form_send_method, form_send_to_group, form_send_to_other, form_send_copy, form_order, form_delimiter, form_title, form_submit_text, form_desc, form_intro, form_email_header, form_email_footer, form_email_uheader, form_email_ufooter, form_whereto, form_display_style, form_begin, form_end, form_active
-                                ) VALUES (
-                                %u, %u, %s, %s, %s, %u, %u, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %u, %u, %u
-                                )",
-                $this->db_table,
-                intval($form_id, 10),
-                intval($form_save_db, 10),
-                $this->db->quoteString($form_send_method),
-                $this->db->quoteString($form_send_to_group),
-                $this->db->quoteString($form_send_to_other),
-                intval($form_send_copy, 10),
-                intval($form_order, 10),
-                $this->db->quoteString($form_delimiter),
-                $this->db->quoteString($form_title),
-                $this->db->quoteString($form_submit_text),
-                $this->db->quoteString($form_desc),
-                $this->db->quoteString($form_intro),
-                $this->db->quoteString($form_email_header),
-                $this->db->quoteString($form_email_footer),
-                $this->db->quoteString($form_email_uheader),
-                $this->db->quoteString($form_email_ufooter),
-                $this->db->quoteString($form_whereto),
-                $this->db->quoteString($form_display_style),
-                intval($form_begin, 10),
-                intval($form_end, 10),
-                intval($form_active, 10)
-            );
-        } else {
-            $sql = sprintf(
-                "UPDATE %s SET
-                                form_save_db = %u,
-                                form_send_method = %s,
-                                form_send_to_group = %s,
-                                form_send_to_other = %s,
-                                form_send_copy = %u,
-                                form_order = %u,
-                                form_delimiter = %s,
-                                form_title = %s,
-                                form_submit_text = %s,
-                                form_desc = %s,
-                                form_intro = %s,
-                                form_email_header = %s,
-                                form_email_footer = %s,
-                                form_email_uheader = %s,
-                                form_email_ufooter = %s,
-                                form_whereto = %s,
-                                form_display_style = %s,
-                                form_begin = %u,
-                                form_end = %u,
-                                form_active = %u
-                                WHERE form_id = %u",
-                $this->db_table,
-                $form_save_db,
-                $this->db->quoteString($form_send_method),
-                $this->db->quoteString($form_send_to_group),
-                $this->db->quoteString($form_send_to_other),
-                intval($form_send_copy, 10),
-                $form_order,
-                $this->db->quoteString($form_delimiter),
-                $this->db->quoteString($form_title),
-                $this->db->quoteString($form_submit_text),
-                $this->db->quoteString($form_desc),
-                $this->db->quoteString($form_intro),
-                $this->db->quoteString($form_email_header),
-                $this->db->quoteString($form_email_footer),
-                $this->db->quoteString($form_email_uheader),
-                $this->db->quoteString($form_email_ufooter),
-                $this->db->quoteString($form_whereto),
-                $this->db->quoteString($form_display_style),
-                intval($form_begin, 10),
-                intval($form_end, 10),
-                intval($form_active, 10),
-                $form_id
-            );
-        }
-        if (false != $force) {
-            $result = $this->db->queryF($sql);
-        } else {
-            $result = $this->db->query($sql);
-        }
-        if (!$result) {
-            $form->setErrors("Could not store data in the database.<br />" . $this->db->error() . ' (' . $this->db->errno() . ')<br />' . $sql);
-
-            return false;
-        }
-        if (empty($form_id)) {
-            $form_id = $this->db->getInsertId();
-        }
-        $form->assignVar('form_id', $form_id);
-
-        return $form_id;
-    }
-
-    /**
-     * @param      $form
-     * @param bool $force
-     *
-     * @return bool
-     */
-    public function inactive($form, $force = false)
-    {
-        if (strtolower(get_class($form)) != strtolower($this->obj_class)) {
-            return false;
-        }
-        $sql = "UPDATE " . $this->db_table . " SET form_active=0 WHERE form_id=" . $form->getVar("form_id");
-        if (false != $force) {
-            $result = $this->db->queryF($sql);
-        } else {
-            $result = $this->db->query($sql);
-        }
-        if (!$result) {
-            $form->setErrors("Could not update data in the database.<br />" . $this->db->error() . ' (' . $this->db->errno() . ')<br />' . $sql);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param object $form
-     * @param bool   $force
-     *
-     * @return bool
-     */
-    public function delete($form, $force = false)
-    {
-        if (strtolower(get_class($form)) != strtolower($this->obj_class)) {
-            return false;
-        }
-        $sql = "DELETE FROM " . $this->db_table . " WHERE form_id=" . $form->getVar("form_id");
-        if (false != $force) {
-            $result = $this->db->queryF($sql);
-        } else {
-            $result = $this->db->query($sql);
-        }
-        if (!$result) {
-            $form->setErrors("Could not delete data in the database.<br />" . $this->db->error() . ' (' . $this->db->errno() . ')<br />' . $sql);
-
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param null   $criteria
-     * @param string $fields
-     * @param bool   $id_as_key
-     *
-     * @return array|bool
-     */
-    public function &getObjects($criteria = null, $fields = '*', $id_as_key = false)
-    {
-        $ret   = false;
-        $limit = $start = 0;
-        if (strtolower($fields) == "home") {
-            $fields = 'form_id, form_title, form_desc, form_begin, form_end, form_active';
-        }
-        $sql = 'SELECT ' . $fields . ' FROM ' . $this->db_table;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
-            $sql .= ' ' . $criteria->renderWhere();
-            if ($criteria->getSort() != '') {
-                $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
-            }
-            $limit = $criteria->getLimit();
-            $start = $criteria->getStart();
-        }
-        $result = $this->db->query($sql, $limit, $start);
-        if (!$result) {
-            return false;
-        }
-        while ($myrow = $this->db->fetchArray($result)) {
-            $forms = new $this->obj_class();
-            $forms->assignVars($myrow);
-            if (!$id_as_key) {
-                $ret[] = $forms;
-            } else {
-                $ret[$myrow['form_id']] = $forms;
-            }
-            unset($forms);
-        }
-
-        return $ret;
-    }
-
-    /**
-     * @param null $criteria
-     *
-     * @return int
-     */
-    public function getCount($criteria = null)
-    {
-        $sql = 'SELECT COUNT(*) FROM ' . $this->db_table;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
-            $sql .= ' ' . $criteria->renderWhere();
-        }
-        $result = $this->db->query($sql);
-        if (!$result) {
-            return 0;
-        }
-        list($count) = $this->db->fetchRow($result);
-
-        return $count;
-    }
-
-    /**
-     * @param null $criteria
-     *
-     * @return bool
-     */
-    public function deleteAll($criteria = null)
-    {
-        $sql = 'DELETE FROM ' . $this->db_table;
-        if (isset($criteria) && is_subclass_of($criteria, 'criteriaelement')) {
-            $sql .= ' ' . $criteria->renderWhere();
-        }
-        if (!($result = $this->db->query($sql))) {
-            return false;
-        }
-
-        return true;
-    }
-
-    /**
-     * @param $form_id
-     *
-     * @return bool
-     */
-    public function deleteFormPermissions($form_id)
-    {
-        $GLOBALS['moduleperm_handler']->deleteByModule($GLOBALS['xoopsModule']->getVar('mid'), $this->perm_name, $form_id);
-
-        return true;
-    }
-
-    /**
-     * @param $form_id
-     * @param $group_ids
-     *
-     * @return bool
-     */
-    public function insertFormPermissions($form_id, $group_ids)
-    {
-        foreach ($group_ids as $id) {
-            $GLOBALS['moduleperm_handler']->addRight($this->perm_name, $form_id, $id, $GLOBALS['xoopsModule']->getVar('mid'));
-        }
-
-        return true;
-    }
-
-    /**
      * @return array|bool
      */
     public function getPermittedForms()
     {
-        global $xoopsUser, $xoopsModule, $moduleperm_handler;
-        $groups   = is_object($xoopsUser) ? $xoopsUser->getGroups() : 3;
+        $groups   = (isset($GLOBALS['xoopsUser'])
+                     && $GLOBALS['xoopsUser'] instanceof XoopsUser) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
         $criteria = new CriteriaCompo();
         $now      = time();
-        $criteria->add(new Criteria('form_active', 0, '<>'));
-        $criteria->add(new Criteria('form_order', 1, '>='));
+        $criteria->add(new Criteria('form_active', XformsConstants::FORM_INACTIVE, '<>'));
+        $criteria->add(new Criteria('form_order', XformsConstants::FORM_HIDDEN, '>'));
         $criteria->setSort('form_order');
         $criteria->setOrder('ASC');
-        if ($forms = $this->getObjects($criteria, 'home')) {
+        if ($forms =& $this->getAll($criteria)) {
             $ret = array();
             foreach ($forms as $f) {
                 if ($f->isActive()) {
-                    if (false != $moduleperm_handler->checkRight($this->perm_name, $f->getVar('form_id'), $groups, $xoopsModule->getVar('mid'))) {
+                    $permHelper = new Permission($this->dirname);
+                    if ($permHelper->checkPermission($this->perm_name, $f->getVar('form_id'))) {
+                        //                    if (false !== $GLOBALS['modulepermHandler']->checkRight($this->perm_name, $f->getVar('form_id'), $groups, $GLOBALS['xoopsModule']->getVar('mid'))) {
                         $ret[] = $f;
                     }
                 }
@@ -445,18 +395,21 @@ class xFormsFormsHandler extends XoopsObjectHandler
     }
 
     /**
-     * @param $form_id
+     * @param $formId
      *
      * @return bool
      */
-    public function getSingleFormPermission($form_id)
+    public function getSingleFormPermission($formId)
     {
-        global $xoopsUser, $xoopsModule, $moduleperm_handler;
-        $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : 3;
-        if (false != $moduleperm_handler->checkRight($this->perm_name, $form_id, $groups, $xoopsModule->getVar('mid'))) {
-            return true;
-        }
+        $permHelper = new Permission($this->dirname);
 
-        return false;
+        return $permHelper->checkPermission($this->perm_name, (int)$formId);
+        /*
+                $groups = (isset($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof XoopsUser) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+                if (false != $GLOBALS['modulepermHandler']->checkRight($this->perm_name, (int)$formId, $groups, $GLOBALS['xoopsModule']->getVar('mid'))) {
+                    return true;
+                }
+                return false;
+        */
     }
 }

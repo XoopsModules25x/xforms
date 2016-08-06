@@ -1,76 +1,115 @@
 <?php
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * xForms module
+ * Module: xForms
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @category        Module
  * @package         xforms
+ * @author          XOOPS Module Development Team
+ * @copyright       {@see http://xoops.org 2001-2016 XOOPS Project}
+ * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
+ * @see             http://xoops.org XOOPS
  * @since           1.30
- * @author          Xoops Development Team
  */
 
-if (!defined('XFORMS_ROOT_PATH')) {
+use Xmf\Module\Helper;
+
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+
+if (empty($form) || (!$form instanceof XformsForms)) {
+    header('Location: index.php');
     exit();
 }
 
-if (!isset($form) || empty($form) || !is_object($form)) {
-    header("Location: index.php");
-    exit();
+include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
+
+$moduleDirName = basename(dirname(__DIR__));
+$xformsHelper  = Helper::getHelper($moduleDirName);
+
+$xformsEleHandler = $xformsHelper->getHandler('element');
+require_once $xformsHelper->path('/class/elementrenderer.php');
+//include_once XFORMS_ROOT_PATH . '/class/elementrenderer.php';
+
+if (!interface_exists('XformsConstants')) {
+    require_once $xformsHelper->path('class/constants.php');
 }
 
-include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-$xforms_ele_mgr = xoops_getmodulehandler('elements');
-include_once XFORMS_ROOT_PATH . '/class/elementrenderer.php';
-
-if ($form->getVar('form_display_style') == 'f') {
+if (XformsConstants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
     $xoopsOption['template_main'] = 'xforms_form.tpl';
 } else {
     $xoopsOption['template_main'] = 'xforms_form_poll.tpl';
 }
-include_once XOOPS_ROOT_PATH . '/header.php';
+include_once $GLOBALS['xoops']->path('/header.php');
+$GLOBALS['xoTheme']->addStylesheet("browse.php?modules/{$moduleDirName}/assets/css/style.css");
 
 /*
  * Read form elements
  */
 $criteria = new CriteriaCompo();
 $criteria->add(new Criteria('form_id', $form->getVar('form_id')));
-$criteria->add(new Criteria('ele_display', 1));
+$criteria->add(new Criteria('ele_display', XformsConstants::ELEMENT_DISPLAY));
 $criteria->setSort('ele_order');
 $criteria->setOrder('ASC');
-$elements = $xforms_ele_mgr->getObjects($criteria, true);
+$elements = $xformsEleHandler->getObjects($criteria, true);
 
-$form_output = new XoopsThemeForm($form->getVar('form_title'), 'xforms_' . $form->getVar('form_id'), XFORMS_URL . '/index.php');
+$xformsHelper->loadLanguage('admin');
+$xformsHelper->loadLanguage('main');
+
+if (empty($elements)) { // this form doesn't have any elements
+    xoops_header();
+    echo sprintf(_MD_XFORMS_ELE_ERR, $form->getVar('form_title'), 's') . "<br><br>\n";
+    $GLOBALS['xoopsTpl']->display($GLOBALS['xoopsOption']['template_main']);
+    require $GLOBALS['xoops']->path('/footer.php');
+    xoops_footer();
+    exit();
+}
+$formOutput   = new XoopsThemeForm($form->getVar('form_title'), 'xforms_' . $form->getVar('form_id'), $xformsHelper->url('index.php'), 'post', true);
+$firstElement = true;
+$count        = 1;
+$multipart    = false;
 foreach ($elements as $i) {
-    $renderer = new XFormsElementRenderer($i);
-    $form_ele = $renderer->constructElement();
-    $req      = intval($i->getVar('ele_req'), 10);
-    $form_output->addElement($form_ele, $req);
-    unset($form_ele);
-}
-
-$form_output->addElement(new XoopsFormHidden('form_id', $form->getVar('form_id')));
-
-global $xoopsCaptcha, $xoopsModuleConfig;
-if ($xoopsModuleConfig['captcha']) {
-    if (class_exists('XoopsFormCaptcha')) {
-        $form_output->addElement(new XoopsFormCaptcha());
+    $renderer = new XformsElementRenderer($i);
+    $formEle  = $renderer->constructElement(false, $form->getVar('form_delimiter'));
+    $req      = (XformsConstants::ELEMENT_REQD == $i->getVar('ele_req')) ? true : false;
+    if (true === $firstElement) {
+        $formEle->setExtra('autofocus');  //give the 1st element focus on form load
+        $firstElement = false;
     }
+    $formEle->setExtra('tabindex="' . $count++ . '"'); // allow tabbing through fields on form
+
+    if (in_array($i->getVar('ele_type'), array('upload', 'uploadimg'))) {
+        $multipart = true; // will be a multipart form
+    }
+
+    $formOutput->addElement($formEle, $req);
+    unset($formEle);
 }
 
-$form_output->addElement(new XoopsFormButton('', 'submit', $form->getVar('form_submit_text'), 'submit'));
+if ($multipart) { // set multipart attribute for form
+    $formOutput->setExtra('enctype="multipart/form-data"');
+}
+$formOutput->addElement(new XoopsFormHidden('form_id', $form->getVar('form_id')));
 
-$c    = 0;
+// load captcha
+xoops_load('formCaptcha', XFORMS_DIRNAME);
+$xfFormCaptcha = new XformsFormCaptcha();
+$formOutput->addElement($xfFormCaptcha);
+
+$subButton = new XoopsFormButton('', 'submit', $form->getVar('form_submit_text'), 'submit');
+$subButton->setExtra('tabindex="' . $count++ . '"'); // allow tabbing to the Submit button too
+$formOutput->addElement($subButton, 1);
+
 $eles = array();
-foreach ($form_output->getElements() as $e) {
+foreach ($formOutput->getElements() as $e) {
     $id      = $req = $name = $ele_type = false;
     $name    = $e->getName();
     $caption = $e->getCaption();
@@ -86,41 +125,39 @@ foreach ($form_output->getElements() as $e) {
     if (isset($elements[$id])) {
         $req         = $elements[$id]->getVar('ele_req') ? true : false;
         $ele_type    = $elements[$id]->getVar('ele_type');
-        $display_row = intval($elements[$id]->getVar('ele_display_row'), 10);
+        $display_row = (int)$elements[$id]->getVar('ele_display_row');
     }
-    $eles[$c]['caption']     = $caption;
-    $eles[$c]['name']        = $name;
-    $eles[$c]['body']        = $e->render();
-    $eles[$c]['hidden']      = $e->isHidden();
-    $eles[$c]['required']    = $req;
-    $eles[$c]['display_row'] = $display_row;
-    $eles[$c]['ele_type']    = $ele_type;
-    ++$c;
+    $eles[] = array(
+        'caption'     => $caption,
+        'name'        => $name,
+        'body'        => $e->render(),
+        'hidden'      => $e->isHidden(),
+        'required'    => $req,
+        'display_row' => $display_row,
+        'ele_type'    => $ele_type
+    );
 }
-$js = $form_output->renderValidationJS();
-$xoopsTpl->assign(
-    'form_output',
-    array(
-        'title'      => $form_output->getTitle(),
-        'name'       => $form_output->getName(),
-        'action'     => $form_output->getAction(),
-        'method'     => $form_output->getMethod(),
-        'extra'      => 'onsubmit="return xoopsFormValidate_' . $form_output->getName() . '();"' . $form_output->getExtra(),
-        'javascript' => $js,
-        'elements'   => $eles
-    )
-);
+$js = $formOutput->renderValidationJS();
+$GLOBALS['xoopsTpl']->assign('form_output', array(
+    'title'      => $formOutput->getTitle(),
+    'name'       => $formOutput->getName(),
+    'action'     => $formOutput->getAction(),
+    'method'     => $formOutput->getMethod(),
+    'extra'      => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
+    'javascript' => $js,
+    'elements'   => $eles
+));
 
-$xoopsTpl->assign('form_req_prefix', $xoopsModuleConfig['prefix']);
-$xoopsTpl->assign('form_req_suffix', $xoopsModuleConfig['suffix']);
-$xoopsTpl->assign('form_intro', $form->getVar('form_intro'));
-$xoopsTpl->assign('form_text_global', $myts->displayTarea($xoopsModuleConfig['global']));
-if ($form->getVar('form_order') == 0) {
-    if (!isset($xoopsUser) || !is_object($xoopsUser) || !$xoopsUser->isAdmin()) {
-        header("Location: " . XFORMS_URL);
+$GLOBALS['xoopsTpl']->assign('form_req_prefix', $xformsHelper->getConfig('prefix'));
+$GLOBALS['xoopsTpl']->assign('form_req_suffix', $xformsHelper->getConfig('suffix'));
+$GLOBALS['xoopsTpl']->assign('form_intro', $form->getVar('form_intro'));
+$GLOBALS['xoopsTpl']->assign('form_text_global', $myts->displayTarea($xformsHelper->getConfig('global')));
+if (XformsConstants::FORM_HIDDEN == $form->getVar('form_order')) {
+    if (!$xformsHelper->isUserAdmin()) {
+        header('Location: ' . $xformsHelper->url('index.php'));
         exit();
     }
-    $xoopsTpl->assign('form_is_hidden', _MD_XFORMS_FORM_IS_HIDDEN);
+    $GLOBALS['xoopsTpl']->assign('form_is_hidden', _MD_XFORMS_FORM_IS_HIDDEN);
 }
 
-$xoopsTpl->assign('xoops_pagetitle', $form->getVar('form_title'));
+$GLOBALS['xoopsTpl']->assign('xoops_pagetitle', $form->getVar('form_title'));

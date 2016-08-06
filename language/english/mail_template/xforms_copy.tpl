@@ -1,5 +1,5 @@
-{EHEADER}<br/>
+{EHEADER}<br>
 
-{MSG}<br/><br/>
+{MSG}<br><br>
 
-{EFOOTER}<br/>
+{EFOOTER}<br>

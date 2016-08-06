@@ -1,30 +1,63 @@
 <?php
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * xForms module
+ * Module: xForms
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @category        Module
  * @package         xforms
+ * @author          XOOPS Module Development Team
+ * @copyright       {@see http://xoops.org 2001-2016 XOOPS Project}
+ * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
+ * @see             http://xoops.org XOOPS
  * @since           1.30
- * @author          Xoops Development Team
  */
 
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-include_once __DIR__ . '/admin_header.php';
+use Xmf\Module\Admin;
+use Xmf\Module\Helper;
+
+require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 
-$index_admin = new ModuleAdmin();
-echo $index_admin->addNavigation('index.php');
-echo $index_admin->renderIndex();
+$xformsFormsHandler = $xformsHelper->getHandler('forms');
+$totalForms         = $xformsFormsHandler->getCount();
+$criteria           = new CriteriaCompo();
+$criteria->add(new Criteria('form_active', XformsConstants::FORM_ACTIVE, '='));
+$totalActiveForms   = $xformsFormsHandler->getCount($criteria);
+$totalInactiveForms = $totalForms - $totalActiveForms;
+
+$moduleAdmin = Admin::getInstance();
+$moduleAdmin->addInfoBox(_MD_XFORMS_DASHBOARD);
+$moduleAdmin->AddInfoBoxLine(sprintf("<span class='infolabel'>" . _MD_XFORMS_TOTAL_ACTIVE . '</span>', "<span class='infotext green bold'>{$totalActiveForms}</span>"));
+$moduleAdmin->addInfoBoxLine(sprintf("<span class='infolabel'>" . _MD_XFORMS_TOTAL_INACTIVE . '</span>', "<span class='infotext red bold'>{$totalInactiveForms}</span>"));
+$moduleAdmin->addInfoBoxLine(sprintf("<span class='infolabel'>" . _MD_XFORMS_TOTAL_FORMS . '</span>', "<span class='infotext bold'>{$totalForms}</span>"));
+
+// check for profile module
+$profileHelper = Helper::getHelper('profile');
+if (false === $profileHelper) {
+    $moduleAdmin->addConfigWarning(sprintf(_MD_XFORMS_PROFILE_NOT_FOUND, $moduleDirName));
+} else {
+    $moduleAdmin->addConfigAccept(sprintf(_MD_XFORMS_PROFILE_FOUND, $moduleDirName));
+}
+
+
+
+foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+    XformsUtilities::createFolder($uploadFolders[$i]);
+    $moduleAdmin->addConfigBoxLine($uploadFolders[$i], 'folder');
+    //    $indexAdmin->addConfigBoxLine(array($folder[$i], '777'), 'chmod');
+}
+
+$moduleAdmin->displayNavigation(basename(__FILE__));
+$moduleAdmin->displayIndex();
 
 include __DIR__ . '/admin_footer.php';
