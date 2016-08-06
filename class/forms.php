@@ -141,7 +141,8 @@ class XformsForms extends XoopsObject
             return false;
         }
 
-        include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
+//        include_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
+        include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
         include_once $xformsHelper->path('class/elementrenderer.php');
         $xformsEleHandler = $xformsHelper->getHandler('element');
 
