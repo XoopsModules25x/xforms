@@ -28,7 +28,7 @@ xoops_cp_header();
 
 $moduleAdmin = Admin::getInstance();
 $moduleAdmin->displayNavigation(basename(__FILE__));
-//Admin::setPaypal('6KJ7RW5DR3VTJ');
+//Admin::setPaypal('xoopsfoundation@gmail.com');
 $moduleAdmin->displayAbout(false);
 
 include __DIR__ . '/admin_footer.php';
