@@ -1,0 +1,118 @@
+
+<u>TODO:</u>
+- create/test xBootstrap templates
+- create checkbox for number input in Admin to include/exclude default/step
+- add Elements:
+  - rating | use https://github.com/antennaio/jquery-bar-rating
+- add Modernizer to module to check browser capabilities and improve 'fallback' input methods for:
+  - range
+  - email (for Safari)
+  - time (for Firefox - use http://trentrichardson.com/examples/timepicker/)
+- create renderValidationJS for HTML5 types since many browsers don't actually validate data
+
+<u>KNOWN BUGS:</u>
+- javascript 'fallback' methods don't work in form block (javascript not loaded in block)
+
+<u>Version 2.00 Alpha 2 [2016-04-21]</u>
+- added check on install/upgrade to make sure PHP & XOOPS meets min version
+- added import from Liaise and eForms modules
+- added edit icon/link for admins on frontside
+- added block to display list of forms (permissions aware)
+- added block to display a single form (permissions aware)
+- added search - finds term in form Title, Description or Intro text (permissions aware)
+- added color, date, email, number, obfuscated, pattern, range, time, and url element types
+- added module specific CAPTCHA settings in Preferences
+- added PAYPAL donate button in Admin About (links to XOOPS Foundation)
+- added ability to purge reports by date
+- added ability to export CSV horizontal and vertical reports
+- added ability to export HTML horizontal and vertical reports
+- added display of open issues in Admin Help section
+- added XoopsPageNav - page navigation in Admin form/report listing
+- added XformsFormInput class - an enhanced HTML5 &lt;input> class
+- added XformsFormRaw class - allows rendering HTML in XoopsForm objects
+- added loading of XformsFormsHandler in ./admin/admin_header.php
+- added loading of XoopsRequest in ./admin/admin_header.php
+- added multiple missing language defines (primarily in admin)
+- added ./language/english/directorychecker.php (previously referenced but didn't exist)
+- added ./language/english/filechecker.php (previously referenced but didn't exist)
+- added display of # of active/inactive/total forms dashboard in ./admin/index.php
+- added display of 'type' of element in table for ./admin/editelement.php
+- added ./class/table.php (XformsTable class) file and removed class from ./class/dbupdater.php
+- added new mailer template (xforms_pm.tpl) for PM messages to remove html tags
+- added HTML 'tabindex' to form elements on front side rendering to allow tabbing through fields
+- added Modernizer jscript to assist element rendering in browsers lacking some HTML5 support
+- changed to only show Report link/icon in admin page if a report exists for the form
+- changed to only show the form on admin report page if a report exists for the form
+- changed Admin editors to use XOOPS Preferences to select editor instead of forcing DHTML editor
+- changed XformsElements class to XformsElement to closer reflect table changes, etc.
+- changed requirement to XOOPS 2.8+ ONLY (requires Xmf Framework)
+- changed to use Xmf for language loading functions
+- changed to use Xmf\Module\Helper class instead of module specific helpers
+- changed to use Xmf\Module\Helper\Permission class instead of 'direct' access method
+- changed admin input forms to use XformsFormInput to improve input data integrity
+- changed input filtering to use XoopsRequest
+- changed XformsElementHandler to be an extension of XoopsPersistableObjectHandler
+- changed XformsFormsHandler to be an extension of XoopsPersistableObjectHandler
+- changed XformsUserdataHandler to be an extension of XoopsPersistableObjectHandler
+- changed XformsMediaUploader to be an extension of XoopsMediaUploader
+- changed internal variable/function/method naming for PSRxx
+- changed to refactor how options were added to checkbox and radio elements
+- changed undefined _LIASE_ERR_INVALIDMAIL to _MD_XFORMS_ERR_INVALIDMAIL in ./include/form_execute.php
+- changed copyright notice in source files (now refers to xoops.org instead of sourceforge)
+- changed mime type definitions to use XOOPS core mime type definitions
+- changed references to text sanitizer htmlSpecialChars (deprecated)
+- changed install/update/uninstall routines to use install.php/update.php/uninstall.php respectively
+- changed link to online documentation in help (mamba)
+- changed date element (from Alpha 1) to use HTML5 element as XoopsFormDateSelect was not rendering correctly
+- fixed bug where module wasn't checking for Profile module before trying to use Profile feature(s)
+- fixed a bug where Select element box size wasn't being rendered correctly
+- merged ./include/render_form.php with ./index.php since it's the only place it's used
+- deprecated (deleted) ./include/module.php (previously used for install/update/uninstall)
+- deprecated (deleted) [Xforms]DirectoryChecker class as it wasn't being used
+- deprecated (deleted) [Xforms]FileChecker class as it wasn't being used
+- deprecated methods with same name as classes to use __construct instead (prep for PHP 7)
+- removed instances of PHP 'extract' for security improvement
+- removed Excel exporting - was actually exporting HTML reports (replaced with CSV reports)
+- removed pass-by-reference usage for non-vars
+- removed '/' from HTML void tags (&lt;br>, &lt;img>, etc)
+- removed dormant swish-e code (was never implemented)
+- removed TruncateHTML from cakephp.org (was never implemented)
+- removed traces of SEO code (was never implemented)
+- removed XformsHelper class - now uses XOOPS XMF Helper class
+
+<u>Version 2.00 Alpha 1 [2014-10-08]</u>
+- merged eForms with xForms, so there would be migration path for current users, and less fragmentation of modules (mamba).
+- moved all images, CSS, and JS files to /assets (mamba)
+- renamed .html Smarty templates to .tpl (mamba)
+- added Interface for constants from Zyspec's MyLinks (mamba)
+- add Country and Date selection (Mariane)
+
+------------ eForms: ---------------------
+
+<u>Version 1.1 - eForms</u>
+Correct bugs in reports with data from unregistered users.
+
+<u>Version 1.0 - eForms</u>
+First release eForms
+
+Developed by Juan Garcés (http://www.educacioninformatica.com/).
+This module is a fork of xforms module by Dylian Melgert
+(http://www.dylian.eu/) and Liaise module by Brandycoke Productions
+(http://www.brandycoke.com).
+
+Enjoy this module and send your comments and contributions to
+wmaster@educacioninformatica.com
+
+------------ xForms: ---------------------
+
+<u>Version 1.21 [2012-06-26]</u>
+- fixing some bugs: (black_beard)
+- updated to the XOOPS 2.5.x Admin GUI (mamba)
+- adding default strings for localization (cesag/mamba)
+- fixing bug in form_render.php with empty checkbox (cesag/philou)
+
+<u>1.20                2010-6-30</u>
+slight improvements  (Dylian)
+
+<u>Version 1.00 [2009-6-29]</u>
+- Original release of the clone of Liaise (Dylian)

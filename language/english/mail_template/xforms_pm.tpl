@@ -1,0 +1,12 @@
+{EHEADER}
+
+{MSG}
+
+{UNAME}
+{ULINK}
+
+{IP}
+{AGENT}
+{FORMURL}
+
+{EFOOTER}
