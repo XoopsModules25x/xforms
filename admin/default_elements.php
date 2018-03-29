@@ -22,11 +22,10 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-$helper = Helper::getHelper(basename(dirname(__DIR__)));
+$helper = Xforms\Helper::getInstance();
 
 $defaults = [
     0 => [

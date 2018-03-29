@@ -22,11 +22,9 @@
  * @since           2.00
  */
 
-use Xmf\Module\Helper;
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
-
-$helper = Helper::getHelper(basename(dirname(dirname(__DIR__))));
+$helper = Xforms\Helper::getInstance();
 
 /**
  * Obfuscated element
@@ -37,11 +35,11 @@ $helper = Helper::getHelper(basename(dirname(dirname(__DIR__))));
  */
 $size      = !empty($value[0]) ? (int)$value[0] : $helper->getConfig('t_width');
 $max       = !empty($value[1]) ? (int)$value[1] : $helper->getConfig('t_max');
-$sizeInput = new XformsFormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 3, 3, $size, null, 'number');
+$sizeInput = new Xforms\FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 3, 3, $size, null, 'number');
 $sizeInput->setAttribute('min', 1);
 $sizeInput->setExtra('style="width: 5em;"');
 
-$maxInput = new XformsFormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 3, 3, $max, null, 'number');
+$maxInput = new Xforms\FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 3, 3, $max, null, 'number');
 $maxInput->setAttribute('min', 1);
 $maxInput->setExtra('style="width: 5em;"');
 

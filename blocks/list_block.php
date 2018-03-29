@@ -22,13 +22,13 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
+use XoopsModules\Xforms\Constants;
 
 $moduleDirName = basename(dirname(__DIR__));
 require_once __DIR__ . '/../../../mainfile.php';
 
 // instantiate module helper
-//$helper = Helper::getHelper($moduleDirName);
+//$helper = Xforms\Helper::getInstance();
 //require_once $helper->path('include/common.php');
 require_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/include/common.php");
 
@@ -68,7 +68,7 @@ function b_xforms_list_show($options)
 function b_xforms_list_edit($options)
 {
     $optVals    = explode(',', _MB_XFORMS_LIST_BLOCK_SORT_OPTS);
-    $optKeys    = explode(',', XformsConstants::LIST_BLOCK_SORT_KEYS);
+    $optKeys    = explode(',', Constants::LIST_BLOCK_SORT_KEYS);
     $optArray   = array_combine($optKeys, $optVals);
     $radioInput = '';
     $sortBy     = in_array($options[0], $optKeys) ? $options[0] : $optKeys[0];

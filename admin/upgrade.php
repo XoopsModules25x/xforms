@@ -18,6 +18,10 @@
  * @author          Xoops Development Team
  */
 
+use XoopsModules\Xforms;
+/** @var Xforms\Helper $helper */
+$helper = Xforms\Helper::getInstance();
+
 include __DIR__ . '/admin_header.php';
 $version = number_format($xoopsModule->getVar('version') / 100, 2);
 $count   = $xforms_form_mgr->getCount();
@@ -37,10 +41,10 @@ if ($version >= 1.2 || $count > 0) {
     $msgs[] = 'Change default value of form_id in elements table...';
     $sql[]  = 'ALTER TABLE `' . $xoopsDB->prefix('xforms_formelements') . "` CHANGE `form_id` `form_id` SMALLINT( 5 ) DEFAULT '0' NOT NULL";
 
-    $method    = $xoopsModuleConfig['method'];
-    $method    = 'pm' === $xoopsModuleConfig['method'] ? 'p' : 'e';
-    $sendto    = !empty($xoopsModuleConfig['admin_only']) ? 0 : $xoopsModuleConfig['group'];
-    $delimiter = 'br' === $xoopsModuleConfig['delimeter'] ? 'b' : 's';
+    $method    = $helper->getConfig('method');
+    $method    = 'pm' === $helper->getConfig('method') ? 'p' : 'e';
+    $sendto    = !empty($helper->getConfig('admin_only')) ? 0 : $helper->getConfig('group');
+    $delimiter = 'br' === $helper->getConfig('delimeter') ? 'b' : 's';
     $msgs[]    = 'Create forms table...';
     $sql[]     = 'CREATE TABLE `' . $xoopsDB->prefix('xforms_forms') . "` (
       `form_id` SMALLINT(5) NOT NULL AUTO_INCREMENT,
@@ -58,7 +62,7 @@ if ($version >= 1.2 || $count > 0) {
     ) ENGINE=MyISAM;";
 
     $msgs[] = 'INSERT default DATA INTO forms TABLE...';
-    $sql[]  = 'INSERT INTO `' . $xoopsDB->prefix('xforms_forms') . "` VALUES (1, '" . $method . "', " . (int)$sendto . ", 1, '" . $delimiter . "', 'Contact Us', '" . _SUBMIT . "', 'Tell us about your comments for this site.', 'Contact us by filling out this form.', '');";
+    $sql[]  = 'INSERT INTO `' . $xoopsDB->prefix('xforms_forms') . "` VALUES (1, '" . $method . "', " . $sendto . ", 1, '" . $delimiter . "', 'Contact Us', '" . _SUBMIT . "', 'Tell us about your comments for this site.', 'Contact us by filling out this form.', '');";
 
     for ($i = 0, $iMax = count($sql); $i < $iMax; ++$i) {
         if (false != $xoopsDB->query($sql[$i])) {

@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits of
  supporting developers from this source code or any supporting source code
@@ -22,7 +23,7 @@
  * @since           2.00
  */
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * HTML5 Input class for forms
@@ -37,7 +38,7 @@ defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
  * classes from XOOPS 2.6}}
  *
  */
-class XformsFormInput extends XoopsFormElement
+class FormInput extends \XoopsFormElement
 {
     /**
      * Attributes for this element
@@ -858,7 +859,7 @@ class XformsFormInput extends XoopsFormElement
         // render custom validation code if any
         if (!empty($this->customValidationCode)) {
             return implode(NWLINE, $this->customValidationCode);
-            // generate validation code if required
+        // generate validation code if required
         } else {
             if ($this->isRequired() && $eltname = $this->getName()) {
                 // $eltname    = $this->getName();

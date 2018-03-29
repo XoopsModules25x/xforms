@@ -31,7 +31,7 @@ if (!empty($ele_id)) {
 } else {
     $selected = '_YES';
 }
-$options = new XoopsFormRadio(_AM_XFORMS_ELE_DEFAULT, 'ele_value', $selected);
+$options = new \XoopsFormRadio(_AM_XFORMS_ELE_DEFAULT, 'ele_value', $selected);
 $options->addOption('_YES', _YES);
 $options->addOption('_NO', _NO);
 $output->addElement($options);

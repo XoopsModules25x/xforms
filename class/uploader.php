@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Xforms;
+
 /*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
@@ -26,7 +27,7 @@
  * $maxfilesize = 50000;
  * $maxfilewidth = 120;
  * $maxfileheight = 120;
- * $uploader = new XoopsMediaUploader('/home/xoops/uploads', $allowed_mimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+ * $uploader = new \XoopsMediaUploader('/home/xoops/uploads', $allowed_mimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
  * if ( $uploader->fetchMedia($_POST['uploade_file_name'])) {
  * if ( !$uploader->upload()) {
  * echo $uploader->getErrors();
@@ -50,7 +51,7 @@
  * $maxfilesize = 50000;
  * $maxfilewidth = 120;
  * $maxfileheight = 120;
- * $uploader = new XoopsMediaUploader('/home/xoops/uploads', $allowed_mimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
+ * $uploader = new \XoopsMediaUploader('/home/xoops/uploads', $allowed_mimetypes, $maxfilesize, $maxfilewidth, $maxfileheight);
  * if ( $uploader->fetchMedia($_POST['uploade_file_name'])) {
  *            if ( !$uploader->upload()) {
  *               echo $uploader->getErrors();
@@ -72,9 +73,9 @@
 mt_srand((double)microtime() * 1000000);
 
 /**
- * Class XFormsMediaUploader
+ * Class MediaUploader
  */
-class XFormsMediaUploader
+class MediaUploader
 {
     public $mediaName;
     public $mediaType;

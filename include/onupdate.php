@@ -25,7 +25,6 @@
  */
 
 use Xmf\Database\Tables;
-use Xmf\Module\Helper;
 
 /**
  * Upgrade works to update Xforms from previous versions
@@ -39,7 +38,7 @@ use Xmf\Module\Helper;
  * @return bool
  *
  */
-function xoops_module_update_xforms(XoopsModule $xoopsModule, $prev_version)
+function xoops_module_update_xforms(\XoopsModule $xoopsModule, $prev_version)
 {
     class_exists('Xmf\Module\Admin') || exit('XMF is required.');
 
@@ -207,7 +206,7 @@ function xoops_module_update_xforms(XoopsModule $xoopsModule, $prev_version)
         // change all 'select2' elements to 'country'
         $migrate->resetQueue();
         $success = $migrate->useTable($mainTableName);
-        $success &= $migrate->update($mainTableName, ['ele_type' => 'country'], new Criteria('ele_type', 'select2'));
+        $success &= $migrate->update($mainTableName, ['ele_type' => 'country'], new \Criteria('ele_type', 'select2'));
         // change ele_id from smallint(5) to mediumint(8)
         $success &= $migrate->alterColumn($mainTableName, 'ele_id', 'mediumint(8) NOT NULL auto_increment');
         //change ele_caption from varchar(255) to text
@@ -266,7 +265,7 @@ function xoops_module_update_xforms(XoopsModule $xoopsModule, $prev_version)
             $GLOBALS['xoops']->path('modules/' . $xoopsModule->getVar('dirname', 'n') . '/images/')
         ];
         foreach ($old_directories as $old_dir) {
-            $dirInfo = new SplFileInfo($old_dir);
+            $dirInfo = new \SplFileInfo($old_dir);
             if ($dirInfo->isDir()) {
                 // directory exists so try and delete it
                 $success &= xformsDeleteDirectory($old_dir);
@@ -285,13 +284,13 @@ function xoops_module_update_xforms(XoopsModule $xoopsModule, $prev_version)
     // remove old files
     $directory = $helper->path('templates/');
     //    $directory = $GLOBALS['xoops']->path('modules/' . $xoopsModule->getVar('dirname', 'n') . '/templates/');
-    $dirInfo = new SplFileInfo($directory);
+    $dirInfo = new \SplFileInfo($directory);
     // validate is a directory
     if ($dirInfo->isDir()) {
         $fileList = array_diff(scandir($directory, SCANDIR_SORT_NONE), ['..', '.', 'index.html']);
         foreach ($fileList as $k => $v) {
             if (!preg_match('/.tpl+$/i', $v)) {
-                $fileInfo = new SplFileInfo($directory . $v);
+                $fileInfo = new \SplFileInfo($directory . $v);
                 if ($fileInfo->isDir()) {
                     // recursively handle subdirectories
                     if (!($success = xformsDeleteDirectory($directory . $v))) {
@@ -307,7 +306,7 @@ function xoops_module_update_xforms(XoopsModule $xoopsModule, $prev_version)
         }
     } else {
         // couldn't find template directory - that's bad
-        $xoopsModule->setErrors(sprintf(_MI_XFORMS_INST_DIR_NOT_FOUND, htmlspecialchars($directory)));
+        $xoopsModule->setErrors(sprintf(_MI_XFORMS_INST_DIR_NOT_FOUND, htmlspecialchars($directory, ENT_QUOTES | ENT_HTML5)));
         $success = false;
     }
 
@@ -317,13 +316,13 @@ function xoops_module_update_xforms(XoopsModule $xoopsModule, $prev_version)
          * since they're being replaced by ./admin/elements/ele_*.php files
          *********************************/
         $directory = $GLOBALS['xoops']->path('modules/' . $xoopsModule->getVar('dirname', 'n') . '/admin/');
-        $dirInfo   = new SplFileInfo($directory);
+        $dirInfo   = new \SplFileInfo($directory);
         // validate directory exists
         if ($dirInfo->isDir()) {
             $fileList = array_diff(scandir($directory, SCANDIR_SORT_NONE), ['..', '.', 'index.html']);
             foreach ($fileList as $k => $v) {
                 if (preg_match('/^(ele_).*(\.php)$/i', $v)) {
-                    $fileInfo = new SplFileInfo($directory . $v);
+                    $fileInfo = new \SplFileInfo($directory . $v);
                     if ($fileInfo->isFile()) {
                         // delete the file
                         if (!($success = unlink($fileInfo->getRealPath()))) {
@@ -334,7 +333,7 @@ function xoops_module_update_xforms(XoopsModule $xoopsModule, $prev_version)
             }
         } else {
             // couldn't find ./admin directory - that's bad
-            $xoopsModule->setErrors(sprintf(_MI_XFORMS_INST_DIR_NOT_FOUND, htmlspecialchars($directory)));
+            $xoopsModule->setErrors(sprintf(_MI_XFORMS_INST_DIR_NOT_FOUND, htmlspecialchars($directory, ENT_QUOTES | ENT_HTML5)));
             $success = false;
         }
     }

@@ -22,28 +22,94 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
-use Xmf\Module\Helper\Session;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Common;
 
-// defined('XOOPS_ROOT_PATH') || exit('Restricted Access');
+include __DIR__ . '/../preloads/autoloader.php';
 
-define('XFORMS_DIRNAME', basename(dirname(__DIR__)));
-define('XFORMS_ROOT_PATH', $GLOBALS['xoops']->path('modules/' . XFORMS_DIRNAME));
-define('XFORMS_URL', $GLOBALS['xoops']->url('modules/' . XFORMS_DIRNAME));
-define('XFORMS_IMAGES_URL', XFORMS_URL . '/assets/images');
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper   = strtoupper($moduleDirName); //$capsDirName
 
-$helper = Helper::getHelper(XFORMS_DIRNAME);
+
+/** @var \XoopsDatabase $db */
+/** @var Xforms\Helper $helper */
+/** @var Xforms\Utility $utility */
+$db      = \XoopsDatabaseFactory::getDatabaseConnection();
+$helper  = Xforms\Helper::getInstance();
+$utility = new Xforms\Utility();
+//$configurator = new Xforms\Common\Configurator();
+
+$helper->loadLanguage('common');
+
+//handlers
+//$categoryHandler     = new Xforms\CategoryHandler($db);
+//$downloadHandler     = new Xforms\DownloadHandler($db);
+
+if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
+    define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));
+    define($moduleDirNameUpper . '_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/');
+    define($moduleDirNameUpper . '_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/');
+    define($moduleDirNameUpper . '_URL', XOOPS_URL . '/modules/' . $moduleDirName . '/');
+    define($moduleDirNameUpper . '_IMAGE_URL', constant($moduleDirNameUpper . '_URL') . '/assets/images/');
+    define($moduleDirNameUpper . '_IMAGE_PATH', constant($moduleDirNameUpper . '_ROOT_PATH') . '/assets/images');
+    define($moduleDirNameUpper . '_ADMIN_URL', constant($moduleDirNameUpper . '_URL') . '/admin/');
+    define($moduleDirNameUpper . '_ADMIN_PATH', constant($moduleDirNameUpper . '_ROOT_PATH') . '/admin/');
+    define($moduleDirNameUpper . '_ADMIN', constant($moduleDirNameUpper . '_URL') . '/admin/index.php');
+    define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', constant($moduleDirNameUpper . '_URL') . '/assets/images/logoModule.png');
+    define($moduleDirNameUpper . '_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . $moduleDirName); // WITHOUT Trailing slash
+    define($moduleDirNameUpper . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . $moduleDirName); // WITHOUT Trailing slash
+    define($moduleDirNameUpper . '_CONSTANTS_DEFINED', 1);
+}
+
+
 $uploadDir    = $helper->getConfig('uploaddir');
 $uploadDir    = ('/' === substr($uploadDir, -1, 1)) ? $uploadDir : $uploadDir . '/';
 
-define('XFORMS_UPLOAD_PATH', $uploadDir);
-
 //require_once $helper->path('include/functions.php');
 
-if (!interface_exists('XformsConstants')) {
+if (!interface_exists('Xforms\Constants')) {
     require_once $helper->path('class/constants.php');
     //    xoops_load('constants', XFORMS_DIRNAME);
 }
+
+
+$pathIcon16    = Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32    = Xmf\Module\Admin::iconUrl('', 32);
+$pathModIcon16 = $helper->getModule()->getInfo('modicons16');
+//$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+
+$icons = [
+    'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",
+    'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' align='middle'>",
+    'clone'   => "<img src='" . $pathIcon16 . "/editcopy.png' alt='" . _CLONE . "' align='middle'>",
+    'preview' => "<img src='" . $pathIcon16 . "/view.png' alt='" . _PREVIEW . "' align='middle'>",
+    'print'   => "<img src='" . $pathIcon16 . "/printer.png' alt='" . _CLONE . "' align='middle'>",
+    'pdf'     => "<img src='" . $pathIcon16 . "/pdf.png' alt='" . _CLONE . "' align='middle'>",
+    'add'     => "<img src='" . $pathIcon16 . "/add.png' alt='" . _ADD . "' align='middle'>",
+    '0'       => "<img src='" . $pathIcon16 . "/0.png' alt='" . 0 . "' align='middle'>",
+    '1'       => "<img src='" . $pathIcon16 . "/1.png' alt='" . 1 . "' align='middle'>",
+];
+
+$debug = false;
+
+// MyTextSanitizer object
+$myts = \MyTextSanitizer::getInstance();
+
+if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)) {
+    require_once $GLOBALS['xoops']->path('class/template.php');
+    $GLOBALS['xoopsTpl'] = new \XoopsTpl();
+}
+
+$GLOBALS['xoopsTpl']->assign('mod_url', XOOPS_URL . '/modules/' . $moduleDirName);
+// Local icons path
+if (is_object($helper->getModule())) {
+    $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
+    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+
+    $GLOBALS['xoopsTpl']->assign('pathModIcon16', XOOPS_URL . '/modules/' . $moduleDirName . '/' . $pathModIcon16);
+    $GLOBALS['xoopsTpl']->assign('pathModIcon32', $pathModIcon32);
+}
+
 
 //This is needed or it will not work in blocks.
 /**@todo - which blocks? - there are no blocks in xforms that need this. The
@@ -79,7 +145,7 @@ if (!$uploadChecked) {
         }
     }
     // make sure there's a index.html file to "prevent" browsing
-    $fileInfo = new SplFileInfo(XFORMS_UPLOAD_PATH . 'index.html');
+    $fileInfo = new \SplFileInfo(XFORMS_UPLOAD_PATH . 'index.html');
     if (!$fileInfo->isFile()) {
         // index file doesn't exist so create it
         $fhandle = fopen(XFORMS_UPLOAD_PATH . 'index.html', 'w');

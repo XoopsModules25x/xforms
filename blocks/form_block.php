@@ -22,15 +22,13 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
-
 $moduleDirName = basename(dirname(__DIR__));
 
 // instantiate module helper
 $helper = Xmf\Module\Helper::getHelper($moduleDirName);
 require_once $helper->path('include/common.php');
 
-if (!class_exists('XformsFormInput')) {
+if (!class_exists('Xforms\FormInput')) {
     xoops_load('FormInput', $moduleDirName);
 }
 
@@ -46,7 +44,7 @@ function b_xforms_form_show($options)
     $xformsFormsHandler = $helper->getHandler('forms');
     $formOk             = $xformsFormsHandler->getSingleFormPermission((int)$options[0]);
     $formObj            = $xformsFormsHandler->get((int)$options[0]); // get the form object we want
-    if ($formObj instanceof XformsForms) {
+    if ($formObj instanceof Forms) {
         $block = $formObj->render();
     }
 

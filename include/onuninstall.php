@@ -22,7 +22,7 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
+use XoopsModules\Xforms;
 
 /**
  * Prepare to uninstall module
@@ -31,14 +31,14 @@ use Xmf\Module\Helper;
  *
  * @return bool success
  */
-function xoops_module_pre_uninstall_xforms(XoopsModule $xoopsModule)
+function xoops_module_pre_uninstall_xforms(\XoopsModule $xoopsModule)
 {
     /*********************************
      * Remove uploads directory
      * (and all files in the directory)
      *********************************/
     $moduleDirName = basename(dirname(__DIR__));
-    $helper  = Helper::getHelper($moduleDirName);
+    $helper  = Xforms\Helper::getHelper($moduleDirName);
     $helper->loadLanguage('modinfo');
     //    $modulePrefix = $helper->getModule()->getVar('dirname');
 
@@ -50,7 +50,7 @@ function xoops_module_pre_uninstall_xforms(XoopsModule $xoopsModule)
     // get uploads directory name from Preferences setting
     $uploadDir = $helper->getConfig('uploaddir');
     $uploadDir = ('/' === substr($uploadDir, -1, 1)) ? substr($uploadDir, 0, -1) : $uploadDir;
-    $dirInfo   = new SplFileInfo($uploadDir);
+    $dirInfo   = new \SplFileInfo($uploadDir);
     $success   = true;
     require_once __DIR__ . '/functions.php';
     if ($dirInfo->isDir()) {
@@ -71,7 +71,7 @@ function xoops_module_pre_uninstall_xforms(XoopsModule $xoopsModule)
  *
  * @return bool success
  */
-function xoops_module_uninstall_xforms(XoopsModule $xoopsModule)
+function xoops_module_uninstall_xforms(\XoopsModule $xoopsModule)
 {
     // NOP
     return true;

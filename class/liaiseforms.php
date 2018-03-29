@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits of
  supporting developers from this source code or any supporting source code
@@ -21,17 +22,19 @@
  * @since           2.00
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+use XoopsModules\Xforms\Constants;
 
-if (!interface_exists('XformsConstants')) {
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
+
+if (!interface_exists('Xforms\Constants')) {
     require_once __DIR__ . '/constants.php';
     //    xoops_load('constants', 'xforms');
 }
 
 /**
- * Class XformsLiaiseForms
+ * Class Liaiseforms
  */
-class XformsLiaiseforms extends XoopsObject
+class Liaiseforms extends \XoopsObject
 {
     /**
      * this module's directory
@@ -43,10 +46,10 @@ class XformsLiaiseforms extends XoopsObject
         parent::__construct();
         //    key, data_type, value, req, max, opt
         $this->initVar('form_id', XOBJ_DTYPE_INT);
-        $this->initVar('form_send_method', XOBJ_DTYPE_TXTBOX, XformsConstants::SEND_METHOD_MAIL, true, 1);
+        $this->initVar('form_send_method', XOBJ_DTYPE_TXTBOX, Constants::SEND_METHOD_MAIL, true, 1);
         $this->initVar('form_send_to_group', XOBJ_DTYPE_TXTBOX, '', false, 3);
         $this->initVar('form_order', XOBJ_DTYPE_INT, 1, false, 3);
-        $this->initVar('form_delimiter', XOBJ_DTYPE_TXTBOX, XformsConstants::DELIMITER_SPACE, true, 1);
+        $this->initVar('form_delimiter', XOBJ_DTYPE_TXTBOX, Constants::DELIMITER_SPACE, true, 1);
         $this->initVar('form_title', XOBJ_DTYPE_TXTBOX, '', true, 255);
         $this->initVar('form_submit_text', XOBJ_DTYPE_TXTBOX, _SUBMIT, true, 50);
         $this->initVar('form_desc', XOBJ_DTYPE_TXTAREA);
@@ -54,26 +57,5 @@ class XformsLiaiseforms extends XoopsObject
         $this->initVar('form_whereto', XOBJ_DTYPE_TXTBOX);
 
         $this->dirname = basename(dirname(__DIR__));
-    }
-}
-
-/**
- * Class XformsLiaiseFormsHandler
- */
-class XformsLiaiseformsHandler extends XoopsPersistableObjectHandler
-{
-    public $db;
-    public $db_table;
-    public $perm_name = 'liaise_form_access';
-    public $obj_class = 'XformsLiaiseforms';
-
-    /**
-     * @param $db
-     */
-    public function __construct(XoopsDatabase $db = null)
-    {
-        $this->db       = $db;
-        $this->db_table = $this->db->prefix('liaise_forms');
-        parent::__construct($db, 'liaise_forms', 'XformsLiaiseforms', 'form_id', 'form_title');
     }
 }

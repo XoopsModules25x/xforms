@@ -22,11 +22,10 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-$helper = Helper::getHelper(basename(dirname(dirname(__DIR__))));
+$helper = Xforms\Helper::getInstance();
 
 /**
  * Textarea element
@@ -38,19 +37,19 @@ $helper = Helper::getHelper(basename(dirname(dirname(__DIR__))));
  */
 $rowAttrib = !empty($value[1]) ? $value[1] : $helper->getConfig('ta_rows');
 $colAttrib = !empty($value[2]) ? $value[2] : $helper->getConfig('ta_cols');
-$rows      = new XformsFormInput(_AM_XFORMS_ELE_ROWS, 'ele_value[1]', 3, 3, (string)((int)$rowAttrib), null, 'number');
+$rows      = new Xforms\FormInput(_AM_XFORMS_ELE_ROWS, 'ele_value[1]', 3, 3, (string)((int)$rowAttrib), null, 'number');
 $rows->setAttribute('min', 0);
 $rows->setExtra('style="width: 5em;"');
 
-$cols = new XformsFormInput(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, (int)$colAttrib, null, 'number');
+$cols = new Xforms\FormInput(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, (int)$colAttrib, null, 'number');
 $cols->setAttribute('min', 0);
 $cols->setExtra('style="width: 5em;"');
 
-$default = new XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlSpecialChars($value[0]) : '', 5, 35);
+$default = new \XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlSpecialChars($value[0]) : '', 5, 35);
 
 //placeholder
 $plAttrib    = isset($value[4]) ? $value[3] : '';
-$placeholder = new XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[3]', 35, 255, $plAttrib);
+$placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[3]', 35, 255, $plAttrib);
 
 $output->addElement($rows, 1);
 $output->addElement($cols, 1);

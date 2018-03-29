@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
@@ -25,9 +26,9 @@
 require_once __DIR__ . '/../include/common.php';
 
 /**
- * Class XformsSession
+ * Class Session
  */
-class XformsSession
+class Session
 {
     /**
      * Session constructor<br>
@@ -97,7 +98,7 @@ class XformsSession
     }
 
     /**
-     * @return XformsSession
+     * @return Session
      */
     public static function getInstance()
     {

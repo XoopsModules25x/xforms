@@ -22,15 +22,15 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
 use Xmf\Request;
+use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/header.php';
 $myts               = \MyTextSanitizer::getInstance();
 $helper       = Helper::getHelper($moduleDirName);
 $xformsFormsHandler = $helper->getHandler('forms');
 
-if (!interface_exists('XformsConstants')) {
+if (!interface_exists('Constants::')) {
     require_once $helper->path('class/constants.php');
 }
 $helper->loadLanguage('admin');
@@ -39,17 +39,17 @@ $submit = Request::getCmd('submit', '', 'POST');
 if (empty($submit)) {
     $formId = Request::getInt('form_id', 0, 'GET');
     if (empty($formId)) {
-        if (XformsConstants::FORM_LIST_NO_SHOW == (int)$helper->getConfig('showforms')) {
+        if (Constants::FORM_LIST_NO_SHOW == (int)$helper->getConfig('showforms')) {
             //Don't show the forms available if no parameter set
-            redirect_header($GLOBALS['xoops']->url('www'), XformsConstants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_NOFORM_SELECTED);
+            redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_NOFORM_SELECTED);
         }
         $forms = $xformsFormsHandler->getPermittedForms();
         if ((false !== $forms) && (1 == count($forms))) {
             $form = $xformsFormsHandler->get($forms[0]->getVar('form_id'));
             if (!$assignedArray = $form->render()) {
-                redirect_header($GLOBALS['xoops']->url('www'), XformsConstants::REDIRECT_DELAY_LONG, $form->getHtmlErrors());
+                redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_LONG, $form->getHtmlErrors());
             }
-            if (XformsConstants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
+            if (Constants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
                 $GLOBALS['xoopsOption']['template_main'] = 'xforms_form.tpl';
             } else {
                 $GLOBALS['xoopsOption']['template_main'] = 'xforms_form_poll.tpl';
@@ -84,12 +84,12 @@ if (empty($submit)) {
         if (($form = $xformsFormsHandler->get($formId))
             && (false !== $xformsFormsHandler->getSingleFormPermission($formId))) {
             if (!$form->isActive()) {
-                redirect_header($GLOBALS['xoops']->url('www'), XformsConstants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
+                redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
             }
             if (!$assignedArray = $form->render()) {
-                redirect_header($GLOBALS['xoops']->url('www'), XformsConstants::REDIRECT_DELAY_LONG, $form->getHtmlErrors());
+                redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_LONG, $form->getHtmlErrors());
             }
-            if (XformsConstants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
+            if (Constants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
                 $GLOBALS['xoopsOption']['template_main'] = 'xforms_form.tpl';
             } else {
                 $GLOBALS['xoopsOption']['template_main'] = 'xforms_form_poll.tpl';
@@ -104,7 +104,7 @@ if (empty($submit)) {
             $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
             $GLOBALS['xoopsTpl']->assign($assignedArray);
         } else {
-            redirect_header($GLOBALS['xoops']->url('www'), XformsConstants::REDIRECT_DELAY_MEDIUM, _NOPERM);
+            redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _NOPERM);
         }
     }
 
@@ -117,7 +117,7 @@ if (empty($submit)) {
  * Now execute the form
  * /***********************/
 if (!$xoopsSecurity->check()) {
-    redirect_header($_SERVER['PHP_SELF'], XformsConstants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+    redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
 }
 
 $formId = Request::getInt('form_id', 0, 'POST');
@@ -127,7 +127,7 @@ if (empty($formId) || !($form = $xformsFormsHandler->get($formId))
     exit();
 }
 if (!$form->isActive()) {
-    redirect_header('index.php', XformsConstants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
+    redirect_header('index.php', Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
 }
 
 $msg = $err = $attachments = [];
@@ -143,9 +143,9 @@ require_once $helper->path('include/functions.php');
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
 
 $xformsEleHandler = $helper->getHandler('element');
-$criteria         = new CriteriaCompo();
-$criteria->add(new Criteria('form_id', $form->getVar('form_id')), 'AND');
-$criteria->add(new Criteria('ele_display', XformsConstants::ELEMENT_DISPLAY), 'AND');
+$criteria         = new \CriteriaCompo();
+$criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
+$criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
 $criteria->setSort('ele_order');
 $criteria->setOrder('ASC');
 $eleObjArray = $xformsEleHandler->getObjects($criteria, true);
@@ -183,10 +183,10 @@ $genInfo = [
 $uDataHandler = $helper->getHandler('userdata');
 $udatas       = [];
 $userMailText = ''; // Capturing email for user if have textbox in the form
-$saveToDB     = (XformsConstants::SAVE_IN_DB == $form->getVar('form_save_db')) ? true : false;
+$saveToDB     = (Constants::SAVE_IN_DB == $form->getVar('form_save_db')) ? true : false;
 
 if (0 == count($err)) {
-    if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+    if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
         $genInfo['UID']   = $GLOBALS['xoopsUser']->getVar('uid'); /*Set the user id*/
         $genInfo['UNAME'] = $GLOBALS['xoopsUser']->getVar('uname'); /*Set the user name*/
     }
@@ -217,7 +217,7 @@ if (0 == count($err)) {
         $eleCaption = $eleArray['ele_caption'];
 
         if ('html' === $eleType) {
-            $msg[$eleId] .= '<br><br>' . $myts->displayTarea($eleValue[0], XformsConstants::ALLOW_HTML);
+            $msg[$eleId] .= '<br><br>' . $myts->displayTarea($eleValue[0], Constants::ALLOW_HTML);
             continue; // html element does not have data
         }
 
@@ -240,7 +240,7 @@ if (0 == count($err)) {
         $ele[$eleId] = is_scalar($ele[$eleId]) ? trim($ele[$eleId]) : $ele[$eleId];
         if (!empty($ele[$eleId])) {
             if ('' != $eleCaption) {
-                $msg[$eleId] = '<br>- ' . $myts->displayTarea($eleCaption, XformsConstants::ALLOW_HTML) . '<br>';
+                $msg[$eleId] = '<br>- ' . $myts->displayTarea($eleCaption, Constants::ALLOW_HTML) . '<br>';
             }
             xoops_load('xoopslists');
             switch ($eleType) {
@@ -382,7 +382,7 @@ if (0 == count($err)) {
                 case 'upload':
                 case 'uploadimg':
                     if (isset($_FILES["ele_{$eleId}"])) {
-                        if (!class_exists('XformsMediaUploader')) {
+                        if (!class_exists('MediaUploader')) {
                             xoops_load('MediaUploader', $moduleDirName);
                         }
                         $maxSize   = empty($eleValue[0]) ? 0 : (int)$eleValue[0];
@@ -392,9 +392,9 @@ if (0 == count($err)) {
                         $maxHeight = empty($eleValue[5]) ? null : (int)$eleValue[5];
 
                         if ('uploadimg' === $eleType) {
-                            $uploader[$eleId] = new XformsMediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime, $maxWidth, $maxHeight);
+                            $uploader[$eleId] = new MediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime, $maxWidth, $maxHeight);
                         } else {
-                            $uploader[$eleId] = new XformsMediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime);
+                            $uploader[$eleId] = new MediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime);
                         }
                         if (0 == $eleValue[0]) {
                             $uploader[$eleId]->setNoAdminSizeCheck(true);
@@ -428,7 +428,7 @@ if (0 == count($err)) {
                 default:
                     break;
             }
-        } elseif (XformsConstants::ELEMENT_REQD == $eleReq) {
+        } elseif (Constants::ELEMENT_REQD == $eleReq) {
             $err[] = sprintf(_MD_XFORMS_ERR_REQ, $eleCaption);
         }
         if ($saveToDB) {
@@ -448,7 +448,7 @@ if (0 == count($err)) {
 /*
  * Send forms if "form_send_method" is "e" or "p", "n" for not send
  */
-if ((0 == count($err)) && (XformsConstants::SEND_METHOD_NONE != $form->getVar('form_send_method'))) {
+if ((0 == count($err)) && (Constants::SEND_METHOD_NONE != $form->getVar('form_send_method'))) {
     /*
      * Include message template
      */
@@ -476,7 +476,7 @@ if ((0 == count($err)) && (XformsConstants::SEND_METHOD_NONE != $form->getVar('f
 
     $xformsMoreInfoConfig = $helper->getConfig('moreinfo');
     if (in_array('user', $xformsMoreInfoConfig)) {
-        if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+        if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
             $interMail->assign('UNAME', sprintf(_MD_XFORMS_MSG_UNAME, $GLOBALS['xoopsUser']->getVar('uname')));
             $interMail->assign('ULINK', sprintf(_MD_XFORMS_MSG_UINFO, $GLOBALS['xoops']->url('userinfo.php?uid=' . $GLOBALS['xoopsUser']->getVar('uid'))));
         } else {
@@ -562,9 +562,9 @@ if ((0 == count($err)) && (XformsConstants::SEND_METHOD_NONE != $form->getVar('f
     if (-1 != $send_group) {
         $group = $memberHandler->getGroup($send_group);
     }
-    if (XformsConstants::SEND_METHOD_PM == $form->getVar('form_send_method')
+    if (Constants::SEND_METHOD_PM == $form->getVar('form_send_method')
         && (isset($GLOBALS['xoopsUser'])
-            && ($GLOBALS['xoopsUser'] instanceof XoopsUser))
+            && ($GLOBALS['xoopsUser'] instanceof \XoopsUser))
         && (false !== $group)) {
         /* Send by private message */
         $interMail->setTemplate('xforms_pm.tpl');
@@ -585,7 +585,7 @@ if ((0 == count($err)) && (XformsConstants::SEND_METHOD_NONE != $form->getVar('f
             /* Setting the selected groups */
             $interMail->setToGroups($group);
         } else {
-            if ($send_group == -1) {
+            if (-1 == $send_group) {
                 /* Setting the emails specifics */
                 $emailsto = explode(';', $form->getVar('form_send_to_other'));
                 if (!empty($emailsto)) {
@@ -626,7 +626,7 @@ if ((0 == count($err)) && (XformsConstants::SEND_METHOD_NONE != $form->getVar('f
     /*
      * Send the message, email or private message and send the copy if the option is selected.
      */
-    if (XformsConstants::SEND_METHOD_PM == $form->getVar('form_send_method')) {
+    if (Constants::SEND_METHOD_PM == $form->getVar('form_send_method')) {
         $msg = implode("\n\n", $msg);
         $msg = preg_replace('/<br>/', "\n", $msg);
         //        $msg = strip_tags(htmlspecialchars_decode($msg), '<href>');
@@ -640,7 +640,7 @@ if ((0 == count($err)) && (XformsConstants::SEND_METHOD_NONE != $form->getVar('f
 
     if ($sendCopy && (0 == count($err))) {
         $emailstoCopy = [];
-        if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+        if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
             $emailstoCopy[] = $GLOBALS['xoopsUser']->getVar('email');
         } elseif ($uMailText = checkEmail(trim($userMailText))) {
             $emailstoCopy[] = $uMailText;
@@ -687,4 +687,4 @@ if (count($err) > 0) {
  */
 $whereto = $form->getVar('form_whereto');
 $whereto = (!empty($whereto)) ? str_replace('{SITE_URL}', $GLOBALS['xoops']->url('www'), $whereto) : $GLOBALS['xoops']->url('www/index.php');
-redirect_header($whereto, XformsConstants::REDIRECT_DELAY_NONE, _MD_XFORMS_MSG_SENT);
+redirect_header($whereto, Constants::REDIRECT_DELAY_NONE, _MD_XFORMS_MSG_SENT);

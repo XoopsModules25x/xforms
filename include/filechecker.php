@@ -23,8 +23,9 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Xforms\Constants;
 
-//defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+//defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once __DIR__ . '/../../../mainfile.php';
 
@@ -38,5 +39,5 @@ if ('copyfile' === $op) {
     $redirect         = Request::getString('redirect', null, 'POST');
 
     $msg = XformsFileChecker::copyFile($originalFilePath, $filePath) ? _FC_XFORMS_FILECOPIED : _FC_XFORMS_FILENOTCOPIED;
-    redirect_header($redirect, XformsConstants::REDIRECT_DELAY_MEDIUM, "{$msg}: {$filePath}");
+    redirect_header($redirect, Constants::REDIRECT_DELAY_MEDIUM, "{$msg}: {$filePath}");
 }

@@ -28,7 +28,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted Access');
  *
  * @return bool success
  */
-function xoops_module_pre_install_xforms(XoopsModule $module)
+function xoops_module_pre_install_xforms(\XoopsModule $module)
 {
     class_exists('Xmf\Module\Admin') || exit('XMF is required.');
 
@@ -52,7 +52,7 @@ function xoops_module_pre_install_xforms(XoopsModule $module)
  *
  * @return bool success
  */
-function xoops_module_install_xforms(XoopsModule $module)
+function xoops_module_install_xforms(\XoopsModule $module)
 {
     //@TODO check to see if uploads/xforms exists and create if not
     /*
@@ -74,7 +74,7 @@ function xoops_module_install_xforms(XoopsModule $module)
 
     /*
         $dir = $GLOBALS['xoops']->path(XOOPS_UPLOAD_PATH . '/' . $module->getVar('dirname', 'n'));
-        $dirInfo = new SplFileInfo($dir);
+        $dirInfo = new \SplFileInfo($dir);
         if (!$dirInfo->isDir()) {
             // create directory if it doesn't exist
             $success = mkdir($dir, 0777);
@@ -82,7 +82,7 @@ function xoops_module_install_xforms(XoopsModule $module)
         if (false !== $success) {
             // directory exists so create index.html file
             // make sure there's an index.html file
-            $fileInfo = new SplFileInfo("{$dir}/index.html");
+            $fileInfo = new \SplFileInfo("{$dir}/index.html");
             if (!$fileInfo->isFile()) {
                 // index file doesn't exist so create it
                 $fhandle = fopen("{dir}/index.html", 'w');

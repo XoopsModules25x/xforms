@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 //include_once(XOOPS_ROOT_PATH . "/modules/xforms/class/dbupdater.php");
 //include_once(XOOPS_ROOT_PATH . "/modules/xforms/include/common.php");
 require_once XOOPS_ROOT_PATH . '/modules/xforms/include/migrate.php';
@@ -29,7 +29,7 @@ require_once XOOPS_ROOT_PATH . '/modules/xforms/include/migrate.php';
  *
  * @return bool
  */
-function xoops_module_pre_install_xforms(XoopsModule $module)
+function xoops_module_pre_install_xforms(\XoopsModule $module)
 {
     // NOP
     return true;
@@ -40,7 +40,7 @@ function xoops_module_pre_install_xforms(XoopsModule $module)
  *
  * @return bool
  */
-function xoops_module_install_xforms(XoopsModule $module)
+function xoops_module_install_xforms(\XoopsModule $module)
 {
     global $modulepermHandler;
 
@@ -84,7 +84,7 @@ function xoops_module_update_xforms($module, $prev_version)
  *
  * @return bool
  */
-function xoops_module_pre_uninstall_xforms(XoopsObject $module)
+function xoops_module_pre_uninstall_xforms(\XoopsObject $module)
 {
     // NOP
     return true;
@@ -93,7 +93,7 @@ function xoops_module_pre_uninstall_xforms(XoopsObject $module)
 /**
  * @param $module
  */
-function xoops_module_uninstall_xforms(XoopsObject $module)
+function xoops_module_uninstall_xforms(\XoopsObject $module)
 {
     // NOP
 }
@@ -357,7 +357,7 @@ function invert_nohtm_dohtml_values()
     global $xoopsDB;
     $catHandler = xoops_getModuleHandler('category', 'xforms');
     $result = $xoopsDB->query("SHOW COLUMNS FROM ".$catHandler->table);
-    while ($existing_field = $xoopsDB->fetchArray($result)) {
+    while (false !== ($existing_field = $xoopsDB->fetchArray($result))) {
          $fields[$existing_field['Field']] = $existing_field['Type'];
     }
     if (in_array("nohtml", array_keys($fields))) {
@@ -442,7 +442,7 @@ function get_table_info($table, $default_fields)
 {
 global $xoopsDB;
 $result = $xoopsDB->query("SHOW COLUMNS FROM " . $table);
-while ($existing_field = $xoopsDB->fetchArray($result)) {
+while (false !== ($existing_field = $xoopsDB->fetchArray($result))) {
     $fields[$existing_field['Field']] = $existing_field['Type'];
     if ($existing_field['Null'] != "YES") {
         $fields[$existing_field['Field']] .= " NOT NULL";

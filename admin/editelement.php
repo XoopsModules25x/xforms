@@ -22,18 +22,17 @@
  * @since           1.30
  */
 
-use Xmf\Module\Admin;
-use Xmf\Module\Helper;
 use Xmf\Request;
+use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 $xformsEleHandler = $helper->getHandler('element');
 require_once $helper->path('class/elementrenderer.php');
-//require_once __DIR__ . '/../class/elementrenderer.php';
+// require_once __DIR__ . '/../class/elementrenderer.php';
 //define('_THIS_PAGE', $helper->url('admin/editelement.php');
 $myts = \MyTextSanitizer::getInstance();
 if ($xformsFormsHandler->getCount() < 1) {
-    redirect_header($GLOBALS['xoops']->url($helper->url('admin/main.php?op=edit')), XformsConstants::REDIRECT_DELAY_NONE, _AM_XFORMS_GO_CREATE_FORM);
+    redirect_header($GLOBALS['xoops']->url($helper->url('admin/main.php?op=edit')), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_GO_CREATE_FORM);
 }
 
 $submit = Request::getCmd('submit', '', 'POST');
@@ -63,7 +62,7 @@ switch ($op) {
 
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url("browse.php?modules/{$moduleDirName}/assets/css/style.css"));
 
-        if (!class_exists('XformsFormInput')) {
+        if (!class_exists('Xforms\FormInput')) {
             require_once $GLOBALS['xoops']->path($xformsHandler->path('class/forminput.php'));
         }
 
@@ -98,10 +97,10 @@ switch ($op) {
         ];
         // end editor settings
 
-        $output = new XoopsThemeForm($outputTitle, 'form_ele', $_SERVER['PHP_SELF'], 'post', true);
+        $output = new \XoopsThemeForm($outputTitle, 'form_ele', $_SERVER['PHP_SELF'], 'post', true);
 
         $editorConfigs['value'] = $clone ? sprintf(_AM_XFORMS_COPIED, $element->getVar('ele_caption', 'e')) : $element->getVar('ele_caption', 'e');
-        $textEleCaption         = new XoopsFormEditor(_AM_XFORMS_ELE_CAPTION, 'ele_caption', $editorConfigs);
+        $textEleCaption         = new \XoopsFormEditor(_AM_XFORMS_ELE_CAPTION, 'ele_caption', $editorConfigs);
         $captionRenderer        = $textEleCaption->editor->renderer;
         if (property_exists($captionRenderer, 'skipPreview')) {
             $textEleCaption->editor->renderer->skipPreview = true;
@@ -115,10 +114,10 @@ switch ($op) {
         if ('html' !== $eleType) {
             $output->addElement($textEleCaption);
 
-            $checkEleReq = new XoopsFormRadioYN(_AM_XFORMS_ELE_REQ, 'ele_req', $eleReq);
+            $checkEleReq = new \XoopsFormRadioYN(_AM_XFORMS_ELE_REQ, 'ele_req', $eleReq);
             $output->addElement($checkEleReq);
 
-            $checkEleDisplayRow = new XoopsFormCheckBox(_AM_XFORMS_ELE_DISPLAY_ROW, 'ele_display_row', $displayRow);
+            $checkEleDisplayRow = new \XoopsFormCheckBox(_AM_XFORMS_ELE_DISPLAY_ROW, 'ele_display_row', $displayRow);
             $checkEleDisplayRow->setDescription(_AM_XFORMS_ELE_DISPLAY_ROW_DESC);
             $checkEleDisplayRow->addOption(2, ' ');
             $output->addElement($checkEleDisplayRow);
@@ -127,9 +126,9 @@ switch ($op) {
             $output->addElement($textEleCaption);
         }
 
-        $checkEleDisplay = new XoopsFormRadioYN(_AM_XFORMS_ELE_DISPLAY, 'ele_display', $eleDisplay);
+        $checkEleDisplay = new \XoopsFormRadioYN(_AM_XFORMS_ELE_DISPLAY, 'ele_display', $eleDisplay);
         $output->addElement($checkEleDisplay);
-        $orderEleDisp = new XformsFormInput(_AM_XFORMS_ELE_ORDER, 'ele_order', 5, 5, $eleOrder, null, 'number');
+        $orderEleDisp = new Xforms\FormInput(_AM_XFORMS_ELE_ORDER, 'ele_order', 5, 5, $eleOrder, null, 'number');
         $orderEleDisp->setAttribute('min', 0);
         $orderEleDisp->setExtra('style="width: 5em;"');
         $output->addElement($orderEleDisp);
@@ -141,28 +140,28 @@ switch ($op) {
             $elementName = constant('_AM_XFORMS_ELE_' . strtoupper($eleType));
             include $helper->path("admin/elements/ele_{$eleType}.php");
         } else {
-            $helper->redirect('admin/index.php', XformsConstants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_ERR_BAD_ELEMENT, htmlspecialchars($eleType)));
+            $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_ERR_BAD_ELEMENT, htmlspecialchars($eleType, ENT_QUOTES | ENT_HTML5)));
         }
 
-        $output->addElement(new XoopsFormHidden('op', 'save'));
-        $output->addElement(new XoopsFormHidden('ele_type', $eleType));
+        $output->addElement(new \XoopsFormHidden('op', 'save'));
+        $output->addElement(new \XoopsFormHidden('ele_type', $eleType));
 
         if (empty($formId) || (true == $clone)) {
-            $selectApplyForm = new XoopsFormSelect(_AM_XFORMS_ELE_APPLY_TO_FORM, 'form_id', $formId);
+            $selectApplyForm = new \XoopsFormSelect(_AM_XFORMS_ELE_APPLY_TO_FORM, 'form_id', $formId);
             $forms           = $xformsFormsHandler->getAll(null, null, true, false);
             foreach ($forms as $fObj) {
                 $selectApplyForm->addOption($fObj->getVar('form_id'), $fObj->getVar('form_title'));
             }
             $output->addElement($selectApplyForm);
-            $output->addElement(new XoopsFormHidden('clone', 1));
+            $output->addElement(new \XoopsFormHidden('clone', 1));
         } else {
-            $output->addElement(new XoopsFormHidden('form_id', $formId));
+            $output->addElement(new \XoopsFormHidden('form_id', $formId));
         }
 
         if (!empty($eleId) && !$clone) {
-            $output->addElement(new XoopsFormHidden('ele_id', $eleId));
+            $output->addElement(new \XoopsFormHidden('ele_id', $eleId));
         }
-        $tray = new XoopsFormButtonTray('submit', _SUBMIT, 'submit', null);
+        $tray = new \XoopsFormButtonTray('submit', _SUBMIT, 'submit', null);
         $output->addElement($tray);
         echo "<h4 class='center'>{$elementName}</h4>";
         $output->display();
@@ -170,7 +169,7 @@ switch ($op) {
 
     case 'delete':
         if (empty($eleId)) {
-            $xformsHandler->redirect('admin/main.php', XformsConstants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
+            $xformsHandler->redirect('admin/main.php', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
         }
         if (empty($_POST['ok'])) {
             $element = $xformsEleHandler->get($eleId);
@@ -178,22 +177,22 @@ switch ($op) {
             xoops_confirm(['op' => 'delete', 'ele_id' => $eleId, 'form_id' => $formId, 'ok' => 1], $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_ELE_CONFIRM_DELETE, $element->getVar('ele_caption')), _YES);
         } else {
             if (!$xoopsSecurity->check()) {
-                redirect_header($_SERVER['PHP_SELF'], XformsConstants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             //delete the element
             $eleObj = $xformsEleHandler->get($eleId);
             $xformsEleHandler->delete($eleObj);
             //delete the userdata for this element too
             $uDataHandler = $helper->getHandler('userdata');
-            $uDataHandler->deleteAll(new Criteria('ele_id', $eleId));
-            redirect_header($helper->url("admin/elements.php?form_id={$formId}"), XformsConstants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+            $uDataHandler->deleteAll(new \Criteria('ele_id', $eleId));
+            redirect_header($helper->url("admin/elements.php?form_id={$formId}"), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         }
         break;
 
     case 'save':
         //check to make sure this is from known location
         if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['PHP_SELF'], XformsConstants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
         $element = $xformsEleHandler->get($eleId);
         if ($element->isNew()) {
@@ -204,10 +203,10 @@ switch ($op) {
 
         $element->setVar('form_id', $formId);
         $element->setVar('ele_caption', $eleCaption);
-        $eleReq = (!empty($eleReq)) ? XformsConstants::ELEMENT_REQD : XformsConstants::ELEMENT_NOT_REQD;
+        $eleReq = (!empty($eleReq)) ? Constants::ELEMENT_REQD : Constants::ELEMENT_NOT_REQD;
         $element->setVar('ele_req', $eleReq);
         if ('html' !== $eleType) {
-            $displayRow = isset($_POST['ele_display_row']) ? XformsConstants::DISPLAY_DOUBLE_ROW : XformsConstants::DISPLAY_SINGLE_ROW;
+            $displayRow = isset($_POST['ele_display_row']) ? Constants::DISPLAY_DOUBLE_ROW : Constants::DISPLAY_SINGLE_ROW;
             $element->setVar('ele_display_row', $displayRow);
         } else {
             $element->setVar('ele_display_row', 0);
@@ -216,7 +215,7 @@ switch ($op) {
         //        $display = (isset($ele_display)) ? 1 : 0;
         //        $element->setVar('ele_order', $order);
         //        $element->setVar('ele_display', $display);
-        $eleDisplay = Request::getInt('ele_display', XformsConstants::ELEMENT_NOT_DISPLAY, 'POST');
+        $eleDisplay = Request::getInt('ele_display', Constants::ELEMENT_NOT_DISPLAY, 'POST');
         $element->setVar('ele_order', $eleOrder);
         $element->setVar('ele_display', $eleDisplay);
         $element->setVar('ele_type', $eleType);
@@ -318,7 +317,7 @@ switch ($op) {
                 // value [0] = size; [1] = multi-select; [2] = options
                 // checked = selected array (0 = not checked, 1 = checked)
                 $value[] = ($eleValue[0] > 0) ? (int)$eleValue[0] : 1; // size
-                $value[] = empty($ele_value[1]) ? XformsConstants::DISALLOW_MULTI : XformsConstants::ALLOW_MULTI; // multi-select
+                $value[] = empty($ele_value[1]) ? Constants::DISALLOW_MULTI : Constants::ALLOW_MULTI; // multi-select
 
                 $checked     = Request::getArray('checked', []);
                 $tempValue   = [];
@@ -339,7 +338,7 @@ switch ($op) {
             case 'select2':
             case 'country':
                 $value[] = (!empty($eleValue[0]) && ((int)$eleValue[0] > 1)) ? (int)$eleValue[0] : 1;
-                $value[] = !empty($eleValue[1]) ? XformsConstants::ALLOW_MULTI : XformsConstants::DISALLOW_MULTI;
+                $value[] = !empty($eleValue[1]) ? Constants::ALLOW_MULTI : Constants::DISALLOW_MULTI;
                 $value[] = !empty($eleValue[2]) ? $eleValue[2] : $helper->getConfig('mycountry');
                 break;
 
@@ -419,7 +418,7 @@ switch ($op) {
             xoops_cp_header();
             echo $element->getHtmlErrors();
         } else {
-            redirect_header($helper->url("admin/elements.php?form_id={$formId}"), XformsConstants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+            redirect_header($helper->url("admin/elements.php?form_id={$formId}"), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         }
         break;
 

@@ -21,13 +21,13 @@
  * @since           2.00
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-if (!class_exists('XformsFormInput')) {
+if (!class_exists('Xforms\FormInput')) {
     XoopsLoad::load('FormInput', basename(dirname(dirname(__DIR__))));
 }
 
-if (!class_exists('XformsFormRaw')) {
+if (!class_exists('Xforms\FormRaw')) {
     XoopsLoad::load('FormRaw', basename(dirname(dirname(__DIR__))));
 }
 
@@ -39,28 +39,28 @@ if (!class_exists('XformsFormRaw')) {
  * ele_value array([key] => label, [key1] => label1, etc...)
  *       key = item #, label is label for the option
  */
-$optTray = new XoopsFormElementTray(_AM_XFORMS_ELE_OPT, '<br>');
+$optTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_OPT, '<br>');
 $optTray->setDescription('<br>' . _AM_XFORMS_ELE_OTHER);
-$optTray->addElement(new XformsFormRaw('<div id="checked_checkboxtray">'));
+$optTray->addElement(new Xforms\FormRaw('<div id="checked_checkboxtray">'));
 
 //create 2 empty "options" if none exist
 $keys     = (!empty($value) && is_array($value)) ? array_keys($value) : ['', ''];
 $keyCount = count($keys);
 for ($i = 0; $i < $keyCount; ++$i) {
-    $eleTray     = new XoopsFormElementTray('');
+    $eleTray     = new \XoopsFormElementTray('');
     $checkboxVal = (isset($value[$keys[$i]]) && !empty($value[$keys[$i]])) ? $i : null;
-    $checkboxEle = new XoopsFormCheckbox('', 'ckbox', $checkboxVal);
+    $checkboxEle = new \XoopsFormCheckbox('', 'ckbox', $checkboxVal);
     $checkboxEle->addOption($i, ' ');
     $eleTray->addElement($checkboxEle);
     $optVal     = $myts->htmlSpecialChars($keys[$i]);
-    $formEleObj = new XoopsFormText('', "ele_value[{$i}]", 40, 255, $optVal);
+    $formEleObj = new \XoopsFormText('', "ele_value[{$i}]", 40, 255, $optVal);
     $formEleObj->setExtra('placeholder = "' . _AM_XFORMS_ELE_OPT_PLACEHOLDER . '"');
     $eleTray->addElement($formEleObj);
     $optTray->addElement($eleTray);
 }
-//$optTray->addElement(new XformsFormRaw('<div id="' . $checkboxEle->getName(true) . '_checkboxtray"></div>'));
-$optTray->addElement(new XformsFormRaw('</div>'));
-$moreOptsButton = new XoopsFormButton('', 'moreoptions', _ADD, 'button');
+//$optTray->addElement(new Xforms\FormRaw('<div id="' . $checkboxEle->getName(true) . '_checkboxtray"></div>'));
+$optTray->addElement(new Xforms\FormRaw('</div>'));
+$moreOptsButton = new \XoopsFormButton('', 'moreoptions', _ADD, 'button');
 $moreOptsButton->setExtra("onclick='addToCboxTray()'");
 $optTray->addElement($moreOptsButton);
 $output->addElement($optTray);
@@ -69,7 +69,7 @@ $output->addElement($optTray);
  * more places than just here. It could then be loaded using 'standard' .js
  * include methods for a cleaner implementation}}}
  */
-$funcScript = new XformsFormRaw("<script>function addToCboxTray() {
+$funcScript = new Xforms\FormRaw("<script>function addToCboxTray() {
 //first time through set id (counter)
 if (typeof addToCboxTray.counter == \"undefined\") {
   addToCboxTray.counter = $('[id^=\"ele_value[\"]').length;

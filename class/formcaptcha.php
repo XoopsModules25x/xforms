@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits of
  supporting developers from this source code or any supporting source code
@@ -29,11 +30,11 @@ if (!class_exists('XformsCaptcha')) { // hack for XOOPS < 2.6
     xoops_load('captcha', 'xforms');
 }
 /**
- * Usage of XformsFormCaptcha
+ * Usage of Xforms\FormCaptcha
  *
  * @see XoopsFormCaptcha
  * For form creation:
- * Add form element where proper: <code>$xform->addElement(new XformsFormCaptcha($caption, $name, $skipmember, $configs));</code>
+ * Add form element where proper: <code>$xform->addElement(new Xforms\FormCaptcha($caption, $name, $skipmember, $configs));</code>
  *
  * For verification:
  * <code>
@@ -53,7 +54,7 @@ if (!class_exists('XformsCaptcha')) { // hack for XOOPS < 2.6
  * @author  XOOPS Module Development Team
  * @package xforms
  */
-class XformsFormCaptcha extends XoopsFormElement
+class FormCaptcha extends \XoopsFormElement
 {
     public $captchaHandler;
 

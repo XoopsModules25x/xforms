@@ -21,9 +21,11 @@
  * @since           1.30
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+use XoopsModules\Xforms\Constants;
 
-if (!interface_exists('XformsConstants')) {
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
+
+if (!interface_exists('Xforms\Constants')) {
     xoops_load('constants', basename(dirname(dirname(__DIR__))));
 }
 
@@ -36,12 +38,12 @@ if (!interface_exists('XformsConstants')) {
  */
 $size   = (!empty($value[0])) ? (int)$value[0] : 0;
 $saveAs = (empty($value[3])
-           || (XformsConstants::UPLOAD_SAVEAS_FILE != $value[3])) ? XformsConstants::UPLOAD_SAVEAS_ATTACHMENT : XformsConstants::UPLOAD_SAVEAS_FILE;
+           || (Constants::UPLOAD_SAVEAS_FILE != $value[3])) ? Constants::UPLOAD_SAVEAS_ATTACHMENT : Constants::UPLOAD_SAVEAS_FILE;
 
-//$size = new XoopsFormText(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, 'ele_value[0]', 10, 20, $size);
+//$size = new \XoopsFormText(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, 'ele_value[0]', 10, 20, $size);
 //$size->setDescription(_AM_XFORMS_ELE_UPLOAD_MAXSIZE_DESC . '<br>' . _AM_XFORMS_ELE_UPLOAD_DESC_SIZE_NOLIMIT);
 
-$size = new XformsFormInput(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, 'ele_value[0]', 10, 20, (string)$size, null, 'number');
+$size = new Xforms\FormInput(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, 'ele_value[0]', 10, 20, (string)$size, null, 'number');
 $size->setDescription(_AM_XFORMS_ELE_UPLOAD_MAXSIZE_DESC . '<br>' . _AM_XFORMS_ELE_UPLOAD_DESC_SIZE_NOLIMIT);
 $size->setAttribute('min', 0);
 $size->setExtra('style="width: 10em;"');
@@ -57,32 +59,32 @@ $mimeExtJS    = implode('\|', $mimeExtArray);
 $mimeExtIn    = empty($eleId) ? $mimeExt : $myts->htmlSpecialChars($value[1]);
 unset($mimeArray, $mimeExtArray);
 
-$extTray = new XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT, '<br>');
+$extTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT, '<br>');
 $extTray->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT_DESC . '<br><br>' . _AM_XFORMS_ELE_UPLOAD_DESC_NOLIMIT);
-$ext = new XoopsFormText('', 'ele_value[1]', 50, 255, $mimeExtIn);
+$ext = new \XoopsFormText('', 'ele_value[1]', 50, 255, $mimeExtIn);
 
-$setExtButton = new XoopsFormButton('', 'setext', _ADD . ' ' . _AM_XFORMS_ELE_DEFAULT, 'button');
+$setExtButton = new \XoopsFormButton('', 'setext', _ADD . ' ' . _AM_XFORMS_ELE_DEFAULT, 'button');
 $setExtButton->setExtra('onclick="document.getElementById(\'ele_value[1]\').value += \'\|' . $mimeExtJS . '\';"');
 $extTray->addElement($ext);
 $extTray->addElement($setExtButton);
 
-$mimeTray = new XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME, '<br>');
+$mimeTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME, '<br>');
 $mimeTray->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME_DESC . '<br><br>' . _AM_XFORMS_ELE_UPLOAD_DESC_NOLIMIT);
-$mime          = new XoopsFormTextArea('', 'ele_value[2]', $mimeTypesIn, 5, 50);
-$setMimeButton = new XoopsFormButton('', 'setmime', _ADD . ' ' . _AM_XFORMS_ELE_DEFAULT, 'button');
+$mime          = new \XoopsFormTextArea('', 'ele_value[2]', $mimeTypesIn, 5, 50);
+$setMimeButton = new \XoopsFormButton('', 'setmime', _ADD . ' ' . _AM_XFORMS_ELE_DEFAULT, 'button');
 $setMimeButton->setExtra('onclick="document.getElementById(\'ele_value[2]\').value += \'\|' . $mimeTypesJS . '\';"');
 $mimeTray->addElement($mime);
 $mimeTray->addElement($setMimeButton);
 
-$saveAs = new XoopsFormSelect(_AM_XFORMS_ELE_UPLOAD_SAVEAS, 'ele_value[3]', $saveAs);
+$saveAs = new \XoopsFormSelect(_AM_XFORMS_ELE_UPLOAD_SAVEAS, 'ele_value[3]', $saveAs);
 $saveAs->addOptionArray([
-                            XformsConstants::UPLOAD_SAVEAS_ATTACHMENT => _AM_XFORMS_ELE_UPLOAD_SAVEAS_MAIL,
-                            XformsConstants::UPLOAD_SAVEAS_FILE       => _AM_XFORMS_ELE_UPLOAD_SAVEAS_FILE
+                            Constants::UPLOAD_SAVEAS_ATTACHMENT => _AM_XFORMS_ELE_UPLOAD_SAVEAS_MAIL,
+                            Constants::UPLOAD_SAVEAS_FILE       => _AM_XFORMS_ELE_UPLOAD_SAVEAS_FILE
                         ]);
 
-$output->addElement($size, XformsConstants::REQUIRED);
+$output->addElement($size, Constants::REQUIRED);
 //$output->addElement($ext);
 //$output->addElement($mime);
 $output->addElement($extTray);
 $output->addElement($mimeTray);
-$output->addElement($saveAs, XformsConstants::REQUIRED);
+$output->addElement($saveAs, Constants::REQUIRED);

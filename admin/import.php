@@ -23,17 +23,16 @@
  */
 
 use Xmf\Database\Tables;
-use Xmf\Module\Admin;
-use Xmf\Module\Helper;
 use Xmf\Module\Helper\Permission;
 use Xmf\Request;
+use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 require_once __DIR__ . '/../include/functions.php';
 $thisFile = basename(__FILE__);
 
 $op = Request::getCmd('op', '');
-$ok = Request::getInt('ok', XformsConstants::CONFIRM_NOT_OK, 'POST');
+$ok = Request::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
 
 switch ($op) {
     default:
@@ -72,7 +71,7 @@ switch ($op) {
     case 'eforms':
         if ($ok) {
             if (!$xoopsSecurity->check()) {
-                redirect_header($thisFile, XformsConstants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+                redirect_header($thisFile, Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
 
             $eformsHelper       = Helper::getHelper('eforms');
@@ -122,19 +121,19 @@ switch ($op) {
 
                 //copy eForm elements to xForm elements
                 $eleMap               = [];
-                $xformsElementHandler = $helper->getHandler('element');
+                $Xforms\ElementHandler = $helper->getHandler('element');
                 foreach ($formMap as $eId => $xId) {
-                    $eformsElementObjects = $eformsElementHandler->getAll(new Criteria('form_id', $eId));
+                    $eformsElementObjects = $eformsElementHandler->getAll(new \Criteria('form_id', $eId));
                     if (!empty($eformsElementObjects)) {
                         foreach ($eformsElementObjects as $eformsElementObj) {
                             $eleAttribs            = $eformsElementObj->getValues();
                             $eleVars               = $eformsElementObj->getVars();
                             $eleAttribs['form_id'] = $xId;
                             unset($eleAttribs['ele_id']);
-                            $xformsElementObj = $xformsElementHandler->create();
-                            $xformsElementObj->setVars($eleAttribs);
-                            $xformsElementId = $xformsElementHandler->insert($xformsElementObj);
-                            if (!$xformsElementId) {
+                            $Xforms\ElementObj = $Xforms\ElementHandler->create();
+                            $Xforms\ElementObj->setVars($eleAttribs);
+                            $Xforms\ElementId = $Xforms\ElementHandler->insert($Xforms\ElementObj);
+                            if (!$Xforms\ElementId) {
                                 throw new Exception(sprintf(_AM_XFORMS_ERR_CREATE_ELEMENT, 'eforms', $eformsElementObj->getVar('ele_id')));
                             }
                         }
@@ -178,17 +177,17 @@ switch ($op) {
                 /*
                                 $xformsUploadDir = $helper->getConfig('uploaddir');
                                 $xformsUploadDir = ('/' == substr($xformsUploadDir, -1, 1)) ? substr($xformsUploadDir, 0, -1) : $xformsUploadDir;
-                                $xformsDirInfo = new SplFileInfo($xformsUploadDir);
+                                $xformsDirInfo = new \SplFileInfo($xformsUploadDir);
                                 $eformsUploadDir = $eformsHelper->getConfig('uploaddir');
                                 $eformsUploadDir = ('/' == substr($eformsUploadDir, -1, 1)) ? substr($eformsUploadDir, 0, -1) : $eformsUploadDir;
-                                $eformsDirInfo = new SplFileInfo($eformsUploadDir);
+                                $eformsDirInfo = new \SplFileInfo($eformsUploadDir);
                                 // validate they are valid directories
                                 if ($xformsDirInfo->isDir() && $eformsDirInfo->isDir) {
                                     $fileList = array_diff(scandir($eformsUploadDir, SCANDIR_SORT_NONE), array('..', '.', 'index.html'));
 
                                     //now copy the file(s) to the eForms uploads directory
                                     foreach ($fileList as $fileName) {
-                                        if (($fileInfo = new SplFileInfo("{$eformsUploadDir}{$fileName}"))
+                                        if (($fileInfo = new \SplFileInfo("{$eformsUploadDir}{$fileName}"))
                                         && ($currFileInfo = new SplFileinf("{$eformsUploadDir}{$fileName}")))
                                         {
                                             copy("{$eformsUploadDir}{$fileName}", "{$eformsUploadDir}{$fileName}");
@@ -203,7 +202,7 @@ switch ($op) {
                 if (false === $success) {
                     throw new Exception(sprintf(_AM_XFORMS_ERR_COPY_UPLOADS, 'eForms'));
                 } else {
-                    $helper->redirect('admin/index.php', XformsConstants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_IMPORT_SUCCESS, count($formMap), 'eForms'));
+                    $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_IMPORT_SUCCESS, count($formMap), 'eForms'));
                 }
             } else {
                 xoops_cp_header();
@@ -215,14 +214,14 @@ switch ($op) {
             xoops_cp_header();
             $adminObject = \Xmf\Module\Admin::getInstance();
             $adminObject->displayNavigation($thisFile);
-            xoops_confirm(['op' => 'eforms', 'ok' => XformsConstants::CONFIRM_OK], $thisFile, sprintf(_AM_XFORMS_RUSUREEFORMS, 'eForms'), _YES);
+            xoops_confirm(['op' => 'eforms', 'ok' => Constants::CONFIRM_OK], $thisFile, sprintf(_AM_XFORMS_RUSUREEFORMS, 'eForms'), _YES);
         }
         break;
 
     case 'liaise':
         if ($ok) {
             if (!$xoopsSecurity->check()) {
-                redirect_header($thisFile, XformsConstants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+                redirect_header($thisFile, Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
 
             $liaiseHelper       = Helper::getHelper('liaise');
@@ -265,9 +264,9 @@ switch ($op) {
                 }
             }
             //copy Liaise elements to xForm elements
-            $xformsElementHandler = $helper->getHandler('element');
+            $Xforms\ElementHandler = $helper->getHandler('element');
             foreach ($formMap as $liaiseId => $xId) {
-                $liaiseElementObjects = $liaiseElementHandler->getAll(new Criteria('form_id', $liaiseId));
+                $liaiseElementObjects = $liaiseElementHandler->getAll(new \Criteria('form_id', $liaiseId));
                 foreach ($liaiseElementObjects as $liaiseElementObj) {
                     $eleAttribs = $liaiseElementObj->getValues();
                     unset($eleAttribs['ele_id']);  // unset element Id, will be assigned automatically
@@ -282,10 +281,10 @@ switch ($op) {
                         $eleAttribs['ele_value'][2] = preg_replace($patternArray, $replaceArray, $eleAttribs['ele_value'][2]);
                     }
 
-                    $xformsElementObj = $xformsElementHandler->create();
-                    $xformsElementObj->setVars($eleAttribs);
-                    $xformsElementId = $xformsElementHandler->insert($xformsElementObj);
-                    if (!$xformsElementId) {
+                    $Xforms\ElementObj = $Xforms\ElementHandler->create();
+                    $Xforms\ElementObj->setVars($eleAttribs);
+                    $Xforms\ElementId = $Xforms\ElementHandler->insert($Xforms\ElementObj);
+                    if (!$Xforms\ElementId) {
                         throw new Exception(sprintf(_AM_XFORMS_ERR_CREATE_ELEMENT, 'liaise', $liaiseElementObj->getVar('ele_id')));
                     }
                 }
@@ -309,10 +308,10 @@ switch ($op) {
             /*
                         $xformsUploadDir = $helper->getConfig('uploaddir');
                         $xformsUploadDir = ('/' == substr($xformsUploadDir, -1, 1)) ? substr($xformsUploadDir, 0, -1) : $xformsUploadDir;
-                        $xformsDirInfo = new SplFileInfo($xformsUploadDir);
+                        $xformsDirInfo = new \SplFileInfo($xformsUploadDir);
                         $liaiseUploadDir = $liaiseHelper->getConfig('uploaddir');
                         $liaiseUploadDir = ('/' == substr($liaiseUploadDir, -1, 1)) ? substr($liaiseUploadDir, 0, -1) : $liaiseUploadDir;
-                        $liaiseDirInfo = new SplFileInfo($liaiseUploadDir);
+                        $liaiseDirInfo = new \SplFileInfo($liaiseUploadDir);
 
                         // validate they are valid directories
                         if ($xformsDirInfo->isDir() && $liaiseDirInfo->isDir) {
@@ -320,7 +319,7 @@ switch ($op) {
 
                             //now copy the file(s) to the xForms uploads directory
                             foreach ($fileList as $fileName) {
-                                if (($fileInfo = new SplFileInfo("{$liaiseUploadDir}{$fileName}"))
+                                if (($fileInfo = new \SplFileInfo("{$liaiseUploadDir}{$fileName}"))
                                    && ($currFileInfo = new SplFileinf("{$xformsUploadDir}{$fileName}")))
                                 {
                                     copy("{$liaiseUploadDir}{$fileName}", "{$xformsUploadDir}{$fileName}");
@@ -335,7 +334,7 @@ switch ($op) {
             if (!$success) {
                 throw new Exception(sprintf(_AM_XFORMS_ERR_COPY_UPLOADS, 'Liaise'));
             } else {
-                $helper->redirect('admin/index.php', XformsConstants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_IMPORT_SUCCESS, count($formMap), 'Liaise'));
+                $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_IMPORT_SUCCESS, count($formMap), 'Liaise'));
             }
         } else {
             xoops_cp_header();

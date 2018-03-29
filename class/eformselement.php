@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits of
  supporting developers from this source code or any supporting source code
@@ -21,12 +22,12 @@
  * @since           1.30
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class XformsEformsElement
  */
-class XformsEformselement extends XoopsObject
+class XformsEformselement extends \XoopsObject
 {
     public function __construct()
     {
@@ -97,12 +98,12 @@ class XformsEformselement extends XoopsObject
  * Class XformsEformsElementHandler
  *
  */
-class XformsEformselementHandler extends XoopsPersistableObjectHandler
+class XformsEformselementHandler extends \XoopsPersistableObjectHandler
 {
     /**
      * @param $db
      */
-    public function __construct(XoopsDatabase $db = null)
+    public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'eforms_element', 'XformsEformselement', 'ele_id', 'ele_type');
     }

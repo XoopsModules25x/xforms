@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits of
  supporting developers from this source code or any supporting source code
@@ -21,18 +22,18 @@
  * @since           1.30
  */
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 if (!class_exists('XoopsMediaUploader')) {
     xoops_load('xoopsmediauploader');
 }
 
 /**
- * Class XformsMediaUploader
+ * Class MediaUploader
  *
  * @see XoopsMediaUploader
  */
-class XformsMediaUploader extends XoopsMediaUploader
+class MediaUploader extends \XoopsMediaUploader
 {
     /**
      * Don't check size for admin (default: true)

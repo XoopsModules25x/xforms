@@ -50,7 +50,7 @@ if (empty($addopt) && !empty($ele_id)) {
 }
 $add_opt   = addOptionsTray();
 $options[] = $add_opt;
-$opt_tray  = new XoopsFormElementTray(_AM_XFORMS_ELE_OPT, '<br>');
+$opt_tray  = new \XoopsFormElementTray(_AM_XFORMS_ELE_OPT, '<br>');
 $opt_tray->setDescription(_AM_XFORMS_ELE_OPT_DESC . '<br><br>' . _AM_XFORMS_ELE_OTHER);
 for ($i = 0, $iMax = count($options); $i < $iMax; ++$i) {
     $opt_tray->addElement($options[$i]);

@@ -22,6 +22,6 @@ if (!defined('XFORMS_ROOT_PATH')) {
     exit();
 }
 
-$default              = new XoopsFormDhtmlTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlSpecialChars($myts->stripSlashesGPC($value[0])) : '', 10, 90);
+$default              = new \XoopsFormDhtmlTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlSpecialChars($myts->stripSlashesGPC($value[0])) : '', 10, 90);
 $default->skipPreview = true;
 $output->addElement($default);

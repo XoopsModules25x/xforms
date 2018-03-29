@@ -21,7 +21,7 @@
  * @since           1.30
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 /**
  * RadioYN element
@@ -33,7 +33,7 @@ if (!empty($eleId)) {
 } else {
     $selected = '_YES';
 }
-$options = new XoopsFormRadio(_AM_XFORMS_ELE_DEFAULT, 'ele_value', $selected);
+$options = new \XoopsFormRadio(_AM_XFORMS_ELE_DEFAULT, 'ele_value', $selected);
 $options->addOptionArray([
                              '_YES' => _YES,
                              '_NO'  => _NO

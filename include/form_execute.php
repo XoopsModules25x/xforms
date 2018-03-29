@@ -18,6 +18,10 @@
  * @author          Xoops Development Team
  */
 
+use XoopsModules\Xforms;
+/** @var Xforms\Helper $helper */
+$helper = Xforms\Helper::getInstance();
+
 if (!defined('XFORMS_ROOT_PATH')) {
     exit();
 }
@@ -28,9 +32,9 @@ if (!isset($form) || empty($form) || !is_object($form)) {
 }
 
 $xforms_ele_mgr = xoops_getModuleHandler('elements');
-$criteria       = new CriteriaCompo();
-$criteria->add(new Criteria('form_id', $form->getVar('form_id')), 'AND');
-$criteria->add(new Criteria('ele_display', 1), 'AND');
+$criteria       = new \CriteriaCompo();
+$criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
+$criteria->add(new \Criteria('ele_display', 1), 'AND');
 $criteria->setSort('ele_order');
 $criteria->setOrder('ASC');
 $elements = $xforms_ele_mgr->getObjects($criteria, true);
@@ -49,7 +53,7 @@ if (isset($_POST['xoops_upload_file']) && is_array($_POST['xoops_upload_file']))
     }
 }
 
-if ($xoopsModuleConfig['captcha']) {
+if ($helper->getConfig('captcha')) {
     // Verify entered code
     xoops_load('XoopsCaptcha');
     if (class_exists('XoopsFormCaptcha')) {
@@ -147,9 +151,9 @@ if (0 == count($err)) {
                         $mime = empty($ele_value[2]) ? 0 : explode('|', $ele_value[2]);
 
                         if ('uploadimg' === $ele_type) {
-                            $uploader[$ele_id] = new XFormsMediaUploader(XFORMS_UPLOAD_PATH, $ele_value[0], $ext, $mime, $ele_value[4], $ele_value[5]);
+                            $uploader[$ele_id] = new MediaUploader(XFORMS_UPLOAD_PATH, $ele_value[0], $ext, $mime, $ele_value[4], $ele_value[5]);
                         } else {
-                            $uploader[$ele_id] = new XFormsMediaUploader(XFORMS_UPLOAD_PATH, $ele_value[0], $ext, $mime);
+                            $uploader[$ele_id] = new MediaUploader(XFORMS_UPLOAD_PATH, $ele_value[0], $ext, $mime);
                         }
                         if (0 == $ele_value[0]) {
                             $uploader[$ele_id]->noAdminSizeCheck(true);
@@ -354,7 +358,7 @@ if ((0 == count($err)) && ('n' !== $form->getVar('form_send_method'))) {
     $interMail->assign('IP', '');
     $interMail->assign('AGENT', '');
     $interMail->assign('FORMURL', '');
-    if (in_array('user', $xoopsModuleConfig['moreinfo'])) {
+    if (in_array('user', $helper->getConfig('moreinfo'))) {
         if (is_object($xoopsUser)) {
             $interMail->assign('UNAME', sprintf(_MD_XFORMS_MSG_UNAME, $xoopsUser->getVar('uname')));
             $interMail->assign('ULINK', sprintf(_MD_XFORMS_MSG_UINFO, XOOPS_URL . '/userinfo.php?uid=' . $xoopsUser->getVar('uid')));
@@ -363,7 +367,7 @@ if ((0 == count($err)) && ('n' !== $form->getVar('form_send_method'))) {
             $interMail->assign('ULINK', '');
         }
     }
-    if (in_array('ip', $xoopsModuleConfig['moreinfo'])) {
+    if (in_array('ip', $helper->getConfig('moreinfo'))) {
         $proxy = $_SERVER['REMOTE_ADDR'];
         $ip    = '';
         if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
@@ -379,10 +383,10 @@ if ((0 == count($err)) && ('n' !== $form->getVar('form_send_method'))) {
         }
         $interMail->assign('IP', sprintf(_MD_XFORMS_MSG_IP, $ip));
     }
-    if (in_array('agent', $xoopsModuleConfig['moreinfo'])) {
+    if (in_array('agent', $helper->getConfig('moreinfo'))) {
         $interMail->assign('AGENT', sprintf(_MD_XFORMS_MSG_AGENT, $_SERVER['HTTP_USER_AGENT']));
     }
-    if (in_array('form', $xoopsModuleConfig['moreinfo'])) {
+    if (in_array('form', $helper->getConfig('moreinfo'))) {
         $interMail->assign('FORMURL', sprintf(_MD_XFORMS_MSG_FORMURL, XFORMS_URL . '/index.php?form_id=' . $form_id));
     }
 
@@ -417,7 +421,7 @@ if ((0 == count($err)) && ('n' !== $form->getVar('form_send_method'))) {
         $copyMail->setTemplateDir($template_dir);
         $copyMail->setTemplate('xforms_copy.tpl');
         $copyMail->setSubject(sprintf(_MD_XFORMS_MSG_SUBJECT_COPY, $myts->stripSlashesGPC($form->getVar('form_title'))));
-        $charset           = !empty($xoopsModuleConfig['mail_charset']) ? $xoopsModuleConfig['mail_charset'] : _CHARSET;
+        $charset           = !empty($helper->getConfig('mail_charset')) ? $helper->getConfig('mail_charset') : _CHARSET;
         $copyMail->charSet = $charset;
 
         /* Set header and footer of email */
@@ -441,7 +445,7 @@ if ((0 == count($err)) && ('n' !== $form->getVar('form_send_method'))) {
      */
     $send_group = intval($form->getVar('form_send_to_group'), 10);
     $group      = false;
-    if ($send_group != -1) {
+    if (-1 != $send_group) {
         $group = $memberHandler->getGroup($send_group);
     }
     if ('p' === $form->getVar('form_send_method') && is_object($xoopsUser) && (false !== $group)) {
@@ -456,13 +460,13 @@ if ((0 == count($err)) && ('n' !== $form->getVar('form_send_method'))) {
         if (isset($reply_mail)) {
             $interMail->multimailer->addReplyTo($reply_mail, isset($reply_name) ? '"' . $reply_name . '"' : null);
         }
-        $charset            = !empty($xoopsModuleConfig['mail_charset']) ? $xoopsModuleConfig['mail_charset'] : _CHARSET;
+        $charset            = !empty($helper->getConfig('mail_charset')) ? $helper->getConfig('mail_charset') : _CHARSET;
         $interMail->charSet = $charset;
         if ($send_group > 0) {
             /* Setting the selected groups */
             $interMail->setToGroups($group);
         } else {
-            if ($send_group == -1) {
+            if (-1 == $send_group) {
                 /* Setting the emails specifics */
                 $emailsto = explode(';', $form->getVar('form_send_to_other'));
                 if (!empty($emailsto)) {

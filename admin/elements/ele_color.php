@@ -21,9 +21,9 @@
  * @since           2.00
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-if (!class_exists('XformsFormInput')) {
+if (!class_exists('Xforms\FormInput')) {
     XoopsLoad::load('FormInput', basename(dirname(dirname(__DIR__))));
 }
 
@@ -36,14 +36,14 @@ if (!class_exists('XformsFormInput')) {
 
 $defVal   = !empty($value[0]) ? $value[0] : 0; // default
 $size     = !empty($value[1]) ? (int)$value[1] : 10; // input box size
-$defInput = new XformsFormInput('', 'ele_value[0]', 7, 255, $defVal, null, 'color');
+$defInput = new Xforms\FormInput('', 'ele_value[0]', 7, 255, $defVal, null, 'color');
 $defInput->setExtra('onchange="document.getElementById(\'default_label\').innerHTML = this.value;"');
-$defLbl = new XoopsFormLabel('', "<label class='middle' id='default_label' for='ele_value[0]'>{$defVal}</label>");
+$defLbl = new \XoopsFormLabel('', "<label class='middle' id='default_label' for='ele_value[0]'>{$defVal}</label>");
 
-$sizeInput = new XformsFormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[1]', 7, 255, $size, null, 'number');
+$sizeInput = new Xforms\FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[1]', 7, 255, $size, null, 'number');
 $sizeInput->setAttribute('min', 0);
 $sizeInput->setExtra('style="width: 7em;"');
-$colorTray = new XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT);
+$colorTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT);
 
 $colorTray->addElement($defInput);
 $colorTray->addElement($defLbl);

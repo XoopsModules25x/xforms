@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits of
  supporting developers from this source code or any supporting source code
@@ -30,7 +31,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
  * This class has special treatment by xoopsforms, it will render the raw
  * value provided without wrapping in HTML
  */
-class XformsFormRaw extends XoopsFormElement
+class FormRaw extends \XoopsFormElement
 {
     /**
      * __construct

@@ -21,9 +21,9 @@
  * @since           2.00
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-if (!class_exists('XformsFormInput')) {
+if (!class_exists('Xforms\FormInput')) {
     XoopsLoad::load('FormInput', basename(dirname(dirname(__DIR__))));
 }
 
@@ -48,34 +48,34 @@ $setMaxVal = !empty($value[5]) ? 1 : 0;
 $setDefVal = !empty($value[6]) ? 1 : 0;
 $step      = !empty($value[7]) ? (float)$value[3] : (float)1;
 
-$minTray  = new XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MIN, '<br>', 'minTray');
-$setMin   = new XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MIN), 'ele_value[4]', $setMinVal);
-$minInput = new XformsFormInput('', 'ele_value[0]', 7, 255, $minVal, null, 'number');
+$minTray  = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MIN, '<br>', 'minTray');
+$setMin   = new \XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MIN), 'ele_value[4]', $setMinVal);
+$minInput = new Xforms\FormInput('', 'ele_value[0]', 7, 255, $minVal, null, 'number');
 $minInput->setAttribute('size', 7);
 $minTray->addElement($setMin);
 $minTray->addElement($minInput);
 
-$maxTray  = new XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MAX, '<br>', 'maxTray');
-$setMax   = new XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MAX), 'ele_value[5]', $setMaxVal);
-$maxInput = new XformsFormInput('', 'ele_value[1]', 7, 255, $maxVal, null, 'number');
+$maxTray  = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MAX, '<br>', 'maxTray');
+$setMax   = new \XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MAX), 'ele_value[5]', $setMaxVal);
+$maxInput = new Xforms\FormInput('', 'ele_value[1]', 7, 255, $maxVal, null, 'number');
 $maxInput->setAttribute('size', 7);
 $maxTray->addElement($setMax);
 $maxTray->addElement($maxInput);
 
-$stepInput = new XformsFormInput(_AM_XFORMS_ELE_NUMBER_STEP, 'ele_value[7]', 7, 255, $step, null, 'number');
+$stepInput = new Xforms\FormInput(_AM_XFORMS_ELE_NUMBER_STEP, 'ele_value[7]', 7, 255, $step, null, 'number');
 $stepInput->setAttribute('size', 7);
 $stepInput->setAttribute('min', 1);
 $stepInput->setAttribute('pattern', '[0-9].');
 
-$defTray  = new XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, '<br>', 'defTray');
-$setDef   = new XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_DEFAULT), 'ele_value[6]', $setDefVal);
-$defInput = new XformsFormInput(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', 7, 255, $defVal, null, 'number');
+$defTray  = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, '<br>', 'defTray');
+$setDef   = new \XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_DEFAULT), 'ele_value[6]', $setDefVal);
+$defInput = new Xforms\FormInput(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', 7, 255, $defVal, null, 'number');
 $defInput->setAttribute('size', 7);
 $defInput->setAttribute('pattern', '[0-9].');
 $defTray->addElement($setDef);
 $defTray->addElement($defInput);
 
-$sizeInput = new XformsFormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[3]', 7, 255, $size, null, 'number');
+$sizeInput = new Xforms\FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[3]', 7, 255, $size, null, 'number');
 $sizeInput->setAttribute('size', 7);
 $sizeInput->setAttribute('min', 0);
 

@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits of
  supporting developers from this source code or any supporting source code
@@ -21,17 +22,19 @@
  * @since           2.00
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+use XoopsModules\Xforms\Constants;
 
-if (!interface_exists('XformsConstants')) {
-    //    xoops_load('constants', 'xforms');
-    require_once __DIR__ . '/constants.php';
-}
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
+
+//if (!interface_exists('Xforms\Constants')) {
+//    //    xoops_load('constants', 'xforms');
+//    require_once __DIR__ . '/constants.php';
+//}
 
 /**
- * Class XformsLiaiseelement
+ * Class Liaiseelement
  */
-class XformsLiaiseelement extends XoopsObject
+class Liaiseelement extends \XoopsObject
 {
     /**
      * Liaise Element constructor
@@ -44,23 +47,8 @@ class XformsLiaiseelement extends XoopsObject
         $this->initVar('ele_type', XOBJ_DTYPE_TXTBOX, 'text', true, 10);
         $this->initVar('ele_caption', XOBJ_DTYPE_TXTAREA);
         $this->initVar('ele_order', XOBJ_DTYPE_INT, 0);
-        $this->initVar('ele_req', XOBJ_DTYPE_INT, XformsConstants::ELEMENT_NOT_REQD);
+        $this->initVar('ele_req', XOBJ_DTYPE_INT, Constants::ELEMENT_NOT_REQD);
         $this->initVar('ele_value', XOBJ_DTYPE_ARRAY, []);
-        $this->initVar('ele_display', XOBJ_DTYPE_INT, XformsConstants::ELEMENT_DISPLAY);
-    }
-}
-
-/**
- * Class XformsLiaiseElementHandler
- *
- */
-class XformsLiaiseelementHandler extends XoopsPersistableObjectHandler
-{
-    /**
-     * @param $db
-     */
-    public function __construct(XoopsDatabase $db = null)
-    {
-        parent::__construct($db, 'liaise_formelements', 'XformsLiaiseelement', 'ele_id', 'ele_type');
+        $this->initVar('ele_display', XOBJ_DTYPE_INT, Constants::ELEMENT_DISPLAY);
     }
 }

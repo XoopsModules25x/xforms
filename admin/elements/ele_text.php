@@ -22,11 +22,9 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
-
-$helper = Helper::getHelper(basename(dirname(dirname(__DIR__))));
+$helper = Xforms\Helper::getInstance();
 
 /**
  * Text element
@@ -40,16 +38,16 @@ $helper = Helper::getHelper(basename(dirname(dirname(__DIR__))));
 
 $sizeAttr = !empty($value[0]) ? (int)$value[0] : $helper->getConfig('t_width');
 $maxAttr  = !empty($value[1]) ? (int)$value[1] : $helper->getConfig('t_max');
-$size     = new XformsFormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, (string)$sizeAttr, null, 'number');
+$size     = new Xforms\FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, (string)$sizeAttr, null, 'number');
 $size->setAttribute('min', 0);
 $size->setExtra('style="width: 5em;"');
 
-$max = new XformsFormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 5, 5, (string)$maxAttr, null, 'number');
+$max = new Xforms\FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 5, 5, (string)$maxAttr, null, 'number');
 $max->setAttribute('min', 1);
 $max->setExtra('style="width: 5em;"');
 $defVal     = isset($value[2]) ? $myts->htmlSpecialChars($value[2]) : '';
-$default    = new XoopsFormText('', 'ele_value[2]', 50, 255, $defVal);
-$selDefault = new XoopsFormSelect(_AM_XFORMS_ELE_TEXT_ADD_DEFAULT, 'ele_value_2_add');
+$default    = new \XoopsFormText('', 'ele_value[2]', 50, 255, $defVal);
+$selDefault = new \XoopsFormSelect(_AM_XFORMS_ELE_TEXT_ADD_DEFAULT, 'ele_value_2_add');
 $selDefault->addOption('', _AM_XFORMS_ELE_TEXT_ADD_DEFAULT_SEL);
 
 $memberHandler = xoops_getHandler('member');
@@ -79,17 +77,17 @@ if (false !== $profileHelper) {
 }
 
 $selDefault->setExtra('onchange="document.getElementById(\'ele_value[2]\').value += this.value;"');
-$defaultTray = new XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, '<br>');
+$defaultTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, '<br>');
 $defaultTray->addElement($default);
 $defaultTray->addElement($selDefault);
 $defaultTray->setDescription(_AM_XFORMS_ELE_TEXT_DESC);
 
 $contEmail      = (isset($value[3]) && ((int)$value[3] > 0)) ? 1 : 0;
-$emailIndicator = new XoopsFormRadioYN(_AM_XFORMS_ELE_CONTAINS_EMAIL, 'ele_value[3]', $contEmail, _YES, _NO);
+$emailIndicator = new \XoopsFormRadioYN(_AM_XFORMS_ELE_CONTAINS_EMAIL, 'ele_value[3]', $contEmail, _YES, _NO);
 $emailIndicator->setDescription(_AM_XFORMS_ELE_CONTAINS_EMAIL_DESC);
 
 $plAttrib    = isset($value[4]) ? $value[4] : '';
-$placeholder = new XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[4]', $sizeAttr, $maxAttr, $plAttrib);
+$placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[4]', $sizeAttr, $maxAttr, $plAttrib);
 
 $output->addElement($size, 1);
 $output->addElement($max, 1);

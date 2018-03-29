@@ -21,7 +21,6 @@
  * @since           2.00
  */
 /*
-use Xmf\Module\Helper;
 use Xmf\Module\Helper\Session;
 use Xmf\Module\Helper\AbstractHelper;
 
@@ -115,7 +114,7 @@ if ($cachedEtag) {
         // hasn't been modified so get response & header size from session
         $curl_response = isset($_SESSION[$sKeyResponse]) ? base64_decode(unserialize($_SESSION[$sKeyResponse])) : [];
         $hdrSize       = isset($_SESSION[$sKeyHdrSize]) ? unserialize($_SESSION[$sKeyHdrSize]) : 0;
-        //        $curl_response = base64_decode($sessionHelper->get($sKeyResponse));
+    //        $curl_response = base64_decode($sessionHelper->get($sKeyResponse));
         //        $hdrSize       = (int)$sessionHelper->get($sKeyHdrSize);
     } elseif (preg_match('/^200 OK/', $status)) {
         // ok - request new info
@@ -265,12 +264,12 @@ if (!empty($issuesObjs)) {
              . "{$suffix}</a></td>\n"
              . "        <td class=\"{$cssClass} center\">{$dispDate}</td>\n"
              . "        <td class=\"{$cssClass} left\" style=\"padding-left: 2em;\">"
-             . htmlspecialchars($issue->title)
+             . htmlspecialchars($issue->title, ENT_QUOTES | ENT_HTML5)
              . "</td>\n"
              . "        <td class=\"{$cssClass} center\"><a href=\""
-             . htmlspecialchars($issue->user->html_url)
+             . htmlspecialchars($issue->user->html_url, ENT_QUOTES | ENT_HTML5)
              . '" target="_blank">'
-             . htmlspecialchars($issue->user->login)
+             . htmlspecialchars($issue->user->login, ENT_QUOTES | ENT_HTML5)
              . "</a></td>\n"
              . "      </tr>\n";
         $cssClass = ('odd' === $cssClass) ? 'even' : 'odd';
@@ -278,7 +277,7 @@ if (!empty($issuesObjs)) {
 }
 
 if (!empty($err)) {
-    echo "    <tr><td colspan=\"4\" class=\"{$cssClass} center bold italic\">" . htmlspecialchars($err) . "</td></tr>\n";
+    echo "    <tr><td colspan=\"4\" class=\"{$cssClass} center bold italic\">" . htmlspecialchars($err, ENT_QUOTES | ENT_HTML5) . "</td></tr>\n";
 } elseif (0 == $i) { // no issues found
     echo "    <tr><td colspan=\"4\" class=\"{$cssClass} center bold italic\">" . _AM_XFORMS_ISSUES_NONE . "</td></tr>\n";
 }

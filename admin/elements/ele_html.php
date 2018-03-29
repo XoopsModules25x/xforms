@@ -21,7 +21,7 @@
  * @since           1.30
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 /**
  * HTML element
@@ -38,7 +38,7 @@ $defaultEditorConfigs = [
     'name'   => 'ele_value[0]',
     'value'  => isset($value[0]) ? $myts->htmlSpecialChars($value[0]) : ''
 ];
-$default              = new XoopsFormEditor(_AM_XFORMS_ELE_HTML_DEFAULT_DISP, 'ele_value[0]', $defaultEditorConfigs);
+$default              = new \XoopsFormEditor(_AM_XFORMS_ELE_HTML_DEFAULT_DISP, 'ele_value[0]', $defaultEditorConfigs);
 $renderer             = $default->editor->renderer;
 if (property_exists($renderer, 'skipPreview')) {
     $default->editor->renderer->skipPreview = true;

@@ -1,4 +1,5 @@
-<?php
+<?php namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits of
  supporting developers from this source code or any supporting source code
@@ -21,14 +22,14 @@
  * @since           1.30
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class XformsEformsuserdata
  *
  * @see XoopsObject
  */
-class XformsEformsuserdata extends XoopsObject
+class XformsEformsuserdata extends \XoopsObject
 {
     public function __construct()
     {
@@ -49,7 +50,7 @@ class XformsEformsuserdata extends XoopsObject
  *
  * @see XoopsPersistableObjectHandler
  */
-class XformsEformsuserdataHandler extends XoopsPersistableObjectHandler
+class XformsEformsuserdataHandler extends \XoopsPersistableObjectHandler
 {
     public $db;
     public $db_table;
@@ -58,7 +59,7 @@ class XformsEformsuserdataHandler extends XoopsPersistableObjectHandler
     /**
      * @param $db
      */
-    public function __construct(XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db)
     {
         $this->db       = $db;
         $this->db_table = $this->db->prefix('eforms_userdata');

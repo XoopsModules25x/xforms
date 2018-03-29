@@ -21,13 +21,15 @@
  * @since           2.00
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+use XoopsModules\Xforms\Constants;
 
-if (!class_exists('XformsFormInput')) {
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
+
+if (!class_exists('Xforms\FormInput')) {
     XoopsLoad::load('FormInput', basename(dirname(dirname(__DIR__))));
 }
 
-if (!class_exists('XformsFormRaw')) {
+if (!class_exists('Xforms\FormRaw')) {
     //    xoops_load('FormRaw', 'xforms');
     XoopsLoad::load('FormRaw', basename(dirname(dirname(__DIR__))));
 }
@@ -47,38 +49,38 @@ $minVal    = !empty($value[0]) ? preg_replace('/[^0-9:]/', '', $value[0]) : '12:
 $maxVal    = !empty($value[1]) ? preg_replace('/[^0-9:]/', '', $value[1]) : '12:00';
 $defVal    = !empty($value[2]) ? preg_replace('/[^0-9:]/', '', $value[2]) : '12:00';
 $step      = !empty($value[3]) ? abs((float)$value[3]) : (float)60;
-$setMinVal = !empty($value[4]) ? XformsConstants::ELE_YES : XformsConstants::ELE_NO;
-$setMaxVal = !empty($value[5]) ? XformsConstants::ELE_YES : XformsConstants::ELE_NO;
-$setDefVal = !empty($value[6]) ? XformsConstants::ELE_YES : XformsConstants::ELE_NO;
+$setMinVal = !empty($value[4]) ? Constants::ELE_YES : Constants::ELE_NO;
+$setMaxVal = !empty($value[5]) ? Constants::ELE_YES : Constants::ELE_NO;
+$setDefVal = !empty($value[6]) ? Constants::ELE_YES : Constants::ELE_NO;
 
-$minTray = new XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MIN, null, 'minTray');
-$setMin  = new XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MIN), 'ele_value[4]', $setMinVal);
-$setMin->addOptionArray([XformsConstants::ELE_NO => _NO, XformsConstants::ELE_YES => _YES]);
-$minInput = new XformsFormInput('', 'ele_value[0]', 8, 10, $minVal, null, 'time');
+$minTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MIN, null, 'minTray');
+$setMin  = new \XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MIN), 'ele_value[4]', $setMinVal);
+$setMin->addOptionArray([Constants::ELE_NO => _NO, Constants::ELE_YES => _YES]);
+$minInput = new Xforms\FormInput('', 'ele_value[0]', 8, 10, $minVal, null, 'time');
 $minInput->setExtra('style="width: 8em;" required');
 $minInput->setAttribute('pattern', '[0-9:aAmMpP].');
 $minTray->addElement($setMin);
 $minTray->addElement($minInput);
 
-$maxTray = new XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MAX, null, 'maxTray');
-$setMax  = new XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MAX), 'ele_value[5]', $setMaxVal);
-$setMax->addOptionArray([XformsConstants::ELE_NO => _NO, XformsConstants::ELE_YES => _YES]);
-$maxInput = new XformsFormInput('', 'ele_value[1]', 8, 10, $maxVal, null, 'time');
+$maxTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MAX, null, 'maxTray');
+$setMax  = new \XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MAX), 'ele_value[5]', $setMaxVal);
+$setMax->addOptionArray([Constants::ELE_NO => _NO, Constants::ELE_YES => _YES]);
+$maxInput = new Xforms\FormInput('', 'ele_value[1]', 8, 10, $maxVal, null, 'time');
 $maxInput->setExtra('style="width: 8em;" required');
 $maxInput->setAttribute('pattern', '[0-9:aAmMpP].');
 $maxTray->addElement($setMax);
 $maxTray->addElement($maxInput);
 
-$stepInput = new XformsFormInput(_AM_XFORMS_ELE_NUMBER_STEP, 'ele_value[3]', 8, 10, $step, null, 'number');
+$stepInput = new Xforms\FormInput(_AM_XFORMS_ELE_NUMBER_STEP, 'ele_value[3]', 8, 10, $step, null, 'number');
 $stepInput->setDescription(_AM_XFORMS_ELE_NUMBER_STEP_DESC);
 $stepInput->setExtra('style="width: 8em;"');
 $stepInput->setAttribute('pattern', '[0-9].');
 $stepInput->setAttribute('min', 1);
 
-$defTray = new XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, null, 'defTray');
-$setDef  = new XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_DEFAULT), 'ele_value[6]', $setDefVal);
-$setDef->addOptionArray([XformsConstants::ELE_NO => _NO, XformsConstants::ELE_YES => _YES]);
-$defInput = new XformsFormInput(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', 8, 10, $defVal, null, 'time');
+$defTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, null, 'defTray');
+$setDef  = new \XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_DEFAULT), 'ele_value[6]', $setDefVal);
+$setDef->addOptionArray([Constants::ELE_NO => _NO, Constants::ELE_YES => _YES]);
+$defInput = new Xforms\FormInput(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', 8, 10, $defVal, null, 'time');
 $defInput->setExtra('style="width: 8em;" required');
 $defInput->setAttribute('pattern', '[0-9:aAmMpP].'); //useful if browser doesn't support 'time'
 $defTray->addElement($setDef);
@@ -94,7 +96,7 @@ $defTray->addElement($defInput);
  *    setMax = false;
  * }
  */
-$fixerJs = new XformsFormRaw("<div id=\"ele_js\">\n"
+$fixerJs = new Xforms\FormRaw("<div id=\"ele_js\">\n"
                              . "  <script>\n"
                              //         . "    $('input[id=\"ele_value[0]\"], input[id=\"ele_value[1]\"], input[id=\"ele_value[2]\"], input[name=\"ele_value[4]\"], input[name=\"ele_value[5]\"], input[name=\"ele_value[6]\"]').click(function() {\n"
                              . "    $('input[id^=\"ele_value[\"]').click(function() {\n"

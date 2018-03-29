@@ -21,9 +21,9 @@
  * @since           2.00
  */
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-if (!class_exists('XformsFormRaw')) {
+if (!class_exists('Xforms\FormRaw')) {
     XoopsLoad::load('FormRaw', basename(dirname(dirname(__DIR__))));
 }
 
@@ -35,35 +35,35 @@ if (!class_exists('XformsFormRaw')) {
  * ele_value array([key] => label, [key1] => label1, etc...)
  *       key = item #, label is label for the option
  */
-$optTray = new XoopsFormElementTray(_AM_XFORMS_ELE_OPT, '<br>');
+$optTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_OPT, '<br>');
 $optTray->setDescription(_AM_XFORMS_ELE_OPT_DESC2 . '<br><br>' . _AM_XFORMS_ELE_OTHER);
-$optTray->addElement(new XformsFormRaw('<div id="checked_radiotray">'));
+$optTray->addElement(new Xforms\FormRaw('<div id="checked_radiotray">'));
 
 //create 2 empty "options" if none exist
 $keys     = (!empty($value) && is_array($value)) ? array_keys($value) : ['', ''];
 $keyCount = count($keys);
 for ($i = 0; $i < $keyCount; ++$i) {
-    $eleTray  = new XoopsFormElementTray('');
+    $eleTray  = new \XoopsFormElementTray('');
     $radioVal = (!empty($value[$keys[$i]])) ? $i : null;
-    $radioEle = new XoopsFormRadio('', 'checked', $radioVal);
+    $radioEle = new \XoopsFormRadio('', 'checked', $radioVal);
     $radioEle->addOption($i, ' ');
     $eleTray->addElement($radioEle);
     $optVal     = $myts->htmlSpecialChars($keys[$i]);
-    $formEleObj = new XoopsFormText('', "ele_value[{$i}]", 40, 255, $optVal);
+    $formEleObj = new \XoopsFormText('', "ele_value[{$i}]", 40, 255, $optVal);
     $formEleObj->setExtra('placeholder = "' . _AM_XFORMS_ELE_OPT_PLACEHOLDER . '"');
     $eleTray->addElement($formEleObj);
     $optTray->addElement($eleTray);
 }
-//$optTray->addElement(new XformsFormRaw('<div id="' . $radioEle->getName(true) . '_radiotray"></div>'));
-$optTray->addElement(new XformsFormRaw('</div>'));
-$moreOptsButton = new XoopsFormButton('', 'moreoptions', _ADD, 'button');
+//$optTray->addElement(new Xforms\FormRaw('<div id="' . $radioEle->getName(true) . '_radiotray"></div>'));
+$optTray->addElement(new Xforms\FormRaw('</div>'));
+$moreOptsButton = new \XoopsFormButton('', 'moreoptions', _ADD, 'button');
 $moreOptsButton->setExtra("onclick='addToTray" . $element->getVar('ele_id') . "()'");
 $optTray->addElement($moreOptsButton);
 $output->addElement($optTray);
 
 //@TODO - this code should be made more generic so it can be used in more places than just here. It could
 //        then be loaded using 'standard' .js include methods for a cleaner implementation
-$funcScript = new XformsFormRaw('<script>function addToTray' . $element->getVar('ele_id') . '() {
+$funcScript = new Xforms\FormRaw('<script>function addToTray' . $element->getVar('ele_id') . '() {
 //first time through set id (counter)
 if (typeof addToTray' . $element->getVar('ele_id') . '.counter == "undefined") {
   addToTray' . $element->getVar('ele_id') . ".counter = $('[id^=\"ele_value[\"]').length;

@@ -22,11 +22,11 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
+use XoopsModules\Xforms\Constants;
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-$helper = Helper::getHelper(basename(dirname(dirname(__DIR__))));
+$helper = Xforms\Helper::getInstance();
 
 /**
  * Country element
@@ -41,15 +41,15 @@ if (!empty($eleId)) {
     $eleValue = $element->getVar('ele_value');
 }
 $eleSize   = !empty($eleValue[0]) ? (int)$eleValue[0] : 1;
-$eleMulti  = !empty($eleValue[1]) ? XformsConstants::ALLOW_MULTI : XformsConstants::DISALLOW_MULTI;
+$eleMulti  = !empty($eleValue[1]) ? Constants::ALLOW_MULTI : Constants::DISALLOW_MULTI;
 $countries = !empty($eleValue[2]) ? $eleValue[2] : $helper->getConfig('mycountry');
 
-$size = new XformsFormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, $eleSize, null, 'number');
+$size = new Xforms\FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, $eleSize, null, 'number');
 $size->setAttribute('min', 0);
 $size->setExtra('style="width: 5em;"');
 
-$multInput = new XoopsFormRadioYN(_AM_XFORMS_ELE_MULTIPLE, 'ele_value[1]', $eleMulti);
-$defInput  = new XoopsFormSelectCountry(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', $countries);
+$multInput = new \XoopsFormRadioYN(_AM_XFORMS_ELE_MULTIPLE, 'ele_value[1]', $eleMulti);
+$defInput  = new \XoopsFormSelectCountry(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', $countries);
 //
 $output->addElement($size, 1);
 $output->addElement($multInput);

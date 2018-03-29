@@ -54,7 +54,7 @@
 - changed XformsElementHandler to be an extension of XoopsPersistableObjectHandler
 - changed XformsFormsHandler to be an extension of XoopsPersistableObjectHandler
 - changed XformsUserdataHandler to be an extension of XoopsPersistableObjectHandler
-- changed XformsMediaUploader to be an extension of XoopsMediaUploader
+- changed MediaUploader to be an extension of XoopsMediaUploader
 - changed internal variable/function/method naming for PSRxx
 - changed to refactor how options were added to checkbox and radio elements
 - changed undefined _LIASE_ERR_INVALIDMAIL to _MD_XFORMS_ERR_INVALIDMAIL in ./include/form_execute.php

@@ -21,6 +21,8 @@
  * @since           1.00
  */
 
+use XoopsModules\Xforms\Constants;
+
 require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName = basename(__DIR__);
@@ -38,11 +40,8 @@ $modversion['license_url']   = 'www.gnu.org/licenses/gpl-2.0.html';
 $modversion['official']      = 0;
 $modversion['image']         = 'assets/images/logoModule.png';
 $modversion['dirname']       = $moduleDirName;
-//$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-//$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
-//$modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
-$modversion['modicons16'] = 'assets/images/icons/16';
-$modversion['modicons32'] = 'assets/images/icons/32';
+$modversion['modicons16']    = 'assets/images/icons/16';
+$modversion['modicons32']    = 'assets/images/icons/32';
 
 //help files
 $modversion['helpsection'] = [
@@ -205,7 +204,7 @@ $modversion['config'] = [
         'formtype'    => 'select',
         'valuetype'   => 'text',
         'default'     => '-----',
-        'options'     => array_flip(XoopsLists::getCountryList())
+        'options'     => array_flip(\XoopsLists::getCountryList())
     ],
 
     [
@@ -287,12 +286,12 @@ $modversion['config'] = [
         'formtype'    => 'select',
         'valuetype'   => 'int',
         'options'     => [
-            _MI_XFORMS_CAPTCHA_INHERIT   => XformsConstants::CAPTCHA_INHERIT,
-            _MI_XFORMS_CAPTCHA_ANON_ONLY => XformsConstants::CAPTCHA_ANON_ONLY,
-            _MI_XFORMS_CAPTCHA_EVERYONE  => XformsConstants::CAPTCHA_EVERYONE,
-            _MI_XFORMS_CAPTCHA_NONE      => XformsConstants::CAPTCHA_NONE
+            _MI_XFORMS_CAPTCHA_INHERIT   => Constants::CAPTCHA_INHERIT,
+            _MI_XFORMS_CAPTCHA_ANON_ONLY => Constants::CAPTCHA_ANON_ONLY,
+            _MI_XFORMS_CAPTCHA_EVERYONE  => Constants::CAPTCHA_EVERYONE,
+            _MI_XFORMS_CAPTCHA_NONE      => Constants::CAPTCHA_NONE
         ],
-        'default'     => XformsConstants::CAPTCHA_INHERIT
+        'default'     => Constants::CAPTCHA_INHERIT
     ],
 
     [
@@ -310,6 +309,6 @@ $modversion['config'] = [
         'description' => '_MI_XFORMS_PERPAGE_DESC',
         'formtype'    => 'textbox',
         'valuetype'   => 'int',
-        'default'     => XformsConstants::FORMS_PER_PAGE_DEFAULT
+        'default'     => Constants::FORMS_PER_PAGE_DEFAULT
     ]
 ];

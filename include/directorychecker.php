@@ -23,8 +23,9 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Xforms\Constants;
 
-//defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+//defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once __DIR__ . '/../../../mainfile.php';
 require_once $GLOBALS['xoops']->path('./modules/xforms/class/constants.php');
@@ -44,4 +45,4 @@ switch ($op) {
         $msg  = XformsDirectoryChecker::setDirectoryPermissions($path, $mode) ? _DC_XFORMS_PERMSET : _DC_XFORMS_PERMNOTSET;
         break;
 }
-redirect_header($redirect, XformsConstants::REDIRECT_DELAY_MEDIUM, "{$msg}: {$path}");
+redirect_header($redirect, Constants::REDIRECT_DELAY_MEDIUM, "{$msg}: {$path}");

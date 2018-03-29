@@ -22,9 +22,7 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
-
-defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once __DIR__ . '/common.php';
 
@@ -92,12 +90,12 @@ function xformsDeleteDirectory($directory)
         $success = false;
     } else {
         // remove old files
-        $dirInfo = new SplFileInfo($directory);
+        $dirInfo = new \SplFileInfo($directory);
         // validate is a directory
         if ($dirInfo->isDir()) {
             $fileList = array_diff(scandir($directory, SCANDIR_SORT_NONE), ['..', '.']);
             foreach ($fileList as $k => $v) {
-                $fileInfo = new SplFileInfo("{$directory}/{$v}");
+                $fileInfo = new \SplFileInfo("{$directory}/{$v}");
                 if ($fileInfo->isDir()) {
                     // recursively handle subdirectories
                     if (!$success = xformsDeleteDirectory($fileInfo->getRealPath())) {
@@ -128,9 +126,9 @@ function xformsCopyFiles($fromDir, $toDir, $exceptions = [], $okNotExist = false
     $helper = Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
 
     $toUploadDir   = ('/' === substr($toDir, -1, 1)) ? substr($toDir, 0, -1) : $toDir;
-    $toDirInfo     = new SplFileInfo($toDir);
+    $toDirInfo     = new \SplFileInfo($toDir);
     $fromUploadDir = ('/' === substr($fromDir, -1, 1)) ? substr($fromDir, 0, -1) : $fromDir;
-    $fromDirInfo   = new SplFileInfo($fromUploadDir);
+    $fromDirInfo   = new \SplFileInfo($fromUploadDir);
 
     $success = true;
     // validate they are valid directories
@@ -141,7 +139,7 @@ function xformsCopyFiles($fromDir, $toDir, $exceptions = [], $okNotExist = false
 
         //now copy the file(s) to the (to) directory
         foreach ($fileList as $fileName) {
-            if (($fileInfo = new SplFileInfo("{$eformsUploadDir}{$fileName}"))
+            if (($fileInfo = new \SplFileInfo("{$eformsUploadDir}{$fileName}"))
                 && ($currFileInfo = new SplFileinf("{$eformsUploadDir}{$fileName}"))) {
                 $fileSuccess = copy("{$eformsUploadDir}{$fileName}", "{$eformsUploadDir}{$fileName}");
                 $success     = $success && $fileSuccess;

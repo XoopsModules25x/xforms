@@ -27,5 +27,5 @@ if ('Y-m-d' !== $value[0] && '' != $value[0]) {
 } else {
     $date_value = '';
 }
-$date = new XoopsFormTextDateSelect(_AM_XFORMS_ELE_DATE, 'ele_value', $size = 15, $date_value);
+$date = new \XoopsFormTextDateSelect(_AM_XFORMS_ELE_DATE, 'ele_value', $size = 15, $date_value);
 $output->addElement($date);

@@ -24,6 +24,7 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
+use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
@@ -45,15 +46,15 @@ switch ($op) {
     case 'show': /*Show the report in the page*/
         // get the UserData to see if there's any reports
         if ((!$form = $xformsFormsHandler->get($formId)) || $form->isNew()) {
-            $helper->redirect("admin/{$thisFileName}", XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
-        } elseif (XformsConstants::DO_NOT_SAVE_IN_DB == $form->getVar('form_save_db')) {
-            $helper->redirect("admin/{$thisFileName}", XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
+            $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
+        } elseif (Constants::DO_NOT_SAVE_IN_DB == $form->getVar('form_save_db')) {
+            $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
         $uDataHandler = $helper->getHandler('userdata');
         $uData        = $uDataHandler->getReport($formId);
         if (empty($uData)) { // is there anything to report?
-            redirect_header($thisFileName, XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
+            redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
         }
 
         /* Now show the report */
@@ -120,7 +121,7 @@ switch ($op) {
             $ipproc = $ipuser;
 
             $cssClass   = (empty($cssClass) || 'even' === $cssClass) ? 'odd' : 'even';
-            $eleCaption = $myts->displayTarea($data['ele_caption'], XformsConstants::ALLOW_HTML);
+            $eleCaption = $myts->displayTarea($data['ele_caption'], Constants::ALLOW_HTML);
             echo "  <tr class='{$cssClass}'>\n"
                  . "    <td{$border} class='center' nowrap>{$ucount}</td>\n"
                  . "    <td{$border} class='center' nowrap>{$uname}</td>\n"
@@ -182,13 +183,13 @@ switch ($op) {
             //            $firstRow = false;
         }
         echo "  </tbody>\n" . "  <tfoot>\n" . "  <tr><td class='foot center' colspan='6'>";
-        $bexportch = new XoopsFormButton('', 'export-ch', _AM_XFORMS_RPT_EXPORT_CH, 'button');
+        $bexportch = new \XoopsFormButton('', 'export-ch', _AM_XFORMS_RPT_EXPORT_CH, 'button');
         $bexportch->setExtra(" onclick=\"window.location='{$thisFileName}?op=export-horiz&format=c&form_id={$formId}'\"");
-        $bexporthh = new XoopsFormButton('', 'export_hh', _AM_XFORMS_RPT_EXPORT_HH, 'button');
+        $bexporthh = new \XoopsFormButton('', 'export_hh', _AM_XFORMS_RPT_EXPORT_HH, 'button');
         $bexporthh->setExtra(" onclick=\"window.location='{$thisFileName}?op=export-horiz&format=h&form_id={$formId}'\"");
-        $bexportcv = new XoopsFormButton('', 'export-cv', _AM_XFORMS_RPT_EXPORT_CV, 'button');
+        $bexportcv = new \XoopsFormButton('', 'export-cv', _AM_XFORMS_RPT_EXPORT_CV, 'button');
         $bexportcv->setExtra(" onclick=\"window.location='{$thisFileName}?op=export-vert&format=c&form_id={$formId}'\"");
-        $bexporthv = new XoopsFormButton('', 'export_hv', _AM_XFORMS_RPT_EXPORT_HV, 'button');
+        $bexporthv = new \XoopsFormButton('', 'export_hv', _AM_XFORMS_RPT_EXPORT_HV, 'button');
         $bexporthv->setExtra(" onclick=\"window.location='{$thisFileName}?op=export-vert&format=h&form_id={$formId}'\"");
         echo $bexportch->render() . $bexporthh->render() . $bexportcv->render() . $bexporthv->render();
         echo "</td></tr>\n" . "  </tfoot>\n" . "</table>\n";
@@ -200,20 +201,20 @@ switch ($op) {
         $adminObject->displayNavigation($thisFileName);
 
         //setup date selector
-        $outputForm  = new XoopsThemeForm('Purge Reports', 'purge_report_form', $thisFileName, 'post', true);
+        $outputForm  = new \XoopsThemeForm('Purge Reports', 'purge_report_form', $thisFileName, 'post', true);
         $defaultDate = new DateTime(); //set to today
         $defaultDate->setTime(0, 0, 0); //set to midnight
-        $outputForm->addElement(new XoopsFormDateTime('Reports older than', 'purge_date', 10, $defaultDate->getTimestamp(), false));
-        $outputForm->addElement(new XoopsFormButtonTray('purge_buttons', _SUBMIT, 'submit'));
-        $outputForm->addElement(new XoopsFormHidden('op', 'purge_do'));
-        $outputForm->addElement(new XoopsFormHidden('ok', 0));
+        $outputForm->addElement(new \XoopsFormDateTime('Reports older than', 'purge_date', 10, $defaultDate->getTimestamp(), false));
+        $outputForm->addElement(new \XoopsFormButtonTray('purge_buttons', _SUBMIT, 'submit'));
+        $outputForm->addElement(new \XoopsFormHidden('op', 'purge_do'));
+        $outputForm->addElement(new \XoopsFormHidden('ok', 0));
         $outputForm->display();
         break;
     case 'purge_do':
         if ($ok) {
             //security check to make sure came from a good location
             if (!$xoopsSecurity->check()) {
-                $helper->redirect("admin/{$thisFileName}", XformsConstants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+                $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             // ok - delete reports
             xoops_cp_header();
@@ -225,34 +226,34 @@ switch ($op) {
             $pDTtimestamp = $purgeDateTimeObj->getTimestamp();
 
             $uDataHandler = $helper->getHandler('userdata');
-            $numItems     = $uDataHandler->deleteAll(new Criteria('udata_time', $pDTtimestamp, '<'));
+            $numItems     = $uDataHandler->deleteAll(new \Criteria('udata_time', $pDTtimestamp, '<'));
             if ($numItems > 0) {
-                $helper->redirect("admin/{$thisFileName}", XformsConstants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_RPT_PURGE_DELETED, (int)$numItems));
+                $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_RPT_PURGE_DELETED, (int)$numItems));
             } elseif (0 === $numItems) {
-                $helper->redirect("admin/{$thisFileName}", XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_PURGE_NOTHING);
+                $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_PURGE_NOTHING);
             } else {
-                $helper->redirect("admin/{$thisFileName}", XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_PURGE_ERR);
+                $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_PURGE_ERR);
             }
         } else {
             xoops_cp_header();
             $purgeDate = Request::getArray('purge_date', ['date' => date(_SHORTDATESTRING), 'time' => '0'], 'POST');
             $theDate   = array_key_exists('date', $purgeDate) ? $purgeDate['date'] : date(_SHORTDATESTRING);
             $purgeDate = serialize($purgeDate);
-            xoops_confirm(['op' => 'purge_do', 'purge_date' => $purgeDate, 'ok' => XformsConstants::CONFIRM_OK], $thisFileName, sprintf(_AM_XFORMS_REPORT_CONFIRM_DELETE, $theDate));
+            xoops_confirm(['op' => 'purge_do', 'purge_date' => $purgeDate, 'ok' => Constants::CONFIRM_OK], $thisFileName, sprintf(_AM_XFORMS_REPORT_CONFIRM_DELETE, $theDate));
         }
         break;
 
     case 'export-horiz':
         if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
-            redirect_header($thisFileName, XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
+            redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
         } elseif (0 == $form->getVar('form_save_db')) {
-            redirect_header($thisFileName, XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
+            redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
         $uDataHandler = $helper->getHandler('userdata');
         $uData        = $uDataHandler->getReport($formId);
         if (empty($uData)) {
-            redirect_header($thisFileName, XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
+            redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
         }
 
         /*Disable debug*/
@@ -260,21 +261,21 @@ switch ($op) {
         $GLOBALS['xoopsLogger']->activated = false;
 
         require_once XOOPS_ROOT_PATH . '/class/template.php';
-        $xformsTpl = new XoopsTpl();
+        $xformsTpl = new \XoopsTpl();
 
         $xformsTpl->assign('form_title', $form->getVar('form_title'));
         $xformsTpl->assign('delim', ','); //force delimiter for now
 
         $xformsEleHandler = $helper->getHandler('element');
-        $criteria         = new CriteriaCompo();
-        $criteria->add(new Criteria('form_id', $form->getVar('form_id')), 'AND');
-        $criteria->add(new Criteria('ele_display', XformsConstants::ELEMENT_DISPLAY), 'AND');
+        $criteria         = new \CriteriaCompo();
+        $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
+        $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
         $criteria->setSort('ele_order');
         $criteria->setOrder('ASC');
         $elements = $xformsEleHandler->getObjects($criteria, true);
         $eleCount = count($elements);
         foreach ($elements as $el) {
-            $xformsTpl->append('captions', $myts->displayTarea($el->getVar('ele_caption'), XformsConstants::ALLOW_HTML));
+            $xformsTpl->append('captions', $myts->displayTarea($el->getVar('ele_caption'), Constants::ALLOW_HTML));
         }
 
         $dl     = new stdClass();
@@ -367,15 +368,15 @@ switch ($op) {
 
     case 'export-vert':
         if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
-            redirect_header($thisFileName, XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
+            redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
         } elseif (0 == $form->getVar('form_save_db')) {
-            redirect_header($thisFileName, XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
+            redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
         $uDataHandler = $helper->getHandler('userdata');
         $uData        = $uDataHandler->getReport($formId);
         if (empty($uData)) {
-            redirect_header($thisFileName, XformsConstants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
+            redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
         }
 
         /*Disable debug*/
@@ -383,7 +384,7 @@ switch ($op) {
         $GLOBALS['xoopsLogger']->activated = false;
 
         require_once XOOPS_ROOT_PATH . '/class/template.php';
-        $xformsTpl = new XoopsTpl();
+        $xformsTpl = new \XoopsTpl();
         $xformsTpl->assign('form_title', $form->getVar('form_title'));
         $xformsTpl->assign('delim', ','); //force delimiter for now
         $countu     = $dproc = 0;
@@ -430,7 +431,7 @@ switch ($op) {
                 $datet  = date('d-m-Y H:i:s', $dtime);
                 $uip    = $ipuser;
             }
-            $eleCaption  = $myts->displayTarea($uData[$i]['ele_caption'], XformsConstants::ALLOW_HTML);
+            $eleCaption  = $myts->displayTarea($uData[$i]['ele_caption'], Constants::ALLOW_HTML);
             $tplElements = [
                 'border'      => $border,
                 'ucount'      => $ucount,
@@ -507,7 +508,7 @@ switch ($op) {
         // first get forms that have data in the Userdata table
         $uDataHandler = $helper->getHandler('userdata');
         $fields       = ['form_id'];
-        $criteria     = new CriteriaCompo();
+        $criteria     = new \CriteriaCompo();
         $criteria->setGroupBy('form_id');
         $uDataForms = $uDataHandler->getAll($criteria, $fields, false, false);
         $formList   = [];
@@ -520,15 +521,15 @@ switch ($op) {
 
         $xformsDisplay          = new stdClass;
         $xformsDisplay->start   = Request::getInt('start', 0);
-        $xformsDisplay->perpage = ($perpage > 0) ? $perpage : XformsConstants::FORMS_PER_PAGE_DEFAULT;
+        $xformsDisplay->perpage = ($perpage > 0) ? $perpage : Constants::FORMS_PER_PAGE_DEFAULT;
         $xformsDisplay->order   = 'ASC';
         $xformsDisplay->sort    = 'form_order';
 
-        $criteria = new CriteriaCompo();
+        $criteria = new \CriteriaCompo();
         if (!$showAll) {
-            $criteria->add(new Criteria('form_active', XformsConstants::FORM_ACTIVE));
+            $criteria->add(new \Criteria('form_active', Constants::FORM_ACTIVE));
         }
-        $criteria->add(new Criteria('form_id', '(' . implode(',', $formList) . ')', 'IN'));
+        $criteria->add(new \Criteria('form_id', '(' . implode(',', $formList) . ')', 'IN'));
         $criteria->setSort($xformsDisplay->sort);
         $criteria->setOrder($xformsDisplay->order);
         $ttlFormCount = $xformsFormsHandler->getCount($criteria); // count all forms with reports
@@ -631,12 +632,12 @@ switch ($op) {
                             $sendTo = _AM_XFORMS_SENDTO_ADMIN;
                         }
                     }
-                    $fStatus = "<img src='{$mypathIcon16}/active.gif' title='" . _AM_XFORMS_STATUS_ACTIVE . "' alt='" . _AM_XFORMS_STATUS_ACTIVE . "'>&nbsp;" . _AM_XFORMS_STATUS_ACTIVE;
+                    $fStatus = "<img src='{$pathModIcon16}/active.gif' title='" . _AM_XFORMS_STATUS_ACTIVE . "' alt='" . _AM_XFORMS_STATUS_ACTIVE . "'>&nbsp;" . _AM_XFORMS_STATUS_ACTIVE;
                     if (!$f->isActive()) {
-                        if (XformsConstants::FORM_INACTIVE == $f->getVar('form_active')) {
-                            $fStatus = "<img src='{$mypathIcon16}/inactive.gif' title='" . _AM_XFORMS_STATUS_INACTIVE . "' alt='" . _AM_XFORMS_STATUS_INACTIVE . "'>&nbsp;" . _AM_XFORMS_STATUS_INACTIVE;
+                        if (Constants::FORM_INACTIVE == $f->getVar('form_active')) {
+                            $fStatus = "<img src='{$pathModIcon16}/inactive.gif' title='" . _AM_XFORMS_STATUS_INACTIVE . "' alt='" . _AM_XFORMS_STATUS_INACTIVE . "'>&nbsp;" . _AM_XFORMS_STATUS_INACTIVE;
                         } else {
-                            $fStatus = "<img src='{$mypathIcon16}/expired.gif' title='" . _AM_XFORMS_STATUS_EXPIRED . "' alt='" . _AM_XFORMS_STATUS_EXPIRED . "'>&nbsp;" . _AM_XFORMS_STATUS_EXPIRED;
+                            $fStatus = "<img src='{$pathModIcon16}/expired.gif' title='" . _AM_XFORMS_STATUS_EXPIRED . "' alt='" . _AM_XFORMS_STATUS_EXPIRED . "'>&nbsp;" . _AM_XFORMS_STATUS_EXPIRED;
                         }
                     }
                     $cssClass = ('even' === $cssClass) ? 'odd' : even;
@@ -657,35 +658,35 @@ switch ($op) {
                          . "      <td class='{$cssClass} center'>\n";
                     if (0 !== (int)$f->getVar('form_save_db')) {
                         echo "        <a href='{$thisFileName}?op=show&form_id={$id}'>"
-                             . "<img src='{$mypathIcon16}/rptsee.png' class='tooltip floatcenter1' title='"
+                             . "<img src='{$pathModIcon16}/rptsee.png' class='tooltip floatcenter1' title='"
                              . _AM_XFORMS_SHOW_REPORT
                              . "' alt='"
                              . _AM_XFORMS_SHOW_REPORT
                              . "'>\n"
                              . "</a>\n"
                              . "        <a href='{$thisFileName}?op=export-horiz&format=c&form_id={$id}'>"
-                             . "<img src='{$mypathIcon16}/rpthorizc.png' class='tooltip floatcenter1' title='"
+                             . "<img src='{$pathModIcon16}/rpthorizc.png' class='tooltip floatcenter1' title='"
                              . _AM_XFORMS_RPT_EXPORT_CH
                              . "' alt='"
                              . _AM_XFORMS_RPT_EXPORT_CH
                              . "'>"
                              . "</a>\n"
                              . "        <a href='{$thisFileName}?op=export-horiz&format=h&form_id={$id}'>"
-                             . "<img src='{$mypathIcon16}/rpthor.png' class='tooltip floatcenter1' title='"
+                             . "<img src='{$pathModIcon16}/rpthor.png' class='tooltip floatcenter1' title='"
                              . _AM_XFORMS_RPT_EXPORT_HH
                              . "' alt='"
                              . _AM_XFORMS_RPT_EXPORT_HH
                              . "'>"
                              . "</a>\n"
                              . "      <a href='{$thisFileName}?op=export-vert&format=c&form_id={$id}'>"
-                             . "<img src='{$mypathIcon16}/rptvertc.png' class='tooltip floatcenter1' title='"
+                             . "<img src='{$pathModIcon16}/rptvertc.png' class='tooltip floatcenter1' title='"
                              . _AM_XFORMS_RPT_EXPORT_CV
                              . "' alt='"
                              . _AM_XFORMS_RPT_EXPORT_CV
                              . "'>"
                              . "</a>\n"
                              . "        <a href='{$thisFileName}?op=export-vert&format=h&form_id={$id}'>"
-                             . "<img src='{$mypathIcon16}/rptvert.png' class='tooltip floatcenter1' title='"
+                             . "<img src='{$pathModIcon16}/rptvert.png' class='tooltip floatcenter1' title='"
                              . _AM_XFORMS_RPT_EXPORT_HV
                              . "' alt='"
                              . _AM_XFORMS_RPT_EXPORT_HV
@@ -710,12 +711,12 @@ switch ($op) {
                     echo "    </tr>\n";
                 }
             }
-            $bshow = new XoopsFormButton('', ($showAll ? 'shownormal' : 'showall'), ($showAll ? _AM_XFORMS_SHOW_NORMAL_FORMS : _AM_XFORMS_SHOW_ALL_FORMS), 'submit');
+            $bshow = new \XoopsFormButton('', ($showAll ? 'shownormal' : 'showall'), ($showAll ? _AM_XFORMS_SHOW_NORMAL_FORMS : _AM_XFORMS_SHOW_ALL_FORMS), 'submit');
             echo "    <tr>\n" . "      <td class='foot'>&nbsp;</td>\n" . "      <td class='foot' colspan='5'>" . $bshow->render() . "</td>\n" . "    </tr>\n" . "    </tbody>\n" . "  </table><br>\n" . "</form>\n";
 
             if ($ttlFormCount > $xformsDisplay->perpage) {
                 xoops_load('pagenav');
-                $xformsPagenav = new XoopsPageNav($ttlFormCount, $xformsDisplay->perpage, $xformsDisplay->start, 'start', 'perpage=' . $xformsDisplay->perpage);
+                $xformsPagenav = new \XoopsPageNav($ttlFormCount, $xformsDisplay->perpage, $xformsDisplay->start, 'start', 'perpage=' . $xformsDisplay->perpage);
                 echo "<div class='center middle larger width100 line160'>" . $xformsPagenav->renderNav() . "</div>\n";
             }
 
@@ -724,13 +725,13 @@ switch ($op) {
                  . "</legend>\n"
                  . "<div class='pad7'>\n"
                  . "  <div class='center'>\n"
-                 . "    <img src='{$mypathIcon16}/active.gif'>&nbsp;"
+                 . "    <img src='{$pathModIcon16}/active.gif'>&nbsp;"
                  . _AM_XFORMS_STATUS_ACTIVE
                  . '&nbsp; &nbsp; &nbsp;'
-                 . "    <img src='{$mypathIcon16}/inactive.gif'>&nbsp;"
+                 . "    <img src='{$pathModIcon16}/inactive.gif'>&nbsp;"
                  . _AM_XFORMS_STATUS_INACTIVE
                  . '&nbsp; &nbsp; &nbsp;'
-                 . "    <img src='{$mypathIcon16}/expired.gif'>&nbsp;"
+                 . "    <img src='{$pathModIcon16}/expired.gif'>&nbsp;"
                  . _AM_XFORMS_STATUS_EXPIRED
                  . "\n"
                  . "  </div>\n"
@@ -738,7 +739,7 @@ switch ($op) {
                  . "</fieldset>\n";
         } else {
             /*Show 'No forms' message*/
-            $bshow = new XoopsFormButton('', ($showAll ? 'shownormal' : 'showall'), ($showAll ? _AM_XFORMS_SHOW_NORMAL_FORMS : _AM_XFORMS_SHOW_ALL_FORMS), 'submit');
+            $bshow = new \XoopsFormButton('', ($showAll ? 'shownormal' : 'showall'), ($showAll ? _AM_XFORMS_SHOW_NORMAL_FORMS : _AM_XFORMS_SHOW_ALL_FORMS), 'submit');
             echo "    <tr>\n"
                  . "      <td class='odd center' colspan='6'>"
                  . _AM_XFORMS_NO_FORMS_TOREPORT

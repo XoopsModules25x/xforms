@@ -18,15 +18,19 @@
  * @author          Xoops Development Team
  */
 
+use XoopsModules\Xforms;
+/** @var Xforms\Helper $helper */
+$helper = Xforms\Helper::getInstance();
+
 if (!defined('XFORMS_ROOT_PATH')) {
     exit();
 }
 
-$rows    = !empty($value[1]) ? $value[1] : $xoopsModuleConfig['ta_rows'];
-$cols    = !empty($value[2]) ? $value[2] : $xoopsModuleConfig['ta_cols'];
-$rows    = new XoopsFormText(_AM_XFORMS_ELE_ROWS, 'ele_value[1]', 3, 3, $rows);
-$cols    = new XoopsFormText(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, $cols);
-$default = new XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlSpecialChars($myts->stripSlashesGPC($value[0])) : '', 5, 50);
+$rows    = !empty($value[1]) ? $value[1] : $helper->getConfig('ta_rows');
+$cols    = !empty($value[2]) ? $value[2] : $helper->getConfig('ta_cols');
+$rows    = new \XoopsFormText(_AM_XFORMS_ELE_ROWS, 'ele_value[1]', 3, 3, $rows);
+$cols    = new \XoopsFormText(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, $cols);
+$default = new \XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlSpecialChars($myts->stripSlashesGPC($value[0])) : '', 5, 50);
 $output->addElement($rows, 1);
 $output->addElement($cols, 1);
 $output->addElement($default);

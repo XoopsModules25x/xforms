@@ -23,7 +23,7 @@
  *
  */
 
-use Xmf\Module\Helper;
+use XoopsModules\Xforms\Constants;
 
 xoops_load('xoopscaptcha');
 
@@ -31,7 +31,7 @@ xoops_load('xoopscaptcha');
  * Class to manipulate captcha
  *
  */
-class XformsCaptcha extends XoopsCaptcha
+class XformsCaptcha extends \XoopsCaptcha
 {
     protected $dirname;
 
@@ -53,25 +53,25 @@ class XformsCaptcha extends XoopsCaptcha
         $xformsCaptchaConfig = $helper->getConfig('captcha');
         unset($helper);
 
-        if (!interface_exists('XformsConstants')) {
+        if (!interface_exists('Xforms\Constants')) {
             xoops_load('constants', $this->dirname);
         }
 
         switch ($xformsCaptchaConfig) {
-            case XformsConstants::CAPTCHA_INHERIT:
+            case Constants::CAPTCHA_INHERIT:
             default:
                 //don't need to do anything, will use settings from XOOPS
                 break;
-            case XformsConstants::CAPTCHA_ANON_ONLY:
+            case Constants::CAPTCHA_ANON_ONLY:
                 $this->active = (isset($GLOBALS['xoopsUser'])
-                                 && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) ? false : true;
+                                 && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) ? false : true;
                 $this->setConfigs(['skipmember' => true, 'disabled' => false]);
                 break;
-            case XformsConstants::CAPTCHA_EVERYONE:
+            case Constants::CAPTCHA_EVERYONE:
                 $this->active = true;
                 $this->setConfigs(['skipmember' => false, 'disabled' => false]);
                 break;
-            case XformsConstants::CAPTCHA_NONE:
+            case Constants::CAPTCHA_NONE:
                 $this->active = false;
                 $this->setConfigs(['skipmember' => true, 'disabled' => true]);
                 break;

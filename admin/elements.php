@@ -22,8 +22,8 @@
  * @since           1.30
  */
 
-use Xmf\Module\Admin;
 use Xmf\Request;
+use XoopsModules\Xforms\Constants;
 
 include __DIR__ . '/admin_header.php';
 $xformsEleHandler = $helper->getHandler('element');
@@ -36,7 +36,7 @@ switch ($op) {
         $formId = Request::getInt('form_id', 0, 'GET');
         $formId = $formId;
         if (empty($formId)) {
-            $helper->redirect('admin/main.php', XformsConstants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
+            $helper->redirect('admin/main.php', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
         }
         $form = $xformsFormsHandler->get($formId);
 
@@ -46,11 +46,11 @@ switch ($op) {
         $adminObject->displayNavigation('editelement.php');
 
         $jump    = [];
-        $jump[0] = new XoopsFormSelect('', 'ele_type');
+        $jump[0] = new \XoopsFormSelect('', 'ele_type');
         $jump[0]->addOptionArray($xformsEleHandler->getValidElements());
-        $jump[1] = new XoopsFormHidden('op', 'edit');
-        $jump[2] = new XoopsFormHidden('form_id', $formId);
-        $jump[3] = new XoopsFormButton('', 'submit', _ADD, 'submit');
+        $jump[1] = new \XoopsFormHidden('op', 'edit');
+        $jump[2] = new \XoopsFormHidden('form_id', $formId);
+        $jump[3] = new \XoopsFormButton('', 'submit', _ADD, 'submit');
         echo "<div class='center'>\n" . "  <form action='" . $helper->url('admin/editelement.php') . "' method='post'>\n" . '    <b>' . _AM_XFORMS_ELE_CREATE . "</b>:\n";
         foreach ($jump as $j) {
             echo "\n    " . $j->render();
@@ -95,30 +95,30 @@ switch ($op) {
              . "  </thead>\n"
              . "  <tbody>\n";
 
-        $criteria = new Criteria('form_id', $formId);
+        $criteria = new \Criteria('form_id', $formId);
         $criteria->setSort('ele_order ASC, ele_caption');  // trick criteria to allow 2 sort criteria
         $criteria->setOrder('ASC');
 
         if ($elements = $xformsEleHandler->getObjects($criteria)) {
             foreach ($elements as $eleObj) {
-                $renderer = new XformsElementRenderer($eleObj);
+                $renderer = new Xforms\ElementRenderer($eleObj);
                 $eleValue = $renderer->constructElement(true, $form->getVar('form_delimiter'));
                 //                unset($renderer);
 
                 $id       = $eleObj->getVar('ele_id');
-                $dispType = new XoopsFormLabel('', ucwords($eleObj->getVar('ele_type')));
-                $checkReq = new XoopsFormRadioYN('', "ele_req[{$id}]", $eleObj->getVar('ele_req'));
-                $txtOrder = new XformsFormInput('', "ele_order[{$id}]", 5, 5, $eleObj->getVar('ele_order'), null, 'number');
+                $dispType = new \XoopsFormLabel('', ucwords($eleObj->getVar('ele_type')));
+                $checkReq = new \XoopsFormRadioYN('', "ele_req[{$id}]", $eleObj->getVar('ele_req'));
+                $txtOrder = new Xforms\FormInput('', "ele_order[{$id}]", 5, 5, $eleObj->getVar('ele_order'), null, 'number');
                 $txtOrder->setAttribute('min', 0);
                 $txtOrder->setExtra('style="width: 5em;"');
-                $checkDisp    = new XoopsFormRadioYN('', "ele_display[{$id}]", $eleObj->getVar('ele_display'));
-                $checkDispRow = new XoopsFormCheckBox('', "ele_display_row[{$id}]", $eleObj->getVar('ele_display_row'));
+                $checkDisp    = new \XoopsFormRadioYN('', "ele_display[{$id}]", $eleObj->getVar('ele_display'));
+                $checkDispRow = new \XoopsFormCheckBox('', "ele_display_row[{$id}]", $eleObj->getVar('ele_display_row'));
                 $checkDispRow->addOption(2, ' ');
-                //                $hidden_id = new XoopsFormHidden('ele_id[]', $id);
+                //                $hidden_id = new \XoopsFormHidden('ele_id[]', $id);
                 $myts = \MyTextSanitizer::getInstance();
                 echo "  <tr>\n"
                      . "    <td class='odd'>"
-                     . $myts->displayTarea($eleObj->getVar('ele_caption'), XformsConstants::ALLOW_HTML)
+                     . $myts->displayTarea($eleObj->getVar('ele_caption'), Constants::ALLOW_HTML)
                      . "</td>\n"
                      . "    <td class='even center middle' rowspan='2'>"
                      . $dispType->render()
@@ -159,7 +159,7 @@ switch ($op) {
 
                 switch ($eleObj->getVar('ele_type')) {
                     case 'html':
-                        echo "  <tr><td class='odd' id='html_{$id}'>" . $myts->displayTarea($eleValue->render(), XformsConstants::ALLOW_HTML) . "</td></tr>\n";
+                        echo "  <tr><td class='odd' id='html_{$id}'>" . $myts->displayTarea($eleValue->render(), Constants::ALLOW_HTML) . "</td></tr>\n";
                         break;
                     /*
                                         case 'label':
@@ -174,37 +174,37 @@ switch ($op) {
                                 if ("html" != $eleObj->getVar('ele_type')) {
                                     echo "  <tr><td class='odd'>" . $eleValue->render() . "</td></tr>\n";
                                 } else {
-                                    echo "  <tr><td class='odd' id='html_{$id}'>" . $myts->displayTarea($eleValue->render(), XformsConstants::ALLOW_HTML) . "</td></tr>\n";
-                //                    echo "  <tr><td class='odd'>" . $myts->displayTarea($eleObj->getVar('ele_value'), XformsConstants::ALLOW_HTML) . "</td></tr>\n";
+                                    echo "  <tr><td class='odd' id='html_{$id}'>" . $myts->displayTarea($eleValue->render(), Constants::ALLOW_HTML) . "</td></tr>\n";
+                //                    echo "  <tr><td class='odd'>" . $myts->displayTarea($eleObj->getVar('ele_value'), Constants::ALLOW_HTML) . "</td></tr>\n";
                                 }
                 */
             }
         }
 
-        $submit  = new XoopsFormButton('', 'submit', _AM_XFORMS_SAVE, 'submit');
-        $submit1 = new XoopsFormButton('', 'submit', _AM_XFORMS_SAVE_THEN_FORM, 'submit');
-        $submit2 = new XoopsFormButton('', 'gotoform', _AM_XFORMS_GOTO_FORM);
+        $submit  = new \XoopsFormButton('', 'submit', _AM_XFORMS_SAVE, 'submit');
+        $submit1 = new \XoopsFormButton('', 'submit', _AM_XFORMS_SAVE_THEN_FORM, 'submit');
+        $submit2 = new \XoopsFormButton('', 'gotoform', _AM_XFORMS_GOTO_FORM);
         $submit2->setExtra("onclick=\"window.location.href='" . $helper->url("index.php?form_id={$formId}") . "'\"");
-        $tray = new XoopsFormElementTray('');
+        $tray = new \XoopsFormElementTray('');
         $tray->addElement($submit);
         $tray->addElement($submit1);
         $tray->addElement($submit2);
         echo "  </tbody>\n" . "  <tfoot>\n" . "  <tr>\n" . "    <td class='foot center' colspan='7'>" . $tray->render() . "</td>\n" . "  </tr>\n" . "  </tfoot>\n" . "</table>\n";
-        $hiddenOp     = new XoopsFormHidden('op', 'save');
-        $hiddenFormId = new XoopsFormHidden('form_id', $formId);
+        $hiddenOp     = new \XoopsFormHidden('op', 'save');
+        $hiddenFormId = new \XoopsFormHidden('form_id', $formId);
         echo $hiddenOp->render() . "\n" . $hiddenFormId->render() . "\n" . "</form>\n";
         break;
 
     case 'save': // Save element(s)
         //check to make sure this is from known location
         if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['PHP_SELF'], XformsConstants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
 
         $formId = Request::getInt('form_id', 0, 'POST');
         $formId = $formId;
         if (empty($formId)) {
-            $helper->redirect('admin/main.php', XformsConstants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
+            $helper->redirect('admin/main.php', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
         }
 
         $error = '';
@@ -229,12 +229,12 @@ switch ($op) {
         foreach ($eleId as $id) {
             $element    = $xformsEleHandler->get($id);
             $req        = (array_key_exists($id, $eleReq)
-                           && (XformsConstants::ELEMENT_REQD == $eleReq[$id])) ? XformsConstants::ELEMENT_REQD : XformsConstants::ELEMENT_NOT_REQD;
+                           && (Constants::ELEMENT_REQD == $eleReq[$id])) ? Constants::ELEMENT_REQD : Constants::ELEMENT_NOT_REQD;
             $order      = array_key_exists($id, $eleOrder) ? $eleOrder[$id] : 0;
             $displayRow = (array_key_exists($id, $eleDisplayRow)
-                           && (XformsConstants::DISPLAY_DOUBLE_ROW == $eleDisplayRow[$id])) ? XformsConstants::DISPLAY_DOUBLE_ROW : XformsConstants::DISPLAY_SINGLE_ROW;
+                           && (Constants::DISPLAY_DOUBLE_ROW == $eleDisplayRow[$id])) ? Constants::DISPLAY_DOUBLE_ROW : Constants::DISPLAY_SINGLE_ROW;
             $display    = (array_key_exists($id, $eleDisplay)
-                           && (XformsConstants::ELEMENT_DISPLAY == $eleDisplay[$id])) ? XformsConstants::ELEMENT_DISPLAY : XformsConstants::ELEMENT_NOT_DISPLAY;
+                           && (Constants::ELEMENT_DISPLAY == $eleDisplay[$id])) ? Constants::ELEMENT_DISPLAY : Constants::ELEMENT_NOT_DISPLAY;
             $type       = $element->getVar('ele_type');
             $value      = $element->getVar('ele_value');
             $element->setVars([
@@ -399,9 +399,9 @@ switch ($op) {
         }
         if (empty($error)) {
             if (_AM_XFORMS_SAVE_THEN_FORM == $_POST['submit']) {
-                redirect_header($GLOBALS['xoops']->buildUrl("/modules/{$moduleDirName}/admin/main.php", ['op' => 'edit', 'form_id' => $formId]), XformsConstants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+                redirect_header($GLOBALS['xoops']->buildUrl("/modules/{$moduleDirName}/admin/main.php", ['op' => 'edit', 'form_id' => $formId]), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
             } else {
-                redirect_header($_SERVER['PHP_SELF'] . "?form_id={$formId}", XformsConstants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+                redirect_header($_SERVER['PHP_SELF'] . "?form_id={$formId}", Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
             }
         } else {
             xoops_cp_header();

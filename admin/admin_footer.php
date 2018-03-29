@@ -22,9 +22,9 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
+use XoopsModules\Xforms;
 
-$helper = Helper::getHelper(basename(dirname(__DIR__)));
+$helper = Xforms\Helper::getInstance();
 
 $pathIcon32 = \Xmf\Module\Admin::iconUrl('', 32);
 

@@ -26,12 +26,12 @@ if (empty($addopt) && !empty($ele_id)) {
     $ele_value = $element->getVar('ele_value');
 }
 $ele_size    = !empty($ele_value[0]) ? $ele_value[0] : 1;
-$size        = new XoopsFormText(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 3, 2, $ele_size);
+$size        = new \XoopsFormText(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 3, 2, $ele_size);
 $allow_multi = empty($ele_value[1]) ? 0 : 1;
-$multiple    = new XoopsFormRadioYN(_AM_XFORMS_ELE_MULTIPLE, 'ele_value[1]', $allow_multi);
+$multiple    = new \XoopsFormRadioYN(_AM_XFORMS_ELE_MULTIPLE, 'ele_value[1]', $allow_multi);
 $country     = xoops_getModuleOption('mycountry', 'xforms');
 $countries   = !empty($ele_value[2]) ? $ele_value[2] : $country;
-$reg_form    = new XoopsFormSelectCountry(_AM_XFORMS_ELE_SELECT_CTRY, 'ele_value[2]', $countries);
+$reg_form    = new \XoopsFormSelectCountry(_AM_XFORMS_ELE_SELECT_CTRY, 'ele_value[2]', $countries);
 //
 $output->addElement($size, 1);
 $output->addElement($multiple);

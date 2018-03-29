@@ -22,9 +22,7 @@
  * @since           2.00
  */
 
-use Xmf\Module\Helper;
-
-//defined('XOOPS_ROOT_PATH') || exit('Restricted access.');
+//defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * xforms_search()
@@ -57,10 +55,10 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
             }
             $pIds = '(' . implode(',', $pIdArray) . ')';
 
-            $criteria = new CriteriaCompo();
+            $criteria = new \CriteriaCompo();
             $criteria->setSort('form_order');
             $criteria->setOrder('ASC');
-            $criteria->add(new Criteria('form_id', $pIds, 'IN'));
+            $criteria->add(new \Criteria('form_id', $pIds, 'IN'));
 
             if (isset($limit) && ((int)$limit > 0)) {
                 $criteria->setLimit((int)$limit);
@@ -73,10 +71,10 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
                 $queryCount = count($queryArray);
                 for ($idx = 0; $idx < $queryCount; ++$idx) {
                     $qual        = (0 == $idx) ? 'AND' : $andor;
-                    $subCriteria = new CriteriaCompo();
-                    $subCriteria->add(new Criteria('form_title', "%{$queryArray[$idx]}%", 'LIKE'));
-                    $subCriteria->add(new Criteria('form_desc', "%{$queryArray[$idx]}%", 'LIKE'), 'OR');
-                    $subCriteria->add(new Criteria('form_intro', "%{$queryArray[$idx]}%", 'LIKE'), 'OR');
+                    $subCriteria = new \CriteriaCompo();
+                    $subCriteria->add(new \Criteria('form_title', "%{$queryArray[$idx]}%", 'LIKE'));
+                    $subCriteria->add(new \Criteria('form_desc', "%{$queryArray[$idx]}%", 'LIKE'), 'OR');
+                    $subCriteria->add(new \Criteria('form_intro', "%{$queryArray[$idx]}%", 'LIKE'), 'OR');
                     $criteria->add($subCriteria, $qual);
                     unset($subCriteria);
                 }

@@ -22,11 +22,11 @@
  * @since           1.30
  */
 
-use Xmf\Module\Helper;
+use XoopsModules\Xforms\Constants;
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-if (empty($form) || (!$form instanceof XformsForms)) {
+if (empty($form) || (!$form instanceof Forms)) {
     header('Location: index.php');
     exit();
 }
@@ -40,11 +40,11 @@ $xformsEleHandler = $helper->getHandler('element');
 require_once $helper->path('/class/elementrenderer.php');
 //require_once XFORMS_ROOT_PATH . '/class/elementrenderer.php';
 
-if (!interface_exists('XformsConstants')) {
+if (!interface_exists('Xforms\Constants')) {
     require_once $helper->path('class/constants.php');
 }
 
-if (XformsConstants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
+if (Constants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
     $GLOBALS['xoopsOption']['template_main'] = 'xforms_form.tpl';
 } else {
     $GLOBALS['xoopsOption']['template_main'] = 'xforms_form_poll.tpl';
@@ -55,9 +55,9 @@ $GLOBALS['xoTheme']->addStylesheet("browse.php?modules/{$moduleDirName}/assets/c
 /*
  * Read form elements
  */
-$criteria = new CriteriaCompo();
-$criteria->add(new Criteria('form_id', $form->getVar('form_id')));
-$criteria->add(new Criteria('ele_display', XformsConstants::ELEMENT_DISPLAY));
+$criteria = new \CriteriaCompo();
+$criteria->add(new \Criteria('form_id', $form->getVar('form_id')));
+$criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY));
 $criteria->setSort('ele_order');
 $criteria->setOrder('ASC');
 $elements = $xformsEleHandler->getObjects($criteria, true);
@@ -73,14 +73,14 @@ if (empty($elements)) { // this form doesn't have any elements
     xoops_footer();
     exit();
 }
-$formOutput   = new XoopsThemeForm($form->getVar('form_title'), 'xforms_' . $form->getVar('form_id'), $helper->url('index.php'), 'post', true);
+$formOutput   = new \XoopsThemeForm($form->getVar('form_title'), 'xforms_' . $form->getVar('form_id'), $helper->url('index.php'), 'post', true);
 $firstElement = true;
 $count        = 1;
 $multipart    = false;
 foreach ($elements as $i) {
-    $renderer = new XformsElementRenderer($i);
+    $renderer = new Xforms\ElementRenderer($i);
     $formEle  = $renderer->constructElement(false, $form->getVar('form_delimiter'));
-    $req      = (XformsConstants::ELEMENT_REQD == $i->getVar('ele_req')) ? true : false;
+    $req      = (Constants::ELEMENT_REQD == $i->getVar('ele_req')) ? true : false;
     if (true === $firstElement) {
         $formEle->setExtra('autofocus');  //give the 1st element focus on form load
         $firstElement = false;
@@ -98,14 +98,14 @@ foreach ($elements as $i) {
 if ($multipart) { // set multipart attribute for form
     $formOutput->setExtra('enctype="multipart/form-data"');
 }
-$formOutput->addElement(new XoopsFormHidden('form_id', $form->getVar('form_id')));
+$formOutput->addElement(new \XoopsFormHidden('form_id', $form->getVar('form_id')));
 
 // load captcha
 xoops_load('formCaptcha', XFORMS_DIRNAME);
-$xfFormCaptcha = new XformsFormCaptcha();
+$xfFormCaptcha = new Xforms\FormCaptcha();
 $formOutput->addElement($xfFormCaptcha);
 
-$subButton = new XoopsFormButton('', 'submit', $form->getVar('form_submit_text'), 'submit');
+$subButton = new \XoopsFormButton('', 'submit', $form->getVar('form_submit_text'), 'submit');
 $subButton->setExtra('tabindex="' . $count++ . '"'); // allow tabbing to the Submit button too
 $formOutput->addElement($subButton, 1);
 
@@ -153,7 +153,7 @@ $GLOBALS['xoopsTpl']->assign('form_req_prefix', $helper->getConfig('prefix'));
 $GLOBALS['xoopsTpl']->assign('form_req_suffix', $helper->getConfig('suffix'));
 $GLOBALS['xoopsTpl']->assign('form_intro', $form->getVar('form_intro'));
 $GLOBALS['xoopsTpl']->assign('form_text_global', $myts->displayTarea($helper->getConfig('global')));
-if (XformsConstants::FORM_HIDDEN == $form->getVar('form_order')) {
+if (Constants::FORM_HIDDEN == $form->getVar('form_order')) {
     if (!$helper->isUserAdmin()) {
         header('Location: ' . $helper->url('index.php'));
         exit();

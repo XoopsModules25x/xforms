@@ -21,43 +21,48 @@
  * @since           1.30
  */
 
+use XoopsModules\Xforms;
+
 require_once __DIR__ . '/../../../include/cp_header.php';
 require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 require_once $GLOBALS['xoops']->path('www/class/pagenav.php');
-//require_once __DIR__ . '/../class/Utility.php';
-//require_once __DIR__ . '/../include/common.php';
+// require_once __DIR__ . '/../class/Utility.php';
+require_once __DIR__ . '/../include/common.php';
 
 $moduleDirName = basename(dirname(__DIR__));
-// instantiate module helper
-$helper = \Xmf\Module\Helper::getHelper($moduleDirName);
+/** @var Xforms\Helper $helper */
+$helper = Xforms\Helper::getInstance();
+
+/** @var Xmf\Module\Admin $adminObject */
+$adminObject = \Xmf\Module\Admin::getInstance();
+
 
 require_once $helper->path('include/functions.php');
 //require $helper->path('include/common.php');
 
-if (!class_exists('XformsFormInput')) {
-    xoops_load('FormInput', 'xforms');
-}
+//if (!class_exists('Xforms\FormInput')) {
+//    xoops_load('FormInput', 'xforms');
+//}
 
-//require_once __DIR__ . '/../class/Utility.php';
-//require_once __DIR__ . '/../include/common.php';
 
-$adminObject = \Xmf\Module\Admin::getInstance();
-
-$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
-$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+//$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
+//$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
+//$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
 
 // Load language files
 $helper->loadLanguage('admin');
 $helper->loadLanguage('modinfo');
 $helper->loadLanguage('main');
+$helper->loadLanguage('common');
 
-$myts = \MyTextSanitizer::getInstance();
-
-if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
-    require_once $GLOBALS['xoops']->path('class/template.php');
-    $xoopsTpl = new XoopsTpl();
-}
+//$myts = \MyTextSanitizer::getInstance();
+//
+//if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof XoopsTpl)) {
+//    require_once $GLOBALS['xoops']->path('class/template.php');
+//    $xoopsTpl = new \XoopsTpl();
+//}
 
 //
-$xformsFormsHandler = $helper->getHandler('forms');
+$xformsFormsHandler = $helper->getHandler('Forms');
+
+//xoops_cp_header();

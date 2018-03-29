@@ -23,6 +23,7 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Xforms\Constants;
 
 ob_start(); /*To prevent problems in file send*/
 require_once __DIR__ . '/header.php';
@@ -60,7 +61,7 @@ if (empty($file)) {
 if (empty($file)) {
     //@TODO - shouldn't this be an ob_end_clean here instead of ob_end_flush?
     ob_end_flush();
-    redirect_header($GLOBALS['xoops']->url('www'), XformsConstants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
+    redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
 }
 if (empty($fname)) {
     $fname = $file;
@@ -70,7 +71,7 @@ $path = XFORMS_UPLOAD_PATH . $file;
 if (!preg_match('/^[0-9]+_{1}[0-9a-z]+\.[0-9a-z]+$/', $file) || !file_exists($path)) {
     //@TODO - shouldn't this be an ob_end_clean here instead of ob_end_flush?
     ob_end_flush();
-    redirect_header($GLOBALS['xoops']->url('www'), XformsConstants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
+    redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
 }
 
 ob_end_clean(); /*Clear all contents sending to browser to prevent corruptions in file send*/
