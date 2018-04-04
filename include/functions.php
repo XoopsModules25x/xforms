@@ -31,7 +31,7 @@ require_once __DIR__ . '/common.php';
  *
  * @param mixed $item
  *
- * @return int
+ * @return void
  */
 function xformsIntArray(&$item)
 {

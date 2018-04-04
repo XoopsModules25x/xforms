@@ -9,6 +9,9 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
+use Xmf\Module\Admin;
+
 /**
  * Module: xForms
  *
@@ -30,7 +33,7 @@ defined('XOOPS_ROOT_PATH') || die('Restricted Access');
  */
 function xoops_module_pre_install_xforms(\XoopsModule $module)
 {
-    class_exists('Xmf\Module\Admin') || exit('XMF is required.');
+    class_exists(Admin::class) || exit('XMF is required.');
 
     if (!class_exists('XformsUtility')) {
         xoops_load('utility', 'xforms');

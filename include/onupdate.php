@@ -10,6 +10,8 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+use Xmf\Module\Admin;
+
 /**
  * Module: xForms
  *
@@ -40,7 +42,7 @@ use Xmf\Database\Tables;
  */
 function xoops_module_update_xforms(\XoopsModule $xoopsModule, $prev_version)
 {
-    class_exists('Xmf\Module\Admin') || exit('XMF is required.');
+    class_exists(Admin::class) || exit('XMF is required.');
 
     if (!class_exists('XformsUtility')) {
         xoops_load('utility', 'xforms');

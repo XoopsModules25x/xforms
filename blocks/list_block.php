@@ -22,15 +22,16 @@
  * @since           1.30
  */
 
+use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 $moduleDirName = basename(dirname(__DIR__));
 require_once __DIR__ . '/../../../mainfile.php';
 
-// instantiate module helper
-//$helper = Xforms\Helper::getInstance();
 //require_once $helper->path('include/common.php');
 require_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/include/common.php");
+
+$helper = Xforms\Helper::getInstance();
 
 // Load language files
 $helper->loadLanguage('admin');

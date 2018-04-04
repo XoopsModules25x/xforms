@@ -436,7 +436,7 @@ class FormInput extends \XoopsFormElement
         if (!$this->hasAttribute('id')) {
             $id = $this->getAttribute('name');
             if ('[]' === substr($id, -2)) {
-                $id = substr($id, 0, strlen($id) - 2);
+                $id = substr($id, 0, -2);
             }
             $this->setAttribute('id', $id);
         }
