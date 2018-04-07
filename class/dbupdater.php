@@ -161,7 +161,7 @@ class XformsTable
         global $xoopsDB;
 
         foreach ($this->getData() as $data) {
-            $query = sprintf('INSERT INTO %s VALUES (%s)', $this->name(), $data);
+            $query = sprintf('INSERT INTO `%s` VALUES (%s)', $this->name(), $data);
             $ret   = $xoopsDB->query($query);
             if (!$ret) {
                 echo "<li class='err'>" . sprintf(_AM_XFORMS_DB_MSG_ADD_DATA_ERR, $this->name()) . '</li>';
@@ -417,7 +417,7 @@ class XformsTable
         $ret = true;
 
         foreach ($this->getUpdatedFields() as $updatedField) {
-            $query = sprintf('UPDATE %s SET %s = %s', $this->name(), $updatedField['name'], $updatedField['value']);
+            $query = sprintf('UPDATE `%s` SET %s = %s', $this->name(), $updatedField['name'], $updatedField['value']);
             $ret   = $ret && $xoopsDB->query($query);
             if (!$ret) {
                 echo "<li class='err'>" . sprintf(_AM_XFORMS_DB_MSG_UPDATE_TABLE_ERR, $this->name()) . '</li>';
@@ -441,7 +441,7 @@ class XformsTable
         $ret = true;
 
         foreach ($this->getUpdatedWhere() as $updatedWhere) {
-            $query = sprintf('UPDATE %s SET %s = %s WHERE %s  %s', $this->name(), $updatedWhere['name'], $updatedWhere['value'], $updatedWhere['name'], $updatedWhere['where']);
+            $query = sprintf('UPDATE `%s` SET %s = %s WHERE %s  %s', $this->name(), $updatedWhere['name'], $updatedWhere['value'], $updatedWhere['name'], $updatedWhere['where']);
             //echo $query."<br>";
             $ret = $ret && $xoopsDB->query($query);
             if (!$ret) {

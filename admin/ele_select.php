@@ -41,7 +41,8 @@ if (empty($addopt) && !empty($ele_id)) {
     }
 } else {
     if (!empty($ele_value[2])) {
-        while ($v = each($ele_value[2])) {
+        //        while ($v = each($ele_value[2])) {
+        foreach ($ele_value[2] as $v) {
             $v['value'] = $myts->htmlSpecialChars($myts->stripSlashesGPC($v['value']));
             if (!empty($v['value'])) {
                 $options[] = addOption('ele_value[2][' . $opt_count . ']', 'checked[' . $opt_count . ']', $v['value'], 'check', $checked[$v['key']]);

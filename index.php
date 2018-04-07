@@ -312,14 +312,16 @@ if (0 == count($err)) {
                     $opt_count = 1;
                     $ch        = [];
                     if (is_array($ele[$eleId])) {
-                        while ($v = each($eleValue[2])) {
+//                        while ($v = each($eleValue[2])) {
+                        foreach ($eleValue[2] as $v) {
                             if (in_array($opt_count, $ele[$eleId])) {
                                 $ch[] = $v['key'];
                             }
                             ++$opt_count;
                         }
                     } else {
-                        while ($j = each($eleValue[2])) {
+//                        while ($j = each($eleValue[2])) {
+                        foreach ($eleValue[2] as $j) {
                             if ($opt_count == $ele[$eleId]) {
                                 $ch[] = $j['key'];
                             }

@@ -249,17 +249,20 @@ switch ($op) {
                     $newVars  = [];
                     $optCount = 1;
                     if (isset($eleValue[$id]) && is_array($eleValue[$id])) {
-                        while ($j = each($value)) {
+                        //                        while ($j = each($value)) {
+                        foreach ($value as $j) {
                             $newVars[$j['key']] = in_array($optCount, $eleValue[$id]) ? 1 : 0;
                             ++$optCount;
                         }
                     } else {
                         if (count($value) > 1) {
-                            while ($j = each($value)) {
+                            //                            while ($j = each($value)) {
+                            foreach ($value as $j) {
                                 $newVars[$j['key']] = 0;
                             }
                         } else {
-                            while ($j = each($value)) {
+                            //                            while ($j = each($value)) {
+                            foreach ($value as $j) {
                                 $newVars = !empty($eleValue[$id]) ? [$j['key'] => 1] : [$j['key'] => 0];
                             }
                         }
@@ -309,7 +312,8 @@ switch ($op) {
                 case 'radio':
                     $newVars = [];
                     $i       = 1;
-                    while ($j = each($value)) {
+                    //                    while ($j = each($value)) {
+                    foreach ($value as $j) {
                         if (null !== $j['value']) {
                             $newVars[$j['key']] = ($eleValue[$id] == $i) ? '1' : '0';
                         }
@@ -323,18 +327,21 @@ switch ($op) {
                     $optCount = 1;
                     if (isset($eleValue[$id])) {
                         if (is_array($eleValue[$id])) {
-                            while ($j = each($value[2])) {
+                            // while ($j = each($value[2])) {
+                            foreach ($value[2] as $j) {
                                 $newVars[$j['key']] = in_array($optCount, $eleValue[$id]) ? 1 : 0;
                                 ++$optCount;
                             }
                         } else {
                             if (count($value[2]) > 1) {
-                                while ($j = each($value[2])) {
+                                //                            while ($j = each($value[2])) {
+                                foreach ($value[2] as $j) {
                                     $newVars[$j['key']] = ($optCount == $eleValue[$id]) ? 1 : 0;
                                     ++$optCount;
                                 }
                             } else {
-                                while ($j = each($value[2])) {
+                                // while ($j = each($value[2])) {
+                                foreach ($value[2] as $j) {
                                     $newVars = !empty($eleValue[$id]) ? [$j['key'] => 1] : [$j['key'] => 0];
                                 }
                             }
@@ -380,7 +387,8 @@ switch ($op) {
                 case 'yn':
                     $newVars = [];
                     $i       = 1;
-                    while ($j = each($value)) {
+                    // while ($j = each($value)) {
+                    foreach ($value as $j) {
                         if (null !== $j['value']) {
                             $newVars[$j['key']] = ($eleValue[$id] == $i) ? '1' : '0';
                         }

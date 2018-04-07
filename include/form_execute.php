@@ -293,14 +293,16 @@ if (0 == count($err)) {
                     $opt_count = 1;
                     $ch        = [];
                     if (is_array($ele[$ele_id])) {
-                        while ($v = each($ele_value[2])) {
+//                        while ($v = each($ele_value[2])) {
+                    foreach($ele_Value[2] as $v) {
                             if (in_array($opt_count, $ele[$ele_id])) {
                                 $ch[] = $myts->stripSlashesGPC($v['key']);
                             }
                             ++$opt_count;
                         }
                     } else {
-                        while ($j = each($ele_value[2])) {
+//                        while ($j = each($ele_value[2])) {
+                            foreach($ele_value[2] as $j) {
                             if ($opt_count == $ele[$ele_id]) {
                                 $ch[] = $myts->stripSlashesGPC($j['key']);
                             }

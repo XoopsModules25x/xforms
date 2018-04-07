@@ -286,7 +286,7 @@ define('_AM_XFORMS_DB_MSG_CHGFIELD_ERR', 'Could not alter %s column.');
 define('_AM_XFORMS_DB_MSG_CHGFIELD', 'Column %s modified.');
 define('_AM_XFORMS_DB_MSG_NEWFIELD_ERR', 'Could not insert new column - %s');
 define('_AM_XFORMS_DB_MSG_NEWFIELD', 'Column %s was inserted');
-define('_AM_XFORMS_DB_MSG_UPDATE_TABLE_ERR', 'Could not update %s table.');
+define('_AM_XFORMS_DB_MSG_UPDATE_TABLE_ERR', 'Could not UPDATE `%s` table.');
 define('_AM_XFORMS_DB_MSG_UPDATE_TABLE', 'Updated %s table.');
 define('_AM_XFORMS_DB_MSG_DROPFIELD_ERR', 'Could not drop %s column from %s table.');
 define('_AM_XFORMS_DB_MSG_DROPFIELD', 'Dropped %s column from %s table.');

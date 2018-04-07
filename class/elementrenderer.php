@@ -32,7 +32,7 @@ use XoopsModules\Xforms\Constants;
  */
 class ElementRenderer
 {
-    private $ele;
+    private   $ele;
     protected $dirname;
 
     /**
@@ -90,7 +90,8 @@ class ElementRenderer
                 $selected    = [];
                 $options     = [];
                 $optionCount = 1;
-                while ($i = each($eleValue)) {
+                //                while ($i = each($eleValue)) {
+                foreach ($eleValue as $i) {
                     $options[$optionCount] = $i['key'];
                     if ($i['value'] > 0) {
                         $selected[] = $optionCount;
@@ -98,7 +99,8 @@ class ElementRenderer
                     ++$optionCount;
                 }
                 $formElement = new \XoopsFormElementTray($eleCaption, (Constants::DELIMITER_BR == $delimiter) ? '<br>' : ' ');
-                while ($o = each($options)) {
+                //                while ($o = each($options)) {
+                foreach ($options as $o) {
                     $t     = new \XoopsFormCheckBox('', $formEleId . '[]', $selected);
                     $other = $this->optOther($o['value'], $formEleId);
                     if (false !== $other && !$admin) {
@@ -266,7 +268,8 @@ class ElementRenderer
                 $options     = [];
                 $optionCount = 1;
 
-                while ($i = each($eleValue)) {
+                //                while ($i = each($eleValue)) {
+                foreach ($eleValue as $i) {
                     $options[$optionCount] = $i['key'];
                     if ($i['value'] > 0) {
                         $selected = $optionCount;
@@ -279,7 +282,8 @@ class ElementRenderer
                 switch ($delimiter) {
                     case Constants::DELIMITER_BR:
                         $formElement = new \XoopsFormElementTray($eleCaption, '<br>');
-                        while ($o = each($options)) {
+                        //                while ($o = each($options)) {
+                        foreach ($options as $o) {
                             $t     = new \XoopsFormRadio('', $formEleId, $selected);
                             $other = $this->optOther($o['value'], $formEleId);
                             if ((false != $other) && !$admin) {
@@ -294,7 +298,8 @@ class ElementRenderer
                     case Constants::DELIMITER_SPACE:
                     default:
                         $formElement = new \XoopsFormRadio($eleCaption, $formEleId, $selected);
-                        while ($o = each($options)) {
+                        // while ($o = each($options)) {
+                        foreach ($options as $o) {
                             $other = $this->optOther($o['value'], $formEleId);
                             if (false !== $other && !$admin) {
                                 $formElement->addOption($o['key'], _MD_XFORMS_OPT_OTHER . $other);
@@ -333,7 +338,8 @@ class ElementRenderer
                 $selected    = [];
                 $options     = [];
                 $optionCount = 1;
-                while ($i = each($eleValue[2])) {
+                //                while ($i = each($eleValue[2])) {
+                foreach ($eleValue[2] as $i) {
                     $options[$optionCount] = $i['key'];
                     if ($i['value'] > 0) {
                         $selected[] = $optionCount;
@@ -341,13 +347,9 @@ class ElementRenderer
                     ++$optionCount;
                 }
 
-                $formElement = new \XoopsFormSelect(
-                    $eleCaption,
-                    $formEleId,
-                    $selected,
-                    (isset($eleValue[0])
-                                                                                        && ((int)$eleValue[0] > 0)) ? (int)$eleValue[0] : 1, // size
-                                                   (bool)$eleValue[1] // multiple
+                $formElement = new \XoopsFormSelect($eleCaption, $formEleId, $selected, (isset($eleValue[0])
+                                                                                         && ((int)$eleValue[0] > 0)) ? (int)$eleValue[0] : 1, // size
+                                                    (bool)$eleValue[1] // multiple
                 );
 
                 if ($eleValue[1]) {
@@ -358,12 +360,9 @@ class ElementRenderer
 
             case 'select2': // left for backward compatibility
             case 'country':
-                $formElement            = new \XoopsFormSelectCountry(
-                    $eleCaption,
-                    $formEleId,
-                    $myts->htmlSpecialChars($eleValue[2]), //default
-                                                                     (isset($eleValue[0])
-                                                                      && ((int)$eleValue[0] > 0)) ? (int)$eleValue[0] : 1 // size
+                $formElement            = new \XoopsFormSelectCountry($eleCaption, $formEleId, $myts->htmlSpecialChars($eleValue[2]), //default
+                                                                      (isset($eleValue[0])
+                                                                       && ((int)$eleValue[0] > 0)) ? (int)$eleValue[0] : 1 // size
                 );
                 $formElement->_multiple = (bool)$eleValue[1];
                 break;
@@ -393,12 +392,9 @@ class ElementRenderer
                     unset($criteria, $profileActive, $profileHandler, $xpr);
                 }
 
-                $formElement = new \XoopsFormText(
-                    $eleCaption,
-                    $formEleId,
-                    $eleValue[0], // box width
-                                                 $eleValue[1], // maxlength
-                                                 $myts->htmlSpecialChars($eleValue[2]) // default value
+                $formElement = new \XoopsFormText($eleCaption, $formEleId, $eleValue[0], // box width
+                                                  $eleValue[1], // maxlength
+                                                  $myts->htmlSpecialChars($eleValue[2]) // default value
                 );
                 if (isset($eleValue[4])) { // not set if form was imported
                     $formElement->setExtra("placeholder=\"{$eleValue[4]}\"");
@@ -406,12 +402,9 @@ class ElementRenderer
                 break;
 
             case 'textarea':
-                $formElement = new \XoopsFormTextArea(
-                    $eleCaption,
-                    $formEleId,
-                    $myts->htmlSpecialChars($eleValue[0]), // default value
-                                                     $eleValue[1], // rows
-                                                     $eleValue[2]  // cols
+                $formElement = new \XoopsFormTextArea($eleCaption, $formEleId, $myts->htmlSpecialChars($eleValue[0]), // default value
+                                                      $eleValue[1], // rows
+                                                      $eleValue[2]  // cols
                 );
                 if (isset($eleValue[3])) { // not set if form was imported
                     $formElement->setExtra("placeholder=\"{$eleValue[3]}\"");
@@ -512,7 +505,8 @@ class ElementRenderer
                 $options     = [];
                 $optionCount = 1;
 
-                while ($i = each($eleValue)) {
+                //                while ($i = each($eleValue)) {
+                foreach ($eleValue as $i) {
                     $options[$optionCount] = constant($i['key']);
                     if ($i['value'] > 0) {
                         $selected = $optionCount;
@@ -525,7 +519,8 @@ class ElementRenderer
                 switch ($delimiter) {
                     case Constants::DELIMITER_BR:
                         $formElement = new \XoopsFormElementTray($eleCaption, '<br>');
-                        while ($o = each($options)) {
+                        //                while ($o = each($options)) {
+                        foreach ($options as $o) {
                             $t     = new \XoopsFormRadio('', $formEleId, $selected);
                             $other = $this->optOther($o['value'], $formEleId);
                             if ((false !== $other) && !$admin) {
@@ -540,7 +535,8 @@ class ElementRenderer
                     case Constants::DELIMITER_SPACE:
                     default:
                         $formElement = new \XoopsFormRadio($eleCaption, $formEleId, $selected);
-                        while ($o = each($options)) {
+                        // while ($o = each($options)) {
+                        foreach ($options as $o) {
                             $other = $this->optOther($o['value'], $formEleId);
                             if (false !== $other && !$admin) {
                                 $formElement->addOption($o['key'], _MD_XFORMS_OPT_OTHER . $other);
