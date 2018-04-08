@@ -146,7 +146,7 @@ switch ($op) {
         $output->addElement(new \XoopsFormHidden('op', 'save'));
         $output->addElement(new \XoopsFormHidden('ele_type', $eleType));
 
-        if (empty($formId) || (true == $clone)) {
+        if (empty($formId) || (true === $clone)) {
             $selectApplyForm = new \XoopsFormSelect(_AM_XFORMS_ELE_APPLY_TO_FORM, 'form_id', $formId);
             $forms           = $xformsFormsHandler->getAll(null, null, true, false);
             foreach ($forms as $fObj) {

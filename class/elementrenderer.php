@@ -286,7 +286,7 @@ class ElementRenderer
                         foreach ($options as $o) {
                             $t     = new \XoopsFormRadio('', $formEleId, $selected);
                             $other = $this->optOther($o['value'], $formEleId);
-                            if ((false != $other) && !$admin) {
+                            if ((false !== $other) && !$admin) {
                                 $t->addOption($o['key'], _MD_XFORMS_OPT_OTHER . $other);
                             } else {
                                 $t->addOption($o['key'], $o['value']);

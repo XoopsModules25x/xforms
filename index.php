@@ -296,7 +296,7 @@ if (0 == count($err)) {
                     foreach ($eleValue as $v) {
                         if ($opt_count == $ele[$eleId]) {
                             $other = xformsCheckOther($v['key'], $eleId, $eleCaption);
-                            if (false != $other) {
+                            if (false !== $other) {
                                 $msg[$eleId]  .= $other;
                                 $uDataValue[] = $other;
                             } else {

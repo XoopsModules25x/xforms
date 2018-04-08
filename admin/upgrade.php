@@ -65,7 +65,7 @@ if ($version >= 1.2 || $count > 0) {
     $sql[]  = 'INSERT INTO `' . $xoopsDB->prefix('xforms_forms') . "` VALUES (1, '" . $method . "', " . $sendto . ", 1, '" . $delimiter . "', 'Contact Us', '" . _SUBMIT . "', 'Tell us about your comments for this site.', 'Contact us by filling out this form.', '');";
 
     for ($i = 0, $iMax = count($sql); $i < $iMax; ++$i) {
-        if (false != $xoopsDB->query($sql[$i])) {
+        if (false !== $xoopsDB->query($sql[$i])) {
             $ret[] = $msgs[$i] . 'done.';
         } else {
             $ret[] = $msgs[$i] . 'failed.';
@@ -99,7 +99,7 @@ if ($version >= 1.2 || $count > 0) {
     }
     echo '<pre><code>' . $output . '</code></pre>';
 
-    if (false != $error) {
+    if (false !== $error) {
         echo '<b>Oh No! Upgrade seems failed... I honestly hope that you have a backup...</b>';
     } else {
         echo 'Upgrade successed. Now go <a href="' . XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin&op=update&module=xforms">update this module</a>.';
