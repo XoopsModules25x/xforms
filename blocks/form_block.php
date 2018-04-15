@@ -25,7 +25,7 @@
 $moduleDirName = basename(dirname(__DIR__));
 
 // instantiate module helper
-$helper = Xmf\Module\Helper::getHelper($moduleDirName);
+$helper = \XoopsModules\AboutHelper::getInstance();
 require_once $helper->path('include/common.php');
 
 if (!class_exists('Xforms\FormInput')) {
@@ -36,7 +36,7 @@ function b_xforms_form_show($options)
 {
     // instantiate module helper
     $moduleDirName = basename(dirname(__DIR__));
-    $helper  = Xmf\Module\Helper::getHelper($moduleDirName);
+    $helper  = \XoopsModules\Xforms\Helper::getInstance();
     $helper->loadLanguage('admin');
 
     $block = [];
@@ -62,7 +62,7 @@ function b_xforms_form_edit($options)
 {
     // instantiate module helper
     $moduleDirName = basename(dirname(__DIR__));
-    $helper  = Xmf\Module\Helper::getHelper($moduleDirName);
+    $helper  = \XoopsModules\Xforms\Helper::getInstance();
 
     $xformsFormsHandler = $helper->getHandler('forms');
     $forms              = $xformsFormsHandler->getAll();

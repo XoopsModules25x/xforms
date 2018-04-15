@@ -19,10 +19,11 @@
  */
 
 use XoopsModules\Xforms;
+
+include __DIR__ . '/admin_header.php';
 /** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 
-include __DIR__ . '/admin_header.php';
 $version = number_format($xoopsModule->getVar('version') / 100, 2);
 $count   = $xforms_form_mgr->getCount();
 if ($version >= 1.2 || $count > 0) {
@@ -78,12 +79,12 @@ if ($version >= 1.2 || $count > 0) {
         $ret[] = 'Setting up default permissions...';
         $m     = '&nbsp;&nbsp;Grant permission of form id 1 to group id %u...%s';
         for ($i = 1; $i < 4; $i++) {
-            $perm = $modulepermHandler->create();
+            $perm = $grouppermHandler->create();
             $perm->setVar('gperm_name', $xforms_form_mgr->perm_name);
             $perm->setVar('gperm_itemid', 1);
             $perm->setVar('gperm_groupid', $i);
             $perm->setVar('gperm_modid', $xoopsModule->getVar('mid'));
-            if (!$modulepermHandler->insert($perm)) {
+            if (!$grouppermHandler->insert($perm)) {
                 $ret[] = sprintf($m, $i, 'failed.');
                 $error = true;
             } else {

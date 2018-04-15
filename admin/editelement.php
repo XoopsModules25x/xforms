@@ -28,7 +28,7 @@ use XoopsModules\Xforms\Constants;
 require_once __DIR__ . '/admin_header.php';
 $xformsEleHandler = $helper->getHandler('element');
 require_once $helper->path('class/elementrenderer.php');
-// require_once __DIR__ . '/../class/elementrenderer.php';
+// require_once  dirname(__DIR__) . '/class/elementrenderer.php';
 //define('_THIS_PAGE', $helper->url('admin/editelement.php');
 $myts = \MyTextSanitizer::getInstance();
 if ($xformsFormsHandler->getCount() < 1) {

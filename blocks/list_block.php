@@ -26,7 +26,7 @@ use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 $moduleDirName = basename(dirname(__DIR__));
-require_once __DIR__ . '/../../../mainfile.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 //require_once $helper->path('include/common.php');
 require_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/include/common.php");

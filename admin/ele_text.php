@@ -19,12 +19,12 @@
  */
 
 use XoopsModules\Xforms;
-/** @var Xforms\Helper $helper */
-$helper = Xforms\Helper::getInstance();
 
 if (!defined('XFORMS_ROOT_PATH')) {
     exit();
 }
+/** @var Xforms\Helper $helper */
+$helper = Xforms\Helper::getInstance();
 
 $profileHandler = xoops_getModuleHandler('profile', 'profile');
 $memberHandler  = xoops_getHandler('member');

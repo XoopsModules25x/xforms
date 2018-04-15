@@ -19,8 +19,6 @@
  */
 
 use XoopsModules\Xforms;
-/** @var Xforms\Helper $helper */
-$helper = Xforms\Helper::getInstance();
 
 if (!defined('XFORMS_ROOT_PATH')) {
     exit();
@@ -30,6 +28,9 @@ if (!isset($form) || empty($form) || !is_object($form)) {
     header('Location: index.php');
     exit();
 }
+
+/** @var Xforms\Helper $helper */
+$helper = Xforms\Helper::getInstance();
 
 $xforms_ele_mgr = xoops_getModuleHandler('elements');
 $criteria       = new \CriteriaCompo();
@@ -141,7 +142,7 @@ if (0 == count($err)) {
                 $msg[$ele_id] = '<br>- ' . $myts->displayTarea($myts->stripSlashesGPC($ele_caption), 1) . '<br>';
             }
             require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
-            $countries = XoopsLists::getCountryList();
+            $countries = \XoopsLists::getCountryList();
             switch ($ele_type) {
                 case 'upload':
                 case 'uploadimg':

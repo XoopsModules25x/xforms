@@ -27,7 +27,7 @@ use XoopsModules\Xforms\Constants;
 
 //defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once __DIR__ . '/../../../mainfile.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 require_once $GLOBALS['xoops']->path('./modules/xforms/class/constants.php');
 //xoops_load('constants', 'xforms');
 xoops_load('directorychecker', 'xforms');

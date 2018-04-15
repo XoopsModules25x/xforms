@@ -24,10 +24,10 @@
 use Xmf\Module\Helper\Session;
 use Xmf\Module\Helper\AbstractHelper;
 
-require_once __DIR__ . '/../../../mainfile.php';
+require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 */
 $moduleDirName = basename(dirname(__DIR__));
-require_once __DIR__ . '/../language/english/admin.php'; // messages will be in english
+require_once  dirname(__DIR__) . '/language/english/admin.php'; // messages will be in english
 //$sessionHelper = new Session($moduleDirName);
 //@todo test without session_start() to see if it's needed...
 session_start();

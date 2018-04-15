@@ -28,7 +28,7 @@ use Xmf\Request;
 use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';
-require_once __DIR__ . '/../include/functions.php';
+require_once  dirname(__DIR__) . '/include/functions.php';
 $thisFile = basename(__FILE__);
 
 $op = Request::getCmd('op', '');

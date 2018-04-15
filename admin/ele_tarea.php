@@ -19,12 +19,13 @@
  */
 
 use XoopsModules\Xforms;
-/** @var Xforms\Helper $helper */
-$helper = Xforms\Helper::getInstance();
 
 if (!defined('XFORMS_ROOT_PATH')) {
     exit();
 }
+
+/** @var Xforms\Helper $helper */
+$helper = Xforms\Helper::getInstance();
 
 $rows    = !empty($value[1]) ? $value[1] : $helper->getConfig('ta_rows');
 $cols    = !empty($value[2]) ? $value[2] : $helper->getConfig('ta_cols');

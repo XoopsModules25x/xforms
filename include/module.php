@@ -42,15 +42,15 @@ function xoops_module_pre_install_xforms(\XoopsModule $module)
  */
 function xoops_module_install_xforms(\XoopsModule $module)
 {
-    global $modulepermHandler;
+    global $grouppermHandler;
 
     for ($i = 1; $i < 4; ++$i) {
-        $perm = $modulepermHandler->create();
+        $perm = $grouppermHandler->create();
         $perm->setVar('gperm_name', 'xforms_form_access');
         $perm->setVar('gperm_itemid', 1);
         $perm->setVar('gperm_groupid', $i);
         $perm->setVar('gperm_modid', $module->getVar('mid'));
-        $modulepermHandler->insert($perm);
+        $grouppermHandler->insert($perm);
     }
 
     return true;

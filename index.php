@@ -334,7 +334,7 @@ if (0 == count($err)) {
 
                 case 'select2': //left for backward compatibility w/ v2.00 ALPHA 1
                 case 'country':
-                    $countries = XoopsLists::getCountryList();
+                    $countries = \XoopsLists::getCountryList();
                     if (is_array($ele[$eleId])) {
                         $cntryList = '';
                         foreach ($ele[$eleId] as $thisVal) {

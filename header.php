@@ -23,7 +23,7 @@
 
 $moduleDirName = basename(__DIR__);
 
-include __DIR__ . '/../../mainfile.php';
+include  dirname(dirname(__DIR__)) . '/mainfile.php';
 include __DIR__ . '/include/common.php';
 //
 require_once $GLOBALS['xoops']->path('www/class/xoopsform/tableform.php');
