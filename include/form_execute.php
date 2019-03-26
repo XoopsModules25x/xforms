@@ -226,7 +226,7 @@ if (count($err) == 0) {
                 $ele[$ele_id] = trim($ele[$ele_id]);
                 if( preg_match('/\{EMAIL\}/', $ele_value[2]) ){
                     if( !checkEmail($ele[$ele_id]) ){
-                        $err[] = _LIAISE_ERR_INVALIDMAIL;
+                        $err[] = _MD_XFORMS_ERR_INVALIDMAIL;
                     }else{
                         $reply_mail = $ele[$ele_id];
                     }
