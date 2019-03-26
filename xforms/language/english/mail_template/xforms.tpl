@@ -1,6 +1,0 @@
-{MSG}
-
-{UNAME} {ULINK}
-{IP}
-{AGENT}
-{FORMURL}
