@@ -34,14 +34,14 @@ $modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
 $modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
 
 //about
-$modversion["module_status"]       = "Alpha 1";
-$modversion['release_date']        = '2014/09/29';
-$modversion["module_website_url"]  = "http://xoops.org/";
+$modversion["module_status"]       = "Alpha 2";
+$modversion['release_date']        = '2019/03/26';
+$modversion["module_website_url"]  = "https://xoops.org/";
 $modversion["module_website_name"] = "XOOPS";
-$modversion['min_php']             = "5.5";
-$modversion['min_xoops']           = "2.5.7.2";
-$modversion['min_admin']           = "1.1";
-$modversion['min_db']              = array("mysql" => "5.0.7", "mysqli" => "5.0.7");
+$modversion['min_php']             = "5.7";
+$modversion['min_xoops']           = "2.5.9";
+$modversion['min_admin']           = "1.2";
+$modversion['min_db']              = array("mysql" => "5.5", "mysqli" => "5.5");
 
 // Install, update, unistall
 $modversion['onInstall'] = 'include/module.php';

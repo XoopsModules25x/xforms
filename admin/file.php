@@ -18,7 +18,7 @@
  * @author          Xoops Development Team
  */
 
-include 'admin_header.php';
+include __DIR__ . '/admin_header.php';
 $file = isset($_GET['f']) ? trim($_GET['f']) : '';
 $path = XFORMS_UPLOAD_PATH.$file;
 if ( !$file || !preg_match('/^[0-9]+_{1}[0-9a-z]+\.[0-9a-z]+$/', $file) || !file_exists($path) ) {

@@ -31,11 +31,6 @@ interface XformsConstants
 
     const DISALLOW = 0;
 
-// CONFIG displayicons
-    const _XFORMS_DISPLAYICONS_ICON = 1;
-    const _XFORMS_DISPLAYICONS_TEXT = 2;
-    const _XFORMS_DISPLAYICONS_NO = 3;
-
 // CONFIG submissions
     const _XFORMS_SUBMISSIONS_NONE = 1;
     const _XFORMS_SUBMISSIONS_DOWNLOAD = 2;
@@ -58,11 +53,6 @@ interface XformsConstants
 }
 
 /*
-
-// CONFIG displayicons
-define("_XFORMS_DISPLAYICONS_ICON", 1);
-define("_XFORMS_DISPLAYICONS_TEXT", 2);
-define("_XFORMS_DISPLAYICONS_NO", 3);
 
 // CONFIG submissions
 define("_XFORMS_SUBMISSIONS_NONE", 1);

@@ -1,6 +1,61 @@
 2.00 Alpha 2 [Not Released]
 =================================
+- changed undefined _LIASE_ERR_INVALIDMAIL to _MD_XFORMS_ERR_INVALIDMAIL in ./include/form_execute.php
+- removed rename_fields(), was not being used
+- removed commented out code (various files)
+- removed getMimeType() in ./file.php and replaced with XOOPS Mimetypes
+- removed filechecker class (and file), was not being used
+- removed DirectoryChecker class (and file), was not being used
+- removed xforms_tableExists(), was not being used
+- removed convertorderbyin(), was not being used
+- removed convertorderbytrans(), was not being used
+- removed convertorderbyout(), was not being used
+- removed xforms_updateRating(), was not being used
+- removed xforms_categoriesCount(), was not being used
+- removed xforms_getTotalDownloads(), was not being used
+- removed xforms_headerImage(), was not being used
+- removed xforms_displayImage(), was not being used
+- removed xforms_createThumb(), was not being used
+- removed xforms_isNewImage(), was not being used
+- removed xforms_getDownloadTime(), was not being used
+- removed xforms_strrrchr(), was not being used
+- removed xforms_allowedMimetypes(), was not being used
+- removed xforms_uploading(), was not being used
+- removed xforms_download(), was not being used
+- removed xforms_getForum(), was not being used
+- removed xforms_mirrorOnline(), was not being used
+- removed xforms_displayIcons(), was not being used
+- removed DISPLAYICONS_xxx constants, were not being used
+- removed xforms_serverStats(), was not being used
+- removed xforms_toolbar(), was not being used
+- removed xforms_savePermissions(), was not being used
+- removed xforms_savePermissions(), was not being used
+- removed xforms_seo_genUrl(), was not being used
+- removed xforms_formatErrors(), was not being used
+- removed xforms_getCurrentPage(), was not being used
+- removed xforms_getCurrentUrls(), was not being used
+- removed xforms_getCookieVar(), was not being used
+- removed xforms_setCookieVar(), was not being used
+- removed xforms_getHandler(), was not being used
+- removed xforms_module_home(), was not being used
+- removed xforms_xoops_cp_header(), was not being used
+- removed xforms_lettersChoice(), was not being used
+- removed xforms_sortCategories(), was not being used
+- removed xforms_checkModule(), was not being used
+- removed xforms_delDir(), was not being used
+- removed xforms_copyDir(), was not being used
+- removed xforms_copyFile(), was not being used
+- removed xforms_makeDir(), was not being used
+- removed xforms_getDir(), was not being used
+- removed xforms_bytesToSize1000(), was not being used
+- removed xforms_bytesToSize1024(), was not being used
+- removed xforms_sizeToBytes1024(), was not being used
+- removed xforms_cleanvars(), was not being used
+- removed dormant swish-e code (was never implemented)
+- removed TruncateHTML from cakephp.org (was never implemented)
+- removed traces of SEO code (was never implemented)
 - removed ./xforms (ver 1.21 code)
+- updated required XOOPS, PHP, SQL versions
 
 2.00 Alpha 1 [2014-10-08]
 =================================
