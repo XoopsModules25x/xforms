@@ -1,9 +1,13 @@
-2.00 Alpha 1       2014-10-08
+2.00 Alpha 2 [Not Released]
+=================================
+- removed ./xforms (ver 1.21 code)
+
+2.00 Alpha 1 [2014-10-08]
 =================================
 - merged eForms with xForms, so there would be migration path for current users, and less fragmentation of modules (mamba).
 - moved all images, CSS, and JS files to /assets (mamba)
 - renamed .html Smarty templates to .tpl (mamba)
-- added Interface for constants from Zyspec's MyLinks (mamba)
+- added Interface for constants from ZySpec's MyLinks (mamba)
 - add Country and Date selection (Mariane)
 
 TODO:
