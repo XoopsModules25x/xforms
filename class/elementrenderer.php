@@ -39,8 +39,8 @@ class XFormsElementRenderer
     {
         global $xoopsUser, $form;
         $myts        = MyTextSanitizer::getInstance();
-        $ele_caption = $myts->displayTarea($myts->stripSlashesGPC($this->ele->getVar('ele_caption')), 1);
-        $ele_value   = $this->ele->getVar('ele_value');
+        $eleCaption = $myts->displayTarea($myts->stripSlashesGPC($this->ele->getVar('ele_caption')), 1);
+        $eleValue   = $this->ele->getVar('ele_value');
         $e           = $this->ele->getVar('ele_type');
         $delimiter   = $form->getVar('form_delimiter');
         $form_ele_id = $admin ? 'ele_value[' . $this->ele->getVar('ele_id') . ']' : 'ele_' . $this->ele->getVar('ele_id');
@@ -59,25 +59,25 @@ class XFormsElementRenderer
                 }
                 if (!$admin) {
                     foreach ($xur->vars as $k => $v) {
-                        $ele_value[2] = str_replace('{U_' . $k . '}', $xur->getVar($k, 'e'), $ele_value[2]);
+                        $eleValue[2] = str_replace('{U_' . $k . '}', $xur->getVar($k, 'e'), $eleValue[2]);
                     }
                     foreach ($xpr->vars as $k => $v) {
-                        $ele_value[2] = str_replace('{P_' . $k . '}', $xpr->getVar($k, 'e'), $ele_value[2]);
+                        $eleValue[2] = str_replace('{P_' . $k . '}', $xpr->getVar($k, 'e'), $eleValue[2]);
                     }
                 }
                 $form_ele = new XoopsFormText
                 (
-                    $ele_caption, $form_ele_id, $ele_value[0], //	box width
-                    $ele_value[1], //	maxlenght
-                    $myts->htmlspecialchars($myts->stripSlashesGPC($ele_value[2])) //	default value
+                    $eleCaption, $form_ele_id, $eleValue[0], //	box width
+                    $eleValue[1], //	maxlenght
+                    $myts->htmlSpecialChars($myts->stripSlashesGPC($eleValue[2])) //	default value
                 );
                 break;
 
             case 'textarea':
                 $form_ele = new XoopsFormTextArea(
-                    $ele_caption, $form_ele_id, $myts->htmlspecialchars($myts->stripSlashesGPC($ele_value[0])), //	default value
-                    $ele_value[1], //	rows
-                    $ele_value[2] //	cols
+                    $eleCaption, $form_ele_id, $myts->htmlSpecialChars($myts->stripSlashesGPC($eleValue[0])), //	default value
+                    $eleValue[1], //	rows
+                    $eleValue[2] //	cols
                 );
                 break;
 
@@ -85,11 +85,11 @@ class XFormsElementRenderer
                 global $check_req;
                 if (!$admin) {
                     $form_ele = new XoopsFormLabel(
-                        $ele_caption, $myts->displayTarea($myts->stripSlashesGPC($ele_value[0]), 1), $form_ele_id
+                        $eleCaption, $myts->displayTarea($myts->stripSlashesGPC($eleValue[0]), 1), $form_ele_id
                     );
                 } else {
                     $form_ele              = new XoopsFormDhtmlTextArea (
-                        $ele_caption, $form_ele_id, $myts->htmlspecialchars($myts->stripSlashesGPC($ele_value[0])) //	default value
+                        $eleCaption, $form_ele_id, $myts->htmlSpecialChars($myts->stripSlashesGPC($eleValue[0])) //	default value
                     );
                     $form_ele->skipPreview = true;
                     $check_req->setExtra('disabled="disabled"');
@@ -97,20 +97,20 @@ class XFormsElementRenderer
                 break;
             case 'date':
                 if (isset($post_val)) {
-                    $ele_value = $post_val;
+                    $eleValue = $post_val;
                 }
                 $form_ele = new XoopsFormTextDateSelect(
-                    $ele_caption, $form_ele_id, 15, strtotime($ele_value[0])
+                    $eleCaption, $form_ele_id, 15, strtotime($eleValue[0])
                 );
 
                 break;
 
             case 'select2':
                 if (isset($post_val)) {
-                    $ele_value = $post_val;
+                    $eleValue = $post_val;
                 }
                 $form_ele = new XoopsFormSelectCountry(
-                    $ele_caption, $form_ele_id, $myts->htmlspecialchars($myts->stripSlashesGPC($ele_value[2]))    //	default value
+                    $eleCaption, $form_ele_id, $myts->htmlSpecialChars($myts->stripSlashesGPC($eleValue[2]))    //	default value
                 );
                 break;
 
@@ -118,7 +118,7 @@ class XFormsElementRenderer
                 $selected  = array();
                 $options   = array();
                 $opt_count = 1;
-                while ($i = each($ele_value[2])) {
+                while ($i = each($eleValue[2])) {
                     $options[$opt_count] = $myts->stripSlashesGPC($i['key']);
                     if ($i['value'] > 0) {
                         $selected[] = $opt_count;
@@ -126,10 +126,10 @@ class XFormsElementRenderer
                     ++$opt_count;
                 }
                 $form_ele = new XoopsFormSelect (
-                    $ele_caption, $form_ele_id, $selected, $ele_value[0], //	size
-                    $ele_value[1] //	multiple
+                    $eleCaption, $form_ele_id, $selected, $eleValue[0], //	size
+                    $eleValue[1] //	multiple
                 );
-                if ($ele_value[1]) {
+                if ($eleValue[1]) {
                     $this->ele->setVar('ele_req', 0);
                 }
                 $form_ele->addOptionArray($options);
@@ -139,7 +139,7 @@ class XFormsElementRenderer
                 $selected  = array();
                 $options   = array();
                 $opt_count = 1;
-                while ($i = each($ele_value)) {
+                while ($i = each($eleValue)) {
                     $options[$opt_count] = $i['key'];
                     if ($i['value'] > 0) {
                         $selected[] = $opt_count;
@@ -147,7 +147,7 @@ class XFormsElementRenderer
                     ++$opt_count;
                 }
 
-                $form_ele = new XoopsFormElementTray($ele_caption, $delimiter == 'b' ? '<br />' : ' ');
+                $form_ele = new XoopsFormElementTray($eleCaption, $delimiter == 'b' ? '<br />' : ' ');
                 while ($o = each($options)) {
                     $t     = new XoopsFormCheckBox('', $form_ele_id . '[]', $selected);
                     $other = $this->optOther($o['value'], $form_ele_id);
@@ -165,7 +165,7 @@ class XFormsElementRenderer
                 $selected  = '';
                 $options   = array();
                 $opt_count = 1;
-                while ($i = each($ele_value)) {
+                while ($i = each($eleValue)) {
                     switch ($e) {
                         case 'radio':
                             $options[$opt_count] = $i['key'];
@@ -181,7 +181,7 @@ class XFormsElementRenderer
                 }
                 switch ($delimiter) {
                     case 'b':
-                        $form_ele = new XoopsFormElementTray($ele_caption, '<br />');
+                        $form_ele = new XoopsFormElementTray($eleCaption, '<br />');
                         while ($o = each($options)) {
                             $t     = new XoopsFormRadio('', $form_ele_id, $selected);
                             $other = $this->optOther($o['value'], $form_ele_id);
@@ -195,7 +195,7 @@ class XFormsElementRenderer
                         break;
                     case 's':
                     default:
-                        $form_ele = new XoopsFormRadio($ele_caption, $form_ele_id, $selected);
+                        $form_ele = new XoopsFormRadio($eleCaption, $form_ele_id, $selected);
                         while ($o = each($options)) {
                             $other = $this->optOther($o['value'], $form_ele_id);
                             if ($other != false && !$admin) {
@@ -212,15 +212,15 @@ class XFormsElementRenderer
             case 'uploadimg':
                 if ($admin) {
                     $form_ele = new XoopsFormElementTray('', '<br />');
-                    $form_ele->addElement(new XoopsFormText(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, $form_ele_id . '[0]', 10, 20, $ele_value[0]));
+                    $form_ele->addElement(new XoopsFormText(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, $form_ele_id . '[0]', 10, 20, $eleValue[0]));
                     if ($e == 'uploadimg') {
-                        $form_ele->addElement(new XoopsFormText(_AM_XFORMS_ELE_UPLOADIMG_MAXWIDTH, $form_ele_id . '[4]', 10, 20, $ele_value[4]));
-                        $form_ele->addElement(new XoopsFormText(_AM_XFORMS_ELE_UPLOADIMG_MAXHEIGHT, $form_ele_id . '[5]', 10, 20, $ele_value[5]));
+                        $form_ele->addElement(new XoopsFormText(_AM_XFORMS_ELE_UPLOADIMG_MAXWIDTH, $form_ele_id . '[4]', 10, 20, $eleValue[4]));
+                        $form_ele->addElement(new XoopsFormText(_AM_XFORMS_ELE_UPLOADIMG_MAXHEIGHT, $form_ele_id . '[5]', 10, 20, $eleValue[5]));
                     }
                 } else {
                     global $form_output;
                     $form_output->setExtra('enctype="multipart/form-data"');
-                    $form_ele = new XoopsFormFile($ele_caption, $form_ele_id, $ele_value[0]);
+                    $form_ele = new XoopsFormFile($eleCaption, $form_ele_id, $eleValue[0]);
                 }
                 break;
 

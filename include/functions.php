@@ -24,12 +24,6 @@ include_once __DIR__ . '/common.php';
 
 /**
  *
- * Filesystem functions
- *
- */
-
-/**
- *
  * Module functions
  *
  */
@@ -44,17 +38,17 @@ function xforms_userIsAdmin()
     global $xoopsUser;
     $xforms = XformsXforms::getInstance();
 
-    static $xforms_isAdmin;
+    static $xformsIsAdmin;
 
-    if (isset($xforms_isAdmin)) {
-        return $xforms_isAdmin;
+    if (isset($xformsIsAdmin)) {
+        return $xformsIsAdmin;
     }
 
     if (!$xoopsUser) {
-        $xforms_isAdmin = false;
+        $xformsIsAdmin = false;
     } else {
-        $xforms_isAdmin = $xoopsUser->isAdmin($xforms->getModule()->getVar('mid'));
+        $xformsIsAdmin = $xoopsUser->isAdmin($xforms->getModule()->getVar('mid'));
     }
 
-    return $xforms_isAdmin;
+    return $xformsIsAdmin;
 }

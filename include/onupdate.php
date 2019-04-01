@@ -17,3 +17,10 @@
  * @since           1.30
  * @author          Xoops Development Team (see credits.txt)
  */
+
+/** @todo
+//---------------------------------------------------------------
+// Need to remove ./admin/ele_*.php files since they're being replaced by
+// ./admin/elements/ele_*.php files
+//---------------------------------------------------------------
+ */

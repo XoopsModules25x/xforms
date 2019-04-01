@@ -21,7 +21,7 @@
 include __DIR__ . '/admin_header.php';
 $file = isset($_GET['f']) ? trim($_GET['f']) : '';
 $path = XFORMS_UPLOAD_PATH.$file;
-if ( !$file || !preg_match('/^[0-9]+_{1}[0-9a-z]+\.[0-9a-z]+$/', $file) || !file_exists($path) ) {
+if (!$file || !preg_match('/^[0-9]+_{1}[0-9a-z]+\.[0-9a-z]+$/', $file) || !file_exists($path)) {
     redirect_header(XOOPS_URL, 0, _AM_XFORMS_NOTHING_SELECTED);
 }
 

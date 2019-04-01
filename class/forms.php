@@ -59,8 +59,8 @@ class xFormsForms extends XoopsObject
     public function isActive()
     {
         $now    = time();
-        $fbegin = intval($this->getVar('form_begin'), 10);
-        $fend   = intval($this->getVar('form_end'), 10);
+        $fbegin = (int)$this->getVar('form_begin');
+        $fend   = (int)$this->getVar('form_end');
         if ($this->getVar('form_active') == 0) {
             return false;
         }
@@ -121,7 +121,7 @@ class xFormsFormsHandler extends XoopsObjectHandler
      */
     public function get($id, $fields = '*')
     {
-        $id = intval($id);
+        $id = (int)$id;
         if ($id > 0) {
             $sql = 'SELECT ' . $fields . ' FROM ' . $this->db_table . ' WHERE form_id=' . $id;
             if (!$result = $this->db->query($sql)) {
@@ -159,8 +159,8 @@ class xFormsFormsHandler extends XoopsObjectHandler
         foreach ($form->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        if ($form->isNew() || empty($form_id)) {
-            $form_id = $this->db->genId($this->db_table . "_form_id_seq");
+        if ($form->isNew() || empty($formId)) {
+            $formId = $this->db->genId($this->db_table . "_form_id_seq");
             $sql     = sprintf(
                 "INSERT INTO %s (
                                 form_id, form_save_db, form_send_method, form_send_to_group, form_send_to_other, form_send_copy, form_order, form_delimiter, form_title, form_submit_text, form_desc, form_intro, form_email_header, form_email_footer, form_email_uheader, form_email_ufooter, form_whereto, form_display_style, form_begin, form_end, form_active
@@ -168,13 +168,13 @@ class xFormsFormsHandler extends XoopsObjectHandler
                                 %u, %u, %s, %s, %s, %u, %u, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %u, %u, %u
                                 )",
                 $this->db_table,
-                intval($form_id, 10),
-                intval($form_save_db, 10),
+                (int)$formId,
+                (int)$form_save_db,
                 $this->db->quoteString($form_send_method),
                 $this->db->quoteString($form_send_to_group),
                 $this->db->quoteString($form_send_to_other),
-                intval($form_send_copy, 10),
-                intval($form_order, 10),
+                (int)$form_send_copy,
+                (int)$form_order,
                 $this->db->quoteString($form_delimiter),
                 $this->db->quoteString($form_title),
                 $this->db->quoteString($form_submit_text),
@@ -186,9 +186,9 @@ class xFormsFormsHandler extends XoopsObjectHandler
                 $this->db->quoteString($form_email_ufooter),
                 $this->db->quoteString($form_whereto),
                 $this->db->quoteString($form_display_style),
-                intval($form_begin, 10),
-                intval($form_end, 10),
-                intval($form_active, 10)
+                (int)$form_begin,
+                (int)$form_end,
+                (int)$form_active
             );
         } else {
             $sql = sprintf(
@@ -219,7 +219,7 @@ class xFormsFormsHandler extends XoopsObjectHandler
                 $this->db->quoteString($form_send_method),
                 $this->db->quoteString($form_send_to_group),
                 $this->db->quoteString($form_send_to_other),
-                intval($form_send_copy, 10),
+                (int)$form_send_copy,
                 $form_order,
                 $this->db->quoteString($form_delimiter),
                 $this->db->quoteString($form_title),
@@ -232,10 +232,10 @@ class xFormsFormsHandler extends XoopsObjectHandler
                 $this->db->quoteString($form_email_ufooter),
                 $this->db->quoteString($form_whereto),
                 $this->db->quoteString($form_display_style),
-                intval($form_begin, 10),
-                intval($form_end, 10),
-                intval($form_active, 10),
-                $form_id
+                (int)$form_begin,
+                (int)$form_end,
+                (int)$form_active,
+                $formId
             );
         }
         if (false != $force) {
@@ -248,12 +248,12 @@ class xFormsFormsHandler extends XoopsObjectHandler
 
             return false;
         }
-        if (empty($form_id)) {
-            $form_id = $this->db->getInsertId();
+        if (empty($formId)) {
+            $formId = $this->db->getInsertId();
         }
-        $form->assignVar('form_id', $form_id);
+        $form->assignVar('form_id', $formId);
 
-        return $form_id;
+        return $formId;
     }
 
     /**
@@ -388,27 +388,27 @@ class xFormsFormsHandler extends XoopsObjectHandler
     }
 
     /**
-     * @param $form_id
+     * @param $formId
      *
      * @return bool
      */
-    public function deleteFormPermissions($form_id)
+    public function deleteFormPermissions($formId)
     {
-        $GLOBALS['moduleperm_handler']->deleteByModule($GLOBALS['xoopsModule']->getVar('mid'), $this->perm_name, $form_id);
+        $GLOBALS['moduleperm_handler']->deleteByModule($GLOBALS['xoopsModule']->getVar('mid'), $this->perm_name, $formId);
 
         return true;
     }
 
     /**
-     * @param $form_id
+     * @param $formId
      * @param $group_ids
      *
      * @return bool
      */
-    public function insertFormPermissions($form_id, $group_ids)
+    public function insertFormPermissions($formId, $group_ids)
     {
         foreach ($group_ids as $id) {
-            $GLOBALS['moduleperm_handler']->addRight($this->perm_name, $form_id, $id, $GLOBALS['xoopsModule']->getVar('mid'));
+            $GLOBALS['moduleperm_handler']->addRight($this->perm_name, $formId, $id, $GLOBALS['xoopsModule']->getVar('mid'));
         }
 
         return true;
@@ -445,15 +445,15 @@ class xFormsFormsHandler extends XoopsObjectHandler
     }
 
     /**
-     * @param $form_id
+     * @param $formId
      *
      * @return bool
      */
-    public function getSingleFormPermission($form_id)
+    public function getSingleFormPermission($formId)
     {
         global $xoopsUser, $xoopsModule, $moduleperm_handler;
         $groups = is_object($xoopsUser) ? $xoopsUser->getGroups() : 3;
-        if (false != $moduleperm_handler->checkRight($this->perm_name, $form_id, $groups, $xoopsModule->getVar('mid'))) {
+        if (false != $moduleperm_handler->checkRight($this->perm_name, $formId, $groups, $xoopsModule->getVar('mid'))) {
             return true;
         }
 

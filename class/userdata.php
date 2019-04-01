@@ -82,15 +82,15 @@ class xFormsUserdataHandler
     }
 
     /**
-     * @param $udata_id
+     * @param $uDataId
      *
      * @return bool
      */
-    public function get($udata_id)
+    public function get($uDataId)
     {
-        $udata_id = intval($udata_id, 10);
-        if ($udata_id > 0) {
-            $sql = 'SELECT * FROM ' . $this->db_table . ' WHERE udata_id=' . $udata_id;
+        $uDataId = (int)$uDataId;
+        if ($uDataId > 0) {
+            $sql = 'SELECT * FROM ' . $this->db_table . ' WHERE udata_id=' . $uDataId;
             if (!$result = $this->db->query($sql)) {
                 return false;
             }
@@ -126,20 +126,20 @@ class xFormsUserdataHandler
         foreach ($userdata->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        if ($userdata->isNew() || empty($udata_id)) {
+        if ($userdata->isNew() || empty($uDataId)) {
             $sql = sprintf(
                 "INSERT INTO %s (uid, form_id, ele_id, udata_time, udata_ip, udata_agent, udata_value) VALUES (%u, %u, %u, %u, %s, %s, %s)",
                 $this->db_table,
                 $uid,
-                $form_id,
-                $ele_id,
+                $formId,
+                $eleId,
                 $udata_time,
                 $this->db->quoteString($udata_ip),
                 $this->db->quoteString($udata_agent),
-                $this->db->quoteString($udata_value)
+                $this->db->quoteString($uDataValue)
             );
         } else {
-            $sql = sprintf("UPDATE %s SET udata_value = %s WHERE $udata_id = %u", $this->db_table, $this->db->quoteString($udata_value), $udata_id);
+            $sql = sprintf("UPDATE %s SET udata_value = %s WHERE $uDataId = %u", $this->db_table, $this->db->quoteString($uDataValue), $uDataId);
         }
         if (false != $force) {
             $result = $this->db->queryF($sql);
@@ -151,12 +151,12 @@ class xFormsUserdataHandler
 
             return false;
         }
-        if (empty($udata_id)) {
-            $udata_id = $this->db->getInsertId();
+        if (empty($uDataId)) {
+            $uDataId = $this->db->getInsertId();
         }
-        $userdata->assignVar('udata_id', $udata_id);
+        $userdata->assignVar('udata_id', $uDataId);
 
-        return $udata_id;
+        return $uDataId;
     }
 
     /**
@@ -216,15 +216,15 @@ class xFormsUserdataHandler
     }
 
     /**
-     * @param $form_id
+     * @param $formId
      *
      * @return array
      */
-    public function getReport($form_id)
+    public function getReport($formId)
     {
         $ret     = array();
-        $form_id = intval($form_id, 10);
-        if ($form_id <= 0) {
+        $formId = (int)$formId;
+        if ($formId <= 0) {
             return $ret;
         }
         $sql
@@ -234,7 +234,7 @@ class xFormsUserdataHandler
                   FROM ' . $this->db_table . ' D
                   LEFT JOIN ' . $this->db->prefix('users') . ' U ON (D.uid=U.uid)
                  INNER JOIN ' . $this->db->prefix('xforms_element') . ' E ON (D.ele_id=E.ele_id)
-                 WHERE D.form_id=' . $form_id . '
+                 WHERE D.form_id=' . $formId . '
                  ORDER BY D.uid ASC, D.udata_time ASC, D.udata_ip ASC, E.ele_order ASC';
         $result = $this->db->query($sql);
         if (!$result) {

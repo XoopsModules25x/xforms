@@ -18,9 +18,7 @@
  * @author          Xoops Development Team
  */
 
-if (!defined('XFORMS_ROOT_PATH')) {
-    exit();
-}
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 $defaults                       = array();
 $defaults[0]['caption']         = _AM_XFORMS_DEFAULT_ELE_YOURNAME;

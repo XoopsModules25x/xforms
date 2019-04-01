@@ -89,7 +89,7 @@ class xFormsElementsHandler
      */
     public function get($id)
     {
-        $id = intval($id);
+        $id = (int)$id;
         if ($id > 0) {
             $sql = 'SELECT * FROM ' . $this->db_table . ' WHERE ele_id=' . $id;
             if (!$result = $this->db->query($sql)) {
@@ -127,8 +127,8 @@ class xFormsElementsHandler
         foreach ($element->cleanVars as $k => $v) {
             ${$k} = $v;
         }
-        if ($element->isNew() || empty($ele_id)) {
-            $ele_id = $this->db->genId($this->db_table . "_ele_id_seq");
+        if ($element->isNew() || empty($eleId)) {
+            $eleId = $this->db->genId($this->db_table . "_ele_id_seq");
             $sql    = sprintf(
                 "INSERT INTO %s (
                                 ele_id, form_id, ele_type, ele_caption, ele_order, ele_req, ele_display_row, ele_value, ele_display
@@ -136,14 +136,14 @@ class xFormsElementsHandler
                                 %u, %u, %s, %s, %u, %u, %u, %s, %u
                                 )",
                 $this->db_table,
-                $ele_id,
-                $form_id,
-                $this->db->quoteString($ele_type),
-                $this->db->quoteString($ele_caption),
-                $ele_order,
-                $ele_req,
+                $eleId,
+                $formId,
+                $this->db->quoteString($eleType),
+                $this->db->quoteString($eleCaption),
+                $eleOrder,
+                $eleOrder,
                 $ele_display_row,
-                $this->db->quoteString($ele_value),
+                $this->db->quoteString($eleValue),
                 $ele_display
             );
         } else {
@@ -159,15 +159,15 @@ class xFormsElementsHandler
                                 ele_display = %u
                                 WHERE ele_id = %u",
                 $this->db_table,
-                $form_id,
-                $this->db->quoteString($ele_type),
-                $this->db->quoteString($ele_caption),
-                $ele_order,
-                $ele_req,
+                $formId,
+                $this->db->quoteString($eleType),
+                $this->db->quoteString($eleCaption),
+                $eleOrder,
+                $eleOrder,
                 $ele_display_row,
-                $this->db->quoteString($ele_value),
+                $this->db->quoteString($eleValue),
                 $ele_display,
-                $ele_id
+                $eleId
             );
         }
         if (false != $force) {
@@ -180,12 +180,12 @@ class xFormsElementsHandler
 
             return false;
         }
-        if (empty($ele_id)) {
-            $ele_id = $this->db->getInsertId();
+        if (empty($eleId)) {
+            $eleId = $this->db->getInsertId();
         }
-        $element->assignVar('ele_id', $ele_id);
+        $element->assignVar('ele_id', $eleId);
 
-        return $ele_id;
+        return $eleId;
     }
 
     /**
@@ -289,11 +289,11 @@ class xFormsElementsHandler
     }
 
     /**
-     * @param $form_id
+     * @param $formId
      *
      * @return bool|string
      */
-    public function insertDefaults($form_id)
+    public function insertDefaults($formId)
     {
         global $xoopsModuleConfig;
         include XFORMS_ROOT_PATH . 'admin/default_elements.php';
@@ -301,7 +301,7 @@ class xFormsElementsHandler
             $error = '';
             foreach ($defaults as $d) {
                 $ele = $this->create();
-                $ele->setVar('form_id', $form_id);
+                $ele->setVar('form_id', $formId);
                 $ele->setVar('ele_caption', $d['caption']);
                 $ele->setVar('ele_req', $d['req']);
                 $ele->setVar('ele_display_row', $d['ele_display_row']);

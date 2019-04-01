@@ -23,9 +23,9 @@ ob_start(); /*To prevent problems in file send*/
 include dirname(dirname(__DIR__)) . '/mainfile.php';
 include 'include/common.php';
 
-$udid  = isset($_GET['ui']) ? intval(trim($_GET['ui']), 10) : 0;
-$form  = isset($_GET['fm']) ? intval(trim($_GET['fm']), 10) : 0;
-$elem  = isset($_GET['el']) ? intval(trim($_GET['el']), 10) : 0;
+$udid  = isset($_GET['ui']) ? intval(trim($_GET['ui'])) : 0;
+$form  = isset($_GET['fm']) ? intval(trim($_GET['fm'])) : 0;
+$elem  = isset($_GET['el']) ? intval(trim($_GET['el'])) : 0;
 $file  = isset($_GET['f']) ? trim($_GET['f']) : '';
 $fname = isset($_GET['fn']) ? trim($_GET['fn']) : '';
 if (empty($file) && ($udid == 0 || $form == 0 || $elem == 0)) {
@@ -33,8 +33,8 @@ if (empty($file) && ($udid == 0 || $form == 0 || $elem == 0)) {
     exit();
 }
 if (empty($file)) {
-    $udata_mgr = xoops_getmodulehandler('userdata');
-    if (!($udata = $udata_mgr->get($udid)) || ($udata->getVar('form_id') != $form) || ($udata->getVar('ele_id') != $elem)) {
+    $udataMgr = xoops_getmodulehandler('userdata');
+    if (!($udata = $udataMgr->get($udid)) || ($udata->getVar('form_id') != $form) || ($udata->getVar('ele_id') != $elem)) {
         exit();
     }
     $fdata = $udata->getVar('udata_value');

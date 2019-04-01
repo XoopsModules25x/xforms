@@ -18,22 +18,20 @@
  * @author          Xoops Development Team
  */
 
-if (!defined('xforms_ROOT_PATH')) {
-    exit();
-}
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-if (empty($addopt) && !empty($ele_id)) {
-    $ele_value = $element->getVar('ele_value');
+if (empty($addOpt) && !empty($eleId)) {
+    $eleValue = $element->getVar('ele_value');
 }
-$ele_size    = !empty($ele_value[0]) ? $ele_value[0] : 1;
-$size        = new XoopsFormText(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 3, 2, $ele_size);
-$allow_multi = empty($ele_value[1]) ? 0 : 1;
-$multiple    = new XoopsFormRadioYN(_AM_XFORMS_ELE_MULTIPLE, 'ele_value[1]', $allow_multi);
-$country     = xoops_getModuleOption('mycountry', 'xforms');
-$countries   = !empty($ele_value[2]) ? $ele_value[2] : $country;
-$reg_form    = new XoopsFormSelectCountry(_AM_XFORMS_ELE_SELECT_CTRY, 'ele_value[2]', $countries);
+$eleSize    = !empty($eleValue[0]) ? $eleValue[0] : 1;
+$size       = new XoopsFormText(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 3, 2, $eleSize);
+$allowMulti = empty($eleValue[1]) ? 0 : 1;
+$multiple   = new XoopsFormRadioYN(_AM_XFORMS_ELE_MULTIPLE, 'ele_value[1]', $allowMulti);
+$country    = xoops_getModuleOption('mycountry', 'xforms');
+$countries  = !empty($eleValue[2]) ? $eleValue[2] : $country;
+$regForm    = new XoopsFormSelectCountry(_AM_XFORMS_ELE_SELECT_CTRY, 'ele_value[2]', $countries);
 //
 $output->addElement($size, 1);
 $output->addElement($multiple);
 //$output->addElement($opt_tray);
-$output->addElement($reg_form);
+$output->addElement($regForm);

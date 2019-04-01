@@ -20,7 +20,7 @@
 
 include 'admin_header.php';
 $version = number_format($xoopsModule->getVar('version')/100, 2);
-$count = $xforms_form_mgr->getCount();
+$count = $xformsFormMgr->getCount();
 if ($version >= 1.2 || $count > 0) {
     xoops_cp_header();
     echo 'I guess this module has been upgraded already. Why don\'t you delete this file?';
@@ -60,7 +60,7 @@ if ($version >= 1.2 || $count > 0) {
 
     $msgs[] = 'Insert default data into forms table...';
     $sql[] =
-    "INSERT INTO `".$xoopsDB->prefix('xforms_forms')."` VALUES (1, '".$method."', ".intval($sendto).", 1, '".$delimiter."', 'Contact Us', '"._SUBMIT."', 'Tell us about your comments for this site.', 'Contact us by filling out this form.', '');";
+    "INSERT INTO `".$xoopsDB->prefix('xforms_forms')."` VALUES (1, '".$method."', ".(int)$sendto.", 1, '".$delimiter."', 'Contact Us', '"._SUBMIT."', 'Tell us about your comments for this site.', 'Contact us by filling out this form.', '');";
 
     for ( $i=0; $i<count($sql); $i++ ) {
         if ( false != $xoopsDB->query($sql[$i]) ) {
@@ -77,7 +77,7 @@ if ($version >= 1.2 || $count > 0) {
         $m = '&nbsp;&nbsp;Grant permission of form id 1 to group id %u...%s';
         for ($i=1; $i<4; $i++) {
             $perm = $moduleperm_handler->create();
-            $perm->setVar('gperm_name', $xforms_form_mgr->perm_name);
+            $perm->setVar('gperm_name', $xformsFormMgr->perm_name);
             $perm->setVar('gperm_itemid', 1);
             $perm->setVar('gperm_groupid', $i);
             $perm->setVar('gperm_modid', $xoopsModule->getVar('mid'));

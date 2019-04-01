@@ -17,21 +17,31 @@
  * @since           1.30
  * @author          Xoops Development Team
  */
+use \Xmf\Request;
 
 include __DIR__ . '/admin_header.php';
 $myts    = MyTextSanitizer::getInstance();
+/*
 $op      = isset($_GET['op']) ? trim($_GET['op']) : '';
 $format  = isset($_GET['format']) ? trim($_GET['format']) : 'v';
-$form_id = isset($_GET['form_id']) ? intval($_GET['form_id'], 10) : 0;
+$formId  = isset($_GET['form_id']) ? (int)$_GET['form_id'] : 0;
 $showAll = isset($_POST['showall']) ? true : false;
 
-if (empty($form_id)) {
+if (empty($formId)) {
     $op = "";
 }
+*/
+$op      = Request::getCmd('op', '');
+$ok      = Request::getBool('ok', false, 'POST');
+$format  = Request::getString('format', 'v', 'GET');
+$formId  = Request::getInt('form_id', 0, 'GET');
+$formId = (int)$formId; // fix for Xmf\Request bug in XOOPS < 2.5.9 FINAL
+$showAll = Request::getBool('showall', false, 'POST');
+
 
 switch ($op) {
     case "show": /*Show the report in the page*/
-        if ($form = $xforms_form_mgr->get($form_id)) {
+        if ($form = $xformsFormMgr->get($formId)) {
             if ($form->getVar('form_save_db') == 0) {
                 redirect_header('report.php', 5, _AM_XFORMS_FORM_NOTSAVE);
             }
@@ -47,18 +57,18 @@ switch ($op) {
         echo '<table class="outer" cellspacing="1" width="100%">
                 <tr><th colspan="6">' . _AM_XFORMS_REPORT_FORM . ': ' . $form->getVar('form_title') . '</th></tr>
                 <tr>
-                    <td class="head" align="center" width="10%">Nº</td>
-                    <td class="head" align="center" width="10%">' . _AM_XFORMS_RPT_USER . '</td>
-                    <td class="head" align="center" width="10%">' . _AM_XFORMS_RPT_DATETIME . '</td>
-                    <td class="head" align="center" width="10%">' . _AM_XFORMS_RPT_IP . '</td>
-                    <td class="head" align="center" width="30%">' . _AM_XFORMS_RPT_QUESTION . '</td>
-                    <td class="head" align="center" width="40%">' . _AM_XFORMS_RPT_ANSWER . '</td>
+                    <td class="head center width10">Nº</td>
+                    <td class="head center width10">' . _AM_XFORMS_RPT_USER . '</td>
+                    <td class="head center width10">' . _AM_XFORMS_RPT_DATETIME . '</td>
+                    <td class="head center width10">' . _AM_XFORMS_RPT_IP . '</td>
+                    <td class="head center width30">' . _AM_XFORMS_RPT_QUESTION . '</td>
+                    <td class="head center">' . _AM_XFORMS_RPT_ANSWER . '</td>
                 </tr>';
 
-        $udata_mgr = xoops_getmodulehandler('userdata');
-        $data      = $udata_mgr->getReport($form_id);
+        $udataMgr = xoops_getmodulehandler('userdata');
+        $data     = $udataMgr->getReport($formId);
         if (empty($data)) {
-            echo '<tr><td colspan="6" class="foot" align="center">' . _AM_XFORMS_RPT_NODATA . '</td></tr>';
+            echo '<tr><td colspan="6" class="foot center">' . _AM_XFORMS_RPT_NODATA . '</td></tr>';
         } else {
             $countu   = 0;
             $dproc    = 0;
@@ -66,7 +76,7 @@ switch ($op) {
             $firstRow = true;
             for ($i = 0; $i < count($data); ++$i) {
                 $border = "";
-                $dtime  = intval($data[$i]["udata_time"], 10);
+                $dtime  = (int)$data[$i]["udata_time"];
                 $ipuser = $data[$i]["udata_ip"];
                 if ($dproc != 0 && ($dproc != $dtime || $ipproc != $ipuser)) {
                     $firstRow = true;
@@ -86,13 +96,13 @@ switch ($op) {
                     $uip    = $data[$i]["udata_ip"];
                 }
                 $cssclass    = (($i + 1) % 2 == 0) ? "even" : "odd";
-                $ele_caption = $myts->displayTarea($myts->stripSlashesGPC($data[$i]["ele_caption"]), 1);
+                $eleCaption = $myts->displayTarea($myts->stripSlashesGPC($data[$i]["ele_caption"]), 1);
                 echo '<tr class="' . $cssclass . '">';
                 echo '<td' . $border . ' nowrap>' . $ucount . '</td>
                       <td' . $border . ' nowrap>' . $uname . '</td>
                       <td' . $border . ' nowrap>' . $datet . '</td>
                       <td' . $border . '>' . $uip . '</td>
-                      <td' . $border . '>' . $ele_caption . '</td>';
+                      <td' . $border . '>' . $eleCaption . '</td>';
                 $udata = unserialize($data[$i]["udata_value"]);
                 if (is_array($udata)) {
                     switch ($data[$i]["ele_type"]) {
@@ -129,26 +139,26 @@ switch ($op) {
                 $firstRow = false;
             }
         }
-        echo '<tr><td class="foot" colspan="6" align="center">';
+        echo '<tr><td class="foot center" colspan="6">';
         $bexportv = new XoopsFormButton('', 'export_v', _AM_XFORMS_RPT_EXPORT_V, 'button');
-        $bexportv->setExtra(' onclick="window.location=\'report.php?op=export&format=v&form_id=' . $form_id . '\'"');
+        $bexportv->setExtra(' onclick="window.location=\'report.php?op=export&format=v&form_id=' . $formId . '\'"');
         $bexporth = new XoopsFormButton('', 'export_h', _AM_XFORMS_RPT_EXPORT_H, 'button');
-        $bexporth->setExtra(' onclick="window.location=\'report.php?op=export&format=h&form_id=' . $form_id . '\'"');
+        $bexporth->setExtra(' onclick="window.location=\'report.php?op=export&format=h&form_id=' . $formId . '\'"');
         echo $bexportv->render() . $bexporth->render();
         echo '</td></tr>';
         echo '</table>';
         break;
 
     case "export": /*Export data saved to xls file*/
-        if ($form = $xforms_form_mgr->get($form_id)) {
+        if ($form = $xformsFormMgr->get($formId)) {
             if ($form->getVar('form_save_db') == 0) {
                 redirect_header('report.php', 5, _AM_XFORMS_FORM_NOTSAVE);
             }
         } else {
             redirect_header('report.php', 5, _AM_XFORMS_FORM_NOTEXISTS);
         }
-        $udata_mgr = xoops_getmodulehandler('userdata');
-        $data      = $udata_mgr->getReport($form_id);
+        $udataMgr = xoops_getmodulehandler('userdata');
+        $data      = $udataMgr->getReport($formId);
 
         /*Disable debug*/
         error_reporting(0);
@@ -181,7 +191,7 @@ switch ($op) {
                 for ($i = 0; $i < count($data); ++$i) {
                     $bgItem = (($i + 1) % 2 == 0) ? "background: #FFFFFF;" : "background: #DEDEDE;";
                     $border = "";
-                    $dtime  = intval($data[$i]["udata_time"], 10);
+                    $dtime  = (int)$data[$i]["udata_time"];
                     $ipuser = $data[$i]["udata_ip"];
                     if ($dproc != 0 && ($dproc != $dtime || $ipproc != $ipuser)) {
                         $firstRow = true;
@@ -200,13 +210,13 @@ switch ($op) {
                         $datet  = date("d-m-Y H:i:s", $dtime);
                         $uip    = $ipuser;
                     }
-                    $ele_caption = $myts->displayTarea($myts->stripSlashesGPC($data[$i]["ele_caption"]), 1);
+                    $eleCaption = $myts->displayTarea($myts->stripSlashesGPC($data[$i]["ele_caption"]), 1);
                     echo '<tr>';
                     echo '<td style="' . $border . '" nowrap>' . $ucount . '</td>
                           <td style="' . $border . '" nowrap>' . $uname . '</td>
                           <td style="' . $border . '" nowrap>' . $datet . '</td>
                           <td style="' . $border . '">' . $uip . '</td>
-                          <td style="' . $bgItem . $border . '">' . $ele_caption . '</td>';
+                          <td style="' . $bgItem . $border . '">' . $eleCaption . '</td>';
                     $udata = unserialize($data[$i]["udata_value"]);
                     echo '<td style="' . $bgItem . $border . '">';
                     if (is_array($udata)) {
@@ -238,13 +248,13 @@ switch ($op) {
                 }
             }
         } else {
-            $xforms_ele_mgr = xoops_getmodulehandler('elements');
+            $xformsEleMgr = xoops_getmodulehandler('elements');
             $criteria       = new CriteriaCompo();
             $criteria->add(new Criteria('form_id', $form->getVar('form_id')), 'AND');
             $criteria->add(new Criteria('ele_display', 1), 'AND');
             $criteria->setSort('ele_order');
             $criteria->setOrder('ASC');
-            $elements = $xforms_ele_mgr->getObjects($criteria, false);
+            $elements = $xformsEleMgr->getObjects($criteria, false);
             $celems   = count($elements);
             echo '<tr><th colspan="' . ($celems + 3) . '" style="border-bottom: 2px solid #000000; background: #ACACAC;">' . _AM_XFORMS_REPORT_FORM . ': ' . $form->getVar('form_title') . '</th></tr>
                     <tr>
@@ -252,8 +262,8 @@ switch ($op) {
                         <th align="center" style="border-bottom: 2px solid #000000; background: #ACACAC;">' . _AM_XFORMS_RPT_DATETIME . '</th>
                         <th align="center" style="border-bottom: 2px solid #000000; background: #ACACAC;">' . _AM_XFORMS_RPT_IP . '</th>';
             foreach ($elements as $el) {
-                $ele_caption = $myts->displayTarea($myts->stripSlashesGPC($el->getVar("ele_caption")), 1);
-                echo '<th align="center" style="border-bottom: 2px solid #000000; background: #ACACAC;">' . $ele_caption . '</th>';
+                $eleCaption = $myts->displayTarea($myts->stripSlashesGPC($el->getVar("ele_caption")), 1);
+                echo '<th align="center" style="border-bottom: 2px solid #000000; background: #ACACAC;">' . $eleCaption . '</th>';
             }
             echo '</tr>';
             if (empty($data)) {
@@ -264,7 +274,7 @@ switch ($op) {
                 $ipproc = "";
                 $eproc  = -1;
                 for ($i = 0; $i < count($data); ++$i) {
-                    $dtime  = intval($data[$i]["udata_time"], 10);
+                    $dtime  = (int)$data[$i]["udata_time"];
                     $ipuser = $data[$i]["udata_ip"];
                     if ($dproc == 0 || $dproc != $dtime || $ipproc != $ipuser) {
                         if ($dproc > 0) {
@@ -287,7 +297,7 @@ switch ($op) {
                     if ($eproc >= $celems) {
                         break;
                     }
-                    if (intval($data[$i]["ele_id"], 10) != $elements[$eproc]->getVar("ele_id")) {
+                    if ((int)$data[$i]["ele_id"] != $elements[$eproc]->getVar("ele_id")) {
                         echo '<td style="background: #' . $bgItem . ';">&nbsp;</td>';
                         $i--;
                         continue;
@@ -328,7 +338,7 @@ switch ($op) {
         $tableXLS = ob_get_contents();
         ob_end_clean();
         header('Content-Type: application/force-download');
-        header('Content-Disposition: attachment; filename=report_form_' . $form_id . '.xls');
+        header('Content-Disposition: attachment; filename=report_form_' . $formId . '.xls');
         header('Expires: 0');
         header('Cache-Control: must-revalidate');
         header('Pragma: public');
@@ -359,11 +369,11 @@ switch ($op) {
               <table class="outer" cellspacing="1" width="100%">
                 <tr><th colspan="5">' . _AM_XFORMS_LISTING . '</th></tr>
                 <tr>
-                    <td class="head" align="center">' . _AM_XFORMS_BYID . '</td>
-                    <td class="head" align="center">' . _AM_XFORMS_STATUS . '</td>
-                    <td class="head" align="center">' . _AM_XFORMS_TITLE . '</td>
-                    <td class="head" align="center">' . _AM_XFORMS_SENDTO . '</td>
-                    <td class="head" align="center">' . _AM_XFORMS_ACTION . '</td>
+                    <td class="head center">' . _AM_XFORMS_BYID . '</td>
+                    <td class="head center">' . _AM_XFORMS_STATUS . '</td>
+                    <td class="head center">' . _AM_XFORMS_TITLE . '</td>
+                    <td class="head center">' . _AM_XFORMS_SENDTO . '</td>
+                    <td class="head center">' . _AM_XFORMS_ACTION . '</td>
                 </tr>';
 
         $criteria = null;
@@ -376,12 +386,12 @@ switch ($op) {
         $criteria->setSort('form_order');
         $criteria->setOrder('ASC');
         $totalList = 0;
-        if ($forms = $xforms_form_mgr->getObjects($criteria)) {
+        if ($forms = $xformsFormMgr->getObjects($criteria)) {
             foreach ($forms as $f) {
                 if ($showAll || (!$showAll && $f->isActive())) {
                     $id     = $f->getVar('form_id');
                     $sendto = $f->getVar('form_send_to_group');
-                    if (intval($sendto, 10) == -1) {
+                    if (-1 == (int)$sendto) {
                         $sendto = "<b>" . _AM_XFORMS_SENDTO_OTHER . ": </b>" . $f->getVar('form_send_to_other');
                     } else {
                         $group_mgr = xoops_gethandler('group');
@@ -404,11 +414,11 @@ switch ($op) {
                     }
                     echo '
                         <tr>
-                            <td class="odd" align="center">' . $id . '</td>
-                            <td class="odd" align="center">' . $fstatus . '</td>
+                            <td class="odd center">' . $id . '</td>
+                            <td class="odd center">' . $fstatus . '</td>
                             <td class="odd"><a target="_blank" href="' . XFORMS_URL . '/?form_id=' . $id . '">' . $f->getVar('form_title') . '</a></td>
-                            <td class="odd" align="center">' . $sendto . '</td>
-                            <td class="odd" align="center">';
+                            <td class="odd center">' . $sendto . '</td>
+                            <td class="odd center">';
                     if ($f->getVar('form_save_db') != 0) {
                         echo '	<a href="report.php?op=show&form_id=' . $id . '">
                                     <img src="' . $mypathIcon16 . '/rptsee.png" class="tooltip" title="' . _AM_XFORMS_SHOW_REPORT . '" alt="' . _AM_XFORMS_SHOW_REPORT . '">
@@ -444,7 +454,7 @@ switch ($op) {
         if ($totalList == 0) {
             $bshow = new XoopsFormButton('', (($showAll) ? 'shownormal' : 'showall'), (($showAll) ? _AM_XFORMS_SHOW_NORMAL_FORMS : _AM_XFORMS_SHOW_ALL_FORMS), 'submit');
             echo '  <tr>
-                        <td class="odd" colspan="6" align="center">
+                        <td class="odd center" colspan="6">
                             ' . _AM_XFORMS_NO_FORMS_TOREPORT . '
                         </td>
                     </tr>
@@ -461,7 +471,7 @@ switch ($op) {
               <table class="outer" cellspacing="1" width="100%">
                 <tr><th>' . _AM_XFORMS_BYID . '</th></tr>
                 <tr>
-                    <td class="foot" align="center">
+                    <td class="foot center">
                         ' . _AM_XFORMS_ENTER_ID . '
                         <input type="text" name="form_id" size="5">
                         <input type="submit" value="' . _AM_XFORMS_SHOW_REPORT . '">

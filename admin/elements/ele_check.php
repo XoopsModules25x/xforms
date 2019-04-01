@@ -18,37 +18,35 @@
  * @author          Xoops Development Team
  */
 
-if (!defined('XFORMS_ROOT_PATH')) {
-    exit();
-}
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-$options   = array();
-$opt_count = 0;
-if (empty($addopt) && !empty($ele_id)) {
+$options  = array();
+$optCount = 0;
+if (empty($addOpt) && !empty($eleId)) {
     $keys = array_keys($value);
     for ($i = 0; $i < count($keys); ++$i) {
-        $v         = $myts->makeTboxData4PreviewInForm($keys[$i]);
-        $options[] = addOption('ele_value[' . $opt_count . ']', 'checked[' . $opt_count . ']', $v, 'check', $value[$keys[$i]]);
-        ++$opt_count;
+        $v         = $myts->htmlSpecialChars($keys[$i]);
+        $options[] = addOption('ele_value[' . $optCount . ']', 'checked[' . $optCount . ']', $v, 'check', $value[$keys[$i]]);
+        ++$optCount;
     }
 } else {
-    if (isset($ele_value) && count($ele_value) > 0) {
-        while ($v = each($ele_value)) {
-            $v['value'] = $myts->makeTboxData4PreviewInForm($v['value']);
+    if (isset($eleValue) && count($eleValue) > 0) {
+        while ($v = each($eleValue)) {
+            $v['value'] = $myts->htmlSpecialChars($v['value']);
             if (!empty($v['value'])) {
-                $options[] = addOption('ele_value[' . $opt_count . ']', 'checked[' . $opt_count . ']', $v['value'], 'check', $checked[$v['key']]);
-                ++$opt_count;
+                $options[] = addOption('ele_value[' . $optCount . ']', 'checked[' . $optCount . ']', $v['value'], 'check', $checked[$v['key']]);
+                ++$optCount;
             }
         }
     }
-    $addopt = empty($addopt) ? 2 : $addopt;
-    for ($i = 0; $i < $addopt; ++$i) {
-        $options[] = addOption('ele_value[' . $opt_count . ']', 'checked[' . $opt_count . ']');
-        ++$opt_count;
+    $addOpt = empty($addOpt) ? 2 : $addOpt;
+    for ($i = 0; $i < $addOpt; ++$i) {
+        $options[] = addOption('ele_value[' . $optCount . ']', 'checked[' . $optCount . ']');
+        ++$optCount;
     }
 }
-$add_opt   = addOptionsTray();
-$options[] = $add_opt;
+$addOpt   = addOptionsTray();
+$options[] = $addOpt;
 $opt_tray  = new XoopsFormElementTray(_AM_XFORMS_ELE_OPT, '<br />');
 $opt_tray->setDescription(_AM_XFORMS_ELE_OPT_DESC . '<br /><br />' . _AM_XFORMS_ELE_OTHER);
 for ($i = 0; $i < count($options); ++$i) {

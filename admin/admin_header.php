@@ -45,4 +45,6 @@ $pathModuleAdmin = $xoopsModule->getInfo('dirmoduleadmin');
 $mypathIcon16 = XOOPS_URL . '/modules/' . $thisModuleDir . '/assets/images/icons/16';
 //$pathIcon32 = '../'.$xoopsModule->getInfo('icons32');
 
+$xformsFormMgr = xoops_getmodulehandler('forms');
+
 include_once $GLOBALS['xoops']->path($pathModuleAdmin . '/moduleadmin.php');

@@ -20,33 +20,33 @@
 
 // defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
 
-$module_handler = xoops_gethandler('module');
-$module         = $module_handler->getByDirname(basename(dirname(__DIR__)));
-$pathIcon32     = $module->getInfo('icons32');
+$moduleHandler = xoops_gethandler('module');
+$module        = $moduleHandler->getByDirname(basename(dirname(__DIR__)));
+$pathIcon32    = $module->getInfo('icons32');
 xoops_loadLanguage('admin', $module->dirname());
 
-$adminmenu              = array();
-$i                      = 1;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU0;
-$adminmenu[$i]['link']  = 'admin/index.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/home.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU1;
-$adminmenu[$i]['link']  = 'admin/main.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/manage.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU2;
-$adminmenu[$i]['link']  = 'admin/main.php?op=edit';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/add.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU3;
-$adminmenu[$i]['link']  = 'admin/editelement.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/insert_table_row.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU4;
-$adminmenu[$i]['link']  = 'admin/report.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/content.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU5;
-$adminmenu[$i]['link']  = "admin/about.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/about.png';
+$adminmenu = array(
+                   array('title' => _MI_XFORMS_ADMENU0,
+                          'link' => 'admin/index.php',
+                          'icon' => $pathIcon32 . '/home.png'),
+
+                   array('title' => _MI_XFORMS_ADMENU1,
+                          'link' => 'admin/main.php',
+                          'icon' => $pathIcon32 . '/manage.png'),
+
+                   array('title' => _MI_XFORMS_ADMENU2,
+                          'link' => 'admin/main.php?op=edit',
+                          'icon' => $pathIcon32 . '/add.png'),
+
+                   array('title' => _MI_XFORMS_ADMENU3,
+                          'link' => 'admin/editelement.php',
+                          'icon' => $pathIcon32 . '/insert_table_row.png'),
+
+                   array('title' => _MI_XFORMS_ADMENU4,
+                          'link' => 'admin/report.php',
+                          'icon' => $pathIcon32 . '/content.png'),
+
+                   array('title' => _MI_XFORMS_ADMENU5,
+                          'link' => "admin/about.php",
+                          'icon' => $pathIcon32 . '/about.png')
+);
