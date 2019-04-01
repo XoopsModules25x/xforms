@@ -18,27 +18,33 @@
  * @author          Xoops Development Team
  */
 
+use \Xmf\Request;
+
 require __DIR__ . '/header.php';
 $myts = MyTextSanitizer::getInstance();
 
 if (empty($_POST['submit'])) {
     global $xoopsModuleConfig;
 
-    $form_id = isset($_GET['form_id']) ? intval($_GET['form_id']) : 0;
-    if (empty($form_id)) {
-        if (intval($xoopsModuleConfig['showforms'], 10) == 0) {
+    $formId = Request::getInt('form_id', 0, 'GET');
+    $formId = (int)$formId; // fix for XOOPS < 2.5.9 not returning integer
+    //$formId = isset($_GET['form_id']) ? (int)$_GET['form_id'] : 0;
+    //if (empty($formId)) {
+    if (0 === $formId) {
+        if (0 === (int)$xoopsModuleConfig['showforms']) {
             /*Not shown the forms available if no one parameter*/
             redirect_header(XOOPS_URL, 2, _MD_XFORMS_MSG_NOFORM_SELECTED);
         }
 
-        $forms = $xforms_form_mgr->getPermittedForms();
+        $forms = $xformsFormMgr->getPermittedForms();
         if (($forms != false) && (count($forms) === 1)) {
-            $form = $xforms_form_mgr->get($forms[0]->getVar('form_id'));
+            $form = $xformsFormMgr->get($forms[0]->getVar('form_id'));
             require __DIR__ . '/include/form_render.php';
         } else {
             $xoopsOption['template_main'] = 'xforms_index.tpl';
             require_once XOOPS_ROOT_PATH . '/header.php';
-            if (($forms != false) && (count($forms) > 0)) {
+            $formCount = count($forms);
+            if (($forms != false) && $formCount > 0)) {
                 foreach ($forms as $form) {
                     $xoopsTpl->append('forms',array(
                             'title' => $form->getVar('form_title'),
@@ -53,11 +59,11 @@ if (empty($_POST['submit'])) {
             }
         }
     } else {
-        if (!($form = $xforms_form_mgr->get($form_id))) {
+        if (!($form = $xformsFormMgr->get($formId))) {
             header("Location: " . XOOPS_URL);
             exit();
         } else {
-            if (false != $xforms_form_mgr->getSingleFormPermission($form_id)) {
+            if (false != $xformsFormMgr->getSingleFormPermission($formId)) {
                 if (!$form->isActive()) {
                     redirect_header(XOOPS_URL, 2, _MD_XFORMS_MSG_INACTIVE);
                 }
@@ -73,8 +79,8 @@ if (empty($_POST['submit'])) {
 
     require XOOPS_ROOT_PATH . '/footer.php';
 } else {
-    $form_id = isset($_POST['form_id']) ? intval($_POST['form_id']) : 0;
-    if (empty($form_id) || !($form = $xforms_form_mgr->get($form_id)) || ($xforms_form_mgr->getSingleFormPermission($form_id) == false)) {
+    $formId = isset($_POST['form_id']) ? (int)$_POST['form_id'] : 0;
+    if (empty($formId) || !($form = $xformsFormMgr->get($formId)) || ($xformsFormMgr->getSingleFormPermission($formId) == false)) {
         header("Location: " . XOOPS_URL);
         exit();
     }

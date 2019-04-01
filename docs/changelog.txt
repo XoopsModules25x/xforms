@@ -1,6 +1,11 @@
 2.00 Alpha 2 [Not Released]
 =================================
+- changed intval to (int) where appropriate
 - changed undefined _LIASE_ERR_INVALIDMAIL to _MD_XFORMS_ERR_INVALIDMAIL in ./include/form_execute.php
+- changed calls to MyTextSanitizer makeTboxData4PreviewInForm (deprecated) to htmlSpecialChars
+- moved admin ele_* files to ./admin/elements folder
+- removed dbupdater.php (XformsTable and XformsDbupdater classes), was not being used
+- removed get_magic_quotes_gpc, was removed from starting with PHP 5.4
 - removed rename_fields(), was not being used
 - removed commented out code (various files)
 - removed getMimeType() in ./file.php and replaced with XOOPS Mimetypes

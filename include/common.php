@@ -62,7 +62,7 @@ if (is_object($xforms->getModule())) {
 //    define("XFORMS_CONSTANTS_DEFINED", true);
 //}
 
-$xforms_form_mgr = xoops_getmodulehandler('forms', XFORMS_DIRNAME);
+$xformsFormMgr = xoops_getmodulehandler('forms', XFORMS_DIRNAME);
 
 //set Upload directory, if doe
 if (false != XFORMS_UPLOAD_PATH) {

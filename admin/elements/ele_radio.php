@@ -17,35 +17,34 @@
  * @since           1.30
  * @author          Xoops Development Team
  */
-if (!defined('XFORMS_ROOT_PATH')) {
-    exit();
-}
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-$options   = array();
-$opt_count = 0;
-if (empty($addopt) && !empty($ele_id)) {
-    $keys = array_keys($value);
-    for ($i = 0; $i < count($keys); ++$i) {
-        $r         = $value[$keys[$i]] ? $opt_count : null;
-        $v         = $myts->makeTboxData4PreviewInForm($keys[$i]);
-        $options[] = addOption('ele_value[' . $opt_count . ']', $opt_count, $v, 'radio', $r);
-        ++$opt_count;
+$options  = array();
+$optCount = 0;
+if (empty($addOpt) && !empty($eleId)) {
+    $keys     = array_keys($value);
+    $keyCount = count($keys);
+    for ($i = 0; $i < $keyCount; ++$i) {
+        $r         = $value[$keys[$i]] ? $optCount : null;
+        $v         = $myts->htmlSpecialChars($keys[$i]);
+        $options[] = addOption('ele_value[' . $optCount . ']', $optCount, $v, 'radio', $r);
+        ++$optCount;
     }
 } else {
-    if (isset($ele_value) && count($ele_value) > 0) {
-        while ($v = each($ele_value)) {
-            $v['value'] = $myts->makeTboxData4PreviewInForm($v['value']);
+    if (isset($eleValue) && count($eleValue) > 0) {
+        while ($v = each($eleValue)) {
+            $v['value'] = $myts->htmlSpecialChars($v['value']);
             if (!empty($v['value'])) {
-                $r         = ($checked == $opt_count) ? $opt_count : null;
-                $options[] = addOption('ele_value[' . $opt_count . ']', $opt_count, $v['value'], 'radio', $r);
-                ++$opt_count;
+                $r         = ($checked == $optCount) ? $optCount : null;
+                $options[] = addOption('ele_value[' . $optCount . ']', $optCount, $v['value'], 'radio', $r);
+                ++$optCount;
             }
         }
     }
-    $addopt = empty($addopt) ? 2 : $addopt;
-    for ($i = 0; $i < $addopt; ++$i) {
-        $options[] = addOption('ele_value[' . $opt_count . ']', $opt_count, '', 'radio');
-        ++$opt_count;
+    $addOpt = empty($addOpt) ? 2 : $addOpt;
+    for ($i = 0; $i < $addOpt; ++$i) {
+        $options[] = addOption('ele_value[' . $optCount . ']', $optCount, '', 'radio');
+        ++$optCount;
     }
 }
 $options[] = addOptionsTray();

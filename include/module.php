@@ -67,6 +67,12 @@ function xoops_module_install_xforms(&$module)
  */
 function xoops_module_update_xforms(&$xoopsModule, $prev_version)
 {
+    /** @todo
+    //---------------------------------------------------------------
+    // Remove ./admin/ele_*.php files since they're being replaced by
+    // ./admin/elements/ele_*.php files
+    //---------------------------------------------------------------
+    */
     ob_start();
     update_tables_to_130($xoopsModule);
     $feedback = ob_get_clean();

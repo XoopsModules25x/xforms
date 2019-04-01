@@ -23,8 +23,8 @@ include_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 
-$index_admin = new ModuleAdmin();
-echo $index_admin->addNavigation('index.php');
-echo $index_admin->renderIndex();
+$indexAdmin = new ModuleAdmin();
+echo $indexAdmin->addNavigation('index.php');
+echo $indexAdmin->renderIndex();
 
 include __DIR__ . '/admin_footer.php';

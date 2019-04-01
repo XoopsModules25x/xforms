@@ -18,15 +18,12 @@
  * @author          Xoops Development Team
  */
 
-if (!defined('XFORMS_ROOT_PATH')) {
-    exit();
-}
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-$rows    = !empty($value[1]) ? $value[1] : $xoopsModuleConfig['ta_rows'];
-$cols    = !empty($value[2]) ? $value[2] : $xoopsModuleConfig['ta_cols'];
-$rows    = new XoopsFormText(_AM_XFORMS_ELE_ROWS, 'ele_value[1]', 3, 3, $rows);
-$cols    = new XoopsFormText(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, $cols);
-$default = new XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlspecialchars($myts->stripSlashesGPC($value[0])) : '', 5, 50);
-$output->addElement($rows, 1);
-$output->addElement($cols, 1);
-$output->addElement($default);
+ if ($value[0] != "Y-m-d" && $value[0] != "") {
+         $dateValue = strtotime($value[0]);
+ } else {
+         $dateValue = "";
+ }
+ $date = new XoopsFormTextDateSelect (_AM_XFORMS_ELE_DATE, 'ele_value',  $size = 15, $dateValue);
+ $output->addElement($date);

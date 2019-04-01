@@ -18,22 +18,20 @@
  * @author          Xoops Development Team
  */
 
-if (!defined('XFORMS_ROOT_PATH')) {
-    exit();
-}
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 if (!isset($form) || empty($form) || !is_object($form)) {
     header("Location: index.php");
     exit();
 }
 
-$xforms_ele_mgr = xoops_getmodulehandler('elements');
-$criteria       = new CriteriaCompo();
+$xformsEleMgr = xoops_getmodulehandler('elements');
+$criteria     = new CriteriaCompo();
 $criteria->add(new Criteria('form_id', $form->getVar('form_id')), 'AND');
 $criteria->add(new Criteria('ele_display', 1), 'AND');
 $criteria->setSort('ele_order');
 $criteria->setOrder('ASC');
-$elements = $xforms_ele_mgr->getObjects($criteria, true);
+$elements = $xformsEleMgr->getObjects($criteria, true);
 
 $msg = $err = $attachments = array();
 foreach ($_POST as $k => $v) {
@@ -95,8 +93,8 @@ if (count($err) == 0) {
 /*
  * Se recorren los elementos del formulario para guardar o enviar e-mail
  */
-$udata_mgr = xoops_getmodulehandler('userdata');
-$udatas    = array();
+$udataMgr = xoops_getmodulehandler('userdata');
+$udatas   = array();
 
 $userMailText = ""; /* Capturing email for user if have textbox in the form */
 
@@ -108,215 +106,215 @@ if ($form->getVar('form_save_db') != 0) {
 if (count($err) == 0) {
     $timedata = time();
     foreach ($elements as $i) {
-        $ele_type  = $i->getVar('ele_type');
-        $ele_value = $i->getVar('ele_value');
-        if ($ele_type == 'html') {
-            $msg[$ele_id] .= "<br /><br />" . $myts->displayTarea($myts->stripSlashesGPC($ele_value[0]), 1);
+        $eleType  = $i->getVar('ele_type');
+        $eleValue = $i->getVar('ele_value');
+        if ($eleType == 'html') {
+            $msg[$eleId] .= "<br /><br />" . $myts->displayTarea($myts->stripSlashesGPC($eleValue[0]), 1);
             continue; // The html element does not enter data
         }
 
-        $ele_id      = $i->getVar('ele_id');
-        $ele_req     = $i->getVar('ele_req');
-        $ele_caption = $i->getVar('ele_caption');
+        $eleId      = $i->getVar('ele_id');
+        $eleOrder     = $i->getVar('ele_req');
+        $eleCaption = $i->getVar('ele_caption');
 
         $udata = null;
         if ($saveToDB) {
-            $udata = $udata_mgr->create();
+            $udata = $udataMgr->create();
             $udata->setVar('uid', $genInfo["UID"]);
             $udata->setVar('form_id', $form->getVar('form_id'));
             $udata->setVar('udata_time', $timedata);
             $udata->setVar('udata_ip', $genInfo["IP"]);
             $udata->setVar('udata_agent', $genInfo["AGENT"]);
-            $udata->setVar('ele_id', $ele_id);
+            $udata->setVar('ele_id', $eleId);
         }
-        $udata_value = array();
+        $uDataValue = array();
 
         $ufid = -1;
-        if (isset($ele[$ele_id]) && !empty($ele[$ele_id])) {
-            if ($ele_caption != '') {
-                $msg[$ele_id] = "<br />- " . $myts->displayTarea($myts->stripSlashesGPC($ele_caption), 1) . "<br />";
+        if (isset($ele[$eleId]) && !empty($ele[$eleId])) {
+            if ($eleCaption != '') {
+                $msg[$eleId] = "<br />- " . $myts->displayTarea($myts->stripSlashesGPC($eleCaption), 1) . "<br />";
             }
         include_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
         $countries = XoopsLists::getCountryList();
-            switch ($ele_type) {
+            switch ($eleType) {
                 case 'upload':
                 case 'uploadimg':
-                    if (isset($_FILES['ele_' . $ele_id])) {
+                    if (isset($_FILES['ele_' . $eleId])) {
                         require_once XFORMS_ROOT_PATH . 'class/uploader.php';
-                        $ext  = empty($ele_value[1]) ? 0 : explode('|', $ele_value[1]);
-                        $mime = empty($ele_value[2]) ? 0 : explode('|', $ele_value[2]);
+                        $ext  = empty($eleValue[1]) ? 0 : explode('|', $eleValue[1]);
+                        $mime = empty($eleValue[2]) ? 0 : explode('|', $eleValue[2]);
 
-                        if ($ele_type == 'uploadimg') {
-                            $uploader[$ele_id] = new XFormsMediaUploader(XFORMS_UPLOAD_PATH, $ele_value[0], $ext, $mime, $ele_value[4], $ele_value[5]);
+                        if ($eleType == 'uploadimg') {
+                            $uploader[$eleId] = new XFormsMediaUploader(XFORMS_UPLOAD_PATH, $eleValue[0], $ext, $mime, $eleValue[4], $eleValue[5]);
                         } else {
-                            $uploader[$ele_id] = new XFormsMediaUploader(XFORMS_UPLOAD_PATH, $ele_value[0], $ext, $mime);
+                            $uploader[$eleId] = new XFormsMediaUploader(XFORMS_UPLOAD_PATH, $eleValue[0], $ext, $mime);
                         }
-                        if ($ele_value[0] == 0) {
-                            $uploader[$ele_id]->noAdminSizeCheck(true);
+                        if ($eleValue[0] == 0) {
+                            $uploader[$eleId]->noAdminSizeCheck(true);
                         }
-                        if ($uploader[$ele_id]->fetchMedia('ele_' . $ele_id, null, $i)) {
-                            $uploader[$ele_id]->prefix = $form->getVar('form_id') . '_';
-                            if (false == $uploader[$ele_id]->upload()) {
-                                $err[] = $uploader[$ele_id]->getErrors();
+                        if ($uploader[$eleId]->fetchMedia('ele_' . $eleId, null, $i)) {
+                            $uploader[$eleId]->prefix = $form->getVar('form_id') . '_';
+                            if (false == $uploader[$eleId]->upload()) {
+                                $err[] = $uploader[$eleId]->getErrors();
                             } else {
-                                $saved       = $uploader[$ele_id]->savedFileName;
+                                $saved       = $uploader[$eleId]->savedFileName;
                                 $uploaded[]  = array(
-                                    'id'     => $ele_id,
+                                    'id'     => $eleId,
                                     'file'   => $saved,
-                                    'name'   => $_FILES['ele_' . $ele_id]['name'],
-                                    'saveto' => $ele_value[3]
+                                    'name'   => $_FILES['ele_' . $eleId]['name'],
+                                    'saveto' => $eleValue[3]
                                 );
-                                $udata_value = array(
+                                $uDataValue = array(
                                     'file' => $saved,
-                                    'name' => $_FILES['ele_' . $ele_id]['name']
+                                    'name' => $_FILES['ele_' . $eleId]['name']
                                 );
                                 $ufid        = count($uploaded) - 1;
                             }
                         } else {
-                            if (count($uploader[$ele_id]->errors) > 0) {
-                                $err[] = $uploader[$ele_id]->getErrors();
+                            if (count($uploader[$eleId]->errors) > 0) {
+                                $err[] = $uploader[$eleId]->getErrors();
                             }
                         }
                     }
                     break;
 
                 case 'text':
-                    $ele[$ele_id] = trim($ele[$ele_id]);
-                    if (preg_match('/\{EMAIL\}/', $ele_value[2])) {
-                        if (!checkEmail($ele[$ele_id])) {
+                    $ele[$eleId] = trim($ele[$eleId]);
+                    if (preg_match('/\{EMAIL\}/', $eleValue[2])) {
+                        if (!checkEmail($ele[$eleId])) {
                             $err[] = _MD_XFORMS_ERR_INVALIDMAIL;
                         } else {
-                            $reply_mail = $ele[$ele_id];
+                            $replyMail = $ele[$eleId];
                         }
                     }
-                    if (preg_match('/\{UNAME\}/', $ele_value[2])) {
-                        $reply_name = $ele[$ele_id];
+                    if (preg_match('/\{UNAME\}/', $eleValue[2])) {
+                        $replyName = $ele[$eleId];
                     }
-                    $msg[$ele_id] .= $myts->stripSlashesGPC($ele[$ele_id]);
-                    $udata_value[0] = $myts->stripSlashesGPC($ele[$ele_id]);
-                    if ((intval($ele_value[3], 10) != 0) && empty($userMailText) && !empty($ele[$ele_id])) {
+                    $msg[$eleId] .= $myts->stripSlashesGPC($ele[$eleId]);
+                    $uDataValue[0] = $myts->stripSlashesGPC($ele[$eleId]);
+                    if (0 !== (int)$eleValue[3]) && empty($userMailText) && !empty($ele[$eleId])) {
                         /* Obtain the user email from the form */
-                        $userMailText = $myts->stripSlashesGPC($ele[$ele_id]);
+                        $userMailText = $myts->stripSlashesGPC($ele[$eleId]);
                     }
 
                     break;
 
                 case 'textarea':
-                    $msg[$ele_id] .= $myts->stripSlashesGPC($ele[$ele_id]);
-                    $udata_value[0] = $myts->stripSlashesGPC($ele[$ele_id]);
+                    $msg[$eleId]  .= $myts->stripSlashesGPC($ele[$eleId]);
+                    $uDataValue[0] = $myts->stripSlashesGPC($ele[$eleId]);
                     break;
 
                 case 'radio':
-                    $opt_count = 1;
-                    while ($v = each($ele_value)) {
-                        if ($opt_count == $ele[$ele_id]) {
-                            $other = checkOther($v['key'], $ele_id, $ele_caption);
+                    $optCount = 1;
+                    while ($v = each($eleValue)) {
+                        if ($optCount == $ele[$eleId]) {
+                            $other = checkOther($v['key'], $eleId, $eleCaption);
                             if ($other != false) {
-                                $msg[$ele_id] .= $other;
-                                $udata_value[] = $other;
+                                $msg[$eleId] .= $other;
+                                $uDataValue[] = $other;
                             } else {
-                                $msg[$ele_id] .= $myts->stripSlashesGPC($v['key']);
-                                $udata_value[] = $myts->stripSlashesGPC($v['key']);
+                                $msg[$eleId] .= $myts->stripSlashesGPC($v['key']);
+                                $uDataValue[] = $myts->stripSlashesGPC($v['key']);
                             }
                         }
-                        ++$opt_count;
+                        ++$optCount;
                     }
                     break;
             case 'select2':
-                $ele[$ele_id] = trim($ele[$ele_id]);
-                if( preg_match('/\{EMAIL\}/', $ele_value[2]) ){
-                    if( !checkEmail($ele[$ele_id]) ){
+                $ele[$eleId] = trim($ele[$eleId]);
+                if( preg_match('/\{EMAIL\}/', $eleValue[2]) ){
+                    if( !checkEmail($ele[$eleId]) ){
                         $err[] = _MD_XFORMS_ERR_INVALIDMAIL;
                     }else{
-                        $reply_mail = $ele[$ele_id];
+                        $replyMail = $ele[$eleId];
                     }
                 }
-                if( preg_match('/\{UNAME\}/', $ele_value[2]) ){
-                    $reply_name = $ele[$ele_id];
+                if( preg_match('/\{UNAME\}/', $eleValue[2]) ){
+                    $replyName = $ele[$eleId];
                 }
-        //		$msg[$ele_id] .= $myts->stripSlashesGPC($ele[$ele_id]);
+        //		$msg[$eleId] .= $myts->stripSlashesGPC($ele[$eleId]);
 
-                $msg[$ele_id] .= $countries[$myts->stripSlashesGPC($ele[$ele_id])];
-                $udata_value[0] = $countries[$myts->stripSlashesGPC($ele[$ele_id])];
+                $msg[$eleId] .= $countries[$myts->stripSlashesGPC($ele[$eleId])];
+                $uDataValue[0] = $countries[$myts->stripSlashesGPC($ele[$eleId])];
 
             break;
             case 'date':
-                $ele[$ele_id] = trim($ele[$ele_id]);
-                if( preg_match('/\{EMAIL\}/', $ele_value) ){
-                    if( !checkEmail($ele[$ele_id]) ){
-                        $err[] = _LIAISE_ERR_INVALIDMAIL;
+                $ele[$eleId] = trim($ele[$eleId]);
+                if( preg_match('/\{EMAIL\}/', $eleValue) ){
+                    if( !checkEmail($ele[$eleId]) ){
+                        $err[] = _MD_XFORMS_ERR_INVALIDMAIL;
                     }else{
-                        $reply_mail = $ele[$ele_id];
+                        $replyMail = $ele[$eleId];
                     }
                 }
-                if( preg_match('/\{UNAME\}/', $ele_value) ){
-                    $reply_name = $ele[$ele_id];
+                if( preg_match('/\{UNAME\}/', $eleValue) ){
+                    $replyName = $ele[$eleId];
                 }
-                $msg[$ele_id] .= $myts->stripSlashesGPC($ele[$ele_id]);
-                $udata_value[0] = $myts->stripSlashesGPC($ele[$ele_id]);
+                $msg[$eleId] .= $myts->stripSlashesGPC($ele[$eleId]);
+                $uDataValue[0] = $myts->stripSlashesGPC($ele[$eleId]);
             break;
                 case 'yn':
-                    $v = ($ele[$ele_id] == 2) ? _NO : _YES;
-                    $msg[$ele_id] .= $myts->stripSlashesGPC($v);
-                    $udata_value[0] = $myts->stripSlashesGPC($v);
+                    $v = ($ele[$eleId] == 2) ? _NO : _YES;
+                    $msg[$eleId] .= $myts->stripSlashesGPC($v);
+                    $uDataValue[0] = $myts->stripSlashesGPC($v);
                     break;
 
                 case 'checkbox':
-                    $opt_count = 1;
+                    $optCount = 1;
                     $ch        = array();
-                    while ($v = each($ele_value)) {
-                        if (is_array($ele[$ele_id])) {
-                            if (in_array($opt_count, $ele[$ele_id])) {
-                                $other = checkOther($v['key'], $ele_id, $ele_caption);
+                    while ($v = each($eleValue)) {
+                        if (is_array($ele[$eleId])) {
+                            if (in_array($optCount, $ele[$eleId])) {
+                                $other = checkOther($v['key'], $eleId, $eleCaption);
                                 if ($other != false) {
                                     $ch[] = $other;
                                 } else {
                                     $ch[] = $myts->stripSlashesGPC($v['key']);
                                 }
                             }
-                            ++$opt_count;
+                            ++$optCount;
                         } else {
-                            if (!empty($ele[$ele_id])) {
+                            if (!empty($ele[$eleId])) {
                                 $ch[] = $myts->stripSlashesGPC($v['key']);
                             }
                         }
                     }
-                    $msg[$ele_id] .= !empty($ch) ? implode("<br />", $ch) : '';
-                    $udata_value = $ch;
+                    $msg[$eleId] .= !empty($ch) ? implode("<br />", $ch) : '';
+                    $uDataValue = $ch;
                     break;
 
                 case 'select':
-                    $opt_count = 1;
+                    $optCount = 1;
                     $ch        = array();
-                    if (is_array($ele[$ele_id])) {
-                        while ($v = each($ele_value[2])) {
-                            if (in_array($opt_count, $ele[$ele_id])) {
+                    if (is_array($ele[$eleId])) {
+                        while ($v = each($eleValue[2])) {
+                            if (in_array($optCount, $ele[$eleId])) {
                                 $ch[] = $myts->stripSlashesGPC($v['key']);
                             }
-                            ++$opt_count;
+                            ++$optCount;
                         }
                     } else {
-                        while ($j = each($ele_value[2])) {
-                            if ($opt_count == $ele[$ele_id]) {
+                        while ($j = each($eleValue[2])) {
+                            if ($optCount == $ele[$eleId]) {
                                 $ch[] = $myts->stripSlashesGPC($j['key']);
                             }
-                            ++$opt_count;
+                            ++$optCount;
                         }
                     }
-                    $msg[$ele_id] .= !empty($ch) ? implode("<br />", $ch) : '';
-                    $udata_value = $ch;
+                    $msg[$eleId] .= !empty($ch) ? implode("<br />", $ch) : '';
+                    $uDataValue = $ch;
                     break;
 
                 default:
                     break;
             }
-        } elseif ($ele_req == 1) {
-            $err[] = sprintf(_MD_XFORMS_ERR_REQ, $ele_caption);
+        } elseif ($eleOrder == 1) {
+            $err[] = sprintf(_MD_XFORMS_ERR_REQ, $eleCaption);
         }
         if ($saveToDB) {
-            $udata->setVar('udata_value', $udata_value);
+            $udata->setVar('udata_value', $uDataValue);
             $udatas[] = $udata;
-            if (!$udata_mgr->insert($udata)) {
+            if (!$udataMgr->insert($udata)) {
                 $err[] = $udata->getHtmlErrors();
             }
             if ($ufid >= 0) {
@@ -334,15 +332,15 @@ if ((count($err) == 0) && ($form->getVar('form_send_method') != 'n')) {
      * Include message template
      */
     if (is_dir(XFORMS_ROOT_PATH . "/language/" . $xoopsConfig['language'] . "/mail_template")) {
-        $template_dir = XFORMS_ROOT_PATH . "/language/" . $xoopsConfig['language'] . "/mail_template";
+        $templateDir = XFORMS_ROOT_PATH . "/language/" . $xoopsConfig['language'] . "/mail_template";
     } else {
-        $template_dir = XFORMS_ROOT_PATH . "/language/english/mail_template";
+        $templateDir = XFORMS_ROOT_PATH . "/language/english/mail_template";
     }
 
     /* Mail to sending internal */
     $interMail = xoops_getMailer();
     $interMail->setHTML();
-    $interMail->setTemplateDir($template_dir);
+    $interMail->setTemplateDir($templateDir);
     $interMail->setTemplate('xforms.tpl');
     $interMail->setSubject(sprintf(_MD_XFORMS_MSG_SUBJECT, $myts->stripSlashesGPC($form->getVar('form_title'))));
 
@@ -383,7 +381,7 @@ if ((count($err) == 0) && ($form->getVar('form_send_method') != 'n')) {
         $interMail->assign("AGENT", sprintf(_MD_XFORMS_MSG_AGENT, $_SERVER['HTTP_USER_AGENT']));
     }
     if (in_array('form', $xoopsModuleConfig['moreinfo'])) {
-        $interMail->assign("FORMURL", sprintf(_MD_XFORMS_MSG_FORMURL, XFORMS_URL . '/index.php?form_id=' . $form_id));
+        $interMail->assign("FORMURL", sprintf(_MD_XFORMS_MSG_FORMURL, XFORMS_URL . '/index.php?form_id=' . $formId));
     }
 
     /*
@@ -408,13 +406,13 @@ if ((count($err) == 0) && ($form->getVar('form_send_method') != 'n')) {
     $copyMail = null;
     $copyMsg  = null;
     $sendCopy = false;
-    if (intval($form->getVar('form_send_copy'), 10) != 0) {
+    if (0 !== (int)$form->getVar('form_send_copy')) {
         $sendCopy = true;
     }
     if ($sendCopy) {
         $copyMail = xoops_getMailer();
         $copyMail->setHTML();
-        $copyMail->setTemplateDir($template_dir);
+        $copyMail->setTemplateDir($templateDir);
         $copyMail->setTemplate('xforms_copy.tpl');
         $copyMail->setSubject(sprintf(_MD_XFORMS_MSG_SUBJECT_COPY, $myts->stripSlashesGPC($form->getVar('form_title'))));
         $charset           = !empty($xoopsModuleConfig['mail_charset']) ? $xoopsModuleConfig['mail_charset'] : _CHARSET;
@@ -439,10 +437,10 @@ if ((count($err) == 0) && ($form->getVar('form_send_method') != 'n')) {
     /*
      * Send form by selected method
      */
-    $send_group = intval($form->getVar('form_send_to_group'), 10);
+    $sendGroup = (int)$form->getVar('form_send_to_group');
     $group      = false;
-    if ($send_group != -1) {
-        $group = $member_handler->getGroup($send_group);
+    if ($sendGroup != -1) {
+        $group = $member_handler->getGroup($sendGroup);
     }
     if ($form->getVar('form_send_method') == 'p' && is_object($xoopsUser) && ($group != false)) {
         /* Send by private message */
@@ -453,16 +451,16 @@ if ((count($err) == 0) && ($form->getVar('form_send_method') != 'n')) {
         $interMail->useMail();
         $interMail->setFromName($xoopsConfig['sitename']);
         $interMail->setFromEmail($xoopsConfig['adminmail']);
-        if (isset($reply_mail)) {
-            $interMail->multimailer->AddReplyTo($reply_mail, isset($reply_name) ? '"' . $reply_name . '"' : null);
+        if (isset($replyMail)) {
+            $interMail->multimailer->AddReplyTo($replyMail, isset($replyName) ? '"' . $replyName . '"' : null);
         }
         $charset            = !empty($xoopsModuleConfig['mail_charset']) ? $xoopsModuleConfig['mail_charset'] : _CHARSET;
         $interMail->charSet = $charset;
-        if ($send_group > 0) {
+        if ($sendGroup > 0) {
             /* Setting the selected groups */
             $interMail->setToGroups($group);
         } else {
-            if ($send_group == -1) {
+            if ($sendGroup == -1) {
                 /* Setting the emails specifics */
                 $emailsto = explode(';', $form->getVar('form_send_to_other'));
                 if (!empty($emailsto)) {
@@ -486,7 +484,7 @@ if ((count($err) == 0) && ($form->getVar('form_send_method') != 'n')) {
                 if ($saveToDB) {
                     $msg[$a['id']] .= sprintf(
                         _MD_XFORMS_UPLOADED_FILE,
-                        '<a href="' . XFORMS_URL . '/file.php?ui=' . $a['udata_id'] . '&fm=' . $form_id . '&el=' . $a['id'] . '">' . $a['name'] . '</a>'
+                        '<a href="' . XFORMS_URL . '/file.php?ui=' . $a['udata_id'] . '&fm=' . $formId . '&el=' . $a['id'] . '">' . $a['name'] . '</a>'
                     );
                 } else {
                     $msg[$a['id']] .= sprintf(_MD_XFORMS_UPLOADED_FILE, '<a href="' . XFORMS_URL . '/file.php?f=' . $a['file'] . '&fn=' . $a['name'] . '">' . $a['name'] . '</a>');
@@ -539,7 +537,7 @@ if (count($err) > 0) {
     }
     if ($saveToDB) {
         foreach ($udatas as $ud) {
-            $udata_mgr->delete($ud);
+            $udataMgr->delete($ud);
         }
     }
     $xoopsOption['template_main'] = 'xforms_error.tpl';
@@ -547,7 +545,7 @@ if (count($err) > 0) {
     $xoopsTpl->assign('error_heading', _MD_XFORMS_ERR_HEADING);
     $xoopsTpl->assign('errors', $err);
     $xoopsTpl->assign('go_back', _BACK);
-    $xoopsTpl->assign('XFORMS_URL', XFORMS_URL . '/index.php?form_id=' . $form_id);
+    $xoopsTpl->assign('XFORMS_URL', XFORMS_URL . '/index.php?form_id=' . $formId);
     $xoopsTpl->assign('xoops_pagetitle', _MD_XFORMS_ERR_HEADING);
     include XOOPS_ROOT_PATH . '/footer.php';
     exit();

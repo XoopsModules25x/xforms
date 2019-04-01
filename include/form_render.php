@@ -18,9 +18,7 @@
  * @author          Xoops Development Team
  */
 
-if (!defined('XFORMS_ROOT_PATH')) {
-    exit();
-}
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 if (!isset($form) || empty($form) || !is_object($form)) {
     header("Location: index.php");
@@ -28,7 +26,7 @@ if (!isset($form) || empty($form) || !is_object($form)) {
 }
 
 include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-$xforms_ele_mgr = xoops_getmodulehandler('elements');
+$xformsEleMgr = xoops_getmodulehandler('elements');
 include_once XFORMS_ROOT_PATH . '/class/elementrenderer.php';
 
 if ($form->getVar('form_display_style') == 'f') {
@@ -46,32 +44,32 @@ $criteria->add(new Criteria('form_id', $form->getVar('form_id')));
 $criteria->add(new Criteria('ele_display', 1));
 $criteria->setSort('ele_order');
 $criteria->setOrder('ASC');
-$elements = $xforms_ele_mgr->getObjects($criteria, true);
+$elements = $xformsEleMgr->getObjects($criteria, true);
 
-$form_output = new XoopsThemeForm($form->getVar('form_title'), 'xforms_' . $form->getVar('form_id'), XFORMS_URL . '/index.php');
+$formOutput = new XoopsThemeForm($form->getVar('form_title'), 'xforms_' . $form->getVar('form_id'), XFORMS_URL . '/index.php');
 foreach ($elements as $i) {
     $renderer = new XFormsElementRenderer($i);
-    $form_ele = $renderer->constructElement();
-    $req      = intval($i->getVar('ele_req'), 10);
-    $form_output->addElement($form_ele, $req);
-    unset($form_ele);
+    $formEle  = $renderer->constructElement();
+    $req      = (int)$i->getVar('ele_req');
+    $formOutput->addElement($formEle, $req);
+    unset($formEle);
 }
 
-$form_output->addElement(new XoopsFormHidden('form_id', $form->getVar('form_id')));
+$formOutput->addElement(new XoopsFormHidden('form_id', $form->getVar('form_id')));
 
 global $xoopsCaptcha, $xoopsModuleConfig;
 if ($xoopsModuleConfig['captcha']) {
     if (class_exists('XoopsFormCaptcha')) {
-        $form_output->addElement(new XoopsFormCaptcha());
+        $formOutput->addElement(new XoopsFormCaptcha());
     }
 }
 
-$form_output->addElement(new XoopsFormButton('', 'submit', $form->getVar('form_submit_text'), 'submit'));
+$formOutput->addElement(new XoopsFormButton('', 'submit', $form->getVar('form_submit_text'), 'submit'));
 
 $c    = 0;
 $eles = array();
-foreach ($form_output->getElements() as $e) {
-    $id      = $req = $name = $ele_type = false;
+foreach ($formOutput->getElements() as $e) {
+    $id      = $req = $name = $eleType = false;
     $name    = $e->getName();
     $caption = $e->getCaption();
     if (!empty($name)) {
@@ -81,31 +79,31 @@ foreach ($form_output->getElements() as $e) {
         $id  = str_replace('ele_', '', $obj[0]->getName());
         $id  = str_replace('[]', '', $id);
     }
-    $req         = false;
-    $display_row = 1;
+    $req        = false;
+    $displayRow = 1;
     if (isset($elements[$id])) {
-        $req         = $elements[$id]->getVar('ele_req') ? true : false;
-        $ele_type    = $elements[$id]->getVar('ele_type');
-        $display_row = intval($elements[$id]->getVar('ele_display_row'), 10);
+        $req        = $elements[$id]->getVar('ele_req') ? true : false;
+        $eleType    = $elements[$id]->getVar('ele_type');
+        $displayRow = (int)$elements[$id]->getVar('ele_display_row');
     }
     $eles[$c]['caption']     = $caption;
     $eles[$c]['name']        = $name;
     $eles[$c]['body']        = $e->render();
     $eles[$c]['hidden']      = $e->isHidden();
     $eles[$c]['required']    = $req;
-    $eles[$c]['display_row'] = $display_row;
-    $eles[$c]['ele_type']    = $ele_type;
+    $eles[$c]['display_row'] = $displayRow;
+    $eles[$c]['ele_type']    = $eleType;
     ++$c;
 }
-$js = $form_output->renderValidationJS();
+$js = $formOutput->renderValidationJS();
 $xoopsTpl->assign(
     'form_output',
     array(
-        'title'      => $form_output->getTitle(),
-        'name'       => $form_output->getName(),
-        'action'     => $form_output->getAction(),
-        'method'     => $form_output->getMethod(),
-        'extra'      => 'onsubmit="return xoopsFormValidate_' . $form_output->getName() . '();"' . $form_output->getExtra(),
+        'title'      => $formOutput->getTitle(),
+        'name'       => $formOutput->getName(),
+        'action'     => $formOutput->getAction(),
+        'method'     => $formOutput->getMethod(),
+        'extra'      => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
         'javascript' => $js,
         'elements'   => $eles
     )

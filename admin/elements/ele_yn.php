@@ -18,10 +18,18 @@
  * @author          Xoops Development Team
  */
 
-if (!defined('XFORMS_ROOT_PATH')) {
-    exit();
-}
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-$default              = new XoopsFormDhtmlTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlspecialchars($myts->stripSlashesGPC($value[0])) : '', 10, 90);
-$default->skipPreview = true;
-$output->addElement($default);
+if (!empty($eleId)) {
+    if (1 === $value['_YES']) {
+        $selected = '_YES';
+    } else {
+        $selected = '_NO';
+    }
+} else {
+    $selected = '_YES';
+}
+$options = new XoopsFormRadio(_AM_XFORMS_ELE_DEFAULT, 'ele_value', $selected);
+$options->addOption('_YES', _YES);
+$options->addOption('_NO', _NO);
+$output->addElement($options);
