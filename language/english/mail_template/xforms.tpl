@@ -1,12 +1,12 @@
-{EHEADER}<br/>
+{EHEADER}<br>
 
-{MSG}<br/><br/>
+{MSG}<br><br>
 
-{UNAME}<br/>
-{ULINK}<br/><br/>
+{UNAME}<br>
+{ULINK}<br><br>
 
-{IP}<br/><br/>
-{AGENT}<br/><br/>
-{FORMURL}<br/><br/>
+{IP}<br><br>
+{AGENT}<br><br>
+{FORMURL}<br><br>
 
-{EFOOTER}<br/>
+{EFOOTER}<br>
