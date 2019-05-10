@@ -1,9 +1,47 @@
 2.00 Alpha 2 [Not Released]
 =================================
+- added ./preloads to support namespace
+- added HTML 'tabindex' to form elements on front side rendering to allow tabbing through fields
+- added display of # of active/inactive/total forms dashboard in ./admin/index.php
+- added display of 'type' of element in table for ./admin/editelement.php
+- added multiple missing language defines (primarily in admin)
+- added loading of FormsHandler & \Xmf\Request in ./admin/admin_header.php
+- added FormInput class - an enhanced HTML5 &lt;input&gt; class
+- added FormRaw class - allows rendering HTML in XoopsForm objects
+- added PAYPAL donate button in Admin About (links to XOOPS Foundation)
+- added XoopsSecurity checks on form submittals
+- added Modernizer jscript to assist element rendering in browsers lacking some HTML5 support
+- added images for jquery-ui and 16x16 icons
+- added css for jquery-ui display
+- added SQL key `disp_ele_by_form` in xforms_element table to improve performance
+- changed unnecessary double-quote to single-quote in English language files
+- changed 'AM_XFORMS_FORM_NOTEXISTS' to English
+- changed help.html file extension to .tpl
+- changed ./docs/licence.txt to ./docs/license.txt for consistency w/ other modules
+- changed ./common.php to load Helper and check Session for upload directory
+- changed link to online documentation in help (mamba)
+- changed ./include/functions.php functions to Utilities class methods (removed ./include/functions.php)
+- changed ElementHandler to be an extension of XoopsPersistableObjectHandler
+- changed FormsHandler to be an extension of XoopsPersistableObjectHandler
+- changed UserdataHandler to be an extension of XoopsPersistableObjectHandler
+- changed MediaUploader to be an extension of XoopsMediaUploader
+- changed internal variable/function/method naming for PSRxx
+- changed to refactor how options were added to checkbox and radio elements
+- changed Admin editors to use XOOPS Preferences to select editor instead of forcing DHTML editor
+- changed XformsElements class to \Element to closer reflect table changes, etc.
+- changed requirement to XOOPS 2.9+ ONLY (requires Xmf Framework)
+- changed to use \Xmf for language loading functions
+- changed to use namespace (\XoopsModules\Xforms)
 - changed intval to (int) where appropriate
 - changed undefined _LIASE_ERR_INVALIDMAIL to _MD_XFORMS_ERR_INVALIDMAIL in ./include/form_execute.php
 - changed calls to MyTextSanitizer makeTboxData4PreviewInForm (deprecated) to htmlSpecialChars
+- changed to use \Xmf\Request for var validation
+- combined ./include/form_execute.php into ./index.php since it's the only place it's used
+- deprecated methods with same name as classes to use __construct instead (for PHP 7)
+- fixed bug where module wasn't checking for Profile module before trying to use Profile feature(s)
+- fixed bug where Select element box size wasn't being rendered correctly
 - moved admin ele_* files to ./admin/elements folder
+- removed instances of PHP 'extract' for security improvement
 - removed dbupdater.php (XformsTable and XformsDbupdater classes), was not being used
 - removed get_magic_quotes_gpc, was removed from starting with PHP 5.4
 - removed rename_fields(), was not being used
@@ -60,10 +98,15 @@
 - removed TruncateHTML from cakephp.org (was never implemented)
 - removed traces of SEO code (was never implemented)
 - removed ./xforms (ver 1.21 code)
+- removed '/' from HTML void tags (&lt;br&gt;, &lt;img&gt;, etc)
+- renamed ./admin/elements/ele_check.php to ele_checkbox.php
+- updated README.md
 - updated required XOOPS, PHP, SQL versions
+- updated templates to use classes where appropriate
 
 2.00 Alpha 1 [2014-10-08]
-=================================
+=======- removed '/' from HTML void tags (&lt;br&gt;, &lt;img&gt;, etc)
+==========================
 - merged eForms with xForms, so there would be migration path for current users, and less fragmentation of modules (mamba).
 - moved all images, CSS, and JS files to /assets (mamba)
 - renamed .html Smarty templates to .tpl (mamba)
