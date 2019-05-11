@@ -49,7 +49,6 @@ $modversion['dirname']        = $moduleDirName;
 
 // Help file(s)
 $modversion['help']           = 'page=help';
-/*
 $modversion['helpsection'] = array(array('name' => _MI_XFORMS_HELP_OVERVIEW,
                                          'link' => 'page=help'),
                                    array('name' => _MI_XFORMS_IMPORT,
@@ -59,7 +58,7 @@ $modversion['helpsection'] = array(array('name' => _MI_XFORMS_HELP_OVERVIEW,
                                    array('name' => _MI_XFORMS_HELP_ISSUES,
                                          'link' => 'page=issues')
 );
-*/
+
 //About
 $modversion['module_website_url']  = 'https://xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
