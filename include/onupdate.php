@@ -17,9 +17,9 @@
  * @author          Richard Griffith <richard@geekwright.com>
  * @author          trabis <lusopoemas@gmail.com>
  * @author          XOOPS Module Development Team
- * @copyright       {@see http://xoops.org 2001-2016 XOOPS Project}
+ * @copyright       {@see https://xoops.org 2001-2016 XOOPS Project}
  * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @see             http://xoops.org XOOPS
+ * @see             https://xoops.org XOOPS
  * @since           2.00
  */
 

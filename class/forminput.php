@@ -16,9 +16,9 @@
  * @package         xforms
  * @author          Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
  * @author          zyspec <owners@zyspec.com>
- * @copyright       {@see http://xoops.org 2001-2016 XOOPS Project}
+ * @copyright       {@see https://xoops.org 2001-2016 XOOPS Project}
  * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @see             http://xoops.org XOOPS
+ * @see             https://xoops.org XOOPS
  * @since           2.00
  */
 

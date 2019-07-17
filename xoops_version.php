@@ -15,9 +15,9 @@
  * @category        Module
  * @package         xforms
  * @author          XOOPS Module Development Team
- * @copyright       {@see http://xoops.org 2001-2016 XOOPS Project}
+ * @copyright       {@see https://xoops.org 2001-2016 XOOPS Project}
  * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @see             http://xoops.org XOOPS
+ * @see             https://xoops.org XOOPS
  * @since           1.00
  */
 
@@ -52,7 +52,7 @@ $modversion['helpsection'] = array(
 //about
 $modversion['module_status']       = 'Alpha 2';
 $modversion['release_date']        = '2016/08/01';
-$modversion['module_website_url']  = 'http://xoops.org/';
+$modversion['module_website_url']  = 'https://xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';
 $modversion['min_xoops']           = '2.5.8';
