@@ -144,4 +144,65 @@ class Utility
 
         return $truncate;
     }
+
+    /**
+     * Callback function to convert item to integer
+     *
+     * @param mixed $item
+     *
+     * @return int
+     */
+    public static function intArray(&$item)
+    {
+        $item = (int)$item;
+    }
+
+    /**
+     * @param $var
+     * @return mixed
+     */
+    public static function quoteThisString($var)
+    {
+        return $GLOBALS['xoopsDB']->escape($var);
+    }
+
+    /**
+     * @param        $key
+     * @param int    $id
+     * @param string $caption
+     *
+     * @todo refactor code to eliminate use of 'global $err' to track errors
+     *
+     * @global       array err - used to keep error messages
+     * @global array $_POST
+     *
+     * @return bool|string false on error | string for 'other' element
+     */
+    public static function checkOther($key, $id, $caption)
+    {
+        $myts = \MyTextSanitizer::getInstance();
+        $id   = (int)$id;
+        global $err;
+        if (!preg_match('/\{OTHER\|+\d+\}/', $key)) {
+            return false;
+        } else {
+            if (!empty($_POST['other']["ele_{$id}"])) {
+                return _MD_XFORMS_OPT_OTHER . $_POST['other']["ele_{$id}"];
+            } else {
+                $err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * function used for smarty output of csv files
+     * @param unknown $tpl_output
+     * @return string
+     */
+    public function undoHtmlEntities($tpl_output)
+    {
+        return html_entity_decode($tpl_output);
+    }
 }
