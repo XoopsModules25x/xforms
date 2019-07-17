@@ -22,6 +22,7 @@
  * @since           1.30
  */
 
+use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');

@@ -711,7 +711,7 @@ switch ($op) {
             $xformsFormsHandler->deleteFormPermissions($ret);
 
             $formGroupPerm = Request::getArray('form_group_perm', [], 'POST');
-            if (count($formGroupPerm > 0)) {
+            if (count($formGroupPerm) > 0) {
                 $xformsFormsHandler->insertFormPermissions($ret, $formGroupPerm);
             }
             if (!empty($cloneFormId)) {

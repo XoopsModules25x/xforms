@@ -23,6 +23,7 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/header.php';
@@ -387,9 +388,9 @@ if (0 == count($err)) {
                         $maxHeight = empty($eleValue[5]) ? null : (int)$eleValue[5];
 
                         if ('uploadimg' === $eleType) {
-                            $uploader[$eleId] = new MediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime, $maxWidth, $maxHeight);
+                            $uploader[$eleId] = new Xforms\MediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime, $maxWidth, $maxHeight);
                         } else {
-                            $uploader[$eleId] = new MediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime);
+                            $uploader[$eleId] = new Xforms\MediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime);
                         }
                         if (0 == $eleValue[0]) {
                             $uploader[$eleId]->setNoAdminSizeCheck(true);
