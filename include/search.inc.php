@@ -73,13 +73,12 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
             }
 
             if (is_array($queryArray) && !empty($queryArray)) {
-                $queryCount = count($queryArray);
-                for ($idx = 0; $idx < $queryCount; ++$idx) {
+                foreach ($queryArray as $idx => $idxValue) {
                     $qual        = (0 == $idx) ? 'AND' : $andor;
                     $subCriteria = new \CriteriaCompo();
-                    $subCriteria->add(new \Criteria('form_title', "%{$queryArray[$idx]}%", 'LIKE'));
-                    $subCriteria->add(new \Criteria('form_desc', "%{$queryArray[$idx]}%", 'LIKE'), 'OR');
-                    $subCriteria->add(new \Criteria('form_intro', "%{$queryArray[$idx]}%", 'LIKE'), 'OR');
+                    $subCriteria->add(new \Criteria('form_title', "%$idxValue%", 'LIKE'));
+                    $subCriteria->add(new \Criteria('form_desc', "%$idxValue%", 'LIKE'), 'OR');
+                    $subCriteria->add(new \Criteria('form_intro', "%$idxValue%", 'LIKE'), 'OR');
                     $criteria->add($subCriteria, $qual);
                     unset($subCriteria);
                 }
