@@ -24,6 +24,9 @@ namespace XoopsModules\Xforms;
 
  * @since           1.30
  */
+
+use XoopsModules\Xforms;
+
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 xoops_load('xoopsformelement');

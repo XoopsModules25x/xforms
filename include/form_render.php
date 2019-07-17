@@ -22,11 +22,12 @@
  * @since           1.30
  */
 
+use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-if (empty($form) || (!$form instanceof Forms)) {
+if (empty($form) || (!$form instanceof Xforms\Forms)) {
     header('Location: index.php');
     exit();
 }

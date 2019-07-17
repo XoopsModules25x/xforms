@@ -134,7 +134,7 @@ function xformsCopyFiles($fromDir, $toDir, $exceptions = [], $okNotExist = false
         //now copy the file(s) to the (to) directory
         foreach ($fileList as $fileName) {
             if (($fileInfo = new \SplFileInfo("{$eformsUploadDir}{$fileName}"))
-                && ($currFileInfo = new SplFileinf("{$eformsUploadDir}{$fileName}"))) {
+                && ($currFileInfo = new \SplFileinfo("{$eformsUploadDir}{$fileName}"))) {
                 $fileSuccess = copy("{$eformsUploadDir}{$fileName}", "{$eformsUploadDir}{$fileName}");
                 $success     = $success && $fileSuccess;
             }

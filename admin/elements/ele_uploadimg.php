@@ -20,6 +20,9 @@
 
  * @since           1.30
  */
+
+use XoopsModules\Xforms;
+
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**

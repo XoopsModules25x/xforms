@@ -23,6 +23,7 @@
  */
 
 use Xmf\Request;
+use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';

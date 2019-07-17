@@ -21,6 +21,9 @@
 
  * @since           1.30
  */
+
+use XoopsModules\Xforms;
+
 $moduleDirName = basename(dirname(__DIR__));
 
 // instantiate module helper
@@ -44,7 +47,7 @@ function b_xforms_form_show($options)
     $xformsFormsHandler = $helper->getHandler('Forms');
     $formOk             = $xformsFormsHandler->getSingleFormPermission((int)$options[0]);
     $formObj            = $xformsFormsHandler->get((int)$options[0]); // get the form object we want
-    if ($formObj instanceof Forms) {
+    if ($formObj instanceof Xforms\Forms) {
         $block = $formObj->render();
     }
 

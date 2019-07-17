@@ -11,6 +11,7 @@
  */
 
 use Xmf\Module\Admin;
+use XoopsModules\Xforms;
 
 /**
  * Module: xForms
@@ -37,11 +38,11 @@ function xoops_module_pre_install_xforms(\XoopsModule $module)
         xoops_load('utility', 'xforms');
     }
     //check for minimum XOOPS version
-    if (!XformsUtility::checkVerXoops($module)) {
+    if (!Xforms\Utility::checkVerXoops($module)) {
         return false;
     }
     // check for minimum PHP version
-    if (!XformsUtility::checkVerPhp($module)) {
+    if (!Xforms\Utility::checkVerPhp($module)) {
         return false;
     }
 

@@ -355,9 +355,9 @@ class ElementRenderer
                 $formElement->_multiple = (bool)$eleValue[1];
                 break;
             case 'text':
-                $memberHandler = Xmf\Module\Helper::getHelper('member');
-                //                $memberHandler = xoops_getHandler('member');
-                $xur = (isset($GLOBALS['xoopsUser'])
+                /** @var \XoopsMemberHandler $memberHandler */
+                $memberHandler = xoops_getHandler('member');
+                $xur           = (isset($GLOBALS['xoopsUser'])
                         && $GLOBALS['xoopsUser'] instanceof \XoopsUser) ? $GLOBALS['xoopsUser'] : $memberHandler->createUser();
                 if (!$admin) {
                     foreach ($xur->vars as $k => $v) {
@@ -366,9 +366,8 @@ class ElementRenderer
                 }
 
                 //check to see if profile module is active
-                $profileHelper = Xmf\Module\Helper::getHelper('profile');
-                if (false !== $profileHelper) {
-                    $profileHandler = $profileHelper->getHandler('profile');
+                if (xoops_isActiveModule('profile')) {
+                    $profileHandler = xoops_getModuleHandler('profile', 'profile');
                     $xpr            = (isset($GLOBALS['xoopsUser'])
                                        && $GLOBALS['xoopsUser'] instanceof \XoopsUser) ? $profileHandler->get($GLOBALS['xoopsUser']->getVar('uid')) : $profileHandler->create();
                     if (!$admin) {
@@ -550,7 +549,9 @@ class ElementRenderer
         if (!preg_match('/\{OTHER\|+[0-9]+\}/', $s)) {
             return false;
         }
-        $helper = Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
+//        $helper = Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
+        /** @var \XoopsModules\Xforms\Helper $helper */
+        $helper = \XoopsModules\Xforms\Helper::getInstance();
 
         $s = explode('|', preg_replace('/[\{\}]/', '', $s));
         //        $len = !empty($s[1]) ? $s[1] : $GLOBALS['xoopsModuleConfig']['t_width'];
