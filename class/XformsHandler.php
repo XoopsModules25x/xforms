@@ -21,19 +21,14 @@ namespace XoopsModules\Xforms;
  * @copyright       {@see https://xoops.org 2001-2016 XOOPS Project}
  * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @see             https://xoops.org XOOPS
- * @since           2.00
+ * @since           1.30
  */
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-//if (!interface_exists('Xforms\Constants')) {
-//    require_once __DIR__ . '/constants.php';
-//    //    xoops_load('constants', 'xforms');
-//}
-
 /**
- * Class Liaiseforms
+ * Class Forms
  */
-class Liaiseforms extends \XoopsObject
+class XformsHandler extends \XoopsObject
 {
     /**
      * this module's directory
@@ -56,5 +51,26 @@ class Liaiseforms extends \XoopsObject
         $this->initVar('form_whereto', XOBJ_DTYPE_TXTBOX);
 
         $this->dirname = basename(dirname(__DIR__));
+    }
+}
+
+/**
+ * Class FormsHandler
+ */
+class XformsHandler extends \XoopsPersistableObjectHandler
+{
+    public $db;
+    public $db_table;
+    public $perm_name = 'eforms_form_access';
+    public $obj_class = 'Forms';
+
+    /**
+     * @param \XoopsDatabase|null $db
+     */
+    public function __construct(\XoopsDatabase $db = null)
+    {
+        $this->db       = $db;
+        $this->db_table = $this->db->prefix('eforms_form');
+        parent::__construct($db, 'eforms_form', 'Forms', 'form_id', 'form_title');
     }
 }

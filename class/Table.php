@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -33,9 +35,8 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 /**
  * Class XformsTable
  */
-class XformsTable
+class Table
 {
-
     /**
      * @var string $_name name of the table
      */
@@ -85,7 +86,6 @@ class XformsTable
      * Constructor
      *
      * @param string $name name of the table
-     *
      */
     public function __construct($name)
     {
@@ -97,7 +97,6 @@ class XformsTable
      * Return the table name, prefixed with site table prefix
      *
      * @return string table name
-     *
      */
     public function name()
     {
@@ -110,7 +109,6 @@ class XformsTable
      * Set the table structure
      *
      * @param string $structure table structure
-     *
      */
     public function setStructure($structure)
     {
@@ -121,7 +119,6 @@ class XformsTable
      * Return the table structure
      *
      * @return string table structure
-     *
      */
     public function getStructure()
     {
@@ -132,7 +129,6 @@ class XformsTable
      * Add values of a record to be added
      *
      * @param string $data values of a record
-     *
      */
     public function setData($data)
     {
@@ -143,7 +139,6 @@ class XformsTable
      * Get the data array
      *
      * @return array containing the records values to be added
-     *
      */
     public function getData()
     {
@@ -154,7 +149,6 @@ class XformsTable
      * Use to insert data in a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function addData()
     {
@@ -178,7 +172,6 @@ class XformsTable
      *
      * @param string $name       name of the field
      * @param string $properties properties of the field
-     *
      */
     public function addAlteredField($name, $properties)
     {
@@ -197,6 +190,7 @@ class XformsTable
      * @internal param string $old old propertie
      * @internal param string $new new propertie
      */ //felix
+
     public function addUpdatedWhere($name, $newValue, $oldValue)
     {
         $field['name']        = $name;
@@ -210,7 +204,6 @@ class XformsTable
      *
      * @param string $name       name of the field
      * @param string $properties properties of the field
-     *
      */
     public function addNewField($name, $properties)
     {
@@ -223,7 +216,6 @@ class XformsTable
      * Get fields that need to be altered
      *
      * @return array fields that need to be altered
-     *
      */
     public function getAlteredFields()
     {
@@ -235,7 +227,6 @@ class XformsTable
      *
      * @param string $name  name of the field
      * @param string $value value to be set
-     *
      */
     public function addUpdatedField($name, $value)
     {
@@ -248,7 +239,6 @@ class XformsTable
      * Get new fields to be added
      *
      * @return array fields to be added
-     *
      */
     public function getNewFields()
     {
@@ -259,7 +249,6 @@ class XformsTable
      * Get fields which values need to be updated
      *
      * @return array fields which values need to be updated
-     *
      */
     public function getUpdatedFields()
     {
@@ -270,8 +259,8 @@ class XformsTable
      * Get fields which values need to be updated
      *
      * @return array fields which values need to be updated
-     *
      */ //felix
+
     public function getUpdatedWhere()
     {
         return $this->updatedWhere;
@@ -281,7 +270,6 @@ class XformsTable
      * Add values of a record to be added
      *
      * @param string $name name of the field
-     *
      */
     public function addDropedField($name)
     {
@@ -292,7 +280,6 @@ class XformsTable
      * Get fields that need to be droped
      *
      * @return array fields that need to be droped
-     *
      */
     public function getDropedFields()
     {
@@ -301,7 +288,6 @@ class XformsTable
 
     /**
      * Set the flag to drop the table
-     *
      */
     public function setFlagForDrop()
     {
@@ -312,7 +298,6 @@ class XformsTable
      * Use to create a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function createTable()
     {
@@ -334,7 +319,6 @@ class XformsTable
      * Use to drop a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function dropTable()
     {
@@ -346,18 +330,16 @@ class XformsTable
             echo "<li class='err'>" . sprintf(_AM_XFORMS_DB_MSG_DROP_TABLE_ERR, $this->name()) . '</li>';
 
             return false;
-        } else {
-            echo "<li class='ok'>" . sprintf(_AM_XFORMS_DB_MSG_DROP_TABLE, $this->name()) . '</li>';
-
-            return true;
         }
+        echo "<li class='ok'>" . sprintf(_AM_XFORMS_DB_MSG_DROP_TABLE, $this->name()) . '</li>';
+
+        return true;
     }
 
     /**
      * Use to alter a table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function alterTable()
     {
@@ -383,7 +365,6 @@ class XformsTable
      * Use to add new fileds in the table
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function addNewFields()
     {
@@ -408,7 +389,6 @@ class XformsTable
      * Use to update fields values
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function updateFieldsValues()
     {
@@ -428,12 +408,13 @@ class XformsTable
 
         return $ret;
     }
+
     /**
      * Use to update fields values
      *
      * @return bool true if success, false if an error occured
-     *
      */ //felix
+
     public function updateWhereValues()
     {
         global $xoopsDB;
@@ -458,7 +439,6 @@ class XformsTable
      * Use to drop fields
      *
      * @return bool true if success, false if an error occured
-     *
      */
     public function dropFields()
     {
@@ -476,140 +456,6 @@ class XformsTable
                 echo "<li class='ok'>" . sprintf(_AM_XFORMS_DB_MSG_DROPFIELD, $dropedField, $this->name()) . '</li>';
             }
         }
-
-        return $ret;
-    }
-}
-
-/**
- * xFormsDbupdater class
- *
- * Class performing the database update for the module
- *
- * @package xForms
- * @author  marcan <marcan@smartfactory.ca>
- * @link    http://www.smartfactory.ca The SmartFactory
- */
-class XformsDbupdater
-{
-
-    /**
-     *
-     */
-    public function __construct()
-    {
-    }
-
-    /**
-     * Use to execute a general query
-     *
-     * @param string $query   query that will be executed
-     * @param string $goodmsg message displayed on success
-     * @param string $badmsg  message displayed on error
-     *
-     * @return bool true if success, false if an error occured
-     *
-     */
-    public function runQuery($query, $goodmsg, $badmsg)
-    {
-        global $xoopsDB;
-        $ret = $xoopsDB->query($query);
-        if (!$ret) {
-            echo "<li class='err'>$badmsg</li>";
-
-            return false;
-        } else {
-            echo "<li class='ok'>$goodmsg</li>";
-
-            return true;
-        }
-    }
-
-    /**
-     * Use to rename a table
-     *
-     * @param string $from name of the table to rename
-     * @param string $to   new name of the renamed table
-     *
-     * @return bool true if success, false if an error occured
-     */
-    public function renameTable($from, $to)
-    {
-        global $xoopsDB;
-
-        $from = $xoopsDB->prefix($from);
-        $to   = $xoopsDB->prefix($to);
-
-        $query = sprintf('ALTER TABLE %s RENAME %s', $from, $to);
-        $ret   = $xoopsDB->query($query);
-        if (!$ret) {
-            echo "<li class='err'>" . sprintf(_AM_XFORMS_DB_MSG_RENAME_TABLE_ERR, $from) . '</li>';
-
-            return false;
-        } else {
-            echo "<li class='ok'>" . sprintf(_AM_XFORMS_DB_MSG_RENAME_TABLE, $from, $to) . '</li>';
-
-            return true;
-        }
-    }
-
-    /**
-     * Use to update a table
-     *
-     * @param object $table {@link xFormsTable} that will be updated
-     *
-     * @see xFormsTable
-     *
-     * @return bool true if success, false if an error occured
-     */
-    public function updateTable($table)
-    {
-        global $xoopsDB;
-
-        $ret = true;
-        echo '<ul>';
-
-        // If table has a structure, create the table
-        if ($table->getStructure()) {
-            $ret = $table->createTable() && $ret;
-        }
-
-        // If table is flag for drop, drop it
-        if ($table->flagForDrop) {
-            $ret = $table->dropTable() && $ret;
-        }
-
-        // If table has data, insert it
-        if ($table->getData()) {
-            $ret = $table->addData() && $ret;
-        }
-
-        // If table has new fields to be added, add them
-        if ($table->getNewFields()) {
-            $ret = $table->addNewFields() && $ret;
-        }
-
-        // If table has altered field, alter the table
-        if ($table->getAlteredFields()) {
-            $ret = $table->alterTable() && $ret;
-        }
-
-        // If table has updated field values, update the table
-        if ($table->getUpdatedFields()) {
-            $ret = $table->updateFieldsValues($table) && $ret;
-        }
-
-        // If table has droped field, alter the table
-        if ($table->getDropedFields()) {
-            $ret = $table->dropFields($table) && $ret;
-        }
-        //felix
-        // If table has updated field values, update the table
-        if ($table->getUpdatedWhere()) {
-            $ret = $table->UpdateWhereValues($table) && $ret;
-        }
-
-        echo '</ul>';
 
         return $ret;
     }

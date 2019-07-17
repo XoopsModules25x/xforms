@@ -26,11 +26,12 @@ use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 $moduleDirName = basename(dirname(__DIR__));
-require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 //require_once $helper->path('include/common.php');
 require_once $GLOBALS['xoops']->path("/modules/{$moduleDirName}/include/common.php");
 
+/** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 
 // Load language files
@@ -40,19 +41,19 @@ $helper->loadLanguage('main');
 
 function b_xforms_list_show($options)
 {
-
     // instantiate module helper
     $moduleDirName = basename(dirname(__DIR__));
-    $helper  = Helper::getHelper($moduleDirName);
+    /** @var \XoopsModules\Xforms\Helper $helper */
+    $helper = \XoopsModules\Xforms\Helper::getInstance();
 
     $block              = [];
-    $xformsFormsHandler = $helper->getHandler('forms');
+    $xformsFormsHandler = $helper->getHandler('Forms');
     $forms              = $xformsFormsHandler->getPermittedForms();
     if (!empty($forms)) {
         foreach ($forms as $form) {
             $block[$form->getVar('form_id')] = [
                 'title' => $form->getVar('form_title', 's'),
-                'desc'  => $form->getVar('form_desc', 's')
+                'desc'  => $form->getVar('form_desc', 's'),
             ];
         }
     }
@@ -61,7 +62,6 @@ function b_xforms_list_show($options)
 }
 
 /**
- *
  * @param array $options [0] = sort, [1] = number to show
  *
  * @return string

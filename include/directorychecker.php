@@ -27,8 +27,8 @@ use XoopsModules\Xforms\Constants;
 
 //defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-require_once $GLOBALS['xoops']->path('./modules/xforms/class/constants.php');
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+//require_once $GLOBALS['xoops']->path('./modules/xforms/class/constants.php');
 //xoops_load('constants', 'xforms');
 xoops_load('directorychecker', 'xforms');
 
@@ -39,7 +39,6 @@ switch ($op) {
     case 'createdir':
         $msg = XformsDirectoryChecker::createDirectory($path) ? _DC_XFORMS_DIRCREATED : _DC_XFORMS_DIRNOTCREATED;
         break;
-
     case 'setdirperm':
         $mode = Request::getString('mode', null, 'POST');
         $msg  = XformsDirectoryChecker::setDirectoryPermissions($path, $mode) ? _DC_XFORMS_PERMSET : _DC_XFORMS_PERMNOTSET;

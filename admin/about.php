@@ -33,4 +33,4 @@ $adminObject->displayNavigation(basename(__FILE__));
 //Admin::setPaypal('xoopsfoundation@gmail.com');
 $adminObject->displayAbout(false);
 
-include __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

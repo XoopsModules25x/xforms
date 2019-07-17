@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * xForms module
  *
@@ -20,7 +21,7 @@
 
 use XoopsModules\Xforms;
 
-include __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 /** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 

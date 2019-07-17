@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -22,7 +24,6 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 /**
@@ -46,7 +47,6 @@ class Userdata extends \XoopsObject
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see XoopsObject::getVar()
      */
@@ -67,6 +67,7 @@ class Userdata extends \XoopsObject
 
         return $myVar;
     }
+
     /*
         public function getVars()
         {
@@ -77,8 +78,8 @@ class Userdata extends \XoopsObject
             return $theVars;
         }
     */
+
     /**
-     *
      * {@inheritDoc}
      * @see XoopsObject::setVar()
      */
@@ -93,6 +94,7 @@ class Userdata extends \XoopsObject
         }
         parent::setVar($key, $val, $not_gpc);
     }
+
     /*
         public function assignVar($key, $val)
         {

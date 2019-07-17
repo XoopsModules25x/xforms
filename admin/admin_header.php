@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -23,27 +24,25 @@
 
 use XoopsModules\Xforms;
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
-require_once $GLOBALS['xoops']->path('www/class/pagenav.php');
+//require_once $GLOBALS['xoops']->path('www/class/pagenav.php');
 // require_once  dirname(__DIR__) . '/class/Utility.php';
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 $moduleDirName = basename(dirname(__DIR__));
-/** @var Xforms\Helper $helper */
-$helper = Xforms\Helper::getInstance();
+/** @var \XoopsModules\Xforms\Helper $helper */
+$helper = \XoopsModules\Xforms\Helper::getInstance();
 
 /** @var Xmf\Module\Admin $adminObject */
 $adminObject = \Xmf\Module\Admin::getInstance();
 
-
 require_once $helper->path('include/functions.php');
-//require $helper->path('include/common.php');
+//require_once $helper->path('include/common.php');
 
 //if (!class_exists('Xforms\FormInput')) {
 //    xoops_load('FormInput', 'xforms');
 //}
-
 
 //$pathIcon16    = \Xmf\Module\Admin::iconUrl('', 16);
 //$pathIcon32    = \Xmf\Module\Admin::iconUrl('', 32);
@@ -62,7 +61,6 @@ $helper->loadLanguage('common');
 //    $xoopsTpl = new \XoopsTpl();
 //}
 
-//
 $xformsFormsHandler = $helper->getHandler('Forms');
 
 //xoops_cp_header();

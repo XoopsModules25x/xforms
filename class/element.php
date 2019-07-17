@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -21,22 +23,18 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
-use XoopsModules\Xforms\Constants;
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-if (!interface_exists('Xforms\Constants')) {
-    require_once __DIR__ . '/constants.php';
-    //    xoops_load('constants', 'xforms');
-}
+//if (!interface_exists('Xforms\Constants')) {
+//    require_once __DIR__ . '/constants.php';
+//    //    xoops_load('constants', 'xforms');
+//}
 
 /**
  * Class Element
  */
 class Element extends \XoopsObject
 {
-
     /**
      * Xforms\Element class constructor
      */
@@ -57,7 +55,6 @@ class Element extends \XoopsObject
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see XoopsObject::getVar()
      */
@@ -83,7 +80,6 @@ class Element extends \XoopsObject
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see XoopsObject::getVars()
      */
@@ -97,7 +93,6 @@ class Element extends \XoopsObject
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see XoopsObject::setVar()
      */
@@ -114,7 +109,6 @@ class Element extends \XoopsObject
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see XoopsObject::assignVar()
      */

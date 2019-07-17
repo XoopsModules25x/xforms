@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -24,11 +26,9 @@
  */
 
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Constants;
 
 /**
  * ElementRenderer class to dislay form elements
- *
  */
 class ElementRenderer
 {
@@ -38,7 +38,6 @@ class ElementRenderer
     /**
      * constructor for ElementRenderer
      * @param Xforms\Element $eleObj
-     *
      */
     public function __construct(Xforms\Element $eleObj)
     {
@@ -71,14 +70,15 @@ class ElementRenderer
      */
     public function constructElement($admin = false, $delimiter = ' ')
     {
+        /** @var Xforms\Helper $helper */
         $helper = Xforms\Helper::getInstance();
 
         if (!class_exists('Xforms\FormInput')) {  // hack for XOOPS ver < 2.6
             xoops_load('FormInput', XFORMS_DIRNAME);
         }
-        if (!interface_exists('Xforms\Constants')) {  // hack for XOOPS ver < 2.6
-            require_once $helper->path('class/constants.php');
-        }
+        //        if (!interface_exists('Xforms\Constants')) {  // hack for XOOPS ver < 2.6
+        //            require_once $helper->path('class/constants.php');
+        //        }
         $myts       = \MyTextSanitizer::getInstance();
         $eleCaption = $myts->displayTarea($this->ele->getVar('ele_caption'), Constants::ALLOW_HTML);
         $eleValue   = $this->ele->getVar('ele_value');
@@ -111,7 +111,6 @@ class ElementRenderer
                     $formElement->addElement($t);
                 }
                 break;
-
             case 'color':
                 $formElement = new \XoopsFormElementTray($eleCaption);
                 $colorInp    = new Xforms\FormInput('', $formEleId, $eleValue[1], 255, $eleValue[0], null, 'color');
@@ -121,7 +120,6 @@ class ElementRenderer
                 $formElement->addElement($colorLbl);
                 //                $formElement = new Xforms\FormInput($eleCaption, $formEleId, $eleValue[1], 255, $eleValue[0], null, 'color');
                 break;
-
             case 'date':
                 xoops_load('XoopsLocal');
                 //@TODO check this - don't think $post_val will ever be set
@@ -200,7 +198,6 @@ class ElementRenderer
                 $rawScript .= "  });\n" . "}\n" . "</script>\n";
                 $formElement->addElement(new Xforms\FormRaw($rawScript));
                 break;
-
             case 'email':
                 // eleValue: [0] = size, [1] = maxsize
                 $formElement = new Xforms\FormInput($eleCaption, $formEleId, $eleValue[0], $eleValue[1], '', null, 'email');
@@ -210,12 +207,11 @@ class ElementRenderer
                 $formElement->customValidationCode[] = "var filter = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i"
                                                        . "if (filter.test({$formEleId})) {return true;} else {return false;}";
                 break;
-
             case 'html':
                 if (!$admin) {
                     $formElement = new \XoopsFormLabel($eleCaption, $myts->displayTarea($eleValue[0], Constants::ALLOW_HTML), $formEleId);
                 } else {
-                    $sysHelper       = Helper::getHelper('system');
+                    $sysHelper       = \Xmf\Module\Helper::getHelper('system');
                     $formHtmlConfigs = [
                         'editor' => $sysHelper->getConfig('general_editor'),
                         'rows'   => 8,
@@ -223,7 +219,7 @@ class ElementRenderer
                         'width'  => '100%',
                         'height' => '260px',
                         'name'   => $formEleId,
-                        'value'  => $myts->htmlSpecialChars($eleValue[0]) // default value
+                        'value'  => $myts->htmlSpecialChars($eleValue[0]), // default value
                     ];
                     $formElement     = new \XoopsFormEditor($eleCaption, $formEleId, $formHtmlConfigs);
                     $renderer        = $formElement->editor->renderer;
@@ -232,9 +228,8 @@ class ElementRenderer
                     }
                 }
                 break;
-
             case 'number':
-                $defNum      = (!empty($eleValue[6])) ? (int)$eleValue[2] : null;
+                $defNum      = !empty($eleValue[6]) ? (int)$eleValue[2] : null;
                 $formElement = new Xforms\FormInput($eleCaption, $formEleId, $eleValue[3], 255, $defNum, null, 'number');
                 if (!empty($eleValue[4])) { // do we want to set a min value?
                     $formElement->setAttribute('min', (int)$eleValue[0]);
@@ -246,14 +241,12 @@ class ElementRenderer
                     $formElement->setAttribute('step', (int)$eleValue[7]);
                 }
                 break;
-
             case 'obfuscated':
                 // eleValue: [0] = size, [1] = maxsize
                 //@todo - should we make this a tray and create 'duplicate' fields so user has to enter it 2X?
                 $formElement = new Xforms\FormInput($eleCaption, $formEleId, $eleValue[0], $eleValue[1], '', null, 'password');
                 $formElement->setExtra('autocomplete="off"');
                 break;
-
             case 'pattern':
                 // eleValue: [0] = size, [1] = maxsize, [2] = placeholder, [3] = pattern, [4] = pattern desc
                 $formElement = new Xforms\FormInput($eleCaption, $formEleId, $eleValue[0], $eleValue[1], '', $eleValue[2], 'text');
@@ -262,7 +255,6 @@ class ElementRenderer
                     $formElement->setExtra('required'); // needed, otherwise empty string won't be checked
                 }
                 break;
-
             case 'radio':
                 $selected    = '';
                 $options     = [];
@@ -294,7 +286,6 @@ class ElementRenderer
                             $formElement->addElement($t);
                         }
                         break;
-
                     case Constants::DELIMITER_SPACE:
                     default:
                         $formElement = new \XoopsFormRadio($eleCaption, $formEleId, $selected);
@@ -310,7 +301,6 @@ class ElementRenderer
                         break;
                 }
                 break;
-
             case 'range':
                 /*
                  * value [0] = default
@@ -326,14 +316,13 @@ class ElementRenderer
                 $rangeEle->setAttributes([
                                              'min'  => $eleValue[2],
                                              'max'  => $eleValue[3],
-                                             'step' => (float)$stepSize
+                                             'step' => (float)$stepSize,
                                          ]);
                 $rangeEle->setExtra('onchange="document.getElementById(\'range_label\').innerHTML = this.value;"');
                 $rangeLbl = new \XoopsFormLabel('', "<label class='middle bold' id='range_label' for='{$formEleId}'>{$default}</label>");
                 $formElement->addElement($rangeEle);
                 $formElement->addElement($rangeLbl);
                 break;
-
             case 'select':
                 $selected    = [];
                 $options     = [];
@@ -357,7 +346,6 @@ class ElementRenderer
                 }
                 $formElement->addOptionArray($options);
                 break;
-
             case 'select2': // left for backward compatibility
             case 'country':
                 $formElement            = new \XoopsFormSelectCountry($eleCaption, $formEleId, $myts->htmlSpecialChars($eleValue[2]), //default
@@ -366,7 +354,6 @@ class ElementRenderer
                 );
                 $formElement->_multiple = (bool)$eleValue[1];
                 break;
-
             case 'text':
                 $memberHandler = Xmf\Module\Helper::getHelper('member');
                 //                $memberHandler = xoops_getHandler('member');
@@ -400,7 +387,6 @@ class ElementRenderer
                     $formElement->setExtra("placeholder=\"{$eleValue[4]}\"");
                 }
                 break;
-
             case 'textarea':
                 $formElement = new \XoopsFormTextArea($eleCaption, $formEleId, $myts->htmlSpecialChars($eleValue[0]), // default value
                                                       $eleValue[1], // rows
@@ -410,9 +396,8 @@ class ElementRenderer
                     $formElement->setExtra("placeholder=\"{$eleValue[3]}\"");
                 }
                 break;
-
             case 'time':
-                $defNum      = (!empty($eleValue[6])) ? preg_replace('/[^0-9:]/', '', $eleValue[2]) : null;
+                $defNum      = !empty($eleValue[6]) ? preg_replace('/[^0-9:]/', '', $eleValue[2]) : null;
                 $formElement = new \XoopsFormElementTray($eleCaption, null, $formEleId . '_tray');
                 $inpEle      = new Xforms\FormInput('', $formEleId, 8, 10, $defNum, null, 'time');
 
@@ -454,7 +439,6 @@ class ElementRenderer
                 }
                 $formElement->addElement($inpEle);
                 break;
-
             case 'url':
                 // eleValue: [0] = size, [1] = maxsize, [2] = placeholder, [3] = allowed url types (http[s]|ftp[s])
                 $formElement = new Xforms\FormInput($eleCaption, $formEleId, $eleValue[0], $eleValue[1], '', $eleValue[2], 'url');
@@ -471,7 +455,6 @@ class ElementRenderer
                         break;
                 }
                 break;
-
             case 'upload':
                 if ($admin) {
                     $formElement = new \XoopsFormElementTray('', '<br>');
@@ -482,7 +465,6 @@ class ElementRenderer
                     $formElement = new \XoopsFormFile($eleCaption, $formEleId, $eleValue[0]);
                 }
                 break;
-
             case 'uploadimg':
                 if ($admin) {
                     $formElement = new \XoopsFormElementTray('', '<br>');
@@ -499,7 +481,6 @@ class ElementRenderer
                     $formElement = new \XoopsFormFile($eleCaption, $formEleId, $eleValue[0]);
                 }
                 break;
-
             case 'yn':
                 $selected    = '';
                 $options     = [];
@@ -531,7 +512,6 @@ class ElementRenderer
                             $formElement->addElement($t);
                         }
                         break;
-
                     case Constants::DELIMITER_SPACE:
                     default:
                         $formElement = new \XoopsFormRadio($eleCaption, $formEleId, $selected);
@@ -547,7 +527,6 @@ class ElementRenderer
                         break;
                 }
                 break;
-
             default:
                 $formElement = false;
                 break;
@@ -566,7 +545,7 @@ class ElementRenderer
      *
      * @return string HTML output of XoopsFormText element render
      */
-    public function optOther($s = '', $id)
+    public function optOther($s, $id)
     {
         if (!preg_match('/\{OTHER\|+[0-9]+\}/', $s)) {
             return false;

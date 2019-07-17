@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -22,7 +24,6 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 xoops_load('xoopsformelement');
@@ -61,10 +62,10 @@ class FormCaptcha extends \XoopsFormElement
     /**
      * Class construtor
      *
-     * @param string  $caption    Caption of the form element, default value is defined in captcha/language/
-     * @param string  $name       Name for the input box
-     * @param boolean $skipmember Skip CAPTCHA check for members
-     * @param array   $configs
+     * @param string $caption    Caption of the form element, default value is defined in captcha/language/
+     * @param string $name       Name for the input box
+     * @param bool   $skipmember Skip CAPTCHA check for members
+     * @param array  $configs
      */
     public function __construct($caption = '', $name = 'xformscaptcha', $skipmember = true, $configs = [])
     {

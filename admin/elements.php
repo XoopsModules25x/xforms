@@ -25,11 +25,11 @@
 use Xmf\Request;
 use XoopsModules\Xforms\Constants;
 
-include __DIR__ . '/admin_header.php';
-$xformsEleHandler = $helper->getHandler('element');
+require_once __DIR__ . '/admin_header.php';
+$xformsEleHandler = $helper->getHandler('Element');
 require_once XFORMS_ROOT_PATH . '/class/elementrenderer.php';
 
-$op = Request::getCmd('op', '', 'POST');
+$op = Request::getString('op', '', 'POST');
 
 switch ($op) {
     default: // list
@@ -194,7 +194,6 @@ switch ($op) {
         $hiddenFormId = new \XoopsFormHidden('form_id', $formId);
         echo $hiddenOp->render() . "\n" . $hiddenFormId->render() . "\n" . "</form>\n";
         break;
-
     case 'save': // Save element(s)
         //check to make sure this is from known location
         if (!$xoopsSecurity->check()) {
@@ -241,7 +240,7 @@ switch ($op) {
                                   'ele_req'         => $req,
                                   'ele_order'       => $order,
                                   'ele_display_row' => $displayRow,
-                                  'ele_display'     => $display
+                                  'ele_display'     => $display,
                               ]);
 
             switch ($type) {
@@ -269,46 +268,37 @@ switch ($op) {
                     }
                     $value = $newVars;
                     break;
-
                 case 'color':
                     $value[0] = $eleValue[$id];
                     break;
-
                 case 'country':
                 case 'select2':
                     $value[2] = !empty($eleValue[$id]) ? $eleValue[$id] : 'LB';
                     break;
-
                 case 'date':
                     $value = [$eleValue[$id]];
                     break;
-
                 case 'email':
                     $value[] = $eleValue[$id];
                     break;
-
                 case 'html':
                     $value[0] = $eleValue[$id];
                     // removed in v2.00 ALPHA 2 - as of PHP5.4 get_magic_quotes_gpc() always returns FALSE
                     //                $value[0] = ($magicQuotes) ? stripslashes($eleValue[$id]) : $eleValue[$id];
                     $element->setVar('ele_display_row', 0);
                     break;
-
                 case 'number':
                     //                $value[2] = $eleValue[$id];
                     $value[] = $eleValue[$id];
                     // removed in v2.00 ALPHA 2 - as of PHP5.4 get_magic_quotes_gpc() always returns FALSE
                     //                 $value[2] = ($magicQuotes) ? stripslashes($eleValue[$id]) : $eleValue[$id];
                     break;
-
                 case 'obfuscated':
                     $value[] = $eleValue[$id];
                     break;
-
                 case 'pattern':
                     $value[] = $eleValue[$id];
                     break;
-
                 case 'radio':
                     $newVars = [];
                     $i       = 1;
@@ -321,7 +311,6 @@ switch ($op) {
                     }
                     $value = $newVars;
                     break;
-
                 case 'select':
                     $newVars  = [];
                     $optCount = 1;
@@ -353,37 +342,30 @@ switch ($op) {
                         }
                     }
                     break;
-
                 case 'text':
                     $value[2] = $eleValue[$id];
                     // removed in v2.00 ALPHA 2 - as of PHP5.4 get_magic_quotes_gpc() always returns FALSE
                     //                     $value[2] = ($magicQuotes) ? stripslashes($eleValue[$id]) : $eleValue[$id];
                     break;
-
                 case 'textarea':
                     $value[0] = $eleValue[$id];
                     // removed in v2.00 ALPHA 2 - as of PHP5.4 get_magic_quotes_gpc() always returns FALSE
                     //                $value[0] = ($magicQuotes) ? stripslashes($eleValue[$id]) : $eleValue[$id];
                     break;
-
                 case 'time':
                     $value[2] = $eleValue[$id];
                     break;
-
                 case 'upload':
                     $value[0] = (int)$eleValue[$id][0];
                     break;
-
                 case 'uploadimg':
                     $value[0] = (int)$eleValue[$id][0];
                     $value[4] = (int)$eleValue[$id][4];
                     $value[5] = (int)$eleValue[$id][5];
                     break;
-
                 case 'url':
                     $value[] = $eleValue[$id];
                     break;
-
                 case 'yn':
                     $newVars = [];
                     $i       = 1;
@@ -396,7 +378,6 @@ switch ($op) {
                     }
                     $value = $newVars;
                     break;
-
                 default:
                     break;
             }
@@ -417,5 +398,5 @@ switch ($op) {
         }
 }
 
-include __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
 xoops_cp_footer();

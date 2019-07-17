@@ -51,7 +51,7 @@ switch ($op) {
             $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
-        $uDataHandler = $helper->getHandler('userdata');
+        $uDataHandler = $helper->getHandler('Userdata');
         $uData        = $uDataHandler->getReport($formId);
         if (empty($uData)) { // is there anything to report?
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
@@ -151,12 +151,10 @@ switch ($op) {
                     case 'yn':
                         echo "    <td{$border}>{$uDataValue[0]}</td>\n";
                         break;
-
                     case 'upload':
                     case 'uploadimg':
                         echo "    <td{$border}>\n" . "      <a href='" . $helper->url("file.php?f={$uDataValue['file']}&fn={$uDataValue['name']}") . "'>{$uDataValue['name']}</a>\n" . "   </td>\n";
                         break;
-
                     case 'checkbox':
                     case 'date':
                     case 'radio':
@@ -194,7 +192,6 @@ switch ($op) {
         echo $bexportch->render() . $bexporthh->render() . $bexportcv->render() . $bexporthv->render();
         echo "</td></tr>\n" . "  </tfoot>\n" . "</table>\n";
         break;
-
     case 'purge':
         xoops_cp_header();
         $adminObject = Xmf\Module\Admin::getInstance();
@@ -225,7 +222,7 @@ switch ($op) {
             $purgeDateTimeObj->setTime(0, 0, 0);
             $pDTtimestamp = $purgeDateTimeObj->getTimestamp();
 
-            $uDataHandler = $helper->getHandler('userdata');
+            $uDataHandler = $helper->getHandler('Userdata');
             $numItems     = $uDataHandler->deleteAll(new \Criteria('udata_time', $pDTtimestamp, '<'));
             if ($numItems > 0) {
                 $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_RPT_PURGE_DELETED, (int)$numItems));
@@ -242,7 +239,6 @@ switch ($op) {
             xoops_confirm(['op' => 'purge_do', 'purge_date' => $purgeDate, 'ok' => Constants::CONFIRM_OK], $thisFileName, sprintf(_AM_XFORMS_REPORT_CONFIRM_DELETE, $theDate));
         }
         break;
-
     case 'export-horiz':
         if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
@@ -250,7 +246,7 @@ switch ($op) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
-        $uDataHandler = $helper->getHandler('userdata');
+        $uDataHandler = $helper->getHandler('Userdata');
         $uData        = $uDataHandler->getReport($formId);
         if (empty($uData)) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
@@ -266,7 +262,7 @@ switch ($op) {
         $xformsTpl->assign('form_title', $form->getVar('form_title'));
         $xformsTpl->assign('delim', ','); //force delimiter for now
 
-        $xformsEleHandler = $helper->getHandler('element');
+        $xformsEleHandler = $helper->getHandler('Element');
         $criteria         = new \CriteriaCompo();
         $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
         $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
@@ -279,7 +275,7 @@ switch ($op) {
         }
 
         $dl     = new stdClass();
-        $format = strtolower($format);
+        $format = mb_strtolower($format);
         switch ($format) {
             case 'h': //html
                 $xformsTpl->assign('col_count', $eleCount + 3);
@@ -314,7 +310,7 @@ switch ($op) {
                     'user'     => $reportData['uname'],
                     'time'     => $rptTime,
                     'ip'       => $rptIp,
-                    'elements' => $blankEleArray
+                    'elements' => $blankEleArray,
                 ];
                 $lineKey        = $key;
             }
@@ -365,7 +361,6 @@ switch ($op) {
         echo $tableData;
         exit();
         break;
-
     case 'export-vert':
         if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
@@ -373,7 +368,7 @@ switch ($op) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
-        $uDataHandler = $helper->getHandler('userdata');
+        $uDataHandler = $helper->getHandler('Userdata');
         $uData        = $uDataHandler->getReport($formId);
         if (empty($uData)) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
@@ -393,7 +388,7 @@ switch ($op) {
         $uDataCount = count($uData);
 
         $dl     = new stdClass();
-        $format = strtolower($format);
+        $format = mb_strtolower($format);
         switch ($format) {
             case 'h': //html
                 $dl->_template = $helper->path('templates/admin/xforms_export_hv.tpl');
@@ -438,7 +433,7 @@ switch ($op) {
                 'uname'       => $uname,
                 'datet'       => $datet,
                 'uip'         => $uip,
-                'ele_caption' => $eleCaption
+                'ele_caption' => $eleCaption,
             ];
             $uDataValue  = $uData[$i]['udata_value'];
             if (is_array($uDataValue)) {
@@ -453,12 +448,10 @@ switch ($op) {
                     case 'yn':
                         $tplElements['ele_value'] = $uDataValue[0];
                         break;
-
                     case 'upload':
                     case 'uploadimg':
                         $tplElements['ele_value'] = "<a href='" . $helper->url("file.php?f={$uDataValue['file']}&fn={$uDataValue['name']}") . "'>{$uDataValue['name']}</a>";
                         break;
-
                     case 'checkbox':
                     case 'country':
                     case 'date':
@@ -475,7 +468,6 @@ switch ($op) {
                             $tplElements['ele_value'] = $uDataValue;
                         }
                         break;
-
                     default:
                         $tplElements['ele_value'] = '&nbsp;';
                         break;
@@ -497,7 +489,6 @@ switch ($op) {
         echo $tableData;
         exit();
         break;
-
     default: /* Show list of forms with reports */
         xoops_cp_header();
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url("browse.php?modules/{$moduleDirName}/assets/css/style.css"));
@@ -506,7 +497,7 @@ switch ($op) {
         $adminObject->displayNavigation($thisFileName);
 
         // first get forms that have data in the Userdata table
-        $uDataHandler = $helper->getHandler('userdata');
+        $uDataHandler = $helper->getHandler('Userdata');
         $fields       = ['form_id'];
         $criteria     = new \CriteriaCompo();
         $criteria->setGroupBy('form_id');
@@ -519,7 +510,7 @@ switch ($op) {
         //now get all those forms from the Form table
         $perpage = (int)$helper->getConfig('perpage'); // get number of items to show per page
 
-        $xformsDisplay          = new stdClass;
+        $xformsDisplay          = new stdClass();
         $xformsDisplay->start   = Request::getInt('start', 0);
         $xformsDisplay->perpage = ($perpage > 0) ? $perpage : Constants::FORMS_PER_PAGE_DEFAULT;
         $xformsDisplay->order   = 'ASC';
@@ -757,5 +748,5 @@ switch ($op) {
         }
         break;
 }
-include __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
 xoops_cp_footer();

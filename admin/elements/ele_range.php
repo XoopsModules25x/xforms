@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -37,7 +38,6 @@ if (!class_exists('Xforms\FormRaw')) {
  *       [3] = max num
  *       [4] = step
  */
-
 $default    = !empty($value[0]) ? $value[0] : null;
 $minNum     = !empty($value[2]) ? $value[2] : 0;
 $maxNum     = !empty($value[3]) ? $value[3] : 0;

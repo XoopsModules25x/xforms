@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -21,15 +23,14 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Class XformsEformsuserdata
+ * Class Formsuserdata
  *
  * @see XoopsObject
  */
-class XformsEformsuserdata extends \XoopsObject
+class Formsuserdata extends \XoopsObject
 {
     public function __construct()
     {
@@ -42,27 +43,5 @@ class XformsEformsuserdata extends \XoopsObject
         $this->initVar('udata_ip', XOBJ_DTYPE_TXTBOX, '', true, 100);
         $this->initVar('udata_agent', XOBJ_DTYPE_TXTBOX, '', true, 500);
         $this->initVar('udata_value', XOBJ_DTYPE_ARRAY, '');
-    }
-}
-
-/**
- * Class xFormsEformsuserdataHandler
- *
- * @see XoopsPersistableObjectHandler
- */
-class XformsEformsuserdataHandler extends \XoopsPersistableObjectHandler
-{
-    public $db;
-    public $db_table;
-    public $obj_class = 'XformsEformsuserdata';
-
-    /**
-     * @param $db
-     */
-    public function __construct(\XoopsDatabase $db)
-    {
-        $this->db       = $db;
-        $this->db_table = $this->db->prefix('eforms_userdata');
-        parent::__construct($db, 'eforms_userdata', 'XformsEformsuserdata', 'udata_id');
     }
 }

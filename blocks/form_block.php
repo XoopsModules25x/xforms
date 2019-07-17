@@ -21,11 +21,10 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 $moduleDirName = basename(dirname(__DIR__));
 
 // instantiate module helper
-$helper = \XoopsModules\AboutHelper::getInstance();
+$helper = \XoopsModules\Xforms\Helper::getInstance();
 require_once $helper->path('include/common.php');
 
 if (!class_exists('Xforms\FormInput')) {
@@ -36,12 +35,13 @@ function b_xforms_form_show($options)
 {
     // instantiate module helper
     $moduleDirName = basename(dirname(__DIR__));
-    $helper  = \XoopsModules\Xforms\Helper::getInstance();
+    /** @var \XoopsModules\Xforms\Helper $helper */
+    $helper = \XoopsModules\Xforms\Helper::getInstance();
     $helper->loadLanguage('admin');
 
     $block = [];
 
-    $xformsFormsHandler = $helper->getHandler('forms');
+    $xformsFormsHandler = $helper->getHandler('Forms');
     $formOk             = $xformsFormsHandler->getSingleFormPermission((int)$options[0]);
     $formObj            = $xformsFormsHandler->get((int)$options[0]); // get the form object we want
     if ($formObj instanceof Forms) {
@@ -52,19 +52,18 @@ function b_xforms_form_show($options)
 }
 
 /**
- *
  * @param array $options [0] = form to show
  *
  * @return string html for edit form
- *
  */
 function b_xforms_form_edit($options)
 {
     // instantiate module helper
     $moduleDirName = basename(dirname(__DIR__));
-    $helper  = \XoopsModules\Xforms\Helper::getInstance();
+    /** @var \XoopsModules\Xforms\Helper $helper */
+    $helper = \XoopsModules\Xforms\Helper::getInstance();
 
-    $xformsFormsHandler = $helper->getHandler('forms');
+    $xformsFormsHandler = $helper->getHandler('Forms');
     $forms              = $xformsFormsHandler->getAll();
     $optForm            = "<label for='fs1'>Form to Display</label>\n";
     if (empty($forms)) {

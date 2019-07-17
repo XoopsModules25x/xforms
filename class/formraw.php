@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -22,7 +24,6 @@
  * @see             https://xoops.org XOOPS
  * @since           2.00
  */
-
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
@@ -59,8 +60,6 @@ class FormRaw extends \XoopsFormElement
      * Set initial text value
      *
      * @param  $value string
-     *
-     * @return void
      */
     public function setValue($value)
     {

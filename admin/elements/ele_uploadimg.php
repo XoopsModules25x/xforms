@@ -20,7 +20,6 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 /**

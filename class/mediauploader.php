@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -21,7 +23,6 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 if (!class_exists('XoopsMediaUploader')) {
@@ -58,13 +59,13 @@ class MediaUploader extends \XoopsMediaUploader
         $allowedMimeTypes = null,
         $maxWidth = null,
         $maxHeight = null,
-        $randomFilename = false
-    ) {
+        $randomFilename = false)
+    {
         parent::__construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight, $randomFilename);
         if (!empty($allowedExtensions)) {
             $this->allowedExtensions = $allowedExtensions;
         } else {
-            $mimeArray               = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
+            $mimeArray               = require_once $GLOBALS['xoops']->path('include/mimetypes.inc.php');
             $this->allowedExtensions = array_keys($mimeArray);
         }
     }
@@ -73,8 +74,6 @@ class MediaUploader extends \XoopsMediaUploader
      * set value to determine if should check size if admin
      *
      * @param bool $value
-     *
-     * @return void
      */
     public function setNoAdminSizeCheck($value)
     {
@@ -102,13 +101,12 @@ class MediaUploader extends \XoopsMediaUploader
      **/
     public function checkExtension()
     {
-        $ext = substr(strrchr($this->mediaName, '.'), 1);
-        if (!empty($this->allowedExtensions) && !in_array(strtolower($ext), $this->allowedExtensions)) {
+        $ext = mb_substr(mb_strrchr($this->mediaName, '.'), 1);
+        if (!empty($this->allowedExtensions) && !in_array(mb_strtolower($ext), $this->allowedExtensions)) {
             return false;
-        } else {
-            $this->ext = $ext;
-
-            return true;
         }
+        $this->ext = $ext;
+
+        return true;
     }
 }

@@ -41,7 +41,7 @@ if (empty($file)) {
         ob_end_clean();
         exit();
     }
-    $uDataHandler = xoops_getModuleHandler('userdata', basename(__DIR__));
+    $uDataHandler = $helper->getHandler('Userdata', basename(__DIR__));
     if (!($uData = $uDataHandler->get($udid)) || ($uData->getVar('form_id') != $form)
         || ($uData->getVar('ele_id') != $elem)) {
         //@todo - test ob_end_clean here - added in v2.00 ALPHA 2
@@ -166,7 +166,7 @@ if (class_exists('finfo')) {  //this should exist for >= PHP 5.3
 } else {
     $mimeTypes = require_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
     $extArray  = explode('.', $filename);
-    $ext       = strtolower(array_pop($extArray));
+    $ext       = mb_strtolower(array_pop($extArray));
     if (array_key_exists($ext, $mimeTypes)) {
         $mimeFile = $mimeTypes[$ext];
     }

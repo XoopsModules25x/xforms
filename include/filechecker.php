@@ -27,12 +27,12 @@ use XoopsModules\Xforms\Constants;
 
 //defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
-require_once $GLOBALS['xoops']->path('./modules/xforms/class/constants.php');
+//require_once $GLOBALS['xoops']->path('./modules/xforms/class/constants.php');
 xoops_load('filechecker', 'xforms');
 
-$op = Request::getCmd('op', '', 'POST');
+$op = Request::getString('op', '', 'POST');
 if ('copyfile' === $op) {
     $originalFilePath = Request::getString('original_file_path', null, 'POST');
     $filePath         = Request::getString('file_path', null, 'POST');

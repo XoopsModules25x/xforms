@@ -1,0 +1,14 @@
+TODO: Planned features in the future
+=====================================
+
+Features that are being considered/planned/needed for the future releases:
+
+- create/test xBootstrap templates
+- create checkbox for number input in Admin to include/exclude default/step
+- add Elements:
+  - rating | use https://github.com/antennaio/jquery-bar-rating
+- add Modernizer to module to check browser capabilities and improve 'fallback' input methods for:
+  - range
+  - email (for Safari)
+  - time (for Firefox - use http://trentrichardson.com/examples/timepicker/)
+- create renderValidationJS for HTML5 types since many browsers don't actually validate data

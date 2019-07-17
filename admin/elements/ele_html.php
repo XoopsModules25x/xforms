@@ -20,7 +20,6 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 /**
@@ -28,7 +27,6 @@ defined('XFORMS_ROOT_PATH') || die('Restricted access');
  *
  * value array [0] = text value
  */
-
 $defaultEditorConfigs = [
     'editor' => $sysHelper->getConfig('general_editor'),
     'rows'   => 8,
@@ -36,7 +34,7 @@ $defaultEditorConfigs = [
     'width'  => '100%',
     'height' => '260px',
     'name'   => 'ele_value[0]',
-    'value'  => isset($value[0]) ? $myts->htmlSpecialChars($value[0]) : ''
+    'value'  => isset($value[0]) ? $myts->htmlSpecialChars($value[0]) : '',
 ];
 $default              = new \XoopsFormEditor(_AM_XFORMS_ELE_HTML_DEFAULT_DISP, 'ele_value[0]', $defaultEditorConfigs);
 $renderer             = $default->editor->renderer;

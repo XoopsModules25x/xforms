@@ -22,8 +22,11 @@
  * @since           2.00
  */
 
+use XoopsModules\Xforms;
+
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
+/** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 
 /**
@@ -35,7 +38,6 @@ $helper = Xforms\Helper::getInstance();
  *        [3] = pattern: use HTML5 pattern to validate input
  *        [4] = pattern description
  */
-
 $size      = !empty($value[0]) ? (int)$value[0] : $helper->getConfig('t_width');
 $max       = !empty($value[1]) ? (int)$value[1] : $helper->getConfig('t_max');
 $max       = ($size > $max) ? $size : $max;  // won't let max be smaller than size

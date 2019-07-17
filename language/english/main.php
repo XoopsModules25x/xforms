@@ -39,4 +39,4 @@ define('_MD_XFORMS_TOTAL_ACTIVE', 'Active Forms: <strong>%s</strong> ');
 define('_MD_XFORMS_TOTAL_INACTIVE', 'Inactive Forms: <strong>%s</strong> ');
 define('_MD_XFORMS_TOTAL_FORMS', 'Total Forms: <strong>%s</strong> ');
 define('_MD_XFORMS_PROFILE_FOUND', 'Profile module is active, %s will operate using these features');
-define('_MD_XFORMS_PROFILE_NOT_FOUND', 'Profile module not active, %s will operate without these features');
+define('_MD_XFORMS_PROFILE_NOT_FOUND', 'Profile module not active, %s will NOT operate without these features');

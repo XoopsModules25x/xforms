@@ -19,43 +19,66 @@
 
 //require_once   dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
-
 function getConfig()
 {
+    $moduleDirName      = basename(dirname(__DIR__));
+    $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
     return (object)[
-        'name'          => strtoupper($moduleDirName) . ' Module Configurator',
-        'paths'         => [
+        'name'           => mb_strtoupper($moduleDirName) . ' Module Configurator',
+        'paths'          => [
             'dirname'    => $moduleDirName,
             'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
-            //        'path'       => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
-            //        'url'        => XOOPS_URL . '/modules/' . $moduleDirName,
+            'modPath'    => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
+            'modUrl'     => XOOPS_URL . '/modules/' . $moduleDirName,
             'uploadPath' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
             'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
         ],
-        'uploadFolders' => [
-            constant($capsDirName . '_UPLOAD_PATH'),
-            constant($capsDirName . '_UPLOAD_PATH') . '/category',
-            constant($capsDirName . '_UPLOAD_PATH') . '/screenshots',
-            XOOPS_UPLOAD_PATH . '/flags'
+        'uploadFolders'  => [
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
+            //XOOPS_UPLOAD_PATH . '/flags'
         ],
-        'blankFiles'    => [
-            constant($capsDirName . '_UPLOAD_PATH'),
-            constant($capsDirName . '_UPLOAD_PATH') . '/category',
-            constant($capsDirName . '_UPLOAD_PATH') . '/screenshots',
-            XOOPS_UPLOAD_PATH . '/flags'
+        'copyBlankFiles' => [
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
+            XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
+            //XOOPS_UPLOAD_PATH . '/flags'
+        ],
+
+        'copyTestFolders' => [
+            //        XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
+            //[
+            //    constant($moduleDirNameUpper . '_PATH') . '/testdata/images',
+            //    XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+            //]
+        ],
+
+        'copyTestFolders' => [
+            [
+                XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/images',
+                XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+            ],
+            [
+                XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/thumbs',
+                XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/thumbs',
+            ],
         ],
 
         'templateFolders' => [
             '/templates/',
-            '/templates/blocks/',
-            '/templates/admin/'
-
+            //            '/templates/blocks/',
+            //            '/templates/admin/'
         ],
         'oldFiles'        => [
-            '/sql/wflinks.sql',
-            '/class/wfl_lists.php',
-            '/class/class_thumbnail.php',
-            '/vcard.php',
+            '/class/request.php',
+            '/class/registry.php',
+            '/class/utilities.php',
+            '/class/util.php',
+            //            '/include/constants.php',
+            //            '/include/functions.php',
+            '/ajaxrating.txt',
         ],
         'oldFolders'      => [
             '/images',
@@ -64,7 +87,9 @@ function getConfig()
             '/tcpdf',
             '/images',
         ],
+        'renameTables'    => [//         'XX_archive'     => 'ZZZZ_archive',
+        ],
         'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
-                     <img src='" . constant($capsDirName . '_AUTHOR_LOGOIMG') . '\' alt=\'XOOPS Project\' /></a>',
+                     <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . "' alt='XOOPS Project'></a>",
     ];
 }

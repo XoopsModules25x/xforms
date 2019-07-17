@@ -20,7 +20,6 @@
  * @see             https://xoops.org XOOPS
  * @since           2.00
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 if (!class_exists('Xforms\FormRaw')) {
@@ -44,7 +43,7 @@ $keys     = (!empty($value) && is_array($value)) ? array_keys($value) : ['', '']
 $keyCount = count($keys);
 for ($i = 0; $i < $keyCount; ++$i) {
     $eleTray  = new \XoopsFormElementTray('');
-    $radioVal = (!empty($value[$keys[$i]])) ? $i : null;
+    $radioVal = !empty($value[$keys[$i]]) ? $i : null;
     $radioEle = new \XoopsFormRadio('', 'checked', $radioVal);
     $radioEle->addOption($i, ' ');
     $eleTray->addElement($radioEle);

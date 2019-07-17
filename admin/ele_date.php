@@ -17,7 +17,6 @@
  * @since           1.30
  * @author          Xoops Development Team
  */
-
 if (!defined('xforms_ROOT_PATH')) {
     exit();
 }

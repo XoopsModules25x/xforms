@@ -37,7 +37,7 @@ $totalInactiveForms = $totalForms - $totalActiveForms;
 
 //$adminObject = \Xmf\Module\Admin::getInstance();
 $adminObject->addInfoBox(_MD_XFORMS_DASHBOARD);
-$adminObject->AddInfoBoxLine(sprintf("<span class='infolabel'>" . _MD_XFORMS_TOTAL_ACTIVE . '</span>', "<span class='infotext green bold'>{$totalActiveForms}</span>"));
+$adminObject->addInfoBoxLine(sprintf("<span class='infolabel'>" . _MD_XFORMS_TOTAL_ACTIVE . '</span>', "<span class='infotext green bold'>{$totalActiveForms}</span>"));
 $adminObject->addInfoBoxLine(sprintf("<span class='infolabel'>" . _MD_XFORMS_TOTAL_INACTIVE . '</span>', "<span class='infotext red bold'>{$totalInactiveForms}</span>"));
 $adminObject->addInfoBoxLine(sprintf("<span class='infolabel'>" . _MD_XFORMS_TOTAL_FORMS . '</span>', "<span class='infotext bold'>{$totalForms}</span>"));
 
@@ -52,4 +52,4 @@ if (false === $profileHelper) {
 $adminObject->displayNavigation(basename(__FILE__));
 $adminObject->displayIndex();
 
-include __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

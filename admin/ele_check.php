@@ -17,7 +17,6 @@
  * @since           1.30
  * @author          Xoops Development Team
  */
-
 if (!defined('XFORMS_ROOT_PATH')) {
     exit();
 }
@@ -33,7 +32,7 @@ if (empty($addopt) && !empty($ele_id)) {
     }
 } else {
     if (isset($ele_value) && count($ele_value) > 0) {
-//        while ($v = each($ele_value)) {
+        //        while ($v = each($ele_value)) {
         foreach ($ele_value as $v) {
             $v['value'] = $myts->htmlSpecialChars($myts->stripSlashesGPC($v['value']));
             if (!empty($v['value'])) {

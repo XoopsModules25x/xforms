@@ -22,8 +22,8 @@
  * @since           1.30
  */
 
-use Xmf\Request;
 use Xmf\Module\Admin;
+use Xmf\Request;
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
@@ -51,7 +51,7 @@ switch ($op) {
 
         $perpage = (int)$helper->getConfig('perpage'); // get # of forms to show per page
 
-        $xformsDisplay          = new stdClass; // group all the page items together
+        $xformsDisplay          = new \stdClass(); // group all the page items together
         $xformsDisplay->start   = Request::getInt('start', 0);
         $xformsDisplay->perpage = ($perpage > 0) ? $perpage : Constants::FORMS_PER_PAGE_DEFAULT;
         $xformsDisplay->order   = 'ASC';
@@ -93,7 +93,7 @@ switch ($op) {
 
         //Read list of forms
         if ($showAll) {
-            $criteria = new \Criteria(1, 1);
+            $criteria = new \Criteria('');
         } else {
             $criteria = new \CriteriaCompo();
             $criteria->add(new \Criteria('form_active', Constants::FORM_INACTIVE, '<>'));
@@ -112,7 +112,7 @@ switch ($op) {
             // get the UserData to see if there's any reports
             $criteria = new \CriteriaCompo();
             $criteria->setGroupBy('form_id');
-            $uDataHandler  = $helper->getHandler('userdata');
+            $uDataHandler  = $helper->getHandler('Userdata');
             $rptCountArray = $uDataHandler->getCounts($criteria);
 
             if (!class_exists('Xforms\FormInput')) {
@@ -282,7 +282,6 @@ switch ($op) {
         }
         echo "\n</form>\n";
         break;
-
     case 'edit':
         $clone  = Request::getInt('clone', 0, 'GET');
         $formId = Request::getInt('form_id', 0, 'GET');
@@ -295,13 +294,13 @@ switch ($op) {
         $form          = $xformsFormsHandler->get($formId); // will auto-create if form_id == 0
         $textFormTitle = new \XoopsFormText(_AM_XFORMS_TITLE, 'form_title', 50, 255, $form->getVar('form_title', 'e'));
 
-        $permHelper = new Permission($moduleDirName);
+        $permHelper = new \Xmf\Module\Helper\Permission($moduleDirName);
         if (0 == $formId) {
             // new form so preselect Administrator group
             $groupIds = [XOOPS_GROUP_ADMIN];
         } else {
             $groupIds = $permHelper->getGroupsForItem($xformsFormsHandler->perm_name, $formId);
-            //            $groupIds      = $GLOBALS['modulepermHandler']->getGroupIds($xformsFormsHandler->perm_name, $formId, $helper->getModule()->getVar('mid'));
+            //            $groupIds      = $GLOBALS['grouppermHandler']->getGroupIds($xformsFormsHandler->perm_name, $formId, $helper->getModule()->getVar('mid'));
         }
         $selectFormGroupPerm = new \XoopsFormSelectGroup(_AM_XFORMS_PERM, 'form_group_perm', true, $groupIds, 5, true);
 
@@ -326,18 +325,18 @@ switch ($op) {
         $selectFormSendCopy->setDescription(_AM_XFORMS_SEND_COPY_DESC);
 
         // set same configs for all editors on this page
-        $sysHelper     = Helper::getHelper('system');
+        $sysHelper     = \Xmf\Module\Helper::getHelper('system');
         $editorConfigs = [
             'editor' => $sysHelper->getConfig('general_editor'),
             'rows'   => 5,
             'cols'   => 90,
             'width'  => '100%',
-            'height' => '200px'
+            'height' => '200px',
         ];
 
         $editorConfigs        = array_merge($editorConfigs, [
             'name'  => 'form_email_header',
-            'value' => $form->getVar('form_email_header', 'e')
+            'value' => $form->getVar('form_email_header', 'e'),
         ]);
         $tareaFormEmailHeader = new \XoopsFormEditor(_AM_XFORMS_EMAIL_HEADER, 'form_email_header', $editorConfigs);
         $tareaFormEmailHeader->setDescription(_AM_XFORMS_EMAIL_HEADER_DESC);
@@ -350,7 +349,7 @@ switch ($op) {
 
         $editorConfigs        = array_merge($editorConfigs, [
             'name'  => 'form_email_footer',
-            'value' => $form->getVar('form_email_footer', 'e')
+            'value' => $form->getVar('form_email_footer', 'e'),
         ]);
         $tareaFormEmailFooter = new \XoopsFormEditor(_AM_XFORMS_EMAIL_FOOTER, 'form_email_footer', $editorConfigs);
         $tareaFormEmailFooter->setDescription(_AM_XFORMS_EMAIL_FOOTER_DESC);
@@ -363,7 +362,7 @@ switch ($op) {
 
         $editorConfigs         = array_merge($editorConfigs, [
             'name'  => 'form_email_uheader',
-            'value' => $form->getVar('form_email_uheader', 'e')
+            'value' => $form->getVar('form_email_uheader', 'e'),
         ]);
         $tareaFormEmailUheader = new \XoopsFormEditor(_AM_XFORMS_EMAIL_UHEADER, 'form_email_uheader', $editorConfigs);
         $tareaFormEmailUheader->setDescription(_AM_XFORMS_EMAIL_UHEADER_DESC);
@@ -376,7 +375,7 @@ switch ($op) {
 
         $editorConfigs         = array_merge($editorConfigs, [
             'name'  => 'form_email_ufooter',
-            'value' => $form->getVar('form_email_ufooter', 'e')
+            'value' => $form->getVar('form_email_ufooter', 'e'),
         ]);
         $tareaFormEmailUfooter = new \XoopsFormEditor(_AM_XFORMS_EMAIL_UFOOTER, 'form_email_ufooter', $editorConfigs);
         $tareaFormEmailUfooter->setDescription(_AM_XFORMS_EMAIL_UFOOTER_DESC);
@@ -500,13 +499,12 @@ switch ($op) {
         $output->addElement($tray);
         $output->display();
         break;
-
     case 'delete':
         if (empty($_POST['ok'])) {
             xoops_cp_header();
             $formId = Request::getInt('form_id', 0, 'GET');
             if ($formId) {
-                $xformsFormsHandler = $helper->getHandler('forms');
+                $xformsFormsHandler = $helper->getHandler('Forms');
                 $formObj            = $xformsFormsHandler->get($formId);
                 $formTitle          = $formObj->getVar('form_title');
                 xoops_confirm(['op' => 'delete', 'form_id' => $formId, 'ok' => 1], $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_CONFIRM_DELETE, $formTitle));
@@ -522,12 +520,12 @@ switch ($op) {
             if (!empty($formId) && ($formObj = $xformsFormsHandler->get($formId)) && !$formObj->isNew()) {
                 if ($xformsFormsHandler->delete($formObj)) {
                     //form deleted so now delete the elements
-                    $xformsEleHandler = $helper->getHandler('element');
+                    $xformsEleHandler = $helper->getHandler('Element');
                     $criteria         = new \Criteria('form_id', $formId);
                     $xformsEleHandler->deleteAll($criteria);
 
                     //delete the userdata (report info) for this form
-                    $uDataHandler = $helper->getHandler('userdata');
+                    $uDataHandler = $helper->getHandler('Userdata');
                     $uDataHandler->deleteAll($criteria);
 
                     //and now delete the form's permissions too
@@ -541,13 +539,12 @@ switch ($op) {
             }
         }
         break;
-
     case 'active':
         if (empty($_POST['ok'])) {
             xoops_cp_header();
             $formId = Request::getInt('form_id', 0, 'GET');
             if ($formId) {
-                $xformsFormsHandler = $helper->getHandler('forms');
+                $xformsFormsHandler = $helper->getHandler('Forms');
                 $formObj            = $xformsFormsHandler->get($formId);
                 $formTitle          = $formObj->getVar('form_title');
                 xoops_confirm(['op' => 'active', 'form_id' => $formId, 'ok' => 1], $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_CONFIRM_ACTIVE, $formTitle));
@@ -559,7 +556,7 @@ switch ($op) {
                 redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             $formId             = Request::getInt('form_id', 0, 'POST');
-            $xformsFormsHandler = $helper->getHandler('forms');
+            $xformsFormsHandler = $helper->getHandler('Forms');
             if (!empty($formId) && ($formObj = $xformsFormsHandler->get($formId)) && !$formObj->isNew()) {
                 if ($xformsFormsHandler->setActive($formObj)) {
                     redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
@@ -571,13 +568,12 @@ switch ($op) {
             }
         }
         break;
-
     case 'inactive':
         if (empty($_POST['ok'])) {
             xoops_cp_header();
             $formId = Request::getInt('form_id', 0, 'GET');
             if ($formId) {
-                $xformsFormsHandler = $helper->getHandler('forms');
+                $xformsFormsHandler = $helper->getHandler('Forms');
                 $formObj            = $xformsFormsHandler->get($formId);
                 $formTitle          = $formObj->getVar('form_title');
                 xoops_confirm(['op' => 'inactive', 'form_id' => $formId, 'ok' => 1], $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_CONFIRM_INACTIVE, $formTitle));
@@ -589,7 +585,7 @@ switch ($op) {
                 redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             $formId             = Request::getInt('form_id', 0, 'POST');
-            $xformsFormsHandler = $helper->getHandler('forms');
+            $xformsFormsHandler = $helper->getHandler('Forms');
             if (!empty($formId) && ($formObj = $xformsFormsHandler->get($formId)) && !$formObj->isNew()) {
                 if ($xformsFormsHandler->setInactive($formObj)) {
                     redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
@@ -601,7 +597,6 @@ switch ($op) {
             }
         }
         break;
-
     case 'saveorder':
         if (!$xoopsSecurity->check()) {
             redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
@@ -622,7 +617,6 @@ switch ($op) {
         }
         redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         break;
-
     case 'saveform':
         if (!isset($_POST['submit'])) {
             redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
@@ -665,14 +659,14 @@ switch ($op) {
         $formActive       = Request::getInt('form_active', 0, 'POST');
 
         //validate list of other email addresses
-        $sToO     = (!empty($FormSendToOther)) ? explode(';', $formSendToOther) : [];
+        $sToO     = !empty($FormSendToOther) ? explode(';', $formSendToOther) : [];
         $valArray = [];
         foreach ($sToO as $oEmail) {
             if ($valEmail = filter_var($oEmail, FILTER_VALIDATE_EMAIL)) {
                 $valArray[] = $valEmail;
             }
         }
-        $formSendToOther = (!empty($valArray)) ? implode(';', $valArray) : '';
+        $formSendToOther = !empty($valArray) ? implode(';', $valArray) : '';
 
         $form->setVars([
                            'form_send_to_group' => $formSendToGroup,
@@ -693,7 +687,7 @@ switch ($op) {
                            'form_whereto'       => $formWhereTo,
                            'form_display_style' => $formDisplayStyle,
                            'form_begin'         => 0,
-                           'form_active'        => $formActive
+                           'form_active'        => $formActive,
                        ]);
 
         if (0 != $defineFormBegin) {
@@ -721,7 +715,7 @@ switch ($op) {
                 $xformsFormsHandler->insertFormPermissions($ret, $formGroupPerm);
             }
             if (!empty($cloneFormId)) {
-                $xformsEleHandler = $helper->getHandler('element');
+                $xformsEleHandler = $helper->getHandler('Element');
                 $criteria         = new \Criteria('form_id', $cloneFormId);
                 $count            = $xformsEleHandler->getCount($criteria);
                 if ($count > 0) {
@@ -735,7 +729,7 @@ switch ($op) {
                     }
                 }
             } elseif (empty($formId)) {
-                $xformsEleHandler = $helper->getHandler('element');
+                $xformsEleHandler = $helper->getHandler('Element');
                 $error            = $xformsEleHandler->insertDefaults($ret);
             }
         }
@@ -752,5 +746,5 @@ switch ($op) {
         break;
 }
 
-include __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
 xoops_cp_footer();

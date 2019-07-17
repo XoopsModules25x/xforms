@@ -17,12 +17,11 @@
  * @since           1.30
  * @author          Xoops Development Team
  */
-
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
-//include_once(XOOPS_ROOT_PATH . "/modules/xforms/class/dbupdater.php");
-//include_once(XOOPS_ROOT_PATH . "/modules/xforms/include/common.php");
+//require(XOOPS_ROOT_PATH . "/modules/xforms/class/dbupdater.php");
+//require(XOOPS_ROOT_PATH . "/modules/xforms/include/common.php");
 require_once XOOPS_ROOT_PATH . '/modules/xforms/include/migrate.php';
-//@include_once(XOOPS_ROOT_PATH . "/modules/xforms/language/" . $xoopsConfig['language'] . "/admin.php");
+//@require(XOOPS_ROOT_PATH . "/modules/xforms/language/" . $xoopsConfig['language'] . "/admin.php");
 
 /**
  * @param $module
@@ -107,7 +106,7 @@ function xoops_module_uninstall_xforms(\XoopsObject $module)
  */
 function update_tables_to_130($module)
 {
-    $migrate = new Migrate;
+    $migrate = new Migrate();
     //    $migrate->copyTable('demomvc_log', 'demomvc_log2', true);
     //    $migrate->addColumn('demomvc_log2', 'log_xint', 'log_start_time','int(10) not null default \'0\'' );
     //    $migrate->update('demomvc_log2', array('log_xint' => time()), '');
@@ -123,7 +122,7 @@ function update_tables_to_130($module)
 
 /*
 
-    $dbupdater = new XformsDbupdater();
+    $dbupdater = new Dbupdater();
 
 zz
     if (!xforms_tableExists('xforms_meta')) {
@@ -361,7 +360,7 @@ function invert_nohtm_dohtml_values()
          $fields[$existing_field['Field']] = $existing_field['Type'];
     }
     if (in_array("nohtml", array_keys($fields))) {
-        $dbupdater = new xformsDbupdater();
+        $dbupdater = new Dbupdater();
         //Invert column values
         // alter options in xforms_cat
         $table = new xformsTable('xforms_cat');
@@ -404,8 +403,6 @@ function invert_nohtm_dohtml_values()
  * @param array       $new_fields
  * @param array       $existing_fields
  * @param xformsTable $table
- *
- * @return void
  */
 /*
 function update_table($new_fields, $existing_fields, &$table)

@@ -22,8 +22,11 @@
  * @since           2.00
  */
 
+use XoopsModules\Xforms;
+
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
+/** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 
 /**
@@ -34,7 +37,6 @@ $helper = Xforms\Helper::getInstance();
  *        [2] = placeholder
  *        [3] = url type: 0 = http[s]|ftp[s], 1 = http[s] only, 2 = ftp[s] only
  */
-
 $size      = !empty($value[0]) ? (int)$value[0] : $helper->getConfig('t_width');
 $max       = !empty($value[1]) ? (int)$value[1] : $helper->getConfig('t_max');
 $max       = ($size > $max) ? $size : $max;  // won't let max be smaller than size

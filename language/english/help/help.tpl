@@ -32,7 +32,7 @@
         No special measures necessary, follow the standard installation process to extract the /xforms folder into the
         ../modules directory. Install the module through Admin -> System Module -> Modules. <br><br>
         Detailed instructions on installing modules are available in the <a
-                href="https://www.gitbook.com/book/xoops/xoops-operations-guide/" target="_blank">XOOPS Operations
+                href="https://xoops.gitbook.io/xoops-operations-guide/" target="_blank">XOOPS Operations
             Manual</a></p>
     <br>
     <h4 class="odd">Operating instructions</h4>
@@ -43,7 +43,7 @@
         iii) Check that you have given your user groups the necessary module and block access rights to use this module.
         Group permissions are set through the Administration Menu -> System -> Groups. <br><br>Detailed instructions on
         configuring the access rights for user groups are available in the <a
-                href="https://www.gitbook.com/book/xoops/xoops-operations-guide/" target="_blank">XOOPS Operations
+                href="https://xoops.gitbook.io/xoops-operations-guide/" target="_blank">XOOPS Operations
             Manual</a>
     </p>
     <br>

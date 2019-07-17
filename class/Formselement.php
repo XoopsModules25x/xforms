@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -21,13 +23,12 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 /**
- * Class XformsEformsElement
+ * Class Formselement
  */
-class XformsEformselement extends \XoopsObject
+class Formselement extends \XoopsObject
 {
     public function __construct()
     {
@@ -42,6 +43,7 @@ class XformsEformselement extends \XoopsObject
         $this->initVar('ele_value', XOBJ_DTYPE_ARRAY, []);
         $this->initVar('ele_display', XOBJ_DTYPE_INT, 1);
     }
+
     /*
         public function getVar($key, $format = 's')
         {
@@ -92,19 +94,4 @@ class XformsEformselement extends \XoopsObject
             $this->vars[$key]['value'] = $val;
         }
     */
-}
-
-/**
- * Class XformsEformsElementHandler
- *
- */
-class XformsEformselementHandler extends \XoopsPersistableObjectHandler
-{
-    /**
-     * @param $db
-     */
-    public function __construct(\XoopsDatabase $db = null)
-    {
-        parent::__construct($db, 'eforms_element', 'XformsEformselement', 'ele_id', 'ele_type');
-    }
 }

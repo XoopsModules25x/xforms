@@ -21,7 +21,6 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 require_once __DIR__ . '/common.php';
@@ -30,8 +29,6 @@ require_once __DIR__ . '/common.php';
  * Callback function to convert item to integer
  *
  * @param mixed $item
- *
- * @return void
  */
 function xformsIntArray(&$item)
 {
@@ -62,19 +59,16 @@ function xformsCheckOther($key, $id, $caption)
     global $err;
     if (!preg_match('/\{OTHER\|+[0-9]+\}/', $key)) {
         return false;
-    } else {
-        if (!empty($_POST['other']["ele_{$id}"])) {
-            return _MD_XFORMS_OPT_OTHER . $_POST['other']["ele_{$id}"];
-        } else {
-            $err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
-        }
     }
+    if (!empty($_POST['other']["ele_{$id}"])) {
+        return _MD_XFORMS_OPT_OTHER . $_POST['other']["ele_{$id}"];
+    }
+    $err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
 
     return false;
 }
 
 /**
- *
  * Remove old files and (sub)directories
  *
  * @param string $directory
@@ -83,8 +77,8 @@ function xformsCheckOther($key, $id, $caption)
  */
 function xformsDeleteDirectory($directory)
 {
-    $success      = true;
-    $helper = Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
+    $success = true;
+    $helper  = Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
 
     if (!$xformsIsAdmin = $helper->isUserAdmin()) {
         $success = false;
@@ -125,9 +119,9 @@ function xformsCopyFiles($fromDir, $toDir, $exceptions = [], $okNotExist = false
 {
     $helper = Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
 
-    $toUploadDir   = ('/' === substr($toDir, -1, 1)) ? substr($toDir, 0, -1) : $toDir;
+    $toUploadDir   = ('/' === mb_substr($toDir, -1, 1)) ? mb_substr($toDir, 0, -1) : $toDir;
     $toDirInfo     = new \SplFileInfo($toDir);
-    $fromUploadDir = ('/' === substr($fromDir, -1, 1)) ? substr($fromDir, 0, -1) : $fromDir;
+    $fromUploadDir = ('/' === mb_substr($fromDir, -1, 1)) ? mb_substr($fromDir, 0, -1) : $fromDir;
     $fromDirInfo   = new \SplFileInfo($fromUploadDir);
 
     $success = true;

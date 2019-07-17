@@ -20,6 +20,11 @@
  * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @see             https://xoops.org XOOPS
  * @since           2.00
+ * @param mixed $queryArray
+ * @param mixed $andor
+ * @param mixed $limit
+ * @param mixed $offset
+ * @param mixed $uid
  */
 
 //defined('XOOPS_ROOT_PATH') || die('Restricted access');
@@ -43,9 +48,10 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
 {
     $ret = [];
     if (0 == (int)$uid) {
-        $moduleDirName      = basename(dirname(__DIR__));
-        $helper       = Helper::getHelper($moduleDirName);
-        $xformsFormsHandler = $helper->getHandler('forms');
+        $moduleDirName = basename(dirname(__DIR__));
+        /** @var \XoopsModules\Xforms\Helper $helper */
+        $helper             = \XoopsModules\Xforms\Helper::getInstance();
+        $xformsFormsHandler = $helper->getHandler('Forms');
 
         // get all forms user has rights to view
         if ($permittedForms = $xformsFormsHandler->getPermittedForms()) {
@@ -85,7 +91,7 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
                         'image' => 'assets/images/icons/32/content.png',
                         'link'  => "index.php?form_id={$id}",
                         'title' => $formObj->getvar('form_title'),
-                        'time'  => ($formObj->getVar('form_begin') > 0) ? $formObj->getVar('form_begin') : 0
+                        'time'  => ($formObj->getVar('form_begin') > 0) ? $formObj->getVar('form_begin') : 0,
                     ];
                 }
             }

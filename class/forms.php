@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -25,11 +27,11 @@
 
 use Xmf\Module\Admin;
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Constants;
 
 //defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 //if (!interface_exists('Xforms\Constants')) {
+// /** @var Xforms\Helper $helper */
 //    $helper = Xforms\Helper::getInstance();
 //    require_once $helper->path('/class/constants.php');
 //}
@@ -108,6 +110,7 @@ class Forms extends \XoopsObject
      */
     public function getEditLinkInfo()
     {
+        /** @var Xforms\Helper $helper */
         $helper = Xforms\Helper::getInstance();
         if ($helper->isUserAdmin()) {
             $editLink = [
@@ -115,7 +118,7 @@ class Forms extends \XoopsObject
                 'target'        => '_self',
                 'icon_location' => Admin::iconUrl('edit.png', 16),
                 'icon_title'    => _AM_XFORMS_ACTION_EDITFORM,
-                'icon_alt'      => _AM_XFORMS_ACTION_EDITFORM
+                'icon_alt'      => _AM_XFORMS_ACTION_EDITFORM,
             ];
         } else {
             $editLink = '';
@@ -128,12 +131,13 @@ class Forms extends \XoopsObject
      * Render the Form
      *
      * @since v2.00 ALPHA 2
-     * @return boolean|array false on error|array containing variables for template
+     * @return bool|array false on error|array containing variables for template
      */
     public function render()
     {
+        /** @var Xforms\Helper $helper */
         $helper = Xforms\Helper::getInstance();
-        $myts         = \MyTextSanitizer::getInstance();
+        $myts   = \MyTextSanitizer::getInstance();
 
         if ((Constants::FORM_HIDDEN == $this->getVar('form_order')) && (!$helper->isUserAdmin())) {
             $this->setErrors(_NOPERM);
@@ -143,7 +147,7 @@ class Forms extends \XoopsObject
 
         require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
         require_once $helper->path('class/elementrenderer.php');
-        $xformsEleHandler = $helper->getHandler('element');
+        $xformsEleHandler = $helper->getHandler('Element');
 
         $helper->loadLanguage('admin');
         $helper->loadLanguage('main');
@@ -224,7 +228,7 @@ class Forms extends \XoopsObject
                 'hidden'      => $currElement->isHidden(),
                 'required'    => $req,
                 'display_row' => $display_row,
-                'ele_type'    => $ele_type
+                'ele_type'    => $ele_type,
             ];
         }
 
@@ -239,7 +243,7 @@ class Forms extends \XoopsObject
                 'method'     => $formOutput->getMethod(),
                 'extra'      => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
                 'javascript' => $js,
-                'elements'   => $eles
+                'elements'   => $eles,
             ],
             'form_req_prefix'  => $helper->getConfig('prefix'),
             'form_req_suffix'  => $helper->getConfig('suffix'),
@@ -247,8 +251,7 @@ class Forms extends \XoopsObject
             'form_text_global' => $myts->displayTarea($helper->getConfig('global')),
             'form_is_hidden'   => $isHiddenTxt,
             'xoops_pagetitle'  => $this->getVar('form_title'),
-            'form_edit_link'   => $this->getEditLinkInfo()
-
+            'form_edit_link'   => $this->getEditLinkInfo(),
         ];
 
         return $assignArray;

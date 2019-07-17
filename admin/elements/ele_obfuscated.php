@@ -22,8 +22,11 @@
  * @since           2.00
  */
 
+use XoopsModules\Xforms;
+
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
+/** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 
 /**

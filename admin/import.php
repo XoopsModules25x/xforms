@@ -23,15 +23,16 @@
  */
 
 use Xmf\Database\Tables;
+use Xmf\Module\Helper;
 use Xmf\Module\Helper\Permission;
 use Xmf\Request;
 use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';
-require_once  dirname(__DIR__) . '/include/functions.php';
+require_once dirname(__DIR__) . '/include/functions.php';
 $thisFile = basename(__FILE__);
 
-$op = Request::getCmd('op', '');
+$op = Request::getString('op', '');
 $ok = Request::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
 
 switch ($op) {
@@ -67,7 +68,6 @@ switch ($op) {
         }
         echo '<div style="margin-bottom: 1.2em; "></div>';
         break;
-
     case 'eforms':
         if ($ok) {
             if (!$xoopsSecurity->check()) {
@@ -75,13 +75,13 @@ switch ($op) {
             }
 
             $eformsHelper       = Helper::getHelper('eforms');
-            $eformsFormsHandler = $helper->getHandler('eformsforms');
+            $eformsFormsHandler = $helper->getHandler('Eformsforms');
 
             if (false !== $eformsFormsHandler) {
                 // make sure the eforms database tables exist
                 $success   = false;
                 $efTables  = $eformsHelper->getModule()->getInfo('tables');
-                $tablesObj = new Tables();
+                $tablesObj = new \Xmf\Database\Tables();
                 foreach ($efTables as $efTable) {
                     $tableExists = $tablesObj->useTable($efTable);
                     if (!$tableExists) {
@@ -90,8 +90,8 @@ switch ($op) {
                 }
 
                 // setup eForm handlers
-                $eformsElementHandler  = $helper->getHandler('eformselement');
-                $eformsUserdataHandler = $helper->getHandler('eformsuserdata');
+                $eformsElementHandler  = $helper->getHandler('Eformselement');
+                $eformsUserdataHandler = $helper->getHandler('Eformsuserdata');
 
                 /*
                  * pseudo code:
@@ -114,14 +114,13 @@ switch ($op) {
                     $xformsId = $xformsFormsHandler->insert($xformsObj);
                     if (!$xformsId) {
                         throw new Exception(sprintf(_AM_XFORMS_ERR_CREATE_FORM, 'eforms', $eformsId));
-                    } else {
-                        $formMap[$eformsId] = $xformsId;
                     }
+                    $formMap[$eformsId] = $xformsId;
                 }
 
                 //copy eForm elements to xForm elements
                 $eleMap               = [];
-                $Xforms\ElementHandler = $helper->getHandler('element');
+                $xformsElementHandler = $helper->getHandler('Element');
                 foreach ($formMap as $eId => $xId) {
                     $eformsElementObjects = $eformsElementHandler->getAll(new \Criteria('form_id', $eId));
                     if (!empty($eformsElementObjects)) {
@@ -130,10 +129,10 @@ switch ($op) {
                             $eleVars               = $eformsElementObj->getVars();
                             $eleAttribs['form_id'] = $xId;
                             unset($eleAttribs['ele_id']);
-                            $Xforms\ElementObj = $Xforms\ElementHandler->create();
-                            $Xforms\ElementObj->setVars($eleAttribs);
-                            $Xforms\ElementId = $Xforms\ElementHandler->insert($Xforms\ElementObj);
-                            if (!$Xforms\ElementId) {
+                            $xformsElementObj = $xformsElementHandler->create();
+                            $xformsElementObj->setVars($eleAttribs);
+                            $xformsElementId = $xformsElementHandler->insert($xformsElementObj);
+                            if (!$xformsElementId) {
                                 throw new Exception(sprintf(_AM_XFORMS_ERR_CREATE_ELEMENT, 'eforms', $eformsElementObj->getVar('ele_id')));
                             }
                         }
@@ -141,7 +140,7 @@ switch ($op) {
                 }
 
                 // copy user data from eForms to xForms
-                $xformsUserdataHandler = $helper->getHandler('userdata');
+                $xformsUserdataHandler = $helper->getHandler('Userdata');
 
                 $eformsUdataObjs = $eformsUserdataHandler->getAll();
                 if (!empty($eformsUdataObjs)) {
@@ -160,7 +159,7 @@ switch ($op) {
 
                 // get/set form permissions
                 $eformsPermHelper = new Permission('eforms');
-                $xformsPermHelper = new Permission($moduleDirName);
+                $xformsPermHelper = new \Xmf\Module\Helper\Permission($moduleDirName);
                 if ($eformsPermHelper && $xformsPermHelper) {
                     $eformsPermName = $eformsFormsHandler->perm_name;
                     $xformsPermName = $xformsFormsHandler->perm_name;
@@ -201,9 +200,8 @@ switch ($op) {
                 */
                 if (false === $success) {
                     throw new Exception(sprintf(_AM_XFORMS_ERR_COPY_UPLOADS, 'eForms'));
-                } else {
-                    $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_IMPORT_SUCCESS, count($formMap), 'eForms'));
                 }
+                $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_IMPORT_SUCCESS, count($formMap), 'eForms'));
             } else {
                 xoops_cp_header();
                 $adminObject = \Xmf\Module\Admin::getInstance();
@@ -217,7 +215,6 @@ switch ($op) {
             xoops_confirm(['op' => 'eforms', 'ok' => Constants::CONFIRM_OK], $thisFile, sprintf(_AM_XFORMS_RUSUREEFORMS, 'eForms'), _YES);
         }
         break;
-
     case 'liaise':
         if ($ok) {
             if (!$xoopsSecurity->check()) {
@@ -225,11 +222,11 @@ switch ($op) {
             }
 
             $liaiseHelper       = Helper::getHelper('liaise');
-            $liaiseFormsHandler = $helper->getHandler('liaiseforms');
+            $liaiseFormsHandler = $helper->getHandler('Liaiseforms');
             // make sure the liaise database tables exist
             $success      = false;
             $liaiseTables = $liaiseHelper->getModule()->getInfo('tables');
-            $tablesObj    = new Tables();
+            $tablesObj    = new \Xmf\Database\Tables();
             foreach ($liaiseTables as $liaiseTable) {
                 $tableExists = $tablesObj->useTable($liaiseTable);
                 if (!$tableExists) {
@@ -245,7 +242,7 @@ switch ($op) {
              *  copy all uploaded files to xForms uploads folder
              */
             // setup Liaise element handler
-            $liaiseElementHandler = $helper->getHandler('liaiseelement');
+            $liaiseElementHandler = $helper->getHandler('Liaiseelement');
 
             // create copies of Liaise forms in xForm
             $liaiseFormObjects = $liaiseFormsHandler->getAll();
@@ -259,12 +256,11 @@ switch ($op) {
                 $xformsId = $xformsFormsHandler->insert($xformsObj);
                 if (!$xformsId) {
                     throw new Exception(sprintf(_AM_XFORMS_ERR_CREATE_FORM, 'liaise', $liaiseId));
-                } else {
-                    $formMap[$liaiseId] = $xformsId;
                 }
+                $formMap[$liaiseId] = $xformsId;
             }
             //copy Liaise elements to xForm elements
-            $Xforms\ElementHandler = $helper->getHandler('element');
+            $xformsElementHandler = $helper->getHandler('Element');
             foreach ($formMap as $liaiseId => $xId) {
                 $liaiseElementObjects = $liaiseElementHandler->getAll(new \Criteria('form_id', $liaiseId));
                 foreach ($liaiseElementObjects as $liaiseElementObj) {
@@ -276,15 +272,15 @@ switch ($op) {
                         $patternArray = ["/\{UNAME\}/", "/\{EMAIL\}/", "/\{NAME\}/"];
                         $replaceArray = ['{U_uname}', '{U_email}', '{U_name}'];
                         if (!is_array($eleAttribs['ele_value'])) {
-                            $eleAttribs['ele_value'] = base64_decode($eleAttribs['ele_value']);
+                            $eleAttribs['ele_value'] = base64_decode($eleAttribs['ele_value'], true);
                         }
                         $eleAttribs['ele_value'][2] = preg_replace($patternArray, $replaceArray, $eleAttribs['ele_value'][2]);
                     }
 
-                    $Xforms\ElementObj = $Xforms\ElementHandler->create();
-                    $Xforms\ElementObj->setVars($eleAttribs);
-                    $Xforms\ElementId = $Xforms\ElementHandler->insert($Xforms\ElementObj);
-                    if (!$Xforms\ElementId) {
+                    $xformsElementObj = $xformsElementHandler->create();
+                    $xformsElementObj->setVars($eleAttribs);
+                    $xformsElementId = $xformsElementHandler->insert($xformsElementObj);
+                    if (!$xformsElementId) {
                         throw new Exception(sprintf(_AM_XFORMS_ERR_CREATE_ELEMENT, 'liaise', $liaiseElementObj->getVar('ele_id')));
                     }
                 }
@@ -292,7 +288,7 @@ switch ($op) {
 
             // get/set form permissions
             $liaisePermHelper = new Permission('liaise');
-            $xformsPermHelper = new Permission($moduleDirName);
+            $xformsPermHelper = new \Xmf\Module\Helper\Permission($moduleDirName);
             if ($liaisePermHelper && $xformsPermHelper) {
                 $liaisePermName = $liaiseFormsHandler->perm_name;
                 $xformsPermName = $xformsFormsHandler->perm_name;
@@ -333,9 +329,8 @@ switch ($op) {
             */
             if (!$success) {
                 throw new Exception(sprintf(_AM_XFORMS_ERR_COPY_UPLOADS, 'Liaise'));
-            } else {
-                $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_IMPORT_SUCCESS, count($formMap), 'Liaise'));
             }
+            $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_IMPORT_SUCCESS, count($formMap), 'Liaise'));
         } else {
             xoops_cp_header();
             $adminObject = \Xmf\Module\Admin::getInstance();
@@ -344,4 +339,4 @@ switch ($op) {
         }
         break;
 }
-include __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

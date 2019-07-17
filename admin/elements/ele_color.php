@@ -20,7 +20,6 @@
  * @see             https://xoops.org XOOPS
  * @since           2.00
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 if (!class_exists('Xforms\FormInput')) {
@@ -33,7 +32,6 @@ if (!class_exists('Xforms\FormInput')) {
  * value [0] = default value
  *       [1] = input box size
  */
-
 $defVal   = !empty($value[0]) ? $value[0] : 0; // default
 $size     = !empty($value[1]) ? (int)$value[1] : 10; // input box size
 $defInput = new Xforms\FormInput('', 'ele_value[0]', 7, 255, $defVal, null, 'color');

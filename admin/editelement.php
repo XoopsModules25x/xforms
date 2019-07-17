@@ -26,7 +26,7 @@ use Xmf\Request;
 use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';
-$xformsEleHandler = $helper->getHandler('element');
+$xformsEleHandler = $helper->getHandler('Element');
 require_once $helper->path('class/elementrenderer.php');
 // require_once  dirname(__DIR__) . '/class/elementrenderer.php';
 //define('_THIS_PAGE', $helper->url('admin/editelement.php');
@@ -37,7 +37,7 @@ if ($xformsFormsHandler->getCount() < 1) {
 
 $submit = Request::getCmd('submit', '', 'POST');
 
-$op = Request::getCmd('op', '');
+$op = Request::getString('op', '');
 //$addOpt  = Request::getInt('addopt', 0, 'POST');
 //$op      = ((_ADD == $submit)  && ((isset($addOpt)) && ($addOpt > 0))) ? 'edit' : $op;
 
@@ -85,7 +85,7 @@ switch ($op) {
             $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         }
         // editor settings
-        $sysHelper     = Helper::getHelper('system');
+        $sysHelper     = \Xmf\Module\Helper::getHelper('system');
         $editorConfigs = [
             'editor' => $sysHelper->getConfig('general_editor'),
             'rows'   => 10,
@@ -93,7 +93,7 @@ switch ($op) {
             'width'  => '100%',
             'height' => '350px',
             'name'   => 'ele_caption',
-            'value'  => $element->getVar('ele_caption', 'e')
+            'value'  => $element->getVar('ele_caption', 'e'),
         ];
         // end editor settings
 
@@ -137,8 +137,8 @@ switch ($op) {
         $validElements = $xformsEleHandler->getValidElements();
         $validKeys     = array_keys($validElements);
         if (in_array($eleType, $validKeys)) {
-            $elementName = constant('_AM_XFORMS_ELE_' . strtoupper($eleType));
-            include $helper->path("admin/elements/ele_{$eleType}.php");
+            $elementName = constant('_AM_XFORMS_ELE_' . mb_strtoupper($eleType));
+            require_once $helper->path("admin/elements/ele_{$eleType}.php");
         } else {
             $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_ERR_BAD_ELEMENT, htmlspecialchars($eleType, ENT_QUOTES | ENT_HTML5)));
         }
@@ -166,7 +166,6 @@ switch ($op) {
         echo "<h4 class='center'>{$elementName}</h4>";
         $output->display();
         break;
-
     case 'delete':
         if (empty($eleId)) {
             $xformsHandler->redirect('admin/main.php', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
@@ -183,12 +182,11 @@ switch ($op) {
             $eleObj = $xformsEleHandler->get($eleId);
             $xformsEleHandler->delete($eleObj);
             //delete the userdata for this element too
-            $uDataHandler = $helper->getHandler('userdata');
+            $uDataHandler = $helper->getHandler('Userdata');
             $uDataHandler->deleteAll(new \Criteria('ele_id', $eleId));
             redirect_header($helper->url("admin/elements.php?form_id={$formId}"), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         }
         break;
-
     case 'save':
         //check to make sure this is from known location
         if (!$xoopsSecurity->check()) {
@@ -203,7 +201,7 @@ switch ($op) {
 
         $element->setVar('form_id', $formId);
         $element->setVar('ele_caption', $eleCaption);
-        $eleReq = (!empty($eleReq)) ? Constants::ELEMENT_REQD : Constants::ELEMENT_NOT_REQD;
+        $eleReq = !empty($eleReq) ? Constants::ELEMENT_REQD : Constants::ELEMENT_NOT_REQD;
         $element->setVar('ele_req', $eleReq);
         if ('html' !== $eleType) {
             $displayRow = isset($_POST['ele_display_row']) ? Constants::DISPLAY_DOUBLE_ROW : Constants::DISPLAY_SINGLE_ROW;
@@ -231,23 +229,21 @@ switch ($op) {
             case 'checkbox':
                 $checked = Request::getArray('checked', 0, 'POST');
                 $checked = array_map('intval', $checked);
-//                while ($v = each($eleValue)) {
-                    foreach ($eleValue as $v) {
-                        if ('' == $v['value']) { // remove 'empty' options
-                            unset($eleValue[$v['key']]);
-                        } else {
-                            $check              = (isset($checked[$v['key']]) && (1 == $checked[$v['key']])) ? 1 : 0;
-                            $value[$v['value']] = $check;
-                        }
+                //                while ($v = each($eleValue)) {
+                foreach ($eleValue as $v) {
+                    if ('' == $v['value']) { // remove 'empty' options
+                        unset($eleValue[$v['key']]);
+                    } else {
+                        $check              = (isset($checked[$v['key']]) && (1 == $checked[$v['key']])) ? 1 : 0;
+                        $value[$v['value']] = $check;
                     }
+                }
                 break;
-
             case 'color':
                 $currEleValues = $element->getVar('ele_value'); //get current values
                 $value[]       = !empty($eleValue[0]) ? $myts->htmlSpecialChars($eleValue[0]) : $currEleValues[0]; // default
                 $value[]       = !empty($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // input box size
                 break;
-
             case 'date':
                 $value[] = $eleValue[0]; // default date
                 $value[] = $eleValue[1]; // default date option (0 = none, 1 = current, 2 = min date)
@@ -256,17 +252,14 @@ switch ($op) {
                 $value[] = $eleValue[4]; // max date
                 $value[] = $eleValue[5]; // max date option (0 = none, 1 = current, 2 = max date)
                 break;
-
             case 'email':
                 $value[] = !empty($eleValue[0]) ? (int)$eleValue[0] : $helper->getConfig('t_width');
                 $value[] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('t_max');
                 break;
-
             case 'html':
                 $value[] = $eleValue[0];
                 //                $value[] = ($magicQuotes) ? stripslashes($eleValue[0]) : $eleValue[0];
                 break;
-
             case 'number':
                 $currEleValues = $element->getVar('ele_value'); //get current values
                 $value[]       = isset($eleValue[0]) ? (int)$eleValue[0] : $currEleValues[0];  // min value
@@ -278,12 +271,10 @@ switch ($op) {
                 $value[]       = !empty($eleValue[6]) ? (int)$eleValue[6] : $currEleValues[6]; // set default value
                 $value[]       = !empty($eleValue[7]) ? (int)$eleValue[7] : $currEleValues[7]; // step size
                 break;
-
             case 'obfuscated':
                 $value[] = !empty($eleValue[0]) ? (int)$eleValue[0] : $helper->getConfig('t_width');
                 $value[] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('t_max');
                 break;
-
             case 'pattern':
                 $value[] = !empty($eleValue[0]) ? (int)$eleValue[0] : $helper->getConfig('t_width');
                 $value[] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('t_max');
@@ -291,10 +282,9 @@ switch ($op) {
                 $value[] = isset($eleValue[3]) ? $eleValue[3] : '';
                 $value[] = isset($eleValue[4]) ? $myts->htmlSpecialChars($eleValue[4]) : '';
                 break;
-
             case 'radio':
                 $checked = Request::getCmd('checked', 0, 'POST');
-//                while ($v = each($eleValue)) {
+                //                while ($v = each($eleValue)) {
                 foreach ($eleValue as $v) {
                     if ('' == $v['value']) { // remove 'empty' options
                         unset($eleValue[$v['key']]);
@@ -304,7 +294,6 @@ switch ($op) {
                     }
                 }
                 break;
-
             case 'range':
                 $value[] = $eleValue[0]; // default
                 $value[] = $eleValue[1]; // default option (0 = no, 1 = yes)
@@ -312,7 +301,6 @@ switch ($op) {
                 $value[] = $eleValue[3]; // max num
                 $value[] = $eleValue[4]; // step
                 break;
-
             case 'select':
                 // value [0] = size; [1] = multi-select; [2] = options
                 // checked = selected array (0 = not checked, 1 = checked)
@@ -334,14 +322,12 @@ switch ($op) {
                 }
                 $value[2] = $tempValue;
                 break;
-
             case 'select2':
             case 'country':
                 $value[] = (!empty($eleValue[0]) && ((int)$eleValue[0] > 1)) ? (int)$eleValue[0] : 1;
                 $value[] = !empty($eleValue[1]) ? Constants::ALLOW_MULTI : Constants::DISALLOW_MULTI;
                 $value[] = !empty($eleValue[2]) ? $eleValue[2] : $helper->getConfig('mycountry');
                 break;
-
             case 'text':
                 $value[] = !empty($eleValue[0]) ? (int)$eleValue[0] : $helper->getConfig('t_width');
                 $value[] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('t_max');
@@ -350,7 +336,6 @@ switch ($op) {
                 $value[] = $eleValue[3];
                 $value[] = isset($eleValue[4]) ? strip_tags($myts->htmlSpecialChars($eleValue[4])) : '';
                 break;
-
             case 'textarea':
                 //                $value[] = ($magicQuotes) ? stripslashes($eleValue[0]) : $eleValue[0];
                 $value[] = $eleValue[0];
@@ -369,7 +354,6 @@ switch ($op) {
              *       [5] = set maximum value 0|false = no, else = yes
              *       [6] = set default value 0|false = no, else = yes
              */
-
             case 'time':
                 $value[] = $eleValue[0]; // min value allowed
                 $value[] = $eleValue[1]; // max value allowed
@@ -379,7 +363,6 @@ switch ($op) {
                 $value[] = $eleValue[5]; // set max value 0|false = no, else = yes
                 $value[] = $eleValue[6]; // set def value 0|false = no, else = yes
                 break;
-
             case 'uploadimg':
                 $value[4] = (int)$eleValue[4];
                 $value[5] = (int)$eleValue[5];
@@ -388,27 +371,25 @@ switch ($op) {
             // no break
             case 'upload':
                 $value[0] = (int)$eleValue[0];
-                $ele1     = trim($eleValue[1], ' |\t\n\r\0\x0B');// normal trim & pipe '|' too
+                $ele1     = trim($eleValue[1], ' |\t\n\r\0\x0B'); // normal trim & pipe '|' too
                 // get rid of duplicate extensions
                 $ele1Array = explode('|', $ele1);
                 $ele1Array = array_unique($ele1Array);
                 $value[1]  = implode('|', $ele1Array);
 
-                $ele2 = trim($eleValue[2], ' |\t\n\r\0\x0B');// normal trim & pipe '|' too
+                $ele2 = trim($eleValue[2], ' |\t\n\r\0\x0B'); // normal trim & pipe '|' too
                 // get rid of duplicate mime types
                 $ele2Array = explode('|', $ele2);
                 $ele2Array = array_unique($ele2Array);
                 $value[2]  = implode('|', $ele2Array);
                 $value[3]  = (1 != $eleValue[3]) ? 0 : 1;
                 break;
-
             case 'url':
                 $value[] = !empty($eleValue[0]) ? (int)$eleValue[0] : $helper->getConfig('t_width');
                 $value[] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('t_max');
                 $value[] = isset($eleValue[2]) ? $myts->htmlSpecialChars($eleValue[2]) : '';
                 $value[] = isset($eleValue[3]) ? (int)$eleValue[3] : 0;
                 break;
-
             case 'yn':
                 $value = ('_NO' === $eleValue[0]) ? ['_YES' => 0, '_NO' => 1] : ['_YES' => 1, '_NO' => 0];
                 break;
@@ -421,7 +402,6 @@ switch ($op) {
             redirect_header($helper->url("admin/elements.php?form_id={$formId}"), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         }
         break;
-
     default:
         xoops_cp_header();
         $adminObject = \Xmf\Module\Admin::getInstance();
@@ -449,5 +429,5 @@ switch ($op) {
         echo "  </tbody>\n" . "  </table>\n";
         break;
 }
-include __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
 xoops_cp_footer();

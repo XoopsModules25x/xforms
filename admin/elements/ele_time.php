@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -97,38 +98,38 @@ $defTray->addElement($defInput);
  * }
  */
 $fixerJs = new Xforms\FormRaw("<div id=\"ele_js\">\n"
-                             . "  <script>\n"
-                             //         . "    $('input[id=\"ele_value[0]\"], input[id=\"ele_value[1]\"], input[id=\"ele_value[2]\"], input[name=\"ele_value[4]\"], input[name=\"ele_value[5]\"], input[name=\"ele_value[6]\"]').click(function() {\n"
-                             . "    $('input[id^=\"ele_value[\"]').click(function() {\n"
-                             . "      var useMinDate = document.getElementById(\"ele_value[4]2\").checked;\n"
-                             . "      var useMaxDate = document.getElementById(\"ele_value[5]2\").checked;\n"
-                             . "      var useDefDate = document.getElementById(\"ele_value[6]2\").checked;\n"
-                             . "      var minVal     = document.getElementById(\"ele_value[0]\").value;\n"
-                             . "      var maxVal     = document.getElementById(\"ele_value[1]\").value;\n"
-                             . "      var defVal     = document.getElementById(\"ele_value[2]\").value;\n"
-                             //         . "      alert(\"Input Changed \" + useMinDate)\n"
-                             . "      if (useDefDate === true) {\n"
-                             //         . "          alert(\"Use default date \" + minVal + \" \" + maxVal + \" \" + defVal);\n"
-                             . "        if (useMinDate === true) {\n"
-                             . "          if (minVal > defVal) {\n"
-                             //         . "          alert(\"Min higher than default\");\n"
-                             . "            document.getElementById(\"ele_value[2]\").value = minVal;\n"
-                             . "          }\n"
-                             . "        }\n"
-                             . "        if (useMaxDate === true) {\n"
-                             . "          if (maxVal <= minVal) {\n"
-                             //         . "          alert(\"Max lower than min date\");\n"
-                             . '            document.getElementById("ele_value[5]1").checked = true;'
-                             . "          }\n"
-                             . "          if (maxVal < defVal) {\n"
-                             //         . "          alert(\"Max lower than default\");\n"
-                             . "            document.getElementById(\"ele_value[2]\").value = maxVal;\n"
-                             . "          }\n"
-                             . "        }\n"
-                             . "      }\n"
-                             . "    });\n"
-                             . "  </script>\n"
-                             . "</div>\n");
+                              . "  <script>\n"
+                              //         . "    $('input[id=\"ele_value[0]\"], input[id=\"ele_value[1]\"], input[id=\"ele_value[2]\"], input[name=\"ele_value[4]\"], input[name=\"ele_value[5]\"], input[name=\"ele_value[6]\"]').click(function() {\n"
+                              . "    $('input[id^=\"ele_value[\"]').click(function() {\n"
+                              . "      var useMinDate = document.getElementById(\"ele_value[4]2\").checked;\n"
+                              . "      var useMaxDate = document.getElementById(\"ele_value[5]2\").checked;\n"
+                              . "      var useDefDate = document.getElementById(\"ele_value[6]2\").checked;\n"
+                              . "      var minVal     = document.getElementById(\"ele_value[0]\").value;\n"
+                              . "      var maxVal     = document.getElementById(\"ele_value[1]\").value;\n"
+                              . "      var defVal     = document.getElementById(\"ele_value[2]\").value;\n"
+                              //         . "      alert(\"Input Changed \" + useMinDate)\n"
+                              . "      if (useDefDate === true) {\n"
+                              //         . "          alert(\"Use default date \" + minVal + \" \" + maxVal + \" \" + defVal);\n"
+                              . "        if (useMinDate === true) {\n"
+                              . "          if (minVal > defVal) {\n"
+                              //         . "          alert(\"Min higher than default\");\n"
+                              . "            document.getElementById(\"ele_value[2]\").value = minVal;\n"
+                              . "          }\n"
+                              . "        }\n"
+                              . "        if (useMaxDate === true) {\n"
+                              . "          if (maxVal <= minVal) {\n"
+                              //         . "          alert(\"Max lower than min date\");\n"
+                              . '            document.getElementById("ele_value[5]1").checked = true;'
+                              . "          }\n"
+                              . "          if (maxVal < defVal) {\n"
+                              //         . "          alert(\"Max lower than default\");\n"
+                              . "            document.getElementById(\"ele_value[2]\").value = maxVal;\n"
+                              . "          }\n"
+                              . "        }\n"
+                              . "      }\n"
+                              . "    });\n"
+                              . "  </script>\n"
+                              . "</div>\n");
 $defTray->addElement($fixerJs);
 
 $output->addElement($minTray);

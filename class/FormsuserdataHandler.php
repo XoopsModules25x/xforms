@@ -1,4 +1,7 @@
 <?php
+
+namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits of
  supporting developers from this source code or any supporting source code
@@ -20,13 +23,26 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-$moduleDirName = basename(__DIR__);
+defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-require_once dirname(dirname(__DIR__)) . '/mainfile.php';
-require_once __DIR__ . '/include/common.php';
+/**
+ * Class FormsuserdataHandler
+ *
+ * @see XoopsPersistableObjectHandler
+ */
+class FormsuserdataHandler extends \XoopsPersistableObjectHandler
+{
+    public $db;
+    public $db_table;
+    public $obj_class = 'Formsuserdata';
 
-require_once $GLOBALS['xoops']->path('www/class/xoopsform/tableform.php');
-
-if (!class_exists('XformsUtility')) {
-    xoops_load('utility', $moduleDirName);
+    /**
+     * @param \XoopsDatabase|null $db
+     */
+    public function __construct(\XoopsDatabase $db = null)
+    {
+        $this->db       = $db;
+        $this->db_table = $this->db->prefix('eforms_userdata');
+        parent::__construct($db, 'eforms_userdata', 'Formsuserdata', 'udata_id');
+    }
 }

@@ -27,7 +27,7 @@ use Xmf\Module\Helper\AbstractHelper;
 require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 */
 $moduleDirName = basename(dirname(__DIR__));
-require_once  dirname(__DIR__) . '/language/english/admin.php'; // messages will be in english
+require_once dirname(__DIR__) . '/language/english/admin.php'; // messages will be in english
 //$sessionHelper = new Session($moduleDirName);
 //@todo test without session_start() to see if it's needed...
 session_start();
@@ -47,11 +47,10 @@ function HandleHeaderLine($curl, $hdrLine)
     global $hdrs;
     $hdrs[] = trim($hdrLine);
 
-    return strlen($hdrLine);
+    return mb_strlen($hdrLine);
 }
 
 /**
- *
  * @param string $hdr
  * @param array  $hdrArray
  * @param bool   $asArray
@@ -63,7 +62,7 @@ function getHeaderFromArray($hdr, $hdrArray, $asArray = false)
     $val = '';
     foreach ($hdrArray as $thisHdr) {
         if (preg_match("/^{$hdr}/i", $thisHdr)) {
-            $val = substr($thisHdr, strlen($hdr));
+            $val = mb_substr($thisHdr, mb_strlen($hdr));
             break;
         }
     }
@@ -80,7 +79,7 @@ $sKeyHdrSize  = "{$sessPrefix}github_hdr_size";
 $sKeyResponse = "{$sessPrefix}github_curl_response";
 $sKeyArray    = [$sKeyEtag, $sKeyHdrSize, $sKeyResponse];
 
-$cachedEtag = isset($_SESSION[$sKeyEtag]) ? base64_decode(unserialize($_SESSION[$sKeyEtag])) : false;
+$cachedEtag = isset($_SESSION[$sKeyEtag]) ? base64_decode(unserialize($_SESSION[$sKeyEtag]), true) : false;
 //$cachedEtag = $sessionHelper->get($sKeyEtag);
 //echo "<br>xForms: Etag: {$cachedEtag}<br>SESSION:<br><pre>" . var_dump($_SESSION) . "</pre><br>";
 
@@ -97,10 +96,10 @@ if ($cachedEtag) {
         CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
         CURLOPT_HTTPHEADER     => [
             'Content-type:application/json',
-            'If-None-Match: ' . $cachedEtag
+            'If-None-Match: ' . $cachedEtag,
         ],
         CURLINFO_HEADER_OUT    => true,
-        CURLOPT_HEADERFUNCTION => 'HandleHeaderLine'
+        CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
     ]);
     // execute the session
     $curl_response = curl_exec($curl);
@@ -112,9 +111,9 @@ if ($cachedEtag) {
     //echo "<br>xForms: Status: {$status}<br>";
     if (preg_match('/^304 Not Modified/', $status)) {
         // hasn't been modified so get response & header size from session
-        $curl_response = isset($_SESSION[$sKeyResponse]) ? base64_decode(unserialize($_SESSION[$sKeyResponse])) : [];
+        $curl_response = isset($_SESSION[$sKeyResponse]) ? base64_decode(unserialize($_SESSION[$sKeyResponse]), true) : [];
         $hdrSize       = isset($_SESSION[$sKeyHdrSize]) ? unserialize($_SESSION[$sKeyHdrSize]) : 0;
-    //        $curl_response = base64_decode($sessionHelper->get($sKeyResponse));
+        //        $curl_response = base64_decode($sessionHelper->get($sKeyResponse));
         //        $hdrSize       = (int)$sessionHelper->get($sKeyHdrSize);
     } elseif (preg_match('/^200 OK/', $status)) {
         // ok - request new info
@@ -128,7 +127,7 @@ if ($cachedEtag) {
             CURLOPT_HTTPGET        => true,
             CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
             CURLOPT_HTTPHEADER     => ['Content-type:application/json'],
-            CURLOPT_HEADERFUNCTION => 'HandleHeaderLine'
+            CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
         ]);
         // execute the session
         $curl_response = curl_exec($curl);
@@ -148,10 +147,10 @@ if ($cachedEtag) {
     } elseif (preg_match('/^403 Forbidden/', $status)) {
         // probably exceeded rate limit
         $responseArray = explode('\n', $curl_response);
-        $msgEle        = array_search('message: ', $responseArray);
+        $msgEle        = array_search('message: ', $responseArray, true);
         if (false !== $msgEle) {
             //found the error message so set it
-            $err = substr($responseArray[$msgEle], 8); //get the message
+            $err = mb_substr($responseArray[$msgEle], 8); //get the message
         } else {
             // couldn't find error message, but something went wrong
             // clear session vars
@@ -186,7 +185,7 @@ if ($cachedEtag) {
         CURLOPT_HTTPGET        => true,
         CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
         CURLOPT_HTTPHEADER     => ['Content-type:application/json'],
-        CURLOPT_HEADERFUNCTION => 'HandleHeaderLine'
+        CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
     ]);
     // execute the session
     $curl_response = curl_exec($curl);
@@ -207,9 +206,9 @@ if ($cachedEtag) {
 }
 //echo "<br>Curl Response:<br>" . var_dump($curl_response);
 
-$hdr        = substr($curl_response, 0, $hdrSize);
-$rspSize    = strlen($curl_response) - $hdrSize;
-$response   = substr($curl_response, -$rspSize);
+$hdr        = mb_substr($curl_response, 0, $hdrSize);
+$rspSize    = mb_strlen($curl_response) - $hdrSize;
+$response   = mb_substr($curl_response, -$rspSize);
 $issuesObjs = json_decode($response); //get as objects
 
 echo "    <br>\n"

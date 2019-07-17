@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -55,7 +56,7 @@ $keyArray     = (!empty($value[2]) && is_array($value[2])) ? array_keys($value[2
 $checkedArray = (!empty($value[2]) && is_array($value[2])) ? array_values($value[2]) : ['', ''];
 foreach ($keyArray as $k => $v) {
     $eleTray  = new \XoopsFormElementTray('');
-    $checkVal = (!empty($checkedArray[$k])) ? $k : null;
+    $checkVal = !empty($checkedArray[$k]) ? $k : null;
     $checkEle = new \XoopsFormCheckBox('', "checked[{$k}]", $checkVal);
     $checkEle->addOption($k, ' ');
     $eleTray->addElement($checkEle);

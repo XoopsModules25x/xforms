@@ -24,6 +24,7 @@
 
 use XoopsModules\Xforms;
 
+/** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 
 $pathIcon32 = \Xmf\Module\Admin::iconUrl('', 32);

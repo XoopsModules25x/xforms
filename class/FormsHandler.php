@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -23,31 +25,30 @@
  * @since           1.30
  */
 
-use Xmf\Module\Admin;
 use Xmf\Module\Helper\Permission;
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Constants;
 
 //defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-if (!interface_exists('Xforms\Constants')) {
-    $helper = Xforms\Helper::getInstance();
-    require_once $helper->path('/class/constants.php');
-}
+//if (!interface_exists('Xforms\Constants')) {
+//    /** @var Xforms\Helper $helper */
+//    $helper = Xforms\Helper::getInstance();
+//    require_once $helper->path('/class/constants.php');
+//}
 
 /**
  * Class FormsHandler
  */
 class FormsHandler extends \XoopsPersistableObjectHandler
 {
-    public $db;
-    public $db_table;
-    public $perm_name = 'xforms_form_access';
-    public $obj_class = 'Forms';
+    public    $db;
+    public    $db_table;
+    public    $perm_name = 'xforms_form_access';
+    public    $obj_class = 'Forms';
     protected $dirname;
 
     /**
-     * @param \XoopsDatabase $db XoopsDatabase to use for the form
+     * @param \XoopsDatabase|null $db XoopsDatabase to use for the form
      */
     public function __construct(\XoopsDatabase $db = null)
     {
@@ -60,7 +61,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
     /**
      * Set the form inactive and update it in the database
      * @param obj|Forms $form {$Forms}
-     * @param bool            $force
+     * @param bool      $force
      * @return bool true on success
      */
     public function setInactive(Forms $form, $force = true)
@@ -81,7 +82,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
     /**
      * Set the form active and update it in the database
      * @param obj|Forms $form {Forms}
-     * @param bool            $force
+     * @param bool      $force
      * @return bool true on success
      */
     public function setActive(Forms $form, $force = true)
@@ -109,7 +110,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
         $permHelper = new Permission($this->dirname);
         $ret        = $permHelper->deletePermissionForItem($this->perm_name, (int)$formId);
 
-        //        $ret = $GLOBALS['modulepermHandler']->deleteByModule($GLOBALS['xoopsModule']->getVar('mid'), $this->perm_name, (int)$formId);
+        //        $ret = $GLOBALS['grouppermHandler']->deleteByModule($GLOBALS['xoopsModule']->getVar('mid'), $this->perm_name, (int)$formId);
         return $ret;
     }
 
@@ -118,7 +119,6 @@ class FormsHandler extends \XoopsPersistableObjectHandler
      * @param     $groupIds
      * @return bool true if success | false if setting any group perm fails
      * @internal param array $group_ids an array of integer group ids to insert
-     *
      */
     public function insertFormPermissions($formId, $groupIds)
     {
@@ -131,7 +131,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
         /*
                 $ret = true;
                 foreach ($groupIds as $id) {
-                    $status = $GLOBALS['modulepermHandler']->addRight($this->perm_name, (int)$formId, $id, $GLOBALS['xoopsModule']->getVar('mid'));
+                    $status = $GLOBALS['grouppermHandler']->addRight($this->perm_name, (int)$formId, $id, $GLOBALS['xoopsModule']->getVar('mid'));
                     $ret = $ret & ($status) ? true : false;
                 }
         */
@@ -160,7 +160,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
                 if ($f->isActive()) {
                     $permHelper = new Permission($this->dirname);
                     if ($permHelper->checkPermission($this->perm_name, $f->getVar('form_id'))) {
-                        //                    if (false !== $GLOBALS['modulepermHandler']->checkRight($this->perm_name, $f->getVar('form_id'), $groups, $GLOBALS['xoopsModule']->getVar('mid'))) {
+                        //                    if (false !== $GLOBALS['grouppermHandler']->checkRight($this->perm_name, $f->getVar('form_id'), $groups, $GLOBALS['xoopsModule']->getVar('mid'))) {
                         $ret[] = $f;
                     }
                 }
@@ -185,7 +185,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
         return $permHelper->checkPermission($this->perm_name, (int)$formId);
         /*
                 $groups = (isset($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof \XoopsUser) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
-                if (false !== $GLOBALS['modulepermHandler']->checkRight($this->perm_name, (int)$formId, $groups, $GLOBALS['xoopsModule']->getVar('mid'))) {
+                if (false !== $GLOBALS['grouppermHandler']->checkRight($this->perm_name, (int)$formId, $groups, $GLOBALS['xoopsModule']->getVar('mid'))) {
                     return true;
                 }
                 return false;

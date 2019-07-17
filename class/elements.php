@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,7 +20,6 @@
  * @since           1.30
  * @author          Xoops Development Team
  */
-
 if (!defined('XFORMS_ROOT_PATH')) {
     exit();
 }

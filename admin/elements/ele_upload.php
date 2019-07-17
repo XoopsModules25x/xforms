@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -36,7 +37,7 @@ if (!interface_exists('Xforms\Constants')) {
  *       [2] = mime types
  *       [3] = save to (mail or directory)
  */
-$size   = (!empty($value[0])) ? (int)$value[0] : 0;
+$size   = !empty($value[0]) ? (int)$value[0] : 0;
 $saveAs = (empty($value[3])
            || (Constants::UPLOAD_SAVEAS_FILE != $value[3])) ? Constants::UPLOAD_SAVEAS_ATTACHMENT : Constants::UPLOAD_SAVEAS_FILE;
 
@@ -79,7 +80,7 @@ $mimeTray->addElement($setMimeButton);
 $saveAs = new \XoopsFormSelect(_AM_XFORMS_ELE_UPLOAD_SAVEAS, 'ele_value[3]', $saveAs);
 $saveAs->addOptionArray([
                             Constants::UPLOAD_SAVEAS_ATTACHMENT => _AM_XFORMS_ELE_UPLOAD_SAVEAS_MAIL,
-                            Constants::UPLOAD_SAVEAS_FILE       => _AM_XFORMS_ELE_UPLOAD_SAVEAS_FILE
+                            Constants::UPLOAD_SAVEAS_FILE       => _AM_XFORMS_ELE_UPLOAD_SAVEAS_FILE,
                         ]);
 
 $output->addElement($size, Constants::REQUIRED);

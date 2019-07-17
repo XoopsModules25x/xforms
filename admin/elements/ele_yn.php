@@ -20,7 +20,6 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 /**
@@ -36,6 +35,6 @@ if (!empty($eleId)) {
 $options = new \XoopsFormRadio(_AM_XFORMS_ELE_DEFAULT, 'ele_value', $selected);
 $options->addOptionArray([
                              '_YES' => _YES,
-                             '_NO'  => _NO
+                             '_NO'  => _NO,
                          ]);
 $output->addElement($options);

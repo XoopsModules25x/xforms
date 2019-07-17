@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -21,18 +23,17 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-if (!interface_exists('Xforms\Constants')) {
-    require_once __DIR__ . '/constants.php';
-    //    xoops_load('constants', 'xforms');
-}
+//if (!interface_exists('Xforms\Constants')) {
+//    require_once __DIR__ . '/constants.php';
+//    //    xoops_load('constants', 'xforms');
+//}
 
 /**
  * Class ElementHandler
  *
- * @param XoopsDatabase $db the database object
+ * @param \XoopsDatabase|null $db the database object
  */
 class ElementHandler extends \XoopsPersistableObjectHandler
 {
@@ -59,7 +60,7 @@ class ElementHandler extends \XoopsPersistableObjectHandler
         'url'        => _AM_XFORMS_ELE_URL,
         'upload'     => _AM_XFORMS_ELE_UPLOAD,
         'uploadimg'  => _AM_XFORMS_ELE_UPLOADIMG,
-        'yn'         => _AM_XFORMS_ELE_YN
+        'yn'         => _AM_XFORMS_ELE_YN,
     ];
     //    public $db;
     //    public $db_table;
@@ -68,7 +69,7 @@ class ElementHandler extends \XoopsPersistableObjectHandler
     /**
      * Element class constructor
      *
-     * @param \XoopsDatabase $db
+     * @param \XoopsDatabase|null $db
      */
     public function __construct(\XoopsDatabase $db = null)
     {
@@ -79,7 +80,6 @@ class ElementHandler extends \XoopsPersistableObjectHandler
     }
 
     /**
-     *
      * @return array list of valid elements (type => title)
      */
     public function getValidElements()
@@ -107,7 +107,7 @@ class ElementHandler extends \XoopsPersistableObjectHandler
                                   'ele_order'       => $d['order'],
                                   'ele_display'     => $d['display'],
                                   'ele_type'        => $d['type'],
-                                  'ele_value'       => $d['value']
+                                  'ele_value'       => $d['value'],
                               ]);
                 if (!$this->insert($ele)) {
                     $error .= $ele->getHtmlErrors();

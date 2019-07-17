@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -23,7 +25,7 @@
 
 // defined("XOOPS_ROOT_PATH") || exit("XOOPS root path not defined");
 
-require_once  dirname(__DIR__) . '/include/common.php';
+require_once dirname(__DIR__) . '/include/common.php';
 
 /**
  * Class Session
@@ -47,7 +49,6 @@ class Session
      * @param string $name  name of variable
      * @param mixed  $value value of variable
      *
-     * @return void
      * @access public
      */
     public function set($name, $value)
@@ -67,9 +68,9 @@ class Session
     {
         if (isset($_SESSION[$name])) {
             return $_SESSION[$name];
-        } else {
-            return false;
         }
+
+        return false;
     }
 
     /**
@@ -77,7 +78,6 @@ class Session
      *
      * @param string $name name of variable
      *
-     * @return void
      * @access public
      */
     public function del($name)
@@ -88,7 +88,6 @@ class Session
     /**
      * Destroys the whole session
      *
-     * @return void
      * @access public
      */
     public function destroy()
@@ -106,6 +105,7 @@ class Session
         if (null === $instance) {
             $instance = new static();
         }
+
         return $instance;
     }
 }

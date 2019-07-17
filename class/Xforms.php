@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -21,16 +23,12 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
-use XoopsModules\Xforms\Constants;
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-
 /**
- * Class XformsEformsForms
+ * Class Forms
  */
-class XformsEformsForms extends \XoopsObject
+class Xforms extends \XoopsObject
 {
     /**
      * this module's directory
@@ -57,22 +55,22 @@ class XformsEformsForms extends \XoopsObject
 }
 
 /**
- * Class XformsEformsFormsHandler
+ * Class FormsHandler
  */
-class XformsEformsFormsHandler extends \XoopsPersistableObjectHandler
+class XformsHandler extends \XoopsPersistableObjectHandler
 {
     public $db;
     public $db_table;
     public $perm_name = 'eforms_form_access';
-    public $obj_class = 'XformsEformsForms';
+    public $obj_class = 'Forms';
 
     /**
-     * @param $db
+     * @param \XoopsDatabase|null $db
      */
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db       = $db;
         $this->db_table = $this->db->prefix('eforms_form');
-        parent::__construct($db, 'eforms_form', 'XformsEformsForms', 'form_id', 'form_title');
+        parent::__construct($db, 'eforms_form', 'Forms', 'form_id', 'form_title');
     }
 }

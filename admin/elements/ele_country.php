@@ -22,10 +22,12 @@
  * @since           1.30
  */
 
+use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
+/** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 
 /**
@@ -35,7 +37,6 @@ $helper = Xforms\Helper::getInstance();
  *          [1] = allow multiple
  *          [2] = selected value(s)
  */
-
 if (!empty($eleId)) {
     //if (empty($addOpt) && !empty($eleId)) {
     $eleValue = $element->getVar('ele_value');
@@ -50,7 +51,7 @@ $size->setExtra('style="width: 5em;"');
 
 $multInput = new \XoopsFormRadioYN(_AM_XFORMS_ELE_MULTIPLE, 'ele_value[1]', $eleMulti);
 $defInput  = new \XoopsFormSelectCountry(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', $countries);
-//
+
 $output->addElement($size, 1);
 $output->addElement($multInput);
 $output->addElement($defInput);

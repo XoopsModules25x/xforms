@@ -1,19 +1,42 @@
+<h5>2.00 Alpha 2   [WORK IN PROGRESS - NOT RELEASED]</h5>  Dev: XOOPS 2.5.9, PHP 7.3.1
+<hr>
+- namespaces (mamba)
+- class autoloading (mamba)
+- XOOPS 2.5.9, PHP 7 (mamba)
+- removed @version (mamba)
+- PSR-2 code cosmetics (mamba)
+- addNavigation(basename(__FILE__))  (mamba)
+- dirname(__FILE__) to __DIR__ (mamba)
+- replaced < br /> with < br > (mamba)
+- Unnecessary double quotes (mamba)
+- reference mismatch (mamba)
+- Hardening to type safe (mamba)
+- update Help, .html to .tpl (mamba)
+- changed _handler to Handler (mamba)
+- removed '/' from void HTML elements (&lt;br&gt;, &lt;img&gt;, etc) (mamba)
+- HTML 5: removed 'selected' and 'checked' (mamba)
+- updated file headers for consistency (mamba)
+- renamed several $indexAdmin with $adminObject for consistency (mamba)
+- Updates for PayPal changes (zyspec)
+- added Contributing.md (mamba)
+- moved functions to Utility class (mamba)
+- include_once to require_once (mamba)
+- php-cs-fixer updates (mamba)
+- short array syntax (mamba)
+- Yoda notation (mamba)
+- started conversion to XMF (mamba)
+    &nbsp;&nbsp;- updated addInfoBoxLine entries (mamba)
+    &nbsp;&nbsp;- displayNavigation(basename(__FILE__))  (mamba)
+    &nbsp;&nbsp;- changed to ->displayButton('left') (mamba)
+WORK IN PROGRESS
 
-<u>TODO:</u>
-- create/test xBootstrap templates
-- create checkbox for number input in Admin to include/exclude default/step
-- add Elements:
-  - rating | use https://github.com/antennaio/jquery-bar-rating
-- add Modernizer to module to check browser capabilities and improve 'fallback' input methods for:
-  - range
-  - email (for Safari)
-  - time (for Firefox - use http://trentrichardson.com/examples/timepicker/)
-- create renderValidationJS for HTML5 types since many browsers don't actually validate data
-
-<u>KNOWN BUGS:</u>
+<h5>KNOWN BUGS:</h5>
+<hr>
 - javascript 'fallback' methods don't work in form block (javascript not loaded in block)
 
-<u>Version 2.00 Alpha 2 [2016-04-21]</u>
+
+<h5>Version 2.00 Alpha 2 [2016-04-21]</h5>
+<hr>
 - added check on install/upgrade to make sure PHP & XOOPS meets min version
 - added import from Liaise and eForms modules
 - added edit icon/link for admins on frontside
@@ -80,19 +103,26 @@
 - removed traces of SEO code (was never implemented)
 - removed XformsHelper class - now uses XOOPS XMF Helper class
 
-<u>Version 2.00 Alpha 1 [2014-10-08]</u>
+<h5>Version 2.00 Alpha 1 [2014-10-08]</h5>
+<hr>
 - merged eForms with xForms, so there would be migration path for current users, and less fragmentation of modules (mamba).
 - moved all images, CSS, and JS files to /assets (mamba)
 - renamed .html Smarty templates to .tpl (mamba)
 - added Interface for constants from Zyspec's MyLinks (mamba)
 - add Country and Date selection (Mariane)
 
------------- eForms: ---------------------
 
-<u>Version 1.1 - eForms</u>
+<h5>------------ eForms: ---------------------</h5>
+<hr>
+
+
+<h5>Version 1.1 - eForms</h5>
+<hr>
 Correct bugs in reports with data from unregistered users.
 
-<u>Version 1.0 - eForms</u>
+
+<h5>Version 1.0 - eForms<h5>
+<hr>
 First release eForms
 
 Developed by Juan Garcés (http://www.educacioninformatica.com/).
@@ -103,16 +133,20 @@ This module is a fork of xforms module by Dylian Melgert
 Enjoy this module and send your comments and contributions to
 wmaster@educacioninformatica.com
 
------------- xForms: ---------------------
+<h5>------------ xForms: ---------------------</h5>
+<hr>
 
-<u>Version 1.21 [2012-06-26]</u>
+<h5>Version 1.21 [2012-06-26<h5>
+<hr>
 - fixing some bugs: (black_beard)
 - updated to the XOOPS 2.5.x Admin GUI (mamba)
 - adding default strings for localization (cesag/mamba)
 - fixing bug in form_render.php with empty checkbox (cesag/philou)
 
-<u>1.20                2010-6-30</u>
+<h5>1.20                2010-6-30<h5>
+<hr>
 slight improvements  (Dylian)
 
-<u>Version 1.00 [2009-6-29]</u>
+<h5>Version 1.00 [2009-6-29]<h5>
+<hr>
 - Original release of the clone of Liaise (Dylian)

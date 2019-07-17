@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * xForms module
  *
@@ -26,7 +27,7 @@ if (!defined('XFORMS_ROOT_PATH')) {
 /** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 
-$profileHandler = xoops_getModuleHandler('profile', 'profile');
+$profileHandler = $helper->getHandler('Profile', 'profile');
 $memberHandler  = xoops_getHandler('member');
 
 $size           = !empty($value[0]) ? intval($value[0], 10) : $helper->getConfig('t_width');

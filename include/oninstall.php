@@ -23,11 +23,10 @@ use Xmf\Module\Admin;
  * @see             https://xoops.org XOOPS
  * @since           2.00
  */
-
 defined('XOOPS_ROOT_PATH') || die('Restricted Access');
 
 /**
- * @param XoopsModule $module
+ * @param \XoopsModule $module
  *
  * @return bool success
  */
@@ -51,7 +50,7 @@ function xoops_module_pre_install_xforms(\XoopsModule $module)
 }
 
 /**
- * @param XoopsModule $module
+ * @param \XoopsModule $module
  *
  * @return bool success
  */
@@ -61,13 +60,13 @@ function xoops_module_install_xforms(\XoopsModule $module)
     /*
         // no pre-installed forms so don't need to set permissions yet
         for ($i = 1; $i < 4; ++$i) {
-            $perm = $GLOBALS['modulepermHandler']->create();
+            $perm = $GLOBALS['grouppermHandler']->create();
             $perm->setVars(array('gperm_name' => 'xforms_form_access',
                                'gperm_itemid' => 1,
                               'gperm_groupid' => $i,
                                 'gperm_modid' => $module->getVar('mid'))
             );
-            $GLOBALS['modulepermHandler']->insert($perm);
+            $GLOBALS['grouppermHandler']->insert($perm);
         }
     */
     /*********************************

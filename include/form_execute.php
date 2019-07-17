@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * xForms module
  *
@@ -32,7 +33,7 @@ if (!isset($form) || empty($form) || !is_object($form)) {
 /** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 
-$xforms_ele_mgr = xoops_getModuleHandler('elements');
+$xforms_ele_mgr = $helper->getHandler('Elements');
 $criteria       = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
 $criteria->add(new \Criteria('ele_display', 1), 'AND');
@@ -47,7 +48,7 @@ foreach ($_POST as $k => $v) {
         $ele[$n[1]] = $v;
     }
 }
-if (isset($_POST['xoops_upload_file']) && is_array($_POST['xoops_upload_file'])) {
+if (\Xmf\Request::hasVar('xoops_upload_file', 'POST') && is_array($_POST['xoops_upload_file'])) {
     foreach ($_POST['xoops_upload_file'] as $k => $v) {
         $n          = explode('_', $v);
         $ele[$n[1]] = $v;
@@ -72,7 +73,7 @@ $genInfo = [
     'UID'   => '0',
     'UNAME' => '',
     'IP'    => '',
-    'AGENT' => ''
+    'AGENT' => '',
 ];
 if (0 == count($err)) {
     if (is_object($xoopsUser)) {
@@ -82,11 +83,11 @@ if (0 == count($err)) {
 
     $proxy = $_SERVER['REMOTE_ADDR'];
     $ip    = '';
-    if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    if (\Xmf\Request::hasVar('HTTP_X_FORWARDED_FOR', 'SERVER')) {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } elseif (isset($_SERVER['HTTP_PROXY_CONNECTION'])) {
+    } elseif (\Xmf\Request::hasVar('HTTP_PROXY_CONNECTION', 'SERVER')) {
         $ip = $_SERVER['HTTP_PROXY_CONNECTION'];
-    } elseif (isset($_SERVER['HTTP_VIA'])) {
+    } elseif (\Xmf\Request::hasVar('HTTP_VIA', 'SERVER')) {
         $ip = $_SERVER['HTTP_VIA'];
     }
     $ip = empty($ip) ? $_SERVER['REMOTE_ADDR'] : $ip;
@@ -100,7 +101,7 @@ if (0 == count($err)) {
 /*
  * Se recorren los elementos del formulario para guardar o enviar e-mail
  */
-$udata_mgr = xoops_getModuleHandler('userdata');
+$udata_mgr = $helper->getHandler('Userdata');
 $udatas    = [];
 
 $userMailText = ''; /* Capturing email for user if have textbox in the form */
@@ -169,11 +170,11 @@ if (0 == count($err)) {
                                     'id'     => $ele_id,
                                     'file'   => $saved,
                                     'name'   => $_FILES['ele_' . $ele_id]['name'],
-                                    'saveto' => $ele_value[3]
+                                    'saveto' => $ele_value[3],
                                 ];
                                 $udata_value = [
                                     'file' => $saved,
-                                    'name' => $_FILES['ele_' . $ele_id]['name']
+                                    'name' => $_FILES['ele_' . $ele_id]['name'],
                                 ];
                                 $ufid        = count($uploaded) - 1;
                             }
@@ -184,7 +185,6 @@ if (0 == count($err)) {
                         }
                     }
                     break;
-
                 case 'text':
                     $ele[$ele_id] = trim($ele[$ele_id]);
                     if (preg_match('/\{EMAIL\}/', $ele_value[2])) {
@@ -205,12 +205,10 @@ if (0 == count($err)) {
                     }
 
                     break;
-
                 case 'textarea':
                     $msg[$ele_id]   .= $myts->stripSlashesGPC($ele[$ele_id]);
                     $udata_value[0] = $myts->stripSlashesGPC($ele[$ele_id]);
                     break;
-
                 case 'radio':
                     $opt_count = 1;
                     foreach ($ele_value as $v) {
@@ -265,7 +263,6 @@ if (0 == count($err)) {
                     $msg[$ele_id]   .= $myts->stripSlashesGPC($v);
                     $udata_value[0] = $myts->stripSlashesGPC($v);
                     break;
-
                 case 'checkbox':
                     $opt_count = 1;
                     $ch        = [];
@@ -289,21 +286,20 @@ if (0 == count($err)) {
                     $msg[$ele_id] .= !empty($ch) ? implode('<br>', $ch) : '';
                     $udata_value  = $ch;
                     break;
-
                 case 'select':
                     $opt_count = 1;
                     $ch        = [];
                     if (is_array($ele[$ele_id])) {
-//                        while ($v = each($ele_value[2])) {
-                    foreach($ele_Value[2] as $v) {
+                        //                        while ($v = each($ele_value[2])) {
+                        foreach ($ele_Value[2] as $v) {
                             if (in_array($opt_count, $ele[$ele_id])) {
                                 $ch[] = $myts->stripSlashesGPC($v['key']);
                             }
                             ++$opt_count;
                         }
                     } else {
-//                        while ($j = each($ele_value[2])) {
-                            foreach($ele_value[2] as $j) {
+                        //                        while ($j = each($ele_value[2])) {
+                        foreach ($ele_value[2] as $j) {
                             if ($opt_count == $ele[$ele_id]) {
                                 $ch[] = $myts->stripSlashesGPC($j['key']);
                             }
@@ -313,7 +309,6 @@ if (0 == count($err)) {
                     $msg[$ele_id] .= !empty($ch) ? implode('<br>', $ch) : '';
                     $udata_value  = $ch;
                     break;
-
                 default:
                     break;
             }
@@ -373,11 +368,11 @@ if ((0 == count($err)) && ('n' !== $form->getVar('form_send_method'))) {
     if (in_array('ip', $helper->getConfig('moreinfo'))) {
         $proxy = $_SERVER['REMOTE_ADDR'];
         $ip    = '';
-        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        if (\Xmf\Request::hasVar('HTTP_X_FORWARDED_FOR', 'SERVER')) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } elseif (isset($_SERVER['HTTP_PROXY_CONNECTION'])) {
+        } elseif (\Xmf\Request::hasVar('HTTP_PROXY_CONNECTION', 'SERVER')) {
             $ip = $_SERVER['HTTP_PROXY_CONNECTION'];
-        } elseif (isset($_SERVER['HTTP_VIA'])) {
+        } elseif (\Xmf\Request::hasVar('HTTP_VIA', 'SERVER')) {
             $ip = $_SERVER['HTTP_VIA'];
         }
         $ip = empty($ip) ? $_SERVER['REMOTE_ADDR'] : $ip;
@@ -553,7 +548,7 @@ if (count($err) > 0) {
     $xoopsTpl->assign('go_back', _BACK);
     $xoopsTpl->assign('XFORMS_URL', XFORMS_URL . '/index.php?form_id=' . $form_id);
     $xoopsTpl->assign('xoops_pagetitle', _MD_XFORMS_ERR_HEADING);
-    include XOOPS_ROOT_PATH . '/footer.php';
+    require_once XOOPS_ROOT_PATH . '/footer.php';
     exit();
 }
 
@@ -561,7 +556,7 @@ if (count($err) > 0) {
  * Redirect the user to the success page on send the form
  */
 $whereto = $form->getVar('form_whereto');
-$whereto = (!empty($whereto)) ? str_replace('{SITE_URL}', XOOPS_URL, $whereto) : XOOPS_URL . '/index.php';
+$whereto = !empty($whereto) ? str_replace('{SITE_URL}', XOOPS_URL, $whereto) : XOOPS_URL . '/index.php';
 redirect_header($whereto, 0, _MD_XFORMS_MSG_SENT);
 
 /**
@@ -576,13 +571,11 @@ function checkOther($key, $id, $caption)
     global $err, $myts;
     if (!preg_match('/\{OTHER\|+[0-9]+\}/', $key)) {
         return false;
-    } else {
-        if (!empty($_POST['other']['ele_' . $id])) {
-            return _MD_XFORMS_OPT_OTHER . $myts->stripSlashesGPC($_POST['other']['ele_' . $id]);
-        } else {
-            $err[] = sprintf(_MD_XFORMS_ERR_REQ, $caption);
-        }
     }
+    if (!empty($_POST['other']['ele_' . $id])) {
+        return _MD_XFORMS_OPT_OTHER . $myts->stripSlashesGPC($_POST['other']['ele_' . $id]);
+    }
+    $err[] = sprintf(_MD_XFORMS_ERR_REQ, $caption);
 
     return false;
 }

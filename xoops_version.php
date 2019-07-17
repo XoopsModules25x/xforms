@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -29,7 +30,7 @@ $moduleDirName = basename(__DIR__);
 
 $modversion['version']       = '2.00';
 $modversion['module_status'] = 'Alpha 2';
-$modversion['release_date']  = '2016/08/01';
+$modversion['release_date']  = '2018/09/01';
 $modversion['name']          = _MI_XFORMS_NAME;
 $modversion['description']   = _MI_XFORMS_DESC;
 $modversion['author']        = 'Brandycoke Productions, Dylian Melgert, Juan Garcés';
@@ -47,18 +48,18 @@ $modversion['modicons32']    = 'assets/images/icons/32';
 $modversion['helpsection'] = [
     [
         'name' => _MI_XFORMS_HELP_OVERVIEW,
-        'link' => 'page=help'
+        'link' => 'page=help',
     ],
     [
         'name' => _MI_XFORMS_HELP_ISSUES,
-        'link' => 'page=issues'
-    ]
+        'link' => 'page=issues',
+    ],
 ];
 
 $modversion['module_website_url']  = 'https://xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';
-$modversion['min_xoops']           = '2.5.9';
+$modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];
 
@@ -91,20 +92,20 @@ $modversion['system_menu'] = 1;
 $modversion['templates'] = [
     [
         'file'        => 'xforms_index.tpl',
-        'description' => _MI_XFORMS_TMPL_MAIN_DESC
+        'description' => _MI_XFORMS_TMPL_MAIN_DESC,
     ],
     [
         'file'        => 'xforms_form.tpl',
-        'description' => _MI_XFORMS_TMPL_FORM_DESC
+        'description' => _MI_XFORMS_TMPL_FORM_DESC,
     ],
     [
         'file'        => 'xforms_form_poll.tpl',
-        'description' => _MI_XFORMS_TMPL_POLL_DESC
+        'description' => _MI_XFORMS_TMPL_POLL_DESC,
     ],
     [
         'file'        => 'xforms_error.tpl',
-        'description' => _MI_XFORMS_TMPL_ERROR_DESC
-    ]
+        'description' => _MI_XFORMS_TMPL_ERROR_DESC,
+    ],
 ];
 
 /*
@@ -114,7 +115,7 @@ $modversion['templates'] = [
 $modversion['hasSearch'] = 1;
 $modversion['search']    = [
     'file' => 'include/search.inc.php',
-    'func' => 'xforms_search'
+    'func' => 'xforms_search',
 ];
 
 // Blocks
@@ -126,7 +127,7 @@ $modversion['blocks'] = [
         'show_func'   => 'b_xforms_list_show',
         'edit_func'   => 'b_xforms_list_edit',
         'options'     => 'weight|5',
-        'template'    => 'xforms_blk_list.tpl'
+        'template'    => 'xforms_blk_list.tpl',
     ],
 
     [
@@ -136,13 +137,12 @@ $modversion['blocks'] = [
         'show_func'   => 'b_xforms_form_show',
         'edit_func'   => 'b_xforms_form_edit',
         'options'     => '1',
-        'template'    => 'xforms_blk_form.tpl'
-    ]
-
+        'template'    => 'xforms_blk_form.tpl',
+    ],
 ];
 
 xoops_load('XoopsLists');
-require_once $GLOBALS['xoops']->path("./modules/{$moduleDirName}/class/constants.php");
+//require_once $GLOBALS['xoops']->path("./modules/{$moduleDirName}/class/constants.php");
 
 /* Module Configs */
 $modversion['config'] = [
@@ -152,7 +152,7 @@ $modversion['config'] = [
         'description' => '',
         'formtype'    => 'textbox',
         'valuetype'   => 'int',
-        'default'     => '35'
+        'default'     => '35',
     ],
 
     [
@@ -161,7 +161,7 @@ $modversion['config'] = [
         'description' => '',
         'formtype'    => 'textbox',
         'valuetype'   => 'int',
-        'default'     => '255'
+        'default'     => '255',
     ],
 
     [
@@ -170,7 +170,7 @@ $modversion['config'] = [
         'description' => '',
         'formtype'    => 'textbox',
         'valuetype'   => 'int',
-        'default'     => '5'
+        'default'     => '5',
     ],
 
     [
@@ -179,7 +179,7 @@ $modversion['config'] = [
         'description' => '',
         'formtype'    => 'textbox',
         'valuetype'   => 'int',
-        'default'     => '35'
+        'default'     => '35',
     ],
 
     [
@@ -193,8 +193,8 @@ $modversion['config'] = [
             _MI_XFORMS_MOREINFO_USER  => 'user',
             _MI_XFORMS_MOREINFO_IP    => 'ip',
             _MI_XFORMS_MOREINFO_AGENT => 'agent',
-            _MI_XFORMS_MOREINFO_FORM  => 'form'
-        ]
+            _MI_XFORMS_MOREINFO_FORM  => 'form',
+        ],
     ],
 
     [
@@ -204,7 +204,7 @@ $modversion['config'] = [
         'formtype'    => 'select',
         'valuetype'   => 'text',
         'default'     => '-----',
-        'options'     => array_flip(\XoopsLists::getCountryList())
+        'options'     => array_flip(\XoopsLists::getCountryList()),
     ],
 
     [
@@ -213,7 +213,7 @@ $modversion['config'] = [
         'description' => '_MI_XFORMS_MAIL_CHARSET_DESC',
         'formtype'    => 'textbox',
         'valuetype'   => 'text',
-        'default'     => _CHARSET
+        'default'     => _CHARSET,
     ],
 
     [
@@ -222,7 +222,7 @@ $modversion['config'] = [
         'description' => '',
         'formtype'    => 'textbox',
         'valuetype'   => 'text',
-        'default'     => ''
+        'default'     => '',
     ],
 
     [
@@ -231,7 +231,7 @@ $modversion['config'] = [
         'description' => '',
         'formtype'    => 'textbox',
         'valuetype'   => 'text',
-        'default'     => '*'
+        'default'     => '*',
     ],
 
     [
@@ -240,7 +240,7 @@ $modversion['config'] = [
         'description' => '',
         'formtype'    => 'textbox',
         'valuetype'   => 'text',
-        'default'     => _MI_XFORMS_DEFAULT_TITLE_DESC
+        'default'     => _MI_XFORMS_DEFAULT_TITLE_DESC,
     ],
 
     [
@@ -249,7 +249,7 @@ $modversion['config'] = [
         'description' => '',
         'formtype'    => 'textarea',
         'valuetype'   => 'text',
-        'default'     => _MI_XFORMS_INTRO_DEFAULT
+        'default'     => _MI_XFORMS_INTRO_DEFAULT,
     ],
 
     [
@@ -258,7 +258,7 @@ $modversion['config'] = [
         'description' => '',
         'formtype'    => 'textarea',
         'valuetype'   => 'text',
-        'default'     => _MI_XFORMS_NOFORM_DEFAULT
+        'default'     => _MI_XFORMS_NOFORM_DEFAULT,
     ],
 
     [
@@ -267,7 +267,7 @@ $modversion['config'] = [
         'description' => '',
         'formtype'    => 'textarea',
         'valuetype'   => 'text',
-        'default'     => _MI_XFORMS_GLOBAL_DEFAULT
+        'default'     => _MI_XFORMS_GLOBAL_DEFAULT,
     ],
 
     [
@@ -276,7 +276,7 @@ $modversion['config'] = [
         'description' => '_MI_XFORMS_UPLOADDIR_DESC',
         'formtype'    => 'textbox',
         'valuetype'   => 'text',
-        'default'     => XOOPS_UPLOAD_PATH . "/{$moduleDirName}"
+        'default'     => XOOPS_UPLOAD_PATH . "/{$moduleDirName}",
     ],
 
     [
@@ -289,9 +289,9 @@ $modversion['config'] = [
             _MI_XFORMS_CAPTCHA_INHERIT   => Constants::CAPTCHA_INHERIT,
             _MI_XFORMS_CAPTCHA_ANON_ONLY => Constants::CAPTCHA_ANON_ONLY,
             _MI_XFORMS_CAPTCHA_EVERYONE  => Constants::CAPTCHA_EVERYONE,
-            _MI_XFORMS_CAPTCHA_NONE      => Constants::CAPTCHA_NONE
+            _MI_XFORMS_CAPTCHA_NONE      => Constants::CAPTCHA_NONE,
         ],
-        'default'     => Constants::CAPTCHA_INHERIT
+        'default'     => Constants::CAPTCHA_INHERIT,
     ],
 
     [
@@ -300,7 +300,7 @@ $modversion['config'] = [
         'description' => '_MI_XFORMS_SHOWFORMS_DESC',
         'formtype'    => 'yesno',
         'valuetype'   => 'int',
-        'default'     => 1
+        'default'     => 1,
     ],
 
     [
@@ -309,6 +309,6 @@ $modversion['config'] = [
         'description' => '_MI_XFORMS_PERPAGE_DESC',
         'formtype'    => 'textbox',
         'valuetype'   => 'int',
-        'default'     => Constants::FORMS_PER_PAGE_DEFAULT
-    ]
+        'default'     => Constants::FORMS_PER_PAGE_DEFAULT,
+    ],
 ];

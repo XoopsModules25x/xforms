@@ -22,9 +22,10 @@
  * @since           1.30
  */
 
+use XoopsModules\Xforms;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
-
+/** @var Xforms\Helper $helper */
 $helper = Xforms\Helper::getInstance();
 
 $defaults = [
@@ -38,8 +39,8 @@ $defaults = [
         'value'           => [
             0 => $helper->getConfig('t_width'),
             1 => $helper->getConfig('t_max'),
-            2 => '{U_uname}'
-        ]
+            2 => '{U_uname}',
+        ],
     ],
 
     1 => [
@@ -52,8 +53,8 @@ $defaults = [
         'value'           => [
             0 => $helper->getConfig('t_width'),
             1 => $helper->getConfig('t_max'),
-            2 => '{U_email}'
-        ]
+            2 => '{U_email}',
+        ],
     ],
 
     2 => [
@@ -66,7 +67,7 @@ $defaults = [
         'value'           => [
             0 => '',
             1 => $helper->getConfig('ta_rows'),
-            2 => $helper->getConfig('ta_cols')
-        ]
-    ]
+            2 => $helper->getConfig('ta_cols'),
+        ],
+    ],
 ];

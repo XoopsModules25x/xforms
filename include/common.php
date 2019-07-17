@@ -23,13 +23,12 @@
  */
 
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Common;
+use XoopsModules\Xforms\Constants;
 
-include  dirname(__DIR__) . '/preloads/autoloader.php';
+require_once dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName = basename(dirname(__DIR__));
-$moduleDirNameUpper   = strtoupper($moduleDirName); //$capsDirName
-
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
 /** @var \XoopsDatabase $db */
 /** @var Xforms\Helper $helper */
@@ -45,6 +44,13 @@ $helper->loadLanguage('common');
 //$categoryHandler     = new Xforms\CategoryHandler($db);
 //$downloadHandler     = new Xforms\DownloadHandler($db);
 
+$pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32 = \Xmf\Module\Admin::iconUrl('', 32);
+if (is_object($helper->getModule())) {
+    $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
+    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+}
+
 if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));
     define($moduleDirNameUpper . '_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/');
@@ -55,28 +61,22 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_ADMIN_URL', constant($moduleDirNameUpper . '_URL') . '/admin/');
     define($moduleDirNameUpper . '_ADMIN_PATH', constant($moduleDirNameUpper . '_ROOT_PATH') . '/admin/');
     define($moduleDirNameUpper . '_ADMIN', constant($moduleDirNameUpper . '_URL') . '/admin/index.php');
-    define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', constant($moduleDirNameUpper . '_URL') . '/assets/images/logoModule.png');
+    //    define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', constant($moduleDirNameUpper . '_URL') . '/assets/images/logoModule.png');
     define($moduleDirNameUpper . '_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . $moduleDirName); // WITHOUT Trailing slash
     define($moduleDirNameUpper . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . $moduleDirName); // WITHOUT Trailing slash
+    define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', $pathIcon32 . '/xoopsmicrobutton.gif');
     define($moduleDirNameUpper . '_CONSTANTS_DEFINED', 1);
 }
 
-
-$uploadDir    = $helper->getConfig('uploaddir');
-$uploadDir    = ('/' === substr($uploadDir, -1, 1)) ? $uploadDir : $uploadDir . '/';
+$uploadDir = $helper->getConfig('uploaddir');
+$uploadDir = ('/' === mb_substr($uploadDir, -1, 1)) ? $uploadDir : $uploadDir . '/';
 
 //require_once $helper->path('include/functions.php');
 
-if (!interface_exists('Xforms\Constants')) {
-    require_once $helper->path('class/constants.php');
-    //    xoops_load('constants', XFORMS_DIRNAME);
-}
-
-
-$pathIcon16    = Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32    = Xmf\Module\Admin::iconUrl('', 32);
-$pathModIcon16 = $helper->getModule()->getInfo('modicons16');
-//$pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+//if (!interface_exists('Xforms\Constants')) {
+//    require_once $helper->path('class/constants.php');
+//    //    xoops_load('constants', XFORMS_DIRNAME);
+//}
 
 $icons = [
     'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",
@@ -110,14 +110,13 @@ if (is_object($helper->getModule())) {
     $GLOBALS['xoopsTpl']->assign('pathModIcon32', $pathModIcon32);
 }
 
-
 //This is needed or it will not work in blocks.
 /**@todo - which blocks? - there are no blocks in xforms that need this. The
  * "offending" block(s) need to be fixed so they DO work without a global here
  */
 global $xforms_isAdmin;
 $xforms_isAdmin     = $helper->isUserAdmin();
-$xformsFormsHandler = $helper->getHandler('forms');
+$xformsFormsHandler = $helper->getHandler('Forms');
 /*
 // Load only if module is installed
 if (is_object($xforms->getModule())) {

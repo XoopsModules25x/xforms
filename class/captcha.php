@@ -20,7 +20,6 @@
  * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
  * @see             https://xoops.org XOOPS
  * @since           2.00
- *
  */
 
 use XoopsModules\Xforms\Constants;
@@ -29,7 +28,6 @@ xoops_load('xoopscaptcha');
 
 /**
  * Class to manipulate captcha
- *
  */
 class XformsCaptcha extends \XoopsCaptcha
 {
@@ -44,12 +42,13 @@ class XformsCaptcha extends \XoopsCaptcha
     {
         parent::__construct();
         // overwrite config setting for name
-        $this->name           = strtolower(get_called_class());
+        $this->name           = mb_strtolower(get_called_class());
         $this->config['name'] = $this->name;
         $this->dirname        = basename(dirname(__DIR__));
 
         // get this module's Preferences for captcha
-        $helper        = Helper::getHelper($this->dirname);
+        /** @var \XoopsModules\Xforms\Helper $helper */
+        $helper              = \XoopsModules\Xforms\Helper::getInstance();
         $xformsCaptchaConfig = $helper->getConfig('captcha');
         unset($helper);
 
@@ -120,15 +119,15 @@ class XformsCaptcha extends \XoopsCaptcha
         $pluginCfg = [];
 
         if (file_exists($file = $this->path_basic . '/config.php')) {
-            $coreCfg = include $file;
+            $coreCfg = require_once $file;
         }
         $filename = (isset($filename) && ('' !== trim($filename))) ? $filename : false;
         if (false === $filename) {
             if (file_exists($file = $this->path_basic . '/config.' . $filename . '.php')) {
-                $basicCfg = include $file;
+                $basicCfg = require_once $file;
             }
             if (file_exists($file = $this->path_plugin . '/config.' . $filename . '.php')) {
-                $pluginCfg = include $file;
+                $pluginCfg = require_once $file;
             }
         }
         $fileConfigs = array_merge($coreCfg, $basicCfg, $pluginCfg);

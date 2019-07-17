@@ -34,15 +34,16 @@ if (empty($form) || (!$form instanceof Forms)) {
 require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
 
 $moduleDirName = basename(dirname(__DIR__));
-$helper  = Helper::getHelper($moduleDirName);
+/** @var \XoopsModules\Xforms\Helper $helper */
+$helper = \XoopsModules\Xforms\Helper::getInstance();
 
-$xformsEleHandler = $helper->getHandler('element');
+$xformsEleHandler = $helper->getHandler('Element');
 require_once $helper->path('/class/elementrenderer.php');
 //require_once XFORMS_ROOT_PATH . '/class/elementrenderer.php';
 
-if (!interface_exists('Xforms\Constants')) {
-    require_once $helper->path('class/constants.php');
-}
+//if (!interface_exists('Xforms\Constants')) {
+//    require_once $helper->path('class/constants.php');
+//}
 
 if (Constants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
     $GLOBALS['xoopsOption']['template_main'] = 'xforms_form.tpl';
@@ -69,7 +70,7 @@ if (empty($elements)) { // this form doesn't have any elements
     xoops_header();
     echo sprintf(_MD_XFORMS_ELE_ERR, $form->getVar('form_title'), 's') . "<br><br>\n";
     $GLOBALS['xoopsTpl']->display($GLOBALS['xoopsOption']['template_main']);
-    require $GLOBALS['xoops']->path('/footer.php');
+    require_once $GLOBALS['xoops']->path('/footer.php');
     xoops_footer();
     exit();
 }
@@ -135,7 +136,7 @@ foreach ($formOutput->getElements() as $e) {
         'hidden'      => $e->isHidden(),
         'required'    => $req,
         'display_row' => $display_row,
-        'ele_type'    => $ele_type
+        'ele_type'    => $ele_type,
     ];
 }
 $js = $formOutput->renderValidationJS();
@@ -146,7 +147,7 @@ $GLOBALS['xoopsTpl']->assign('form_output', [
     'method'     => $formOutput->getMethod(),
     'extra'      => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
     'javascript' => $js,
-    'elements'   => $eles
+    'elements'   => $eles,
 ]);
 
 $GLOBALS['xoopsTpl']->assign('form_req_prefix', $helper->getConfig('prefix'));

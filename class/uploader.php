@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  * You may not change or alter any portion of this comment or credits
@@ -70,12 +72,11 @@
  * @author        Kazumi Ono <onokazu@xoops.org>
  * @copyright (c) 2000-2003 The Xoops Project - www.xoops.org
  */
-mt_srand((double)microtime() * 1000000);
 
 /**
  * Class MediaUploader
  */
-class MediaUploader
+class uploader
 {
     public $mediaName;
     public $mediaType;
@@ -115,8 +116,8 @@ class MediaUploader
         $allowedExtensions = 0,
         $allowedMimeTypes = 0,
         $maxWidth = 0,
-        $maxHeight = 0
-    ) {
+        $maxHeight = 0)
+    {
         if (!empty($maxFileSize)) {
             $this->maxFileSize = (int)$maxFileSize;
         }
@@ -155,7 +156,7 @@ class MediaUploader
      * @global        $HTTP_POST_FILES
      * @return bool
      */
-    public function fetchMedia($media_name, $index = null, &$ele)
+    public function fetchMedia($media_name, $index, &$ele)
     {
         if (!isset($_FILES[$media_name])) {
             $this->setErrors('You either did not choose a file to upload or the server has insufficient read/writes to upload this file.');
@@ -422,9 +423,9 @@ class MediaUploader
         if (isset($this->targetFileName)) {
             $this->savedFileName = $this->targetFileName;
         } elseif (isset($this->prefix)) {
-            $this->savedFileName = uniqid($this->prefix) . '.' . strtolower($matched[1]);
+            $this->savedFileName = uniqid($this->prefix) . '.' . mb_strtolower($matched[1]);
         } else {
-            $this->savedFileName = strtolower($this->mediaName);
+            $this->savedFileName = mb_strtolower($this->mediaName);
         }
         $this->savedFileName    = preg_replace('!\s+!', '_', $this->savedFileName);
         $this->savedDestination = $this->uploadDir . $this->savedFileName;
@@ -505,9 +506,9 @@ class MediaUploader
     {
         if (count($this->allowedMimeTypes) > 0 && !in_array($this->mediaType, $this->allowedMimeTypes)) {
             return false;
-        } else {
-            return true;
         }
+
+        return true;
     }
 
     /**
@@ -517,14 +518,13 @@ class MediaUploader
      **/
     public function checkExtension()
     {
-        $ext = substr(strrchr($this->mediaName, '.'), 1);
-        if (!empty($this->allowedExtensions) && !in_array(strtolower($ext), $this->allowedExtensions)) {
+        $ext = mb_substr(mb_strrchr($this->mediaName, '.'), 1);
+        if (!empty($this->allowedExtensions) && !in_array(mb_strtolower($ext), $this->allowedExtensions)) {
             return false;
-        } else {
-            $this->ext = $ext;
-
-            return true;
         }
+        $this->ext = $ext;
+
+        return true;
     }
 
     /**
@@ -548,16 +548,15 @@ class MediaUploader
     {
         if (!$ashtml) {
             return $this->errors;
-        } else {
-            $ret = '';
-            if (count($this->errors) > 0) {
-                $ret = '<h4>Errors Returned While Uploading</h4>';
-                foreach ($this->errors as $error) {
-                    $ret .= $error . '<br>';
-                }
-            }
-
-            return $ret;
         }
+        $ret = '';
+        if (count($this->errors) > 0) {
+            $ret = '<h4>Errors Returned While Uploading</h4>';
+            foreach ($this->errors as $error) {
+                $ret .= $error . '<br>';
+            }
+        }
+
+        return $ret;
     }
 }

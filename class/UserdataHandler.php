@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits of
@@ -22,9 +24,7 @@
  * @see             https://xoops.org XOOPS
  * @since           1.30
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
-
 
 /**
  * Class xFormsUserdataHandler
@@ -38,9 +38,9 @@ class UserdataHandler extends \XoopsPersistableObjectHandler
     public $obj_class = Userdata::class;
 
     /**
-     * @param $db
+     * @param \XoopsDatabase|null $db
      */
-    public function __construct(\XoopsDatabase $db)
+    public function __construct(\XoopsDatabase $db = null)
     {
         $this->db       = $db;
         $this->db_table = $this->db->prefix('xforms_userdata');
@@ -99,13 +99,14 @@ class UserdataHandler extends \XoopsPersistableObjectHandler
                 $uDataUsersArray = $userHandler->getAll(new \Criteria('uid', '(' . implode(',', $uIdArray) . ')', 'IN'), ['uname', 'name'], false);
                 if (array_key_exists(0, $uDataUsersArray)) { // means anon voter - getAll should have created new object for Anon user
                     //update anon user name (uname) in array
-                    $systemHelper                = Helper::getHelper('system');
+                    $systemHelper                = \Xmf\Module\Helper::getHelper('system');
                     $uDataUsersArray[0]['uname'] = $systemHelper->getConfig('anonymous');
                 }
 
                 // get element info from dB
-                $helper     = Helper::getHelper('xforms');
-                $xformsEleHandler = $helper->getHandler('element');
+                /** @var \XoopsModules\Xforms\Helper $helper */
+                $helper           = \XoopsModules\Xforms\Helper::getInstance();
+                $xformsEleHandler = $helper->getHandler('Element');
                 $eleIdArray       = array_unique($eleIdArray);
                 $criteria         = new \CriteriaCompo();
                 $criteria->add(new \Criteria('ele_id', '(' . implode(',', $eleIdArray) . ')', 'IN'));
@@ -127,7 +128,7 @@ class UserdataHandler extends \XoopsPersistableObjectHandler
                         'udata_value' => $thisDataObj->getVar('udata_value'),
                         'ele_id'      => $thisEleId,
                         'ele_type'    => $uDataEleArray[$thisEleId]['ele_type'],
-                        'ele_caption' => $uDataEleArray[$thisEleId]['ele_caption']
+                        'ele_caption' => $uDataEleArray[$thisEleId]['ele_caption'],
                     ];
                 }
             }

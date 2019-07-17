@@ -26,13 +26,14 @@ use Xmf\Request;
 use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/header.php';
-$myts               = \MyTextSanitizer::getInstance();
-$helper       = Helper::getHelper($moduleDirName);
-$xformsFormsHandler = $helper->getHandler('forms');
+$myts = \MyTextSanitizer::getInstance();
+/** @var \XoopsModules\Xforms\Helper $helper */
+$helper             = \XoopsModules\Xforms\Helper::getInstance();
+$xformsFormsHandler = $helper->getHandler('Forms');
 
-if (!interface_exists('Constants::')) {
-    require_once $helper->path('class/constants.php');
-}
+//if (!interface_exists('Constants::')) {
+//    require_once $helper->path('class/constants.php');
+//}
 $helper->loadLanguage('admin');
 
 $submit = Request::getCmd('submit', '', 'POST');
@@ -72,7 +73,7 @@ if (empty($submit)) {
                         'title'          => $form->getVar('form_title'),
                         'desc'           => $form->getVar('form_desc'),
                         'id'             => $form->getVar('form_id'),
-                        'form_edit_link' => $form->getEditLinkInfo()
+                        'form_edit_link' => $form->getEditLinkInfo(),
                     ]);
                 }
                 $GLOBALS['xoopsTpl']->assign('forms_intro', $myts->displayTarea($helper->getConfig('intro'), 1));
@@ -109,7 +110,7 @@ if (empty($submit)) {
     }
 
     $GLOBALS['xoopsTpl']->assign('default_title', $helper->getConfig('dtitle'));
-    require $GLOBALS['xoops']->path('/footer.php');
+    require_once $GLOBALS['xoops']->path('/footer.php');
     exit();
 }
 
@@ -142,7 +143,7 @@ if (!$xfCaptchaObj->verify()) {
 require_once $helper->path('include/functions.php');
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
 
-$xformsEleHandler = $helper->getHandler('element');
+$xformsEleHandler = $helper->getHandler('Element');
 $criteria         = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
 $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
@@ -174,13 +175,13 @@ $genInfo = [
     'UID'   => '0',
     'UNAME' => '',
     'IP'    => '',
-    'AGENT' => ''
+    'AGENT' => '',
 ];
 
 /*
  * Loops through the elements of the form to save or send e-mail
  */
-$uDataHandler = $helper->getHandler('userdata');
+$uDataHandler = $helper->getHandler('Userdata');
 $udatas       = [];
 $userMailText = ''; // Capturing email for user if have textbox in the form
 $saveToDB     = (Constants::SAVE_IN_DB == $form->getVar('form_save_db')) ? true : false;
@@ -193,11 +194,11 @@ if (0 == count($err)) {
 
     $proxy = $_SERVER['REMOTE_ADDR'];
     $ip    = '';
-    if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+    if (\Xmf\Request::hasVar('HTTP_X_FORWARDED_FOR', 'SERVER')) {
         $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    } elseif (isset($_SERVER['HTTP_PROXY_CONNECTION'])) {
+    } elseif (\Xmf\Request::hasVar('HTTP_PROXY_CONNECTION', 'SERVER')) {
         $ip = $_SERVER['HTTP_PROXY_CONNECTION'];
-    } elseif (isset($_SERVER['HTTP_VIA'])) {
+    } elseif (\Xmf\Request::hasVar('HTTP_VIA', 'SERVER')) {
         $ip = $_SERVER['HTTP_VIA'];
     }
     $ip = empty($ip) ? $_SERVER['REMOTE_ADDR'] : $ip;
@@ -233,7 +234,7 @@ if (0 == count($err)) {
                                 'udata_time'  => $timeData,
                                 'udata_ip'    => $genInfo['IP'],
                                 'udata_agent' => $genInfo['AGENT'],
-                                'ele_id'      => (int)$eleId
+                                'ele_id'      => (int)$eleId,
                             ]);
         }
 
@@ -256,43 +257,40 @@ if (0 == count($err)) {
                     $msg[$eleId]   .= $ele[$eleId];
                     $uDataValue[0] = $ele[$eleId];
                     break;
-
                 case 'checkbox':
                     $opt_count = 1;
                     $ch        = [];
-//                    while ($v = each($eleValue)) {
-                        foreach ($eleValue as $v) {
-                            if (is_array($ele[$eleId])) {
-                                if (in_array($opt_count, $ele[$eleId])) {
-                                    $other = xformsCheckOther($v['key'], $eleId, $eleCaption);
-                                    if (false !== $other) {
-                                        $ch[] = $other;
-                                    } else {
-                                        $ch[] = $v['key'];
-                                    }
-                                }
-                                ++$opt_count;
-                            } else {
-                                if (!empty($ele[$eleId])) {
+                    //                    while ($v = each($eleValue)) {
+                    foreach ($eleValue as $v) {
+                        if (is_array($ele[$eleId])) {
+                            if (in_array($opt_count, $ele[$eleId])) {
+                                $other = xformsCheckOther($v['key'], $eleId, $eleCaption);
+                                if (false !== $other) {
+                                    $ch[] = $other;
+                                } else {
                                     $ch[] = $v['key'];
                                 }
                             }
+                            ++$opt_count;
+                        } else {
+                            if (!empty($ele[$eleId])) {
+                                $ch[] = $v['key'];
+                            }
                         }
+                    }
                     $msg[$eleId] .= !empty($ch) ? implode('<br>', $ch) : '';
                     $uDataValue  = $ch;
                     break;
-
                 case 'obfuscated':
                     /** {@internal set msg to '***** - not transmitted in email'}}} */
                     //                    $msg[$eleId]  .= $ele[$eleId];
                     $s             = '';
-                    $msg[$eleId]   .= str_pad($s, strlen($ele[$eleId]), '*');
+                    $msg[$eleId]   .= str_pad($s, mb_strlen($ele[$eleId]), '*');
                     $uDataValue[0] = $ele[$eleId];
                     break;
-
                 case 'radio':
                     $opt_count = 1;
-//                   while ($v = each($eleValue)) {
+                    //                   while ($v = each($eleValue)) {
                     foreach ($eleValue as $v) {
                         if ($opt_count == $ele[$eleId]) {
                             $other = xformsCheckOther($v['key'], $eleId, $eleCaption);
@@ -307,12 +305,11 @@ if (0 == count($err)) {
                         ++$opt_count;
                     }
                     break;
-
                 case 'select':
                     $opt_count = 1;
                     $ch        = [];
                     if (is_array($ele[$eleId])) {
-//                        while ($v = each($eleValue[2])) {
+                        //                        while ($v = each($eleValue[2])) {
                         foreach ($eleValue[2] as $v) {
                             if (in_array($opt_count, $ele[$eleId])) {
                                 $ch[] = $v['key'];
@@ -320,7 +317,7 @@ if (0 == count($err)) {
                             ++$opt_count;
                         }
                     } else {
-//                        while ($j = each($eleValue[2])) {
+                        //                        while ($j = each($eleValue[2])) {
                         foreach ($eleValue[2] as $j) {
                             if ($opt_count == $ele[$eleId]) {
                                 $ch[] = $j['key'];
@@ -331,7 +328,6 @@ if (0 == count($err)) {
                     $msg[$eleId] .= !empty($ch) ? implode('<br>', $ch) : '';
                     $uDataValue  = $ch;
                     break;
-
                 case 'select2': //left for backward compatibility w/ v2.00 ALPHA 1
                 case 'country':
                     $countries = \XoopsLists::getCountryList();
@@ -350,7 +346,6 @@ if (0 == count($err)) {
                         $uDataValue[0] = $countries[$ele[$eleId]];
                     }
                     break;
-
                 case 'text':
                     if (preg_match('/\{EMAIL\}/', $eleValue[2])) {
                         if (!checkEmail($ele[$eleId])) {
@@ -366,7 +361,7 @@ if (0 == count($err)) {
                     $uDataValue[0] = $ele[$eleId];
 
                     /* Obtain the user email from the form */
-                    if ((!empty($eleValue[3])) && empty($userMailText) && !empty($ele[$eleId])) {
+                    if (!empty($eleValue[3]) && empty($userMailText) && !empty($ele[$eleId])) {
                         if (checkEmail($ele[$eleId])) {
                             $userMailText = $ele[$eleId];
                         } else {
@@ -374,16 +369,14 @@ if (0 == count($err)) {
                         }
                     }
                     break;
-
                 case 'yn':
                     $v             = (2 == $ele[$eleId]) ? _NO : _YES;
                     $msg[$eleId]   .= $v;
                     $uDataValue[0] = $v;
                     break;
-
                 case 'upload':
                 case 'uploadimg':
-                    if (isset($_FILES["ele_{$eleId}"])) {
+                    if (\Xmf\Request::hasVar('ele_{$eleId}', 'FILES[')) {
                         if (!class_exists('MediaUploader')) {
                             xoops_load('MediaUploader', $moduleDirName);
                         }
@@ -411,11 +404,11 @@ if (0 == count($err)) {
                                     'id'     => $eleId,
                                     'file'   => $saved,
                                     'name'   => $_FILES["ele_{$eleId}"]['name'],
-                                    'saveto' => $eleValue[3]
+                                    'saveto' => $eleValue[3],
                                 ];
                                 $uDataValue = [
                                     'file' => $saved,
-                                    'name' => $_FILES["ele_{$eleId}"]['name']
+                                    'name' => $_FILES["ele_{$eleId}"]['name'],
                                 ];
                                 $ufid       = count($uploaded) - 1;
                             }
@@ -426,7 +419,6 @@ if (0 == count($err)) {
                         }
                     }
                     break;
-
                 default:
                     break;
             }
@@ -489,11 +481,11 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE != $form->getVar('form_se
     if (in_array('ip', $xformsMoreInfoConfig)) {
         $proxy = $_SERVER['REMOTE_ADDR'];
         $ip    = '';
-        if (isset($_SERVER['HTTP_X_FORWARDED_FOR'])) {
+        if (\Xmf\Request::hasVar('HTTP_X_FORWARDED_FOR', 'SERVER')) {
             $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-        } elseif (isset($_SERVER['HTTP_PROXY_CONNECTION'])) {
+        } elseif (\Xmf\Request::hasVar('HTTP_PROXY_CONNECTION', 'SERVER')) {
             $ip = $_SERVER['HTTP_PROXY_CONNECTION'];
-        } elseif (isset($_SERVER['HTTP_VIA'])) {
+        } elseif (\Xmf\Request::hasVar('HTTP_VIA', 'SERVER')) {
             $ip = $_SERVER['HTTP_VIA'];
         }
         $ip = empty($ip) ? $_SERVER['REMOTE_ADDR'] : $ip;
@@ -678,9 +670,9 @@ if (count($err) > 0) {
                           'errors'          => $err,
                           'go_back'         => _BACK,
                           'xforms_url'      => $helper->url("index.php?form_id={$formId}"),
-                          'xoops_pagetitle' => _MD_XFORMS_ERR_HEADING
+                          'xoops_pagetitle' => _MD_XFORMS_ERR_HEADING,
                       ]);
-    include $GLOBALS['xoops']->path('/footer.php');
+    require_once $GLOBALS['xoops']->path('/footer.php');
     exit();
 }
 
@@ -688,5 +680,5 @@ if (count($err) > 0) {
  * Redirect the user to the success page on send the form
  */
 $whereto = $form->getVar('form_whereto');
-$whereto = (!empty($whereto)) ? str_replace('{SITE_URL}', $GLOBALS['xoops']->url('www'), $whereto) : $GLOBALS['xoops']->url('www/index.php');
+$whereto = !empty($whereto) ? str_replace('{SITE_URL}', $GLOBALS['xoops']->url('www'), $whereto) : $GLOBALS['xoops']->url('www/index.php');
 redirect_header($whereto, Constants::REDIRECT_DELAY_NONE, _MD_XFORMS_MSG_SENT);

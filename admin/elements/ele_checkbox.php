@@ -20,7 +20,6 @@
  * @see             https://xoops.org XOOPS
  * @since           2.00
  */
-
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 if (!class_exists('Xforms\FormInput')) {

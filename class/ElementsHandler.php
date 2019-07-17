@@ -1,4 +1,6 @@
-<?php namespace XoopsModules\Xforms;
+<?php
+
+namespace XoopsModules\Xforms;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -18,7 +20,6 @@
  * @since           1.30
  * @author          Xoops Development Team
  */
-
 if (!defined('XFORMS_ROOT_PATH')) {
     exit();
 }
@@ -33,16 +34,16 @@ class ElementsHandler
     public $obj_class = Elements::class;
 
     /**
-     * @param $db
+     * @param \XoopsDatabase|null $db
      */
-    public function __construct($db)
+    public function __construct(\XoopsDatabase $db = null)
     {
         $this->db       = $db;
         $this->db_table = $this->db->prefix('xforms_element');
     }
 
     /**
-     * @param $db
+     * @param \XoopsDatabase|null $db
      *
      * @return \XoopsModules\Xforms\ElementsHandler
      */
@@ -99,7 +100,7 @@ class ElementsHandler
      */
     public function insert(\XoopsObject $element, $force = false)
     {
-        if (strtolower(get_class($element)) != strtolower($this->obj_class)) {
+        if (mb_strtolower(get_class($element)) != mb_strtolower($this->obj_class)) {
             return false;
         }
         if (!$element->isDirty()) {
@@ -156,7 +157,7 @@ class ElementsHandler
      */
     public function delete($element, $force = false)
     {
-        if (strtolower(get_class($element)) != strtolower($this->obj_class)) {
+        if (mb_strtolower(get_class($element)) != mb_strtolower($this->obj_class)) {
             return false;
         }
         $sql = 'DELETE FROM ' . $this->db_table . ' WHERE ele_id=' . $element->getVar('ele_id') . '';
@@ -205,9 +206,9 @@ class ElementsHandler
         }
         if (count($ret) > 0) {
             return $ret;
-        } else {
-            return $rtnVariable;
         }
+
+        return $rtnVariable;
     }
 
     /**

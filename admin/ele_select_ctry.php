@@ -17,7 +17,6 @@
  * @since           1.30
  * @author          Xoops Development Team
  */
-
 if (!defined('xforms_ROOT_PATH')) {
     exit();
 }
@@ -32,7 +31,7 @@ $multiple    = new \XoopsFormRadioYN(_AM_XFORMS_ELE_MULTIPLE, 'ele_value[1]', $a
 $country     = xoops_getModuleOption('mycountry', 'xforms');
 $countries   = !empty($ele_value[2]) ? $ele_value[2] : $country;
 $reg_form    = new \XoopsFormSelectCountry(_AM_XFORMS_ELE_SELECT_CTRY, 'ele_value[2]', $countries);
-//
+
 $output->addElement($size, 1);
 $output->addElement($multiple);
 //$output->addElement($opt_tray);

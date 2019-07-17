@@ -26,28 +26,27 @@ namespace XoopsModules\Xforms;
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
 //if (!interface_exists('Xforms\Constants')) {
-//    //    xoops_load('constants', 'xforms');
 //    require_once __DIR__ . '/constants.php';
+//    //    xoops_load('constants', 'xforms');
 //}
 
 /**
- * Class Liaiseelement
+ * Class LiaiseformsHandler
  */
-class Liaiseelement extends \XoopsObject
+class LiaiseformsHandler extends \XoopsPersistableObjectHandler
 {
+    public $db;
+    public $db_table;
+    public $perm_name = 'liaise_form_access';
+    public $obj_class = Liaiseforms::class;
+
     /**
-     * Liaise Element constructor
+     * @param \XoopsDatabase|null $db
      */
-    public function __construct()
+    public function __construct(\XoopsDatabase $db = null)
     {
-        parent::__construct();
-        $this->initVar('ele_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('form_id', XOBJ_DTYPE_INT, 0, true);
-        $this->initVar('ele_type', XOBJ_DTYPE_TXTBOX, 'text', true, 10);
-        $this->initVar('ele_caption', XOBJ_DTYPE_TXTAREA);
-        $this->initVar('ele_order', XOBJ_DTYPE_INT, 0);
-        $this->initVar('ele_req', XOBJ_DTYPE_INT, Constants::ELEMENT_NOT_REQD);
-        $this->initVar('ele_value', XOBJ_DTYPE_ARRAY, []);
-        $this->initVar('ele_display', XOBJ_DTYPE_INT, Constants::ELEMENT_DISPLAY);
+        $this->db       = $db;
+        $this->db_table = $this->db->prefix('liaise_forms');
+        parent::__construct($db, 'liaise_forms', Liaiseforms::class, 'form_id', 'form_title');
     }
 }

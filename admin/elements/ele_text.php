@@ -22,9 +22,13 @@
  * @since           1.30
  */
 
+use Xmf\Module\Helper;
+use XoopsModules\Xforms;
+
 defined('XFORMS_ROOT_PATH') || die('Restricted access');
 
-$helper = Xforms\Helper::getInstance();
+/** @var Xforms\Helper $helper */
+$helper = \XoopsModules\Xforms\Helper::getInstance();
 
 /**
  * Text element
@@ -35,7 +39,6 @@ $helper = Xforms\Helper::getInstance();
  *       [3] = isEmail (0 = no, else = yes)
  *       [4] = placeholder
  */
-
 $sizeAttr = !empty($value[0]) ? (int)$value[0] : $helper->getConfig('t_width');
 $maxAttr  = !empty($value[1]) ? (int)$value[1] : $helper->getConfig('t_max');
 $size     = new Xforms\FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, (string)$sizeAttr, null, 'number');
