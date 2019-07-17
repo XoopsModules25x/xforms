@@ -48,14 +48,6 @@ function getConfig()
         ],
 
         'copyTestFolders' => [
-            //        XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-            //[
-            //    constant($moduleDirNameUpper . '_PATH') . '/testdata/images',
-            //    XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
-            //]
-        ],
-
-        'copyTestFolders' => [
             [
                 XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/images',
                 XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
