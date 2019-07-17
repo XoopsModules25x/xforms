@@ -42,7 +42,7 @@ class Captcha extends \XoopsCaptcha
     {
         parent::__construct();
         // overwrite config setting for name
-        $this->name           = mb_strtolower(get_called_class());
+        $this->name           = mb_strtolower(static::class);
         $this->config['name'] = $this->name;
         $this->dirname        = basename(dirname(__DIR__));
 
@@ -90,7 +90,7 @@ class Captcha extends \XoopsCaptcha
     {
         static $instance;
         if (!isset($instance)) {
-            $class    = get_called_class();
+            $class    = static::class;
             $instance = new $class();
         }
 
