@@ -65,7 +65,7 @@ class MediaUploader extends \XoopsMediaUploader
         if (!empty($allowedExtensions)) {
             $this->allowedExtensions = $allowedExtensions;
         } else {
-            $mimeArray               = require_once $GLOBALS['xoops']->path('include/mimetypes.inc.php');
+            $mimeArray               = require $GLOBALS['xoops']->path('include/mimetypes.inc.php');
             $this->allowedExtensions = array_keys($mimeArray);
         }
     }

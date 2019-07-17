@@ -49,7 +49,7 @@ $size->setDescription(_AM_XFORMS_ELE_UPLOAD_MAXSIZE_DESC . '<br>' . _AM_XFORMS_E
 $size->setAttribute('min', 0);
 $size->setExtra('style="width: 10em;"');
 
-$mimeArray   = require_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
+$mimeArray   = require $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
 $mimeTypes   = implode('|', $mimeArray);
 $mimeTypesJS = implode('\|', $mimeArray);
 $mimeTypesIn = empty($eleId) ? $mimeTypes : $myts->htmlSpecialChars($value[2]);

@@ -32,7 +32,7 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  *       [4] = image width
  *       [5] = image height
  */
-$mimeArray = require_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
+$mimeArray = require $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
 $imgArray  = [];
 foreach ($mimeArray as $ext => $type) {
     //get image MIME types as defined by IANA (images/ with no /x-**** which are not official)

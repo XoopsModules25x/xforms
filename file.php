@@ -164,7 +164,7 @@ if (class_exists('finfo')) {  //this should exist for >= PHP 5.3
     $finfo    = new finfo(FILEINFO_MIME);
     $mimeFile = $finfo->file($filename);
 } else {
-    $mimeTypes = require_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
+    $mimeTypes = require $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
     $extArray  = explode('.', $filename);
     $ext       = mb_strtolower(array_pop($extArray));
     if (array_key_exists($ext, $mimeTypes)) {

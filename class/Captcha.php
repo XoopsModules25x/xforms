@@ -119,15 +119,15 @@ class Captcha extends \XoopsCaptcha
         $pluginCfg = [];
 
         if (file_exists($file = $this->path_basic . '/config.php')) {
-            $coreCfg = require_once $file;
+            $coreCfg = require $file;
         }
         $filename = (isset($filename) && ('' !== trim($filename))) ? $filename : false;
         if (false === $filename) {
             if (file_exists($file = $this->path_basic . '/config.' . $filename . '.php')) {
-                $basicCfg = require_once $file;
+                $basicCfg = require $file;
             }
             if (file_exists($file = $this->path_plugin . '/config.' . $filename . '.php')) {
-                $pluginCfg = require_once $file;
+                $pluginCfg = require $file;
             }
         }
         $fileConfigs = array_merge($coreCfg, $basicCfg, $pluginCfg);
