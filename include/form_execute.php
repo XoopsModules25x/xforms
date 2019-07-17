@@ -148,14 +148,14 @@ if (0 == count($err)) {
                 case 'upload':
                 case 'uploadimg':
                     if (isset($_FILES['ele_' . $ele_id])) {
-                        require_once XFORMS_ROOT_PATH . '/class/uploader.php';
+//                        require_once XFORMS_ROOT_PATH . '/class/uploader.php';
                         $ext  = empty($ele_value[1]) ? 0 : explode('|', $ele_value[1]);
                         $mime = empty($ele_value[2]) ? 0 : explode('|', $ele_value[2]);
 
                         if ('uploadimg' === $ele_type) {
-                            $uploader[$ele_id] = new MediaUploader(XFORMS_UPLOAD_PATH, $ele_value[0], $ext, $mime, $ele_value[4], $ele_value[5]);
+                            $uploader[$ele_id] = new Xforms\MediaUploader(XFORMS_UPLOAD_PATH, $ele_value[0], $ext, $mime, $ele_value[4], $ele_value[5]);
                         } else {
-                            $uploader[$ele_id] = new MediaUploader(XFORMS_UPLOAD_PATH, $ele_value[0], $ext, $mime);
+                            $uploader[$ele_id] = new Xforms\MediaUploader(XFORMS_UPLOAD_PATH, $ele_value[0], $ext, $mime);
                         }
                         if (0 == $ele_value[0]) {
                             $uploader[$ele_id]->noAdminSizeCheck(true);

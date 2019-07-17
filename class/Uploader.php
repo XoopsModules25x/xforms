@@ -76,7 +76,7 @@ namespace XoopsModules\Xforms;
 /**
  * Class MediaUploader
  */
-class uploader
+class Uploader
 {
     public $mediaName;
     public $mediaType;
