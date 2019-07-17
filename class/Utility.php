@@ -149,7 +149,7 @@ class Utility
      *
      * @param mixed $item
      *
-     * @return int
+     * @return void
      */
     public static function intArray(&$item)
     {

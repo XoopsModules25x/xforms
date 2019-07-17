@@ -85,7 +85,7 @@ switch ($op) {
                 foreach ($efTables as $efTable) {
                     $tableExists = $tablesObj->useTable($efTable);
                     if (!$tableExists) {
-                        throw new Exception(sprintf(_AM_XFORMS_ERR_TABLE_NOT_FOUND, 'eforms', $efTable));
+                        throw new \Exception(sprintf(_AM_XFORMS_ERR_TABLE_NOT_FOUND, 'eforms', $efTable));
                     }
                 }
 
@@ -113,7 +113,7 @@ switch ($op) {
                     $xformsObj->setVars($formAttribs);
                     $xformsId = $xformsFormsHandler->insert($xformsObj);
                     if (!$xformsId) {
-                        throw new Exception(sprintf(_AM_XFORMS_ERR_CREATE_FORM, 'eforms', $eformsId));
+                        throw new \Exception(sprintf(_AM_XFORMS_ERR_CREATE_FORM, 'eforms', $eformsId));
                     }
                     $formMap[$eformsId] = $xformsId;
                 }
@@ -133,7 +133,7 @@ switch ($op) {
                             $xformsElementObj->setVars($eleAttribs);
                             $xformsElementId = $xformsElementHandler->insert($xformsElementObj);
                             if (!$xformsElementId) {
-                                throw new Exception(sprintf(_AM_XFORMS_ERR_CREATE_ELEMENT, 'eforms', $eformsElementObj->getVar('ele_id')));
+                                throw new \Exception(sprintf(_AM_XFORMS_ERR_CREATE_ELEMENT, 'eforms', $eformsElementObj->getVar('ele_id')));
                             }
                         }
                     }
@@ -152,7 +152,7 @@ switch ($op) {
                         $xformUdataObj->setVars($uDataAttribs);
                         $xformsUdataId = $xformsUserdataHandler->insert($xformsUdataObj);
                         if (!$xformUdataId) {
-                            throw new Exception(sprintf(_AM_XFORMS_ERR_EFORMS_CREATE_USERDATA, 'eforms', $eformsUdataObj->getVar('udata_id')));
+                            throw new \Exception(sprintf(_AM_XFORMS_ERR_EFORMS_CREATE_USERDATA, 'eforms', $eformsUdataObj->getVar('udata_id')));
                         }
                     }
                 }
@@ -199,7 +199,7 @@ switch ($op) {
                                 }
                 */
                 if (false === $success) {
-                    throw new Exception(sprintf(_AM_XFORMS_ERR_COPY_UPLOADS, 'eForms'));
+                    throw new \Exception(sprintf(_AM_XFORMS_ERR_COPY_UPLOADS, 'eForms'));
                 }
                 $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_IMPORT_SUCCESS, count($formMap), 'eForms'));
             } else {
@@ -230,7 +230,7 @@ switch ($op) {
             foreach ($liaiseTables as $liaiseTable) {
                 $tableExists = $tablesObj->useTable($liaiseTable);
                 if (!$tableExists) {
-                    throw new Exception(sprintf(_AM_XFORMS_ERR_TABLE_NOT_FOUND, 'liaise', $liaiseTable));
+                    throw new \Exception(sprintf(_AM_XFORMS_ERR_TABLE_NOT_FOUND, 'liaise', $liaiseTable));
                 }
             }
 
@@ -255,7 +255,7 @@ switch ($op) {
                 $xformsObj->setVars($formAttribs);
                 $xformsId = $xformsFormsHandler->insert($xformsObj);
                 if (!$xformsId) {
-                    throw new Exception(sprintf(_AM_XFORMS_ERR_CREATE_FORM, 'liaise', $liaiseId));
+                    throw new \Exception(sprintf(_AM_XFORMS_ERR_CREATE_FORM, 'liaise', $liaiseId));
                 }
                 $formMap[$liaiseId] = $xformsId;
             }
@@ -281,7 +281,7 @@ switch ($op) {
                     $xformsElementObj->setVars($eleAttribs);
                     $xformsElementId = $xformsElementHandler->insert($xformsElementObj);
                     if (!$xformsElementId) {
-                        throw new Exception(sprintf(_AM_XFORMS_ERR_CREATE_ELEMENT, 'liaise', $liaiseElementObj->getVar('ele_id')));
+                        throw new \Exception(sprintf(_AM_XFORMS_ERR_CREATE_ELEMENT, 'liaise', $liaiseElementObj->getVar('ele_id')));
                     }
                 }
             }
@@ -328,7 +328,7 @@ switch ($op) {
                         }
             */
             if (!$success) {
-                throw new Exception(sprintf(_AM_XFORMS_ERR_COPY_UPLOADS, 'Liaise'));
+                throw new \Exception(sprintf(_AM_XFORMS_ERR_COPY_UPLOADS, 'Liaise'));
             }
             $helper->redirect('admin/index.php', Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_IMPORT_SUCCESS, count($formMap), 'Liaise'));
         } else {
