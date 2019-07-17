@@ -17,7 +17,7 @@
  * @since           1.30
  * @author          Xoops Development Team
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 //require(XOOPS_ROOT_PATH . "/modules/xforms/class/dbupdater.php");
 //require(XOOPS_ROOT_PATH . "/modules/xforms/include/common.php");
 require_once XOOPS_ROOT_PATH . '/modules/xforms/include/migrate.php';

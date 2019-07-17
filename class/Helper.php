@@ -21,7 +21,7 @@ namespace XoopsModules\Xforms;
  * @author          XOOPS Development Team <https://xoops.org>
  */
 
-//defined('XOOPS_ROOT_PATH') || die('Restricted access');
+//defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * Class Helper

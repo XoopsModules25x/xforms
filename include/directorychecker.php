@@ -16,16 +16,16 @@
  * @category        Module
  * @package         xforms
  * @author          XOOPS Module Development Team
- * @copyright       {@see https://xoops.org 2001-2016 XOOPS Project}
- * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @see             https://xoops.org XOOPS
+ * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+
  * @since           1.30
  */
 
 use Xmf\Request;
 use XoopsModules\Xforms\Constants;
 
-//defined('XOOPS_ROOT_PATH') || die('Restricted access');
+//defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 //require_once $GLOBALS['xoops']->path('./modules/xforms/class/constants.php');

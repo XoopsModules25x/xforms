@@ -30,7 +30,7 @@ namespace XoopsModules\Xforms;
  * @author  marcan <marcan@smartfactory.ca>
  * @link    http://www.smartfactory.ca The SmartFactory
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * Class XformsTable

@@ -19,15 +19,15 @@ namespace XoopsModules\Xforms;
  * @package         xforms
  * @author          Taiwen Jiang <phppp@users.sourceforge.net>
  * @author          XOOPS Module Development Team
- * @copyright       {@see https://xoops.org 2001-2016 XOOPS Project}
- * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @see             https://xoops.org XOOPS
+ * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+
  * @since           1.30
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 xoops_load('xoopsformelement');
-if (!class_exists('XformsCaptcha')) { // hack for XOOPS < 2.6
+if (!class_exists('Xforms\Captcha')) { // hack for XOOPS < 2.6
     xoops_load('captcha', 'xforms');
 }
 /**
@@ -40,7 +40,7 @@ if (!class_exists('XformsCaptcha')) { // hack for XOOPS < 2.6
  * For verification:
  * <code>
  *               xoops_load('captcha', 'xforms');
- *               $xformsCaptcha = XformsCaptcha::getInstance();
+ *               $xformsCaptcha = Xforms\Captcha::getInstance();
  *               if (!$xformsCaptcha->verify()) {
  *                   echo $xformsCaptcha->getMessage();
  *                   ...
@@ -70,7 +70,7 @@ class FormCaptcha extends \XoopsFormElement
     public function __construct($caption = '', $name = 'xformscaptcha', $skipmember = true, $configs = [])
     {
         //        parent::__construct($caption, $name, $skipmember, $configs);
-        $this->captchaHandler  = XformsCaptcha::getInstance();
+        $this->captchaHandler  = Xforms\Captcha::getInstance();
         $configs['name']       = $name;
         $configs['skipmember'] = $skipmember;
         $this->captchaHandler->setConfigs($configs);

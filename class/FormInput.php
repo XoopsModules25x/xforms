@@ -19,12 +19,11 @@ namespace XoopsModules\Xforms;
  * @package         xforms
  * @author          Kazumi Ono (AKA onokazu) http://www.myweb.ne.jp/, http://jp.xoops.org/
  * @author          zyspec <owners@zyspec.com>
- * @copyright       {@see https://xoops.org 2001-2016 XOOPS Project}
- * @license         {@see http://www.fsf.org/copyleft/gpl.html GNU public license}
- * @see             https://xoops.org XOOPS
+ * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since           2.00
  */
-defined('XOOPS_ROOT_PATH') || die('Restricted access');
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * HTML5 Input class for forms
