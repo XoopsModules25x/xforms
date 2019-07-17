@@ -366,7 +366,9 @@ class Uploader
         }
 
         if (!is_dir($this->uploadDir)) {
-            mkdir($this->uploadDir);
+            if (!mkdir($concurrentDirectory = $this->uploadDir) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
             chmod($this->uploadDir, 0777);
         } elseif (!is_writable($this->uploadDir)) {
             chmod($this->uploadDir, 0777);
