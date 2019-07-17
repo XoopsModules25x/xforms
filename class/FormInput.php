@@ -699,7 +699,7 @@ class FormInput extends \XoopsFormElement
         if ($this->hasAttribute('title')) {
             return $this->getAttribute('title', (bool)$encode);
         }
-        if (mb_strlen($this->pattern_description) > 0) {
+        if ('' !== $this->pattern_description) {
             return htmlspecialchars(strip_tags($this->caption . ' - ' . $this->pattern_description), ENT_QUOTES);
         }
 
