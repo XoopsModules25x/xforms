@@ -106,13 +106,13 @@ class UserdataHandler extends \XoopsPersistableObjectHandler
                 // get element info from dB
                 /** @var \XoopsModules\Xforms\Helper $helper */
                 $helper           = \XoopsModules\Xforms\Helper::getInstance();
-                $xformsEleHandler = $helper->getHandler('Element');
+                $elementHandler = $helper->getHandler('Element');
                 $eleIdArray       = array_unique($eleIdArray);
                 $criteria         = new \CriteriaCompo();
                 $criteria->add(new \Criteria('ele_id', '(' . implode(',', $eleIdArray) . ')', 'IN'));
                 $criteria->setSort('ele_order');
                 $criteria->setOrder('ASC');
-                $uDataEleArray = $xformsEleHandler->getAll($criteria, ['ele_type', 'ele_caption', 'ele_order'], false);
+                $uDataEleArray = $elementHandler->getAll($criteria, ['ele_type', 'ele_caption', 'ele_order'], false);
 
                 foreach ($userDataArray as $thisDataObj) {
                     $thisEleId         = $thisDataObj->getVar('ele_id');

@@ -262,13 +262,13 @@ switch ($op) {
         $xformsTpl->assign('form_title', $form->getVar('form_title'));
         $xformsTpl->assign('delim', ','); //force delimiter for now
 
-        $xformsEleHandler = $helper->getHandler('Element');
+        $elementHandler = $helper->getHandler('Element');
         $criteria         = new \CriteriaCompo();
         $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
         $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
         $criteria->setSort('ele_order');
         $criteria->setOrder('ASC');
-        $elements = $xformsEleHandler->getObjects($criteria, true);
+        $elements = $elementHandler->getObjects($criteria, true);
         $eleCount = count($elements);
         foreach ($elements as $el) {
             $xformsTpl->append('captions', $myts->displayTarea($el->getVar('ele_caption'), Constants::ALLOW_HTML));

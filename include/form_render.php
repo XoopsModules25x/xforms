@@ -38,7 +38,7 @@ $moduleDirName = basename(dirname(__DIR__));
 /** @var \XoopsModules\Xforms\Helper $helper */
 $helper = \XoopsModules\Xforms\Helper::getInstance();
 
-$xformsEleHandler = $helper->getHandler('Element');
+$elementHandler = $helper->getHandler('Element');
 
 //if (!interface_exists('Xforms\Constants')) {
 //    require_once $helper->path('class/constants.php');
@@ -60,7 +60,7 @@ $criteria->add(new \Criteria('form_id', $form->getVar('form_id')));
 $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY));
 $criteria->setSort('ele_order');
 $criteria->setOrder('ASC');
-$elements = $xformsEleHandler->getObjects($criteria, true);
+$elements = $elementHandler->getObjects($criteria, true);
 
 $helper->loadLanguage('admin');
 $helper->loadLanguage('main');

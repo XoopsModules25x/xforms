@@ -27,7 +27,7 @@ use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';
-$xformsEleHandler = $helper->getHandler('Element');
+$elementHandler = $helper->getHandler('Element');
 //require_once $helper->path('class/elementrenderer.php');
 // require_once  dirname(__DIR__) . '/class/elementrenderer.php';
 //define('_THIS_PAGE', $helper->url('admin/editelement.php');
@@ -67,11 +67,11 @@ switch ($op) {
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url("browse.php?modules/{$moduleDirName}/assets/css/style.css"));
 
         if (!empty($eleId)) {
-            $element     = $xformsEleHandler->get($eleId);
+            $element     = $elementHandler->get($eleId);
             $eleType     = $element->getVar('ele_type');
             $outputTitle = $clone ? _AM_XFORMS_ELE_CREATE : sprintf(_AM_XFORMS_ELE_EDIT, $element->getVar('ele_caption'));
         } else {
-            $element     = $xformsEleHandler->create();
+            $element     = $elementHandler->create();
             $eleType     = mb_strtolower(Request::getCmd('ele_type', 'text'));
             $outputTitle = _AM_XFORMS_ELE_CREATE;
         }
@@ -134,7 +134,7 @@ switch ($op) {
         $output->addElement($orderEleDisp);
 
         $elementName   = '';
-        $validElements = $xformsEleHandler->getValidElements();
+        $validElements = $elementHandler->getValidElements();
         $validKeys     = array_keys($validElements);
         if (in_array($eleType, $validKeys)) {
             $elementName = constant('_AM_XFORMS_ELE_' . mb_strtoupper($eleType));
@@ -171,7 +171,7 @@ switch ($op) {
             $xformsHandler->redirect('admin/main.php', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
         }
         if (empty($_POST['ok'])) {
-            $element = $xformsEleHandler->get($eleId);
+            $element = $elementHandler->get($eleId);
             xoops_cp_header();
             xoops_confirm(['op' => 'delete', 'ele_id' => $eleId, 'form_id' => $formId, 'ok' => 1], $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_ELE_CONFIRM_DELETE, $element->getVar('ele_caption')), _YES);
         } else {
@@ -179,8 +179,8 @@ switch ($op) {
                 redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             //delete the element
-            $eleObj = $xformsEleHandler->get($eleId);
-            $xformsEleHandler->delete($eleObj);
+            $eleObj = $elementHandler->get($eleId);
+            $elementHandler->delete($eleObj);
             //delete the userdata for this element too
             $uDataHandler = $helper->getHandler('Userdata');
             $uDataHandler->deleteAll(new \Criteria('ele_id', $eleId));
@@ -192,7 +192,7 @@ switch ($op) {
         if (!$xoopsSecurity->check()) {
             redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
-        $element = $xformsEleHandler->get($eleId);
+        $element = $elementHandler->get($eleId);
         if ($element->isNew()) {
             $eleType = mb_strtolower(Request::getWord('ele_type', 'text', 'POST'));
         } else {
@@ -395,7 +395,7 @@ switch ($op) {
                 break;
         }
         $element->setVar('ele_value', $value);
-        if (!$xformsEleHandler->insert($element)) {
+        if (!$elementHandler->insert($element)) {
             xoops_cp_header();
             echo $element->getHtmlErrors();
         } else {
@@ -408,7 +408,7 @@ switch ($op) {
         $adminObject->displayNavigation(basename(__FILE__));
 
         //get the valid element types
-        $validEleTypes = $xformsEleHandler->getValidElements();
+        $validEleTypes = $elementHandler->getValidElements();
 
         $counter  = 0;
         $cssClass = '';

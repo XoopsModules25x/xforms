@@ -27,7 +27,7 @@ use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';
-$xformsEleHandler = $helper->getHandler('Element');
+$elementHandler = $helper->getHandler('Element');
 //require_once XFORMS_ROOT_PATH . '/class/elementrenderer.php';
 
 $op = Request::getString('op', '', 'POST');
@@ -48,7 +48,7 @@ switch ($op) {
 
         $jump    = [];
         $jump[0] = new \XoopsFormSelect('', 'ele_type');
-        $jump[0]->addOptionArray($xformsEleHandler->getValidElements());
+        $jump[0]->addOptionArray($elementHandler->getValidElements());
         $jump[1] = new \XoopsFormHidden('op', 'edit');
         $jump[2] = new \XoopsFormHidden('form_id', $formId);
         $jump[3] = new \XoopsFormButton('', 'submit', _ADD, 'submit');
@@ -100,7 +100,7 @@ switch ($op) {
         $criteria->setSort('ele_order ASC, ele_caption');  // trick criteria to allow 2 sort criteria
         $criteria->setOrder('ASC');
 
-        if ($elements = $xformsEleHandler->getObjects($criteria)) {
+        if ($elements = $elementHandler->getObjects($criteria)) {
             foreach ($elements as $eleObj) {
                 $renderer = new Xforms\ElementRenderer($eleObj);
                 $eleValue = $renderer->constructElement(true, $form->getVar('form_delimiter'));
@@ -227,7 +227,7 @@ switch ($op) {
         $eleValue = Request::getArray('ele_value', [], 'POST');
 
         foreach ($eleId as $id) {
-            $element    = $xformsEleHandler->get($id);
+            $element    = $elementHandler->get($id);
             $req        = (array_key_exists($id, $eleReq)
                            && (Constants::ELEMENT_REQD == $eleReq[$id])) ? Constants::ELEMENT_REQD : Constants::ELEMENT_NOT_REQD;
             $order      = array_key_exists($id, $eleOrder) ? $eleOrder[$id] : 0;
@@ -383,7 +383,7 @@ switch ($op) {
                     break;
             }
             $element->setVar('ele_value', $value, true);
-            if (!$xformsEleHandler->insert($element)) {
+            if (!$elementHandler->insert($element)) {
                 $error .= $element->getHtmlErrors();
             }
         }

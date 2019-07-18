@@ -144,13 +144,13 @@ if (!$xfCaptchaObj->verify()) {
 require_once $helper->path('include/functions.php');
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
 
-$xformsEleHandler = $helper->getHandler('Element');
+$elementHandler = $helper->getHandler('Element');
 $criteria         = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
 $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
 $criteria->setSort('ele_order');
 $criteria->setOrder('ASC');
-$eleObjArray = $xformsEleHandler->getObjects($criteria, true);
+$eleObjArray = $elementHandler->getObjects($criteria, true);
 
 foreach ($_POST as $k => $v) {
     if (preg_match('/^ele_\d+$/', $k)) {

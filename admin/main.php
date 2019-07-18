@@ -520,9 +520,9 @@ switch ($op) {
             if (!empty($formId) && ($formObj = $xformsFormsHandler->get($formId)) && !$formObj->isNew()) {
                 if ($xformsFormsHandler->delete($formObj)) {
                     //form deleted so now delete the elements
-                    $xformsEleHandler = $helper->getHandler('Element');
+                    $elementHandler = $helper->getHandler('Element');
                     $criteria         = new \Criteria('form_id', $formId);
-                    $xformsEleHandler->deleteAll($criteria);
+                    $elementHandler->deleteAll($criteria);
 
                     //delete the userdata (report info) for this form
                     $uDataHandler = $helper->getHandler('Userdata');
@@ -715,22 +715,22 @@ switch ($op) {
                 $xformsFormsHandler->insertFormPermissions($ret, $formGroupPerm);
             }
             if (!empty($cloneFormId)) {
-                $xformsEleHandler = $helper->getHandler('Element');
+                $elementHandler = $helper->getHandler('Element');
                 $criteria         = new \Criteria('form_id', $cloneFormId);
-                $count            = $xformsEleHandler->getCount($criteria);
+                $count            = $elementHandler->getCount($criteria);
                 if ($count > 0) {
-                    $elements = $xformsEleHandler->getObjects($criteria);
+                    $elements = $elementHandler->getObjects($criteria);
                     foreach ($elements as $e) {
                         $cloned = $e->xoopsClone();
                         $cloned->setVar('form_id', $ret);
-                        if (!$xformsEleHandler->insert($cloned)) {
+                        if (!$elementHandler->insert($cloned)) {
                             $error .= $cloned->getHtmlErrors();
                         }
                     }
                 }
             } elseif (empty($formId)) {
-                $xformsEleHandler = $helper->getHandler('Element');
-                $error            = $xformsEleHandler->insertDefaults($ret);
+                $elementHandler = $helper->getHandler('Element');
+                $error            = $elementHandler->insertDefaults($ret);
             }
         }
         if (!empty($error)) {

@@ -146,7 +146,7 @@ class Forms extends \XoopsObject
         }
 
         require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
-        $xformsEleHandler = $helper->getHandler('Element');
+        $elementHandler = $helper->getHandler('Element');
 
         $helper->loadLanguage('admin');
         $helper->loadLanguage('main');
@@ -157,7 +157,7 @@ class Forms extends \XoopsObject
         $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY));
         $criteria->setSort('ele_order');
         $criteria->setOrder('ASC');
-        $eleObjects = $xformsEleHandler->getObjects($criteria, true);
+        $eleObjects = $elementHandler->getObjects($criteria, true);
 
         if (empty($eleObjects)) { // this form doesn't have any elements
             $this->setErrors(sprintf(_MD_XFORMS_ELE_ERR, $this->getVar('form_title'), 's'));
