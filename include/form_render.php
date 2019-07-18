@@ -101,7 +101,7 @@ if ($multipart) { // set multipart attribute for form
 $formOutput->addElement(new \XoopsFormHidden('form_id', $form->getVar('form_id')));
 
 // load captcha
-xoops_load('formCaptcha', XFORMS_DIRNAME);
+//xoops_load('formCaptcha', XFORMS_DIRNAME);
 $xfFormCaptcha = new Xforms\FormCaptcha();
 $formOutput->addElement($xfFormCaptcha);
 

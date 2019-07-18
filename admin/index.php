@@ -28,11 +28,11 @@ require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 
-$xformsFormsHandler = $helper->getHandler('Forms');
-$totalForms         = $xformsFormsHandler->getCount();
+$formsHandler = $helper->getHandler('Forms');
+$totalForms         = $formsHandler->getCount();
 $criteria           = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_active', Constants::FORM_ACTIVE, '='));
-$totalActiveForms   = $xformsFormsHandler->getCount($criteria);
+$totalActiveForms   = $formsHandler->getCount($criteria);
 $totalInactiveForms = $totalForms - $totalActiveForms;
 
 //$adminObject = \Xmf\Module\Admin::getInstance();

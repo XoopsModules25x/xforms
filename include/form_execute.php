@@ -59,7 +59,7 @@ if ($helper->getConfig('captcha')) {
     // Verify entered code
     xoops_load('XoopsCaptcha');
     if (class_exists('XoopsFormCaptcha')) {
-        $xoopsCaptcha = XoopsCaptcha::getInstance();
+        $xoopsCaptcha = \XoopsCaptcha::getInstance();
         if (!$xoopsCaptcha->verify()) {
             $err[] = $xoopsCaptcha->getMessage();
         }

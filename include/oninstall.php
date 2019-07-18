@@ -34,9 +34,6 @@ function xoops_module_pre_install_xforms(\XoopsModule $module)
 {
     class_exists(Admin::class) || exit('XMF is required.');
 
-    if (!class_exists('XformsUtility')) {
-        xoops_load('utility', 'xforms');
-    }
     //check for minimum XOOPS version
     if (!Xforms\Utility::checkVerXoops($module)) {
         return false;

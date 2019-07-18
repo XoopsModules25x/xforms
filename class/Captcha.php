@@ -1,4 +1,7 @@
 <?php
+
+namespace XoopsModules\Xforms;
+
 /*
  You may not change or alter any portion of this comment or credits of
  supporting developers from this source code or any supporting source code
@@ -52,9 +55,9 @@ class Captcha extends \XoopsCaptcha
         $xformsCaptchaConfig = $helper->getConfig('captcha');
         unset($helper);
 
-        if (!interface_exists('Xforms\Constants')) {
-            xoops_load('constants', $this->dirname);
-        }
+//        if (!interface_exists('Xforms\Constants')) {
+//            xoops_load('constants', $this->dirname);
+//        }
 
         switch ($xformsCaptchaConfig) {
             case Constants::CAPTCHA_INHERIT:

@@ -39,7 +39,7 @@ switch ($op) {
         if (empty($formId)) {
             $helper->redirect('admin/main.php', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
         }
-        $form = $xformsFormsHandler->get($formId);
+        $form = $formsHandler->get($formId);
 
         xoops_cp_header();
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url("browse.php?modules/{$moduleDirName}/assets/css/style.css"));

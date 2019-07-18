@@ -23,7 +23,7 @@ namespace XoopsModules\Xforms;
 
  * @since           1.30
  */
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+//defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 //if (!interface_exists('Xforms\Constants')) {
 //    require_once __DIR__ . '/constants.php';

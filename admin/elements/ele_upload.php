@@ -27,9 +27,9 @@ use XoopsModules\Xforms\Constants;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-if (!interface_exists('Xforms\Constants')) {
-    xoops_load('constants', basename(dirname(dirname(__DIR__))));
-}
+//if (!interface_exists('Xforms\Constants')) {
+//    xoops_load('constants', basename(dirname(dirname(__DIR__))));
+//}
 
 /**
  * Upload element

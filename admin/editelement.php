@@ -33,9 +33,9 @@ $elementHandler = $helper->getHandler('Element');
 //define('_THIS_PAGE', $helper->url('admin/editelement.php');
 /** @var \XoopsModules\Xforms\Helper $helper */
 $helper             = \XoopsModules\Xforms\Helper::getInstance();
-$xformsFormsHandler = $helper->getHandler('Forms');
+$formsHandler = $helper->getHandler('Forms');
 $myts = \MyTextSanitizer::getInstance();
-if ($xformsFormsHandler->getCount() < 1) {
+if ($formsHandler->getCount() < 1) {
     redirect_header($GLOBALS['xoops']->url($helper->url('admin/main.php?op=edit')), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_GO_CREATE_FORM);
 }
 
@@ -148,7 +148,7 @@ switch ($op) {
 
         if (empty($formId) || (true === $clone)) {
             $selectApplyForm = new \XoopsFormSelect(_AM_XFORMS_ELE_APPLY_TO_FORM, 'form_id', $formId);
-            $forms           = $xformsFormsHandler->getAll(null, null, true, false);
+            $forms           = $formsHandler->getAll(null, null, true, false);
             foreach ($forms as $fObj) {
                 $selectApplyForm->addOption($fObj->getVar('form_id'), $fObj->getVar('form_title'));
             }
@@ -182,8 +182,8 @@ switch ($op) {
             $eleObj = $elementHandler->get($eleId);
             $elementHandler->delete($eleObj);
             //delete the userdata for this element too
-            $uDataHandler = $helper->getHandler('Userdata');
-            $uDataHandler->deleteAll(new \Criteria('ele_id', $eleId));
+            $userdataHandler = $helper->getHandler('Userdata');
+            $userdataHandler->deleteAll(new \Criteria('ele_id', $eleId));
             redirect_header($helper->url("admin/elements.php?form_id={$formId}"), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         }
         break;

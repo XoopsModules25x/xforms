@@ -30,7 +30,7 @@ use XoopsModules\Xforms\Constants;
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 //require_once $GLOBALS['xoops']->path('./modules/xforms/class/constants.php');
-xoops_load('filechecker', 'xforms');
+//xoops_load('filechecker', 'xforms');
 
 $op = Request::getString('op', '', 'POST');
 if ('copyfile' === $op) {

@@ -50,10 +50,10 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
         $moduleDirName = basename(dirname(__DIR__));
         /** @var \XoopsModules\Xforms\Helper $helper */
         $helper             = \XoopsModules\Xforms\Helper::getInstance();
-        $xformsFormsHandler = $helper->getHandler('Forms');
+        $formsHandler = $helper->getHandler('Forms');
 
         // get all forms user has rights to view
-        if ($permittedForms = $xformsFormsHandler->getPermittedForms()) {
+        if ($permittedForms = $formsHandler->getPermittedForms()) {
             $pIdArray = [];
             foreach ($permittedForms as $pForm) {
                 $pIdArray[] = $pForm->getVar('form_id');
@@ -83,7 +83,7 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
                     unset($subCriteria);
                 }
 
-                $formObjArray = $xformsFormsHandler->getAll($criteria);
+                $formObjArray = $formsHandler->getAll($criteria);
                 foreach ($formObjArray as $id => $formObj) {
                     $ret[] = [
                         'image' => 'assets/images/icons/32/content.png',

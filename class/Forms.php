@@ -189,7 +189,7 @@ class Forms extends \XoopsObject
         $formOutput->addElement(new \XoopsFormHidden('form_id', $this->getVar('form_id')));
 
         // load captcha
-        xoops_load('formCaptcha', XFORMS_DIRNAME);
+//        xoops_load('formCaptcha', XFORMS_DIRNAME);
         $xfFormCaptcha = new Xforms\FormCaptcha();
         $formOutput->addElement($xfFormCaptcha);
 

@@ -30,9 +30,9 @@ use XoopsModules\Xforms;
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 xoops_load('xoopsformelement');
-if (!class_exists('Xforms\Captcha')) { // hack for XOOPS < 2.6
-    xoops_load('captcha', 'xforms');
-}
+//if (!class_exists('Xforms\Captcha')) { // hack for XOOPS < 2.6
+//    xoops_load('captcha', 'xforms');
+//}
 /**
  * Usage of Xforms\FormCaptcha
  *
@@ -73,7 +73,7 @@ class FormCaptcha extends \XoopsFormElement
     public function __construct($caption = '', $name = 'xformscaptcha', $skipmember = true, $configs = [])
     {
         //        parent::__construct($caption, $name, $skipmember, $configs);
-        $this->captchaHandler  = Xforms\Captcha::getInstance();
+        $this->captchaHandler  = \XoopsModules\Xforms\Captcha::getInstance();
         $configs['name']       = $name;
         $configs['skipmember'] = $skipmember;
         $this->captchaHandler->setConfigs($configs);

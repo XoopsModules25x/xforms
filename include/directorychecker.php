@@ -30,7 +30,7 @@ use XoopsModules\Xforms\Constants;
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 //require_once $GLOBALS['xoops']->path('./modules/xforms/class/constants.php');
 //xoops_load('constants', 'xforms');
-xoops_load('directorychecker', 'xforms');
+//xoops_load('directorychecker', 'xforms');
 
 $path     = Request::getString('path', null, 'POST');
 $redirect = Request::getString('redirect', null, 'POST');

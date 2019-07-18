@@ -47,8 +47,8 @@ function b_xforms_list_show($options)
     $helper = \XoopsModules\Xforms\Helper::getInstance();
 
     $block              = [];
-    $xformsFormsHandler = $helper->getHandler('Forms');
-    $forms              = $xformsFormsHandler->getPermittedForms();
+    $formsHandler = $helper->getHandler('Forms');
+    $forms              = $formsHandler->getPermittedForms();
     if (!empty($forms)) {
         foreach ($forms as $form) {
             $block[$form->getVar('form_id')] = [

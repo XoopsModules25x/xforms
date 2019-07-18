@@ -61,6 +61,6 @@ $helper->loadLanguage('common');
 //    $xoopsTpl = new \XoopsTpl();
 //}
 
-$xformsFormsHandler = $helper->getHandler('Forms');
+$formsHandler = $helper->getHandler('Forms');
 
 //xoops_cp_header();

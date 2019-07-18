@@ -16,9 +16,6 @@
  * @since
  * @author       XOOPS Development Team
  */
-
-//require_once   dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-
 function getConfig()
 {
     $moduleDirName      = basename(dirname(__DIR__));
@@ -49,13 +46,13 @@ function getConfig()
 
         'copyTestFolders' => [
             [
-                XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/images',
-                XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/images',
+                XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/uploads',
+                XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
             ],
-            [
-                XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/thumbs',
-                XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/thumbs',
-            ],
+            //            [
+            //                XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/testdata/thumbs',
+            //                XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/thumbs',
+            //            ],
         ],
 
         'templateFolders' => [
@@ -77,11 +74,16 @@ function getConfig()
             '/css',
             '/js',
             '/tcpdf',
-            '/images',
         ],
-        'renameTables'    => [//         'XX_archive'     => 'ZZZZ_archive',
+
+        'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
         ],
-        'modCopyright'    => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
+        'moduleStats'  => [
+            //            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
+            //            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
+            //            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]),
+        ],
+        'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . constant($moduleDirNameUpper . '_AUTHOR_LOGOIMG') . "' alt='XOOPS Project'></a>",
     ];
 }

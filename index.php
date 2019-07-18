@@ -30,12 +30,12 @@ require_once __DIR__ . '/header.php';
 $myts = \MyTextSanitizer::getInstance();
 /** @var \XoopsModules\Xforms\Helper $helper */
 $helper             = \XoopsModules\Xforms\Helper::getInstance();
-$xformsFormsHandler = $helper->getHandler('Forms');
+$formsHandler = $helper->getHandler('Forms');
 
 //if (!interface_exists('Constants::')) {
 //    require_once $helper->path('class/constants.php');
 //}
-$helper->loadLanguage('admin');
+//$helper->loadLanguage('admin');
 
 $submit = Request::getCmd('submit', '', 'POST');
 if (empty($submit)) {
@@ -45,9 +45,9 @@ if (empty($submit)) {
             //Don't show the forms available if no parameter set
             redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_NOFORM_SELECTED);
         }
-        $forms = $xformsFormsHandler->getPermittedForms();
+        $forms = $formsHandler->getPermittedForms();
         if ((false !== $forms) && (1 == count($forms))) {
-            $form = $xformsFormsHandler->get($forms[0]->getVar('form_id'));
+            $form = $formsHandler->get($forms[0]->getVar('form_id'));
             if (!$assignedArray = $form->render()) {
                 redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_LONG, $form->getHtmlErrors());
             }
@@ -83,8 +83,8 @@ if (empty($submit)) {
             }
         }
     } else {
-        if (($form = $xformsFormsHandler->get($formId))
-            && (false !== $xformsFormsHandler->getSingleFormPermission($formId))) {
+        if (($form = $formsHandler->get($formId))
+            && (false !== $formsHandler->getSingleFormPermission($formId))) {
             if (!$form->isActive()) {
                 redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
             }
@@ -123,8 +123,8 @@ if (!$xoopsSecurity->check()) {
 }
 
 $formId = Request::getInt('form_id', 0, 'POST');
-if (empty($formId) || !($form = $xformsFormsHandler->get($formId))
-    || (false === $xformsFormsHandler->getSingleFormPermission($formId))) {
+if (empty($formId) || !($form = $formsHandler->get($formId))
+    || (false === $formsHandler->getSingleFormPermission($formId))) {
     header('Location: ' . $GLOBALS['xoops']->url('www'));
     exit();
 }
@@ -135,7 +135,7 @@ if (!$form->isActive()) {
 $msg = $err = $attachments = [];
 
 //check captcha
-xoops_load('captcha', XFORMS_DIRNAME);
+//xoops_load('captcha', XFORMS_DIRNAME);
 $xfCaptchaObj = Xforms\Captcha::getInstance();
 if (!$xfCaptchaObj->verify()) {
     $err[] = $xfCaptchaObj->getMessage();
@@ -182,7 +182,7 @@ $genInfo = [
 /*
  * Loops through the elements of the form to save or send e-mail
  */
-$uDataHandler = $helper->getHandler('Userdata');
+$userdataHandler = $helper->getHandler('Userdata');
 $udatas       = [];
 $userMailText = ''; // Capturing email for user if have textbox in the form
 $saveToDB     = (Constants::SAVE_IN_DB == $form->getVar('form_save_db')) ? true : false;
@@ -228,7 +228,7 @@ if (0 == count($err)) {
         $ufid       = -1;
 
         if ($saveToDB) {
-            $udata = $uDataHandler->create();
+            $udata = $userdataHandler->create();
             $udata->setVars([
                                 'uid'         => (int)$genInfo['UID'],
                                 'form_id'     => $formId,
@@ -378,9 +378,9 @@ if (0 == count($err)) {
                 case 'upload':
                 case 'uploadimg':
                     if (\Xmf\Request::hasVar('ele_{$eleId}', 'FILES[')) {
-                        if (!class_exists('MediaUploader')) {
-                            xoops_load('MediaUploader', $moduleDirName);
-                        }
+//                        if (!class_exists('MediaUploader')) {
+//                            xoops_load('MediaUploader', $moduleDirName);
+//                        }
                         $maxSize   = empty($eleValue[0]) ? 0 : (int)$eleValue[0];
                         $ext       = empty($eleValue[1]) ? null : explode('|', $eleValue[1]);
                         $mime      = empty($eleValue[2]) ? null : explode('|', $eleValue[2]);
@@ -429,7 +429,7 @@ if (0 == count($err)) {
         if ($saveToDB) {
             $udata->setVar('udata_value', $uDataValue);
             $udatas[] = $udata;
-            $newKey   = $uDataHandler->insert($udata);
+            $newKey   = $userdataHandler->insert($udata);
             if (false === $newKey) {
                 $err = array_merge($err, $udata->getErrors());
             }
@@ -552,8 +552,10 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE != $form->getVar('form_se
     /*
      * Send form by selected method
      */
-    $send_group = (int)$form->getVar('form_send_to_group');
-    $group      = false;
+    /** @var \XoopsMemberHandler $memberHandler */
+    $memberHandler = xoops_getHandler('member');
+    $send_group    = (int)$form->getVar('form_send_to_group');
+    $group         = false;
     if (-1 != $send_group) {
         $group = $memberHandler->getGroup($send_group);
     }
@@ -660,7 +662,7 @@ if (count($err) > 0) {
     if ($saveToDB) {
         if (!empty($udatas) && (count($udatas) > 0)) {
             foreach ($udatas as $ud) {
-                $uDataHandler->delete($ud);
+                $userdataHandler->delete($ud);
             }
         }
     }
@@ -683,3 +685,5 @@ if (count($err) > 0) {
 $whereto = $form->getVar('form_whereto');
 $whereto = !empty($whereto) ? str_replace('{SITE_URL}', $GLOBALS['xoops']->url('www'), $whereto) : $GLOBALS['xoops']->url('www/index.php');
 redirect_header($whereto, Constants::REDIRECT_DELAY_NONE, _MD_XFORMS_MSG_SENT);
+
+require_once __DIR__ . '/footer.php';

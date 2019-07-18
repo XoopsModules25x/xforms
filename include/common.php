@@ -47,8 +47,8 @@ $helper->loadLanguage('common');
 $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 $pathIcon32 = \Xmf\Module\Admin::iconUrl('', 32);
 if (is_object($helper->getModule())) {
-    $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
-    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
+    $pathModIcon16 = $helper->url($helper->getModule()->getInfo('modicons16'));
+    $pathModIcon32 = $helper->url($helper->getModule()->getInfo('modicons32'));
 }
 
 if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
@@ -101,14 +101,6 @@ if (!isset($GLOBALS['xoopsTpl']) || !($GLOBALS['xoopsTpl'] instanceof \XoopsTpl)
 }
 
 $GLOBALS['xoopsTpl']->assign('mod_url', XOOPS_URL . '/modules/' . $moduleDirName);
-// Local icons path
-if (is_object($helper->getModule())) {
-    $pathModIcon16 = $helper->getModule()->getInfo('modicons16');
-    $pathModIcon32 = $helper->getModule()->getInfo('modicons32');
-
-    $GLOBALS['xoopsTpl']->assign('pathModIcon16', XOOPS_URL . '/modules/' . $moduleDirName . '/' . $pathModIcon16);
-    $GLOBALS['xoopsTpl']->assign('pathModIcon32', $pathModIcon32);
-}
 
 //This is needed or it will not work in blocks.
 /**@todo - which blocks? - there are no blocks in xforms that need this. The
@@ -116,14 +108,14 @@ if (is_object($helper->getModule())) {
  */
 global $xforms_isAdmin;
 $xforms_isAdmin     = $helper->isUserAdmin();
-$xformsFormsHandler = $helper->getHandler('Forms');
+$formsHandler = $helper->getHandler('Forms');
 /*
 // Load only if module is installed
 if (is_object($xforms->getModule())) {
     // Find if the user is admin of the module
     $xforms_isAdmin = xformsUserIsAdmin();
 }
-$xformsFormsHandler = xoops_getModuleHandler('forms', XFORMS_DIRNAME);
+$formsHandler = xoops_getModuleHandler('forms', XFORMS_DIRNAME);
 */
 // use session to reduce disk access while checking directory/file existance
 $sessionHelper = new Xmf\Module\Helper\Session();

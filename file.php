@@ -41,8 +41,8 @@ if (empty($file)) {
         ob_end_clean();
         exit();
     }
-    $uDataHandler = $helper->getHandler('Userdata', basename(__DIR__));
-    if (!($uData = $uDataHandler->get($udid)) || ($uData->getVar('form_id') != $form)
+    $userdataHandler = $helper->getHandler('Userdata', basename(__DIR__));
+    if (!($uData = $userdataHandler->get($udid)) || ($uData->getVar('form_id') != $form)
         || ($uData->getVar('ele_id') != $elem)) {
         //@todo - test ob_end_clean here - added in v2.00 ALPHA 2
         ob_end_clean();

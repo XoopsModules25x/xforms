@@ -30,10 +30,6 @@ $moduleDirName = basename(dirname(__DIR__));
 $helper = \XoopsModules\Xforms\Helper::getInstance();
 require_once $helper->path('include/common.php');
 
-if (!class_exists('Xforms\FormInput')) {
-    xoops_load('FormInput', $moduleDirName);
-}
-
 function b_xforms_form_show($options)
 {
     // instantiate module helper
@@ -44,9 +40,9 @@ function b_xforms_form_show($options)
 
     $block = [];
 
-    $xformsFormsHandler = $helper->getHandler('Forms');
-    $formOk             = $xformsFormsHandler->getSingleFormPermission((int)$options[0]);
-    $formObj            = $xformsFormsHandler->get((int)$options[0]); // get the form object we want
+    $formsHandler = $helper->getHandler('Forms');
+    $formOk             = $formsHandler->getSingleFormPermission((int)$options[0]);
+    $formObj            = $formsHandler->get((int)$options[0]); // get the form object we want
     if ($formObj instanceof Xforms\Forms) {
         $block = $formObj->render();
     }
@@ -66,8 +62,8 @@ function b_xforms_form_edit($options)
     /** @var \XoopsModules\Xforms\Helper $helper */
     $helper = \XoopsModules\Xforms\Helper::getInstance();
 
-    $xformsFormsHandler = $helper->getHandler('Forms');
-    $forms              = $xformsFormsHandler->getAll();
+    $formsHandler = $helper->getHandler('Forms');
+    $forms              = $formsHandler->getAll();
     $optForm            = "<label for='fs1'>Form to Display</label>\n";
     if (empty($forms)) {
         $optForm .= "<input id='fs1' type='text' placeholder='No Active Forms' size='20' disabled>\n";

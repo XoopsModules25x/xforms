@@ -72,9 +72,9 @@ class ElementRenderer
         /** @var Xforms\Helper $helper */
         $helper = Xforms\Helper::getInstance();
 
-        if (!class_exists('Xforms\FormInput')) {  // hack for XOOPS ver < 2.6
-            xoops_load('FormInput', XFORMS_DIRNAME);
-        }
+//        if (!class_exists('Xforms\FormInput')) {  // hack for XOOPS ver < 2.6
+//            xoops_load('FormInput', XFORMS_DIRNAME);
+//        }
         //        if (!interface_exists('Xforms\Constants')) {  // hack for XOOPS ver < 2.6
         //            require_once $helper->path('class/constants.php');
         //        }
@@ -127,9 +127,9 @@ class ElementRenderer
                  $eleValue = $post_val;
                  }
                  */
-                if (!class_exists('Xforms\FormRaw')) {
-                    xoops_load('FormRaw', 'xforms');
-                }
+//                if (!class_exists('Xforms\FormRaw')) {
+//                    xoops_load('FormRaw', 'xforms');
+//                }
                 $formElement = new \XoopsFormElementTray($eleCaption);
 
                 // set default date

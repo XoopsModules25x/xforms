@@ -45,14 +45,14 @@ if (empty($formId) && (!empty($_POST['op']) && !preg_match('/^purge(_do)*$/', $o
 switch ($op) {
     case 'show': /*Show the report in the page*/
         // get the UserData to see if there's any reports
-        if ((!$form = $xformsFormsHandler->get($formId)) || $form->isNew()) {
+        if ((!$form = $formsHandler->get($formId)) || $form->isNew()) {
             $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
         } elseif (Constants::DO_NOT_SAVE_IN_DB == $form->getVar('form_save_db')) {
             $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
-        $uDataHandler = $helper->getHandler('Userdata');
-        $uData        = $uDataHandler->getReport($formId);
+        $userdataHandler = $helper->getHandler('Userdata');
+        $uData        = $userdataHandler->getReport($formId);
         if (empty($uData)) { // is there anything to report?
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
         }
@@ -222,8 +222,8 @@ switch ($op) {
             $purgeDateTimeObj->setTime(0, 0, 0);
             $pDTtimestamp = $purgeDateTimeObj->getTimestamp();
 
-            $uDataHandler = $helper->getHandler('Userdata');
-            $numItems     = $uDataHandler->deleteAll(new \Criteria('udata_time', $pDTtimestamp, '<'));
+            $userdataHandler = $helper->getHandler('Userdata');
+            $numItems     = $userdataHandler->deleteAll(new \Criteria('udata_time', $pDTtimestamp, '<'));
             if ($numItems > 0) {
                 $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_RPT_PURGE_DELETED, (int)$numItems));
             } elseif (0 === $numItems) {
@@ -240,14 +240,14 @@ switch ($op) {
         }
         break;
     case 'export-horiz':
-        if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
+        if ((!$form = $formsHandler->get($formId)) && $form->isNew()) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
         } elseif (0 == $form->getVar('form_save_db')) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
-        $uDataHandler = $helper->getHandler('Userdata');
-        $uData        = $uDataHandler->getReport($formId);
+        $userdataHandler = $helper->getHandler('Userdata');
+        $uData        = $userdataHandler->getReport($formId);
         if (empty($uData)) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
         }
@@ -362,14 +362,14 @@ switch ($op) {
         exit();
         break;
     case 'export-vert':
-        if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
+        if ((!$form = $formsHandler->get($formId)) && $form->isNew()) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
         } elseif (0 == $form->getVar('form_save_db')) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
-        $uDataHandler = $helper->getHandler('Userdata');
-        $uData        = $uDataHandler->getReport($formId);
+        $userdataHandler = $helper->getHandler('Userdata');
+        $uData        = $userdataHandler->getReport($formId);
         if (empty($uData)) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
         }
@@ -497,11 +497,11 @@ switch ($op) {
         $adminObject->displayNavigation($thisFileName);
 
         // first get forms that have data in the Userdata table
-        $uDataHandler = $helper->getHandler('Userdata');
+        $userdataHandler = $helper->getHandler('Userdata');
         $fields       = ['form_id'];
         $criteria     = new \CriteriaCompo();
         $criteria->setGroupBy('form_id');
-        $uDataForms = $uDataHandler->getAll($criteria, $fields, false, false);
+        $uDataForms = $userdataHandler->getAll($criteria, $fields, false, false);
         $formList   = [];
         foreach ($uDataForms as $uData) {
             $formList[] = (int)$uData['form_id'];
@@ -523,11 +523,11 @@ switch ($op) {
         $criteria->add(new \Criteria('form_id', '(' . implode(',', $formList) . ')', 'IN'));
         $criteria->setSort($xformsDisplay->sort);
         $criteria->setOrder($xformsDisplay->order);
-        $ttlFormCount = $xformsFormsHandler->getCount($criteria); // count all forms with reports
+        $ttlFormCount = $formsHandler->getCount($criteria); // count all forms with reports
         // now get the forms we want
         $criteria->setStart($xformsDisplay->start);
         $criteria->setLimit($xformsDisplay->perpage);
-        $forms = $xformsFormsHandler->getAll($criteria);
+        $forms = $formsHandler->getAll($criteria);
 
         $formList = "<select name='form_id' id='inputSel' size='1' style='width: 25em;'>\n";
         foreach ($forms as $formItem) {
