@@ -146,7 +146,6 @@ class Forms extends \XoopsObject
         }
 
         require_once $GLOBALS['xoops']->path('class/xoopsformloader.php');
-        require_once $helper->path('class/elementrenderer.php');
         $xformsEleHandler = $helper->getHandler('Element');
 
         $helper->loadLanguage('admin');

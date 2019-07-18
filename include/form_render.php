@@ -39,8 +39,6 @@ $moduleDirName = basename(dirname(__DIR__));
 $helper = \XoopsModules\Xforms\Helper::getInstance();
 
 $xformsEleHandler = $helper->getHandler('Element');
-require_once $helper->path('/class/elementrenderer.php');
-//require_once XFORMS_ROOT_PATH . '/class/elementrenderer.php';
 
 //if (!interface_exists('Xforms\Constants')) {
 //    require_once $helper->path('class/constants.php');

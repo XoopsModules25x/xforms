@@ -28,7 +28,7 @@ use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 $xformsEleHandler = $helper->getHandler('Element');
-require_once XFORMS_ROOT_PATH . '/class/elementrenderer.php';
+//require_once XFORMS_ROOT_PATH . '/class/elementrenderer.php';
 
 $op = Request::getString('op', '', 'POST');
 

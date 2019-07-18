@@ -52,7 +52,6 @@ class ElementRenderer
      * @param bool   $admin
      * @param string $delimiter
      *
-     * @uses Xmf\Module\Helper
      * @uses MyTextSanitizer
      * @uses Xforms\FormInput
      * @uses XoopsFormCheckBox
