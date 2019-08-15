@@ -31,7 +31,7 @@ KNOWN BUGS:
 - added display of # of active/inactive/total forms dashboard in ./admin/index.php
 - added display of 'type' of element in table for ./admin/editelement.php
 - added multiple missing language defines (primarily in admin)
-- added loading of FormsHandler & \Xmf\Request in ./admin/admin_header.php
+- added loading of FormsHandler in ./admin/admin_header.php
 - added FormInput class - an enhanced HTML5 &lt;input&gt; class
 - added FormRaw class - allows rendering HTML in XoopsForm objects
 - added PAYPAL donate button in Admin About (links to XOOPS Foundation)
@@ -59,7 +59,7 @@ KNOWN BUGS:
 - changed PHP each() to foreach() - each() deprecated in PHP 7.2.0+
 - changed intval to (int) where appropriate
 - changed calls to \MyTextSanitizer::makeTboxData4PreviewInForm (deprecated) to htmlSpecialChars
-- changed to use \Xmf\Request for var validation/filtering
+- changed to use \XoopsRequest for var validation/filtering
 - changed to use Xmf for language loading functions
 - changed to require XOOPS 2.5.9+ - required to work around core CAPTCHA instance bug
 - changed unnecessary double-quote to single-quote in English language files

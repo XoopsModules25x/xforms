@@ -14,20 +14,19 @@
  *
  * @package   \XoopsModules\Xforms\admin\elements
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
 use \XoopsModules\Xforms\Constants;
-use \Xmf\Request;
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
-$op      = Request::getCmd('op', '');
-$ok      = Request::getBool('ok', false, 'POST');
-$format  = Request::getString('format', 'v', 'GET');
-$formId  = Request::getInt('form_id', 0, 'GET');
-$showAll = Request::getBool('showall', false, 'POST');
+$op      = \XoopsRequest::getCmd('op', '');
+$ok      = \XoopsRequest::getBool('ok', false, 'POST');
+$format  = \XoopsRequest::getString('format', 'v', 'GET');
+$formId  = \XoopsRequest::getInt('form_id', 0, 'GET');
+$showAll = \XoopsRequest::getBool('showall', false, 'POST');
 
 $thisFileName = basename(__FILE__);
 
@@ -219,8 +218,8 @@ switch ($op) {
             }
             // Ok - delete reports
             xoops_cp_header();
-            //$purgeDate = Request::getString('purge_date', array(), 'POST');
-            $purgeDate = Request::getString('purge_date', '', 'POST');
+            //$purgeDate = \XoopsRequest::getString('purge_date', array(), 'POST');
+            $purgeDate = \XoopsRequest::getString('purge_date', '', 'POST');
             $purgeDate = unserialize($purgeDate);
             $purgeDateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $purgeDate['date']);
             $purgeDateTimeObj->setTime(0, 0, 0);
@@ -238,7 +237,7 @@ switch ($op) {
             }
         } else {
             xoops_cp_header();
-            $purgeDate = Request::getArray('purge_date', array('date' => date(_SHORTDATESTRING), 'time' => '0'), 'POST');
+            $purgeDate = \XoopsRequest::getArray('purge_date', array('date' => date(_SHORTDATESTRING), 'time' => '0'), 'POST');
             $theDate = array_key_exists('date', $purgeDate) ? $purgeDate['date'] : date(_SHORTDATESTRING);
             $purgeDate = serialize($purgeDate);
             xoops_confirm(array('op' => 'purge_do', 'purge_date' => $purgeDate, 'ok' => Constants::CONFIRM_OK), $thisFileName, sprintf(_AM_XFORMS_REPORT_CONFIRM_DELETE, $theDate));
@@ -549,7 +548,7 @@ switch ($op) {
         $perpage = (int)$helper->getConfig('perpage'); // get number of items to show per page
 
         $xformsDisplay = new \stdClass;
-        $xformsDisplay->start   = Request::getInt('start', 0);
+        $xformsDisplay->start   = \XoopsRequest::getInt('start', 0);
         $xformsDisplay->perpage = ($perpage > 0) ? $perpage: Constants::FORMS_PER_PAGE_DEFAULT;
         $xformsDisplay->order   = 'ASC';
         $xformsDisplay->sort    = 'form_order';

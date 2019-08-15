@@ -24,7 +24,6 @@ use \XoopsModules\Xforms\Helper as xHelper;
 use \XoopsModules\Xforms\Captcha;
 use \XoopsModules\Xforms\Utility;
 use \XoopsModules\Xforms\MediaUploader;
-use \Xmf\Request;
 use \Xmf\FilterInput;
 use \Xmf\Module\Helper;
 
@@ -36,9 +35,9 @@ $myts   = \MyTextSanitizer::getInstance();
 $helper = xHelper::getInstance();
 $helper->loadLanguage('admin');
 
-$submit = Request::getCmd('submit', '', 'POST');
+$submit = \XoopsRequest::getCmd('submit', '', 'POST');
 if (empty($submit)) {
-    $formId = Request::getInt('form_id', 0, 'GET');
+    $formId = \XoopsRequest::getInt('form_id', 0, 'GET');
     if (empty($formId)) {
         if (Constants::FORM_LIST_NO_SHOW === (int)$helper->getConfig('showforms')) {
             // Don't show the forms available if no parameter set
@@ -124,7 +123,7 @@ if (!$xoopsSecurity->check()) {
     redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
 }
 
-$formId = Request::getInt('form_id', 0, 'POST');
+$formId = \XoopsRequest::getInt('form_id', 0, 'POST');
 if (empty($formId)
     || !($form = $xformsFormsHandler->get($formId))
     || (false === $xformsFormsHandler->getSingleFormPermission($formId)))
@@ -165,7 +164,7 @@ foreach ($_POST as $k => $v) {
     }
 }
 
-$xoopsUploadFile = Request::getArray('xoops_upload_file', array(), 'POST');
+$xoopsUploadFile = \XoopsRequest::getArray('xoops_upload_file', array(), 'POST');
 if (!empty($xoopsUploadFile)) {
     foreach ($xoopsUploadFile as $k => $v) {
         $n          = explode('_', $v);

@@ -20,13 +20,12 @@
  */
 use \XoopsModules\Xforms\Constants;
 use \XoopsModules\Xforms\Utility;
-use \Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 $thisFile = basename(__FILE__);
 
-$op = Request::getCmd('op', '');
-$ok = Request::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
+$op = \XoopsRequest::getCmd('op', '');
+$ok = \XoopsRequest::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
 
 switch ($op) {
     default:

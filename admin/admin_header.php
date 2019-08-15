@@ -23,9 +23,8 @@
  */
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+//require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
-
 require_once dirname(__DIR__) . '/include/common.php';
 
 /** @var \Xmf\Module\Admin $adminObject */

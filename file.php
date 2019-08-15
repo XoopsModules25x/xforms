@@ -21,16 +21,15 @@
 use \XoopsModules\Xforms;
 use \XoopsModules\Xforms\Constants;
 use \XoopsModules\Xforms\Helper as xHelper;
-use \Xmf\Request;
 
 ob_start(); //To prevent problems in file send
 require __DIR__ . '/header.php';
 
-$udid  = Request::getInt('ui', 0, 'GET');
-$form  = Request::getInt('fm', 0, 'GET');
-$elem  = Request::getInt('el', 0, 'GET');
-$file  = Request::getString('f', '', 'GET');
-$fname = Request::getString('fn', '', 'GET');
+$udid  = \XoopsRequest::getInt('ui', 0, 'GET');
+$form  = \XoopsRequest::getInt('fm', 0, 'GET');
+$elem  = \XoopsRequest::getInt('el', 0, 'GET');
+$file  = \XoopsRequest::getString('f', '', 'GET');
+$fname = \XoopsRequest::getString('fn', '', 'GET');
 
 if (empty($file)) {
     if ((0 === $udid) || (0 === $form) || (0 === $elem)) {
