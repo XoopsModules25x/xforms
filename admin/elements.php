@@ -10,11 +10,11 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Module: Xforms
+ * Module: xForms
  *
  * @package   \XoopsModules\Xforms\admin\elements
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
@@ -28,24 +28,25 @@ use \Xmf\Module\Admin;
 require __DIR__ . '/admin_header.php';
 
 /* @var \XoopsModules\Xforms\Helper $helper */
-$xformsEleHandler = $helper::getInstance()->getHandler('Element');
-//$xformsEleHandler = $helper->getHandler('Element');
+/* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
+/* @var \XoopsModules\Xforms\ElementHandler $xformsEleHandler */
+$xformsEleHandler = $helper->getHandler('Element');
 
 $op = \XoopsRequest::getCmd('op', '', 'POST');
 
 switch ($op) {
     default: // list
-        $formId = \XoopsRequest::getInt('form_id', 0, 'GET');
+        $formId = \XoopsRequest::getInt('form_id', Constants::FORM_NOT_VALID, 'GET');
         $formId = (int)$formId; // to fix \XMF\Request bug in XOOPS < 2.5.9
         if (empty($formId)) {
             $helper->redirect('admin/main.php', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
         }
-        /** var XformsFormsHandler $xformsFormsHandler */
+        /* @var \XoopsModules\Xforms\Forms $form */
         $form = $xformsFormsHandler->get($formId);
 
         xoops_cp_header();
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url('browse.php?modules/' . $moduleDirName . '/assets/css/style.css'));
-        /** var Xmf\Module\Admin $adminObj */
+        /* @var \Xmf\Module\Admin $adminObj */
         $adminObject->displayNavigation('editelement.php');
         $formSelect = new \XoopsFormSelect('', 'ele_type');
         $formSelect->addOptionArray($xformsEleHandler->getValidElements());
@@ -84,7 +85,7 @@ switch ($op) {
         $criteria->setSort('ele_order ASC, ele_caption');  // trick criteria to allow 2 sort criteria
         $criteria->order = 'ASC';
 
-        /** var XformsElementHandler $xformsEleHandler */
+        /* @var \XoopsModules\Xforms\ElementHandler $xformsEleHandler */
         if ($elements = $xformsEleHandler->getObjects($criteria)) {
             foreach ($elements as $eleObj) {
                 $renderer  = new ElementRenderer($eleObj);
@@ -377,7 +378,8 @@ switch ($op) {
         }
         if (empty($error)) {
             if (_AM_XFORMS_SAVE_THEN_FORM == $_POST['submit']) {
-                redirect_header($GLOBALS['xoops']->buildUrl('/modules/' . $moduleDirName . '/admin/main.php', array('op' => 'edit', 'form_id' => $formId)), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+                $helper->redirect('admin/main.php?op=edit&form_id=' . $formId, Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+                //redirect_header($GLOBALS['xoops']->buildUrl('/modules/' . $moduleDirName . '/admin/main.php', array('op' => 'edit', 'form_id' => $formId)), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
             } else {
                 redirect_header($_SERVER['PHP_SELF'] . '?form_id=' . $formId, Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
             }
@@ -387,5 +389,4 @@ switch ($op) {
         }
 }
 
-include __DIR__ . '/admin_footer.php';
-xoops_cp_footer();
+require __DIR__ . '/admin_footer.php';

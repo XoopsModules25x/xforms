@@ -17,7 +17,7 @@ namespace XoopsModules\Xforms;
  *
  * @package   \XoopsModules\Xforms\class
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
@@ -70,6 +70,10 @@ interface Constants
      */
     const FORMS_PER_PAGE_DEFAULT = 10;
     /**
+     * form - invalid ID
+     */
+    const FORM_NOT_VALID = 0;
+    /**
      * form Active
      */
     const FORM_ACTIVE = 1;
@@ -93,6 +97,10 @@ interface Constants
      * Disallow HTML
      */
     const DISALLOW_HTML = 0;
+    /**
+     * Element - invalid ID
+     */
+    const ELE_NOT_VALID = 0;
     /**
      * Element - no
      */

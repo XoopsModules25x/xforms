@@ -10,11 +10,12 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Xforms Admin header file
+ * Module: xForms
+ * Admin header file
  *
  * @package   \XoopsModules\Xforms\admin
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link http://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  *
@@ -23,15 +24,15 @@
  */
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
-//require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once dirname(__DIR__) . '/include/common.php';
 
-/** @var \Xmf\Module\Admin $adminObject */
-$adminObject = \Xmf\Module\Admin::getInstance(); // and the Admin module object
-
+/* @var \Xmf\Module\Admin $adminObject */
+$adminObject = \Xmf\Module\Admin::getInstance();
 /* @var \XoopsModules\Xforms\Helper $helper */
-$xformsFormsHandler = $helper::getInstance()->getHandler('Forms');
+$helper = \XoopsModules\Xforms\Helper::getInstance();
+/* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
+$xformsFormsHandler = $helper->getHandler('Forms');
 
 // Load language files
 $helper->loadLanguage('admin');

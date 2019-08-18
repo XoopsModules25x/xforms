@@ -10,13 +10,13 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Module: Xforms
+ * Module: xForms
  *
- * @package  \XoopsModules\Xforms\admin
- * @author   XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license  https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since    1.30
+ * @package   \XoopsModules\Xforms\admin
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     1.30
  */
 use \XoopsModules\Xforms\Constants;
 use \XoopsModules\Xforms\Utility;
@@ -33,6 +33,7 @@ switch ($op) {
         /* @var \Xmf\Module\Admin $adminObject */
         $adminObject->displayNavigation($thisFile);
 
+        /* @var \XoopsModules\Xforms\Helper $helper */
         $eformsHelper = $helper::getHelper('eforms');
         $message      = array();
         if (false !== $eformsHelper) {
@@ -76,7 +77,7 @@ switch ($op) {
                 redirect_header($thisFile, Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
 
-            $eformsHelper = $helper::getInstance()->getHelper('eforms');
+            $eformsHelper = $helper->getHelper('eforms');
             if (false !== $eformsHelper) {
                 // make sure the eforms database tables exist
                 $success   = false;
@@ -98,11 +99,11 @@ switch ($op) {
                  *  copy all uploaded files to xForms uploads folder
                  */
 
-                $eformsUserDataHandler = $helper::getInstance()->getHandler('EfUserData');
-                $eformsElementHandler  = $helper::getInstance()->getHandler('EfElement');
+                $eformsUserDataHandler = $helper->getHandler('EfUserData');
+                $eformsElementHandler  = $helper->getHandler('EfElement');
 
                 // create copies of eForm forms in xForm
-                $eformsFormsHandler = $helper::getInstance()->getHandler('EfForm');
+                $eformsFormsHandler = $helper->getHandler('EfForm');
                 $eformsFormObjects  = $eformsFormsHandler->getAll();
                 $formMap = array();
                 foreach ($eformsFormObjects as $eformsFormObj) {
@@ -121,8 +122,7 @@ switch ($op) {
 
                 //copy eForm elements to xForm elements
                 $eleMap               = array();
-                $xformsElementHandler = $helper::getInstance()->getHandler('Element');
-                //$xformsElementHandler = $helper->getHandler('Element');
+                $xformsElementHandler = $helper->getHandler('Element');
                 foreach ($formMap as $eId => $xId) {
                     $eformsElementObjects = $eformsElementHandler->getAll(new \Criteria('form_id', $eId));
                     if (!empty($eformsElementObjects)) {
@@ -142,7 +142,7 @@ switch ($op) {
                 }
 
                 // copy user data from eForms to xForms
-                $xformsUserdataHandler = $helper::getInstance()->getHandler('UserData');
+                $xformsUserdataHandler = $helper->getHandler('UserData');
                 $eformsUdataObjs       = $eformsUserDataHandler->getAll();
                 if (!empty($eformsUdataObjs)) {
                     foreach ($eformsUdataObjs as $eformsUdataObj) {
@@ -218,10 +218,10 @@ switch ($op) {
                  *  create new xForms permissions using eForms settings
                  *  copy all uploaded files to xForms uploads folder
                  */
-                $liaiseElementHandler = $helper::getInstance()->getHandler('LiaiseElement');
+                $liaiseElementHandler = $helper->getHandler('LiaiseElement');
 
                 // create copies of Liaise forms in xForm
-                $liaiseFormHandler = $helper::getInstance()->getHandler('LiaiseForm');
+                $liaiseFormHandler = $helper->getHandler('LiaiseForm');
                 $liaiseFormObjects = $liaiseFormHandler->getAll();
                 $formMap = array();
                 foreach ($liaiseFormObjects as $liaiseFormObj) {
@@ -239,8 +239,7 @@ switch ($op) {
                 }
 
                 //copy Liaise elements to xForm elements
-                $xformsElementHandler = $helper::getInstance()->getHandler('Element');
-                //$xformsElementHandler = $helper->getHandler('Element');
+                $xformsElementHandler = $helper->getHandler('Element');
                 foreach ($formMap as $liaiseId => $xId) {
                     $liaiseElementObjects = $liaiseElementHandler->getAll(new \Criteria('form_id', $liaiseId));
                     foreach ($liaiseElementObjects as $liaiseElementObj) {

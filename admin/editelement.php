@@ -10,11 +10,11 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Module: Xforms
+ * Module: xForms
  *
  * @package   \XoopsModules\Xforms\admin
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  *
@@ -25,7 +25,6 @@
  */
 
 use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Helper as xHelper;
 use \XoopsModules\Xforms\Constants;
 use \XoopsModules\Xforms\FormInput;
 use \Xmf\Module\Helper;
@@ -33,7 +32,8 @@ use \Xmf\Module\Helper;
 require_once __DIR__ . '/admin_header.php';
 
 /* @var \XoopsModules\Xforms\Helper $helper */
-$xformsEleHandler = $helper::getInstance()->getHandler('Element');
+/* @var \XoopsModules\Xforms\ElementHandler $xformsEleHandler */
+$xformsEleHandler = $helper->getHandler('Element');
 
 $myts = \MyTextSanitizer::getInstance();
 
@@ -43,8 +43,8 @@ if ($xformsFormsHandler->getCount() < 1) {
 
 $op         = \XoopsRequest::getCmd('op', '');
 $clone      = \XoopsRequest::getInt('clone', Constants::FORM_NOT_CLONED);
-$formId     = \XoopsRequest::getInt('form_id', 0);
-$eleId      = \XoopsRequest::getInt('ele_id', 0);
+$formId     = \XoopsRequest::getInt('form_id', Constants::FORM_NOT_VALID);
+$eleId      = \XoopsRequest::getInt('ele_id', Constants::ELE_NOT_VALID);
 $eleValue   = \XoopsRequest::getArray('ele_value', '');
 $eleCaption = \XoopsRequest::getText('ele_caption', '', 'POST');
 $eleOrder   = \XoopsRequest::getInt('ele_order', 0, 'POST');
@@ -62,7 +62,7 @@ switch ($op) {
             include_once $helper->path('class/FormInput.php');
         }
 */
-        if (0 !== (int)$eleId) {
+        if (Constants::ELE_NOT_VALID !== (int)$eleId) {
             $element     = $xformsEleHandler->get($eleId);
             $eleType     = $element->getVar('ele_type');
             $outputTitle = (Constants::FORM_CLONED === $clone) ? _AM_XFORMS_ELE_CREATE : sprintf(_AM_XFORMS_ELE_EDIT, $element->getVar('ele_caption'));

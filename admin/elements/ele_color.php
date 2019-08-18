@@ -12,9 +12,9 @@
 /**
  * Module: xForms
  *
- * @package   module\xforms\admin\elements
+ * @package   \XoopsModules\Xforms\admin\elements
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link http://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */

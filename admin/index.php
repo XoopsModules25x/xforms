@@ -10,11 +10,11 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Module: Xforms
+ * Module: xForms
  *
  * @package   \XoopsModules\Xforms\admin
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  *
@@ -28,7 +28,6 @@ require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 /* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
-//$xformsFormsHandler = $helper::getInstance()->getHandler('Forms');
 $totalForms         = $xformsFormsHandler->getCount();
 $criteria           = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_active', Constants::FORM_ACTIVE, '='));
@@ -54,7 +53,6 @@ if (false === $profileHelper) {
 $utility = new \XoopsModules\Xforms\Utility();
 
 //check for latest release
-/* @var \XoopsModules\Xforms\Helper $helper */
 $newRelease = $utility::checkVerModule($helper);
 if (!empty($newRelease)) {
     $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');

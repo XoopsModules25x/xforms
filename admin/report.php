@@ -10,7 +10,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Module: Xforms
+ * Module: xForms
  *
  * @package   \XoopsModules\Xforms\admin\elements
  * @author    XOOPS Module Development Team
@@ -55,7 +55,7 @@ switch ($op) {
             );
         }
 
-        $uDataHandler = $helper::getInstance()->getHandler('UserData');
+        $uDataHandler = $helper->getHandler('UserData');
         $uData        = $uDataHandler->getReport($formId);
         if (empty($uData)) { // Is there anything to report?
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
@@ -225,8 +225,7 @@ switch ($op) {
             $purgeDateTimeObj->setTime(0, 0, 0);
             $pDTtimestamp = $purgeDateTimeObj->getTimestamp();
 
-            $uDataHandler = $helper::getInstance()->getHandler('UserData');
-            //$uDataHandler = $helper->getHandler('userdata');
+            $uDataHandler = $helper->getHandler('UserData');
             $numItems = $uDataHandler->deleteAll(new \Criteria('udata_time', $pDTtimestamp, '<'));
             if ($numItems > 0) {
                 $helper->redirect('admin/' . $thisFileName, Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_RPT_PURGE_DELETED, (int)$numItems));
@@ -251,7 +250,7 @@ switch ($op) {
         $myts = \MyTextSanitizer::getInstance();
 
         /* @var \XoopsModules\Xforms\Helper $helper */
-        $xformsFormsHandler = $helper::getInstance()->getHandler('Forms');
+        $xformsFormsHandler = $helper->getHandler('Forms');
 /*****************************************/
         if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
@@ -259,7 +258,7 @@ switch ($op) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
-        $uDataHandler = $helper::getInstance()->getHandler('UserData');
+        $uDataHandler = $helper->getHandler('UserData');
         $uData        = $uDataHandler->getReport($formId);
         if (empty($uData)) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
@@ -275,7 +274,7 @@ switch ($op) {
         $xformsTpl->assign('form_title', $form->getVar('form_title'));
         $xformsTpl->assign('delim', ','); // force delimiter for now
 
-        $xformsEleHandler = $helper::getInstance()->getHandler('Element');
+        $xformsEleHandler = $helper->getHandler('Element');
         $criteria         = new \CriteriaCompo();
         $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
         $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
@@ -381,7 +380,7 @@ switch ($op) {
         $myts = \MyTextSanitizer::getInstance();
 
         /* @var \XoopsModules\Xforms\Helper $helper */
-        $xformsFormsHandler = $helper::getInstance()->getHandler('Forms');
+        $xformsFormsHandler = $helper->getHandler('Forms');
 /*****************************************/
 
         if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
@@ -390,7 +389,7 @@ switch ($op) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
         }
 
-        $uDataHandler = $helper::getInstance()->getHandler('UserData');
+        $uDataHandler = $helper->getHandler('UserData');
         $uData        = $uDataHandler->getReport($formId);
         if (empty($uData)) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
@@ -525,7 +524,7 @@ switch ($op) {
         $myts = \MyTextSanitizer::getInstance();
 /*****************************************/
 
-        xoops_cp_header();
+        //xoops_cp_header();
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url('browse.php?modules/'
                                                                  . $moduleDirName . '/assets/css/style.css')
         );
@@ -533,8 +532,7 @@ switch ($op) {
         $adminObject->displayNavigation($thisFileName);
 
         // Get forms that have data in the Userdata table
-        $uDataHandler = $helper::getInstance()->getHandler('UserData');
-        //$uDataHandler = $helper->getHandler('UserData');
+        $uDataHandler = $helper->getHandler('UserData');
         $fields = array('form_id');
         $criteria = new \CriteriaCompo();
         $criteria->setGroupBy('form_id');

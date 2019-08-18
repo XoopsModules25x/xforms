@@ -9,9 +9,11 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
+ * Module: xForms
+ *
  * @package   \XoopsModules\Xforms\include
- * @copyright XOOPS Project https://xoops.org/
- * @license   GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @author    XOOPS Development Team
  */
 function getConfig()

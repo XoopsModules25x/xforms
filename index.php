@@ -10,11 +10,11 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Module: Xforms
+ * Module: xForms
  *
  * @package   \XoopsModules\Xforms\frontside
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
@@ -132,7 +132,7 @@ if (empty($formId)
     exit();
 }
 if (!$form->isActive()) {
-    redirect_header('index.php', Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
+    $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
 }
 
 //$msg = $err = $attachments = array();
@@ -147,8 +147,7 @@ if (!$xfCaptchaObj->verify()) {
 
 require_once $helper->path('include/common.php');
 
-$xformsEleHandler = $helper::getInstance()->getHandler('Element');
-//$xformsEleHandler = $helper->getHandler('element');
+$xformsEleHandler = $helper->getHandler('Element');
 $criteria = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
 $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
@@ -184,8 +183,7 @@ $genInfo = array('UID' => '0',
 /*
  * Loops through the elements of the form to save or send e-mail
  */
-$uDataHandler = $helper::getInstance()->getHandler('UserData');
-//$uDataHandler = $helper->getHandler('userdata');
+$uDataHandler = $helper->getHandler('UserData');
 $udatas       = array();
 $userMailText = ''; // Capturing email for user if have textbox in the form
 $saveToDB     = (Constants::SAVE_IN_DB == $form->getVar('form_save_db')) ? true : false;

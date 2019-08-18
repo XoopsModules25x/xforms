@@ -14,6 +14,14 @@ define('_MI_XFORMS_ADMENU4', 'Form report');
 define('_MI_XFORMS_ADMENU5', 'About');
 define('_MI_XFORMS_ADMENU6', 'Import');
 
+define('_MI_XFORMS_ADMENU0_DESC', 'Admin Home page');
+define('_MI_XFORMS_ADMENU1_DESC', 'Manage defined forms');
+define('_MI_XFORMS_ADMENU2_DESC', 'Create/Edit a specific form');
+define('_MI_XFORMS_ADMENU3_DESC', 'Create/Edit a form element');
+define('_MI_XFORMS_ADMENU4_DESC', 'Create/View a form report');
+define('_MI_XFORMS_ADMENU5_DESC', 'About this module');
+define('_MI_XFORMS_ADMENU6_DESC', 'Import data from similar module(s)');
+
 // template descriptions
 define('_MI_XFORMS_TMPL_ERROR_DESC', 'Page to show when error occurs');
 define('_MI_XFORMS_TMPL_FORM_DESC', 'Template for forms');
