@@ -22,7 +22,7 @@ use \XoopsModules\Xforms\Constants;
 
 include __DIR__ . '/admin_header.php';
 $file = \XoopsRequest::getString('f', '', 'GET');
-$path = XFORMS_UPLOAD_PATH . $file;
+$path = XFORMS_UPLOAD_PATH . "/{$file}";
 if (!$file || !preg_match('/^[0-9]+_{1}[0-9a-z]+\.[0-9a-z]+$/', $file) || !file_exists($path)) {
     redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
 }

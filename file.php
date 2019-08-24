@@ -69,7 +69,7 @@ if (empty($fname)) {
     $fname = $file;
 }
 
-$path = XFORMS_UPLOAD_PATH . $file;
+$path = XFORMS_UPLOAD_PATH . "/{$file}";
 if (!preg_match('/^[0-9]+_{1}[0-9a-z]+\.[0-9a-z]+$/', $file) || !file_exists($path)) {
     //@todo - shouldn't this be an ob_end_clean here instead of ob_end_flush?
     ob_end_flush();

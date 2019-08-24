@@ -652,7 +652,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
                     $msg[$a['id']] .= sprintf(_MD_XFORMS_UPLOADED_FILE, '<a href="' . $helper->url('file.php?f=' . $a['file'] . '&fn=' . $a['name']) . '">' . $a['name'] . '</a>');
                 }
             } else {
-                if ($interMail->multimailer->addAttachment(XFORMS_UPLOAD_PATH . $a['file'], $a['name'])) {
+                if ($interMail->multimailer->addAttachment(XFORMS_UPLOAD_PATH . "/{$a['file']}", $a['name'])) {
                     $msg[$a['id']] .= sprintf(_MD_XFORMS_ATTACHED_FILE, $a['name']);
                 } else {
                     $err[] = $interMail->multimailer->ErrorInfo;
@@ -697,7 +697,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
 if (count($err) > 0) {
     if (isset($uploaded) && (count($uploaded) > 0)) {
         foreach ($uploaded as $u) {
-            @unlink(XFORMS_UPLOAD_PATH . $u['file']);
+            @unlink(XFORMS_UPLOAD_PATH . "/{$u['file']}");
         }
     }
     if ($saveToDB) {

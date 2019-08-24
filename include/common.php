@@ -46,15 +46,15 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_CONSTANTS_DEFINED', 1);
 }
 
-define('XFORMS_ROOT_PATH', $helper->path());
+//define('XFORMS_ROOT_PATH', $helper->path());
 
 $mypathIcon16 = $helper->url('assets/images/icons/16');
 $pathIcon16 = Xmf\Module\Admin::iconUrl('', 16);
 $pathIcon32 = Xmf\Module\Admin::iconUrl('', 32);
 
-$uploadDir = $helper->getConfig('uploaddir');
-$uploadDir = ('/' === substr($uploadDir, -1, 1)) ? $uploadDir : $uploadDir . '/';
-define('XFORMS_UPLOAD_PATH', $uploadDir);
+//$uploadDir = $helper->getConfig('uploaddir');
+//$uploadDir = ('/' === substr($uploadDir, -1, 1)) ? $uploadDir : $uploadDir . '/';
+//define('XFORMS_UPLOAD_PATH', $uploadDir);
 
 // use Session to reduce disk access while checking directory/file existance
 $sessionHelper = new Session();
@@ -74,10 +74,10 @@ if (!$uploadChecked) {
             chmod(XFORMS_UPLOAD_PATH, 0777);
         }
         // make sure there's a index.html file to "prevent" browsing
-        $fileInfo = new \SplFileInfo(XFORMS_UPLOAD_PATH . 'index.html');
+        $fileInfo = new \SplFileInfo(XFORMS_UPLOAD_PATH . '/index.html');
         if (!$fileInfo->isFile()) {
             // index file doesn't exist so create it
-            $fhandle = fopen(XFORMS_UPLOAD_PATH . 'index.html', 'w');
+            $fhandle = fopen(XFORMS_UPLOAD_PATH . '/index.html', 'w');
             if (false !== $fhandle) {
                 // write out file
                 $string = '<script>history.go(-1);</script>';
