@@ -524,7 +524,7 @@ switch ($op) {
         $myts = \MyTextSanitizer::getInstance();
 /*****************************************/
 
-        //xoops_cp_header();
+        xoops_cp_header();
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url('browse.php?modules/'
                                                                  . $moduleDirName . '/assets/css/style.css')
         );
