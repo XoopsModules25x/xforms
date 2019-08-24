@@ -56,6 +56,8 @@ KNOWN BUGS:
 - added display of open issues in Admin Help section
 - added XoopsPageNav - page navigation in Admin form/report listing
 - added new mailer template (xforms_pm.tpl) for PM messages to remove html tags
+- added ./include/common DEFINEs for consistency with other XOOPS modules
+- changed module logo image name from logo.png to logoModule.png
 - changed PHP each() to foreach() - each() deprecated in PHP 7.2.0+
 - changed intval to (int) where appropriate
 - changed calls to \MyTextSanitizer::makeTboxData4PreviewInForm (deprecated) to htmlSpecialChars
