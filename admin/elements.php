@@ -32,11 +32,11 @@ require __DIR__ . '/admin_header.php';
 /* @var \XoopsModules\Xforms\ElementHandler $xformsEleHandler */
 $xformsEleHandler = $helper->getHandler('Element');
 
-$op = \XoopsRequest::getCmd('op', '', 'POST');
+$op = \Xmf\Request::getCmd('op', '', 'POST');
 
 switch ($op) {
     default: // list
-        $formId = \XoopsRequest::getInt('form_id', Constants::FORM_NOT_VALID, 'GET');
+        $formId = \Xmf\Request::getInt('form_id', Constants::FORM_NOT_VALID, 'GET');
         $formId = (int)$formId; // to fix \XMF\Request bug in XOOPS < 2.5.9
         if (empty($formId)) {
             $helper->redirect('admin/main.php', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
@@ -177,7 +177,7 @@ switch ($op) {
         if (!$xoopsSecurity->check()) {
             redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
-        $formId =\XoopsRequest::getInt('form_id', 0, 'POST');
+        $formId =\Xmf\Request::getInt('form_id', 0, 'POST');
         $formId = (int)$formId;  // to fix XMF\Request bug in XOOPS < 2.5.9
         if (empty($formId)) {
             $helper->redirect('admin/main.php', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
@@ -185,22 +185,22 @@ switch ($op) {
 
         $error = '';
 
-        $eleId  = \XoopsRequest::getArray('ele_id', array(), 'POST');
+        $eleId  = \Xmf\Request::getArray('ele_id', array(), 'POST');
         $eleId  = array_map('intval', $eleId);
 
-        $eleReq = \XoopsRequest::getArray('ele_req', array(), 'POST');
+        $eleReq = \Xmf\Request::getArray('ele_req', array(), 'POST');
         array_walk($eleReq, '\XoopsModules\Xforms\Utility::intArray'); // can't use array_map since must preserve keys
 
-        $eleOrder = \XoopsRequest::getArray('ele_order', array(), 'POST');
+        $eleOrder = \Xmf\Request::getArray('ele_order', array(), 'POST');
         array_walk($eleOrder, '\XoopsModules\Xforms\Utility::intArray'); // can't use array_map since must preserve keys
 
-        $eleDisplay = \XoopsRequest::getArray('ele_display', array(), 'POST');
+        $eleDisplay = \Xmf\Request::getArray('ele_display', array(), 'POST');
         array_walk($eleDisplay, '\XoopsModules\Xforms\Utility::intArray'); // can't use array_map since must preserve keys
 
-        $eleDisplayRow = \XoopsRequest::getArray('ele_display_row', array(), 'POST');
+        $eleDisplayRow = \Xmf\Request::getArray('ele_display_row', array(), 'POST');
         array_walk($eleDisplayRow, '\XoopsModules\Xforms\Utility::intArray'); // can't use array_map since must preserve keys
 
-        $eleValue = \XoopsRequest::getArray('ele_value', array(), 'POST');
+        $eleValue = \Xmf\Request::getArray('ele_value', array(), 'POST');
 
         foreach ($eleId as $id) {
             $element    = $xformsEleHandler->get($id);

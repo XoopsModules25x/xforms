@@ -22,11 +22,11 @@ use \XoopsModules\Xforms\Constants;
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
-$op      = \XoopsRequest::getCmd('op', '');
-$ok      = \XoopsRequest::getBool('ok', false, 'POST');
-$format  = \XoopsRequest::getString('format', 'v', 'GET');
-$formId  = \XoopsRequest::getInt('form_id', 0, 'GET');
-$showAll = \XoopsRequest::getBool('showall', false, 'POST');
+$op      = \Xmf\Request::getCmd('op', '');
+$ok      = \Xmf\Request::getBool('ok', false, 'POST');
+$format  = \Xmf\Request::getString('format', 'v', 'GET');
+$formId  = \Xmf\Request::getInt('form_id', 0, 'GET');
+$showAll = \Xmf\Request::getBool('showall', false, 'POST');
 
 $thisFileName = basename(__FILE__);
 
@@ -218,8 +218,8 @@ switch ($op) {
             }
             // Ok - delete reports
             xoops_cp_header();
-            //$purgeDate = \XoopsRequest::getString('purge_date', array(), 'POST');
-            $purgeDate = \XoopsRequest::getString('purge_date', '', 'POST');
+            //$purgeDate = \Xmf\Request::getString('purge_date', array(), 'POST');
+            $purgeDate = \Xmf\Request::getString('purge_date', '', 'POST');
             $purgeDate = unserialize($purgeDate);
             $purgeDateTimeObj = \DateTime::createFromFormat(_SHORTDATESTRING, $purgeDate['date']);
             $purgeDateTimeObj->setTime(0, 0, 0);
@@ -236,7 +236,7 @@ switch ($op) {
             }
         } else {
             xoops_cp_header();
-            $purgeDate = \XoopsRequest::getArray('purge_date', array('date' => date(_SHORTDATESTRING), 'time' => '0'), 'POST');
+            $purgeDate = \Xmf\Request::getArray('purge_date', array('date' => date(_SHORTDATESTRING), 'time' => '0'), 'POST');
             $theDate = array_key_exists('date', $purgeDate) ? $purgeDate['date'] : date(_SHORTDATESTRING);
             $purgeDate = serialize($purgeDate);
             xoops_confirm(array('op' => 'purge_do', 'purge_date' => $purgeDate, 'ok' => Constants::CONFIRM_OK), $thisFileName, sprintf(_AM_XFORMS_REPORT_CONFIRM_DELETE, $theDate));
@@ -546,7 +546,7 @@ switch ($op) {
         $perpage = (int)$helper->getConfig('perpage'); // get number of items to show per page
 
         $xformsDisplay = new \stdClass;
-        $xformsDisplay->start   = \XoopsRequest::getInt('start', 0);
+        $xformsDisplay->start   = \Xmf\Request::getInt('start', 0);
         $xformsDisplay->perpage = ($perpage > 0) ? $perpage: Constants::FORMS_PER_PAGE_DEFAULT;
         $xformsDisplay->order   = 'ASC';
         $xformsDisplay->sort    = 'form_order';

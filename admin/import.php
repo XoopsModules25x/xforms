@@ -24,8 +24,8 @@ use \XoopsModules\Xforms\Utility;
 require_once __DIR__ . '/admin_header.php';
 $thisFile = basename(__FILE__);
 
-$op = \XoopsRequest::getCmd('op', '');
-$ok = \XoopsRequest::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
+$op = \Xmf\Request::getCmd('op', '');
+$ok = \Xmf\Request::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
 
 switch ($op) {
     default:

@@ -25,11 +25,11 @@ use \XoopsModules\Xforms\Helper as xHelper;
 ob_start(); //To prevent problems in file send
 require __DIR__ . '/header.php';
 
-$udid  = \XoopsRequest::getInt('ui', 0, 'GET');
-$form  = \XoopsRequest::getInt('fm', 0, 'GET');
-$elem  = \XoopsRequest::getInt('el', 0, 'GET');
-$file  = \XoopsRequest::getString('f', '', 'GET');
-$fname = \XoopsRequest::getString('fn', '', 'GET');
+$udid  = \Xmf\Request::getInt('ui', 0, 'GET');
+$form  = \Xmf\Request::getInt('fm', 0, 'GET');
+$elem  = \Xmf\Request::getInt('el', 0, 'GET');
+$file  = \Xmf\Request::getString('f', '', 'GET');
+$fname = \Xmf\Request::getString('fn', '', 'GET');
 
 if (empty($file)) {
     if ((0 === $udid) || (0 === $form) || (0 === $elem)) {

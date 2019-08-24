@@ -61,7 +61,7 @@ KNOWN BUGS:
 - changed PHP each() to foreach() - each() deprecated in PHP 7.2.0+
 - changed intval to (int) where appropriate
 - changed calls to \MyTextSanitizer::makeTboxData4PreviewInForm (deprecated) to htmlSpecialChars
-- changed to use \XoopsRequest for var validation/filtering
+- changed to use \Xmf\Request for var validation/filtering
 - changed to use Xmf for language loading functions
 - changed to require XOOPS 2.5.9+ - required to work around core CAPTCHA instance bug
 - changed unnecessary double-quote to single-quote in English language files

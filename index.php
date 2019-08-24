@@ -35,9 +35,9 @@ $myts   = \MyTextSanitizer::getInstance();
 $helper = xHelper::getInstance();
 $helper->loadLanguage('admin');
 
-$submit = \XoopsRequest::getCmd('submit', '', 'POST');
+$submit = \Xmf\Request::getCmd('submit', '', 'POST');
 if (empty($submit)) {
-    $formId = \XoopsRequest::getInt('form_id', 0, 'GET');
+    $formId = \Xmf\Request::getInt('form_id', 0, 'GET');
     if (empty($formId)) {
         if (Constants::FORM_LIST_NO_SHOW === (int)$helper->getConfig('showforms')) {
             // Don't show the forms available if no parameter set
@@ -123,7 +123,7 @@ if (!$xoopsSecurity->check()) {
     redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
 }
 
-$formId = \XoopsRequest::getInt('form_id', 0, 'POST');
+$formId = \Xmf\Request::getInt('form_id', 0, 'POST');
 if (empty($formId)
     || !($form = $xformsFormsHandler->get($formId))
     || (false === $xformsFormsHandler->getSingleFormPermission($formId)))
@@ -163,7 +163,7 @@ foreach ($_POST as $k => $v) {
     }
 }
 
-$xoopsUploadFile = \XoopsRequest::getArray('xoops_upload_file', array(), 'POST');
+$xoopsUploadFile = \Xmf\Request::getArray('xoops_upload_file', array(), 'POST');
 if (!empty($xoopsUploadFile)) {
     foreach ($xoopsUploadFile as $k => $v) {
         $n          = explode('_', $v);
