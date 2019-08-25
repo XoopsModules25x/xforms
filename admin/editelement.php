@@ -37,7 +37,7 @@ $xformsEleHandler = $helper->getHandler('Element');
 
 $myts = \MyTextSanitizer::getInstance();
 
-if ($xformsFormsHandler->getCount() < 1) {
+if ($formsHandler->getCount() < 1) {
     $helper->redirect('admin/main.php?op=edit', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_GO_CREATE_FORM);
 }
 
@@ -152,7 +152,7 @@ switch ($op) {
 
         if ((0 === (int)$formId) || (Constants::FORM_CLONED === $clone)) {
             $selectApplyForm = new \XoopsFormSelect(_AM_XFORMS_ELE_APPLY_TO_FORM, 'form_id', $formId);
-            $forms           = $xformsFormsHandler->getAll(null, null, true, false);
+            $forms           = $formsHandler->getAll(null, null, true, false);
             foreach ($forms as $fObj) {
                 $selectApplyForm->addOption($fObj->getVar('form_id'), $fObj->getVar('form_title'));
             }

@@ -26,6 +26,6 @@ $moduleDirName = basename(__DIR__);
 require dirname(dirname(__DIR__)) . '/mainfile.php';
 require __DIR__ . '/include/common.php';
 
-$xformsFormsHandler = xHelper::getInstance()->getHandler('Forms');
+$formsHandler = xHelper::getInstance()->getHandler('Forms');
 
 include_once $GLOBALS['xoops']->path('www/class/xoopsform/tableform.php');

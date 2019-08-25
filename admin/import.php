@@ -110,9 +110,9 @@ switch ($op) {
                     $formAttribs = $eformsFormObj->getValues();
                     $eformsId    = $formAttribs['form_id'];
                     unset($formAttribs['form_id']); // will force new xForm Id
-                    $xformsObj = $xformsFormsHandler->create();
+                    $xformsObj = $formsHandler->create();
                     $xformsObj->setVars($formAttribs);
-                    $xformsId = $xformsFormsHandler->insert($xformsObj);
+                    $xformsId = $formsHandler->insert($xformsObj);
                     if (!$xformsId) {
                         throw new \Exception(sprintf(_AM_XFORMS_ERR_CREATE_FORM, 'eForms', $eformsId));
                     } else {
@@ -163,7 +163,7 @@ switch ($op) {
                 $xformsPermHelper = new \Xmf\Module\Helper\Permission($moduleDirName);
                 if ($eformsPermHelper && $xformsPermHelper) {
                     $eformsPermName = $eformsFormsHandler->perm_name;
-                    $xformsPermName = $xformsFormsHandler->perm_name;
+                    $xformsPermName = $formsHandler->perm_name;
                     foreach ($formMap as $eId => $xId) {
                         $groups = $eformsPermHelper->getGroupsForItem($eformsPermName, $eId);
                         $xformsPermHelper->savePermissionForItem($xformsPermName, $xId, $groups);
@@ -228,9 +228,9 @@ switch ($op) {
                     $formAttribs = $liaiseFormObj->getValues();
                     $liaiseId = $formAttribs['form_id'];
                     unset($formAttribs['form_id']); // will force new xForm Id
-                    $xformsObj = $xformsFormsHandler->create();
+                    $xformsObj = $formsHandler->create();
                     $xformsObj->setVars($formAttribs);
-                    $xformsId  = $xformsFormsHandler->insert($xformsObj);
+                    $xformsId  = $formsHandler->insert($xformsObj);
                     if (!$xformsId) {
                         throw new \Exception(sprintf(_AM_XFORMS_ERR_CREATE_FORM, 'liaise', $liaiseId));
                     } else {
@@ -270,7 +270,7 @@ switch ($op) {
                 $xformsPermHelper = new \Xmf\Module\Helper\Permission($moduleDirName);
                 if ($liaisePermHelper && $xformsPermHelper) {
                     $liaisePermName = $liaiseFormsHandler->perm_name;
-                    $xformsPermName = $xformsFormsHandler->perm_name;
+                    $xformsPermName = $formsHandler->perm_name;
                     foreach ($formMap as $lId => $xId) {
                         $groups = $liaisePermHelper->getGroupsForItem($liaisePermName, $lId);
                         $xformsPermHelper->savePermissionForItem($xformsPermName, $xId, $groups);

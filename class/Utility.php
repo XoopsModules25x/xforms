@@ -17,8 +17,9 @@ namespace XoopsModules\Xforms;
  *
  * @package   \XoopsModules\Xforms\class
  * @author    XOOPS Module Development Team
- * @author    Mamba, ZySpec
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @author    Mamba
+ * @author    ZySpec <zyspec@yahoo.com>
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
@@ -35,6 +36,9 @@ class Utility
     use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
     use Common\ServerStats; // getServerStats Trait
     use Common\FilesManagement; // Files Management Trait
+
+    /** @var array errs list of errors */
+    static $errs = array();
 
     /**
      * Copies files from one directory to another, does not alter source directory files
@@ -88,9 +92,6 @@ class Utility
      * @param int $id
      * @param string|bool returns 'Other' string or false if nothing set or on error
      *
-     * @todo refactor code to eliminate use of 'global $err' to track errors
-     *
-     * @global array $err - used to keep error messages
      * @global array $_POST
      *
      * @return bool|string false on error | string for 'other' element
@@ -100,12 +101,14 @@ class Utility
         if (!preg_match('/\{OTHER\|+[0-9]+\}/', $key)) {
             return false;
         } else {
+            /* @var \MyTextSanitizer $myts */
             $myts = \MyTextSanitizer::getInstance();
             if (!empty($_POST['other']['ele_' . $id])) {
                 return _MD_XFORMS_OPT_OTHER . $myts->htmlSpecialChars($_POST['other']['ele_' . $id]);
             } else {
-                global $err;
-                $err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
+                $this->setErrors(sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption)), true);
+                //global $err;
+                //$err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
             }
         }
         return false;
@@ -135,5 +138,36 @@ class Utility
      */
     public static function intArray(&$item) {
         $item = (int)$item;
+    }
+    /**
+     * Set errors for the Utility class
+     *
+     * @param string|array item
+     * @param bool replace true to replace errors, false to add item to list of errors
+     *
+     * @return int
+     */
+    public static function setErrors(&$item, $replace = true) {
+        if (!empty($item)) {
+            $item = (array)$item;
+            if ($replace) {
+                $this->errs = $item;
+            } else {
+                $this->errs = array_merge($this->errs, $item);
+                $this->errs = array_unique($this->errs);
+            }
+        } else {
+            $this->errs = array(); // clears the array if $item is empty
+        }
+        return $this->errs;
+    }
+    /**
+     * Get Utility class errors
+     *
+     * @return array
+     */
+    public static function getErrors() {
+
+        return $this->errs();
     }
 }

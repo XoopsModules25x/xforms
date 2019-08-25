@@ -31,8 +31,8 @@ require_once dirname(__DIR__) . '/include/common.php';
 $adminObject = \Xmf\Module\Admin::getInstance();
 /* @var \XoopsModules\Xforms\Helper $helper */
 $helper = \XoopsModules\Xforms\Helper::getInstance();
-/* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
-$xformsFormsHandler = $helper->getHandler('Forms');
+/* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
+$formsHandler = $helper->getHandler('Forms');
 
 // Load language files
 $helper->loadLanguage('admin');

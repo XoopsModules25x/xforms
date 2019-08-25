@@ -72,8 +72,8 @@ switch ($op) {
            . '  <tbody>';
 
         $totalList    = 0;
-         /* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
-        $ttlFormCount = $xformsFormsHandler->getCount(); // count of all forms
+         /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
+        $ttlFormCount = $formsHandler->getCount(); // count of all forms
 
         // Get the forms we're interested in
         $criteria = ($showAll) ? new \Criteria(1, 1) : new \Criteria('form_active', Constants::FORM_INACTIVE, '<>');
@@ -81,7 +81,7 @@ switch ($op) {
         $criteria->setLimit($xformsDisplay->perpage);
         $criteria->setSort($xformsDisplay->sort);
         $criteria->order = $xformsDisplay->order;
-        $forms = $xformsFormsHandler->getAll($criteria, null, true, false);
+        $forms = $formsHandler->getAll($criteria, null, true, false);
 
         if (!empty($forms)) {
             // get the UserData to see if there's any reports
@@ -227,7 +227,7 @@ switch ($op) {
 
         $adminObject->displayNavigation(basename(__FILE__) . '?op=edit');
 
-        $form          = $xformsFormsHandler->get($formId); // will auto-create if form_id == 0
+        $form          = $formsHandler->get($formId); // will auto-create if form_id == 0
         $textFormTitle = new \XoopsFormText(_AM_XFORMS_TITLE, 'form_title', 50, 255, $form->getVar('form_title', 'e'));
 
         $permHelper = new \Xmf\Module\Helper\Permission($moduleDirName);
@@ -235,7 +235,7 @@ switch ($op) {
             // new form so preselect Administrator group
             $groupIds = array(XOOPS_GROUP_ADMIN);
         } else {
-            $groupIds = $permHelper->getGroupsForItem($xformsFormsHandler->perm_name, $formId);
+            $groupIds = $permHelper->getGroupsForItem($formsHandler->perm_name, $formId);
         }
         $selectFormGroupPerm = new \XoopsFormSelectGroup(_AM_XFORMS_PERM, 'form_group_perm', true, $groupIds, 5, true);
 
@@ -430,8 +430,8 @@ switch ($op) {
             xoops_cp_header();
             $formId = \Xmf\Request::getInt('form_id', 0, 'GET');
             if ($formId) {
-                //$xformsFormsHandler = $helper->getHandler('Forms');
-                $formObj            = $xformsFormsHandler->get($formId);
+                //$formsHandler = $helper->getHandler('Forms');
+                $formObj            = $formsHandler->get($formId);
                 $formTitle          = $formObj->getVar('form_title');
                 xoops_confirm(array('op' => 'delete', 'form_id' => $formId, 'ok' => 1), $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_CONFIRM_DELETE, $formTitle));
             } else {
@@ -444,8 +444,8 @@ switch ($op) {
             }
 
             $formId = \Xmf\Request::getInt('form_id', 0, 'POST');
-            if (!empty($formId) && ($formObj = $xformsFormsHandler->get($formId)) && !$formObj->isNew()) {
-                if ($xformsFormsHandler->delete($formObj)) {
+            if (!empty($formId) && ($formObj = $formsHandler->get($formId)) && !$formObj->isNew()) {
+                if ($formsHandler->delete($formObj)) {
                     //form deleted so now delete the elements
                     $xformsEleHandler = $helper->getHandler('Element');
                     $criteria         = new \Criteria('form_id', $formId);
@@ -456,7 +456,7 @@ switch ($op) {
                     $uDataHandler->deleteAll($criteria);
 
                     //and now delete the form's permissions too
-                    $xformsFormsHandler->deleteFormPermissions($formId);
+                    $formsHandler->deleteFormPermissions($formId);
                     redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
                 }
                 xoops_cp_header();
@@ -472,8 +472,8 @@ switch ($op) {
             xoops_cp_header();
             $formId = \Xmf\Request::getInt('form_id', 0,  'GET');
             if ($formId) {
-                //$xformsFormsHandler = $helper->getHandler('Forms');
-                $formObj            = $xformsFormsHandler->get($formId);
+                //$formsHandler = $helper->getHandler('Forms');
+                $formObj            = $formsHandler->get($formId);
                 $formTitle          = $formObj->getVar('form_title');
                 xoops_confirm(array('op' => 'active', 'form_id' => $formId, 'ok' => Constants::CONFIRM_OK), $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_CONFIRM_ACTIVE, $formTitle));
             } else {
@@ -484,9 +484,9 @@ switch ($op) {
                 redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             $formId = \Xmf\Request::getInt('form_id', 0, 'POST');
-            //$xformsFormsHandler = $helper->getHandler('Forms');
-            if (!empty($formId) && ($formObj = $xformsFormsHandler->get($formId)) && !$formObj->isNew()) {
-                if ($xformsFormsHandler->setActive($formObj)) {
+            //$formsHandler = $helper->getHandler('Forms');
+            if (!empty($formId) && ($formObj = $formsHandler->get($formId)) && !$formObj->isNew()) {
+                if ($formsHandler->setActive($formObj)) {
                     redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
                 }
                 xoops_cp_header();
@@ -502,8 +502,8 @@ switch ($op) {
             xoops_cp_header();
             $formId = \Xmf\Request::getInt('form_id', 0,  'GET');
             if ($formId) {
-                //$xformsFormsHandler = $helper->getHandler('Forms');
-                $formObj   = $xformsFormsHandler->get($formId);
+                //$formsHandler = $helper->getHandler('Forms');
+                $formObj   = $formsHandler->get($formId);
                 $formTitle = $formObj->getVar('form_title');
                 xoops_confirm(array('op' => 'inactive', 'form_id' => $formId, 'ok' => 1), $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_CONFIRM_INACTIVE, $formTitle));
             } else {
@@ -514,9 +514,9 @@ switch ($op) {
                 redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             $formId = \Xmf\Request::getInt('form_id', 0, 'POST');
-            //$xformsFormsHandler = $helper->getHandler('Forms');
-            if (!empty($formId) && ($formObj = $xformsFormsHandler->get($formId)) && !$formObj->isNew()) {
-                if ($xformsFormsHandler->setInactive($formObj)) {
+            //$formsHandler = $helper->getHandler('Forms');
+            if (!empty($formId) && ($formObj = $formsHandler->get($formId)) && !$formObj->isNew()) {
+                if ($formsHandler->setInactive($formObj)) {
                     redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
                 }
                 xoops_cp_header();
@@ -541,9 +541,9 @@ switch ($op) {
         $order = \Xmf\Request::getArray('order', array(), 'POST');
         array_walk($order, '\XoopsModules\Xforms\Utility::intArray'); // can't use array_map since must preserve keys
         foreach ($ids as $id) {
-            $form = $xformsFormsHandler->get($id);
+            $form = $formsHandler->get($id);
             $form->setVar('form_order', $order[$id]);
-            $xformsFormsHandler->insert($form);
+            $formsHandler->insert($form);
         }
         redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         break;
@@ -567,7 +567,7 @@ switch ($op) {
         }
 
         $error = '';
-        $form = $xformsFormsHandler->get((int)$formId);
+        $form = $formsHandler->get((int)$formId);
 
         $formSendToGroup  = \Xmf\Request::getInt('form_send_to_group', 0, 'POST');
         $formSendToOther  = \Xmf\Request::getString('form_send_to_other', '', 'POST');
@@ -636,14 +636,14 @@ switch ($op) {
         $form->setVar('form_end', (int)$formEnd);
 
         // now update the form
-        if (!$ret = $xformsFormsHandler->insert($form)) {
+        if (!$ret = $formsHandler->insert($form)) {
             $error = $form->getHtmlErrors();
         } else {
-            $xformsFormsHandler->deleteFormPermissions($ret);
+            $formsHandler->deleteFormPermissions($ret);
 
             $formGroupPerm = \Xmf\Request::getArray('form_group_perm', array(), 'POST');
             if (count($formGroupPerm > 0)) {
-                $xformsFormsHandler->insertFormPermissions($ret, $formGroupPerm);
+                $formsHandler->insertFormPermissions($ret, $formGroupPerm);
             }
             if (!empty($cloneFormId)) {
                 //$xformsEleHandler = $helper->getHandler('Element');

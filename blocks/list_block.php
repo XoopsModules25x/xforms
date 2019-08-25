@@ -49,10 +49,10 @@ function b_xforms_list_show($options) {
     $helper = xHelper::getInstance();
 
     $block = array();
-    /* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
-    $xformsFormsHandler = $helper::getInstance()->getHandler('Forms');
-    //$xformsFormsHandler = $helper->getHandler('forms');
-    $forms = $xformsFormsHandler->getPermittedForms();
+    /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
+    $formsHandler = $helper::getInstance()->getHandler('Forms');
+    //$formsHandler = $helper->getHandler('forms');
+    $forms = $formsHandler->getPermittedForms();
     if (!empty($forms)) {
         foreach ($forms as $form) {
             $block[$form->getVar('form_id')] = array('title' => $form->getVar('form_title', 's'),

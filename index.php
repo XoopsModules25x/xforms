@@ -43,10 +43,10 @@ if (empty($submit)) {
             // Don't show the forms available if no parameter set
             redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_NOFORM_SELECTED);
         }
-        /* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
-        $forms = $xformsFormsHandler->getPermittedForms();
+        /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
+        $forms = $formsHandler->getPermittedForms();
         if ((false !== $forms) && (1 == count($forms))) {
-            $form = $xformsFormsHandler->get($forms[0]->getVar('form_id'));
+            $form = $formsHandler->get($forms[0]->getVar('form_id'));
             if (!$assignedArray = $form->render()) {
                 redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_LONG, $form->getHtmlErrors());
             }
@@ -81,9 +81,9 @@ if (empty($submit)) {
             }
         }
     } else {
-        /* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
-        if (($form = $xformsFormsHandler->get($formId))
-            && (false !== $xformsFormsHandler->getSingleFormPermission($formId)))
+        /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
+        if (($form = $formsHandler->get($formId))
+            && (false !== $formsHandler->getSingleFormPermission($formId)))
         {
             if (!$form->isActive()) {
                 redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
@@ -125,8 +125,8 @@ if (!$xoopsSecurity->check()) {
 
 $formId = \Xmf\Request::getInt('form_id', 0, 'POST');
 if (empty($formId)
-    || !($form = $xformsFormsHandler->get($formId))
-    || (false === $xformsFormsHandler->getSingleFormPermission($formId)))
+    || !($form = $formsHandler->get($formId))
+    || (false === $formsHandler->getSingleFormPermission($formId)))
 {
     header('Location: ' . $GLOBALS['xoops']->url('www'));
     exit();

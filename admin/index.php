@@ -27,11 +27,11 @@ use \XoopsModules\Xforms\Constants;
 require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
-/* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
-$totalForms         = $xformsFormsHandler->getCount();
+/* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
+$totalForms         = $formsHandler->getCount();
 $criteria           = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_active', Constants::FORM_ACTIVE, '='));
-$totalActiveForms   = $xformsFormsHandler->getCount($criteria);
+$totalActiveForms   = $formsHandler->getCount($criteria);
 $totalInactiveForms = $totalForms - $totalActiveForms;
 
 /* @var \Xmf\Module\Admin $adminObject */

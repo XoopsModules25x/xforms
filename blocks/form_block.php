@@ -40,11 +40,11 @@ function b_xforms_form_show($options) {
 
     $block = array();
 
-    /* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
-    $xformsFormsHandler = $helper::getInstance()->getHandler('Forms');
-    //$xformsFormsHandler = $helper->getHandler('forms');
-    $formOk  = $xformsFormsHandler->getSingleFormPermission((int)$options[0]);
-    $formObj = $xformsFormsHandler->get((int)$options[0]); // get the form object we want
+    /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
+    $formsHandler = $helper::getInstance()->getHandler('Forms');
+    //$formsHandler = $helper->getHandler('forms');
+    $formOk  = $formsHandler->getSingleFormPermission((int)$options[0]);
+    $formObj = $formsHandler->get((int)$options[0]); // get the form object we want
     if ($formObj instanceof XformsForms) {
         $block   = $formObj->render();
     }
@@ -64,10 +64,10 @@ function b_xforms_form_edit($options) {
     // Instantiate module helper
     $helper = xHelper::getInstance();     // module helper
 
-    /* @var \XoopsModules\Xforms\FormsHandler $xformsFormsHandler */
-    $xformsFormsHandler = $helper::getInstance()->getHandler('Forms');
-    //$xformsFormsHandler = $helper->getHandler('forms');
-    $forms   = $xformsFormsHandler->getAll();
+    /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
+    $formsHandler = $helper::getInstance()->getHandler('Forms');
+    //$formsHandler = $helper->getHandler('forms');
+    $forms   = $formsHandler->getAll();
     $optForm = '<label for="fs1">' . _MB_XFORMS_FORM_DISPLAY . '</label>';
     if (empty($forms)) {
         $optForm .= '<input id="fs1" type="text" placeholder="' . _MB_XFORMS_FORM_NONE . '" size="20" disabled>';
