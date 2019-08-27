@@ -20,19 +20,16 @@
  */
 use \XoopsModules\Xforms;
 use \XoopsModules\Xforms\Constants;
-use \XoopsModules\Xforms\Helper as xHelper;
 use \XoopsModules\Xforms\Captcha;
 use \XoopsModules\Xforms\Utility;
 use \XoopsModules\Xforms\MediaUploader;
 use \Xmf\FilterInput;
-use \Xmf\Module\Helper;
 
 require __DIR__ . '/header.php';
 $myts   = \MyTextSanitizer::getInstance();
 
 /* @var string $moduleDirName  */
 /* @var \XoopsModules\Xforms\Helper $helper */
-$helper = xHelper::getInstance();
 $helper->loadLanguage('admin');
 
 $submit = \Xmf\Request::getCmd('submit', '', 'POST');
@@ -120,7 +117,7 @@ if (empty($submit)) {
 //-------------------------------
 /* @var \XoopsSecurity $xoopsSecurity */
 if (!$xoopsSecurity->check()) {
-    redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+    $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
 }
 
 $formId = \Xmf\Request::getInt('form_id', 0, 'POST');

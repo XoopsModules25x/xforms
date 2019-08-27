@@ -120,7 +120,7 @@ switch ($op) {
                             // Form is inactive
                             $fStatus = '<img src="' . $mypathIcon16 . '/inactive.gif" title="' . _AM_XFORMS_STATUS_INACTIVE
                                      . '" alt="' . _AM_XFORMS_STATUS_INACTIVE . '">';
-                            $fAction = ' <a href="' . $_SERVER['PHP_SELF'] . '?op=active&form_id=' . $id . '">'
+                            $fAction = ' <a href="' . $_SERVER['SCRIPT_NAME'] . '?op=active&form_id=' . $id . '">'
                                      . '<img src="' . $mypathIcon16 . '/active.gif" class="tooltip floatcenter1" title="'
                                      . _AM_XFORMS_ACTION_ACTIVE . '" alt="' . _AM_XFORMS_ACTION_ACTIVE . '"></a>';
                         } else {
@@ -133,7 +133,7 @@ switch ($op) {
                         // Form is active
                         $fStatus = '<img src="' . $mypathIcon16 . '/active.gif" title="' . _AM_XFORMS_STATUS_ACTIVE
                                  . '" alt="' . _AM_XFORMS_STATUS_ACTIVE . '">';
-                        $fAction = '<a href="' . $_SERVER['PHP_SELF'] . '?op=inactive&form_id=' . $id . '">'
+                        $fAction = '<a href="' . $_SERVER['SCRIPT_NAME'] . '?op=inactive&form_id=' . $id . '">'
                                  . '<img src="' . $mypathIcon16 . '/inactive.gif" class="tooltip floatcenter1" title="'
                                  . _AM_XFORMS_ACTION_INACTIVE . '" alt="' . _AM_XFORMS_ACTION_INACTIVE . '"></a>';
                     }
@@ -147,14 +147,14 @@ switch ($op) {
                        . '    <td class="even middle center">' . $fStatus . '</td>'
                        . '    <td class="odd middle center">' . $sendToTxt . '</td>'
                        . '    <td class="even middle center" nowrap="nowrap">'
-                           . '      <a href="' . $_SERVER['PHP_SELF'] . '?op=edit&form_id=' . $id . '"><img src="' . \Xmf\Module\Admin::iconUrl('edit.png', '16') . '" class="tooltip floatcenter1" title="' . _AM_XFORMS_ACTION_EDITFORM . '" alt="'
+                           . '      <a href="' . $_SERVER['SCRIPT_NAME'] . '?op=edit&form_id=' . $id . '"><img src="' . \Xmf\Module\Admin::iconUrl('edit.png', '16') . '" class="tooltip floatcenter1" title="' . _AM_XFORMS_ACTION_EDITFORM . '" alt="'
                        .        _AM_XFORMS_ACTION_EDITFORM . '"></a>'
                            . '      <a href="elements.php?form_id=' . $id . '"><img src="' . \Xmf\Module\Admin::iconUrl('inserttable.png', '16') . '" class="tooltip floatcenter1" title="' . _AM_XFORMS_ACTION_EDITELEMENT . '" alt="'
                        .        _AM_XFORMS_ACTION_EDITELEMENT . '"></a>'
                        .        $fAction
-                       . '      <a href="' . $_SERVER['PHP_SELF'] . '?op=edit&clone=1&form_id=' . $id . '"><img src="' . \Xmf\Module\Admin::iconUrl('editcopy.png', '16') . '" class="tooltip floatcenter1" title="' . _AM_XFORMS_ACTION_CLONE . '" alt="'
+                       . '      <a href="' . $_SERVER['SCRIPT_NAME'] . '?op=edit&clone=1&form_id=' . $id . '"><img src="' . \Xmf\Module\Admin::iconUrl('editcopy.png', '16') . '" class="tooltip floatcenter1" title="' . _AM_XFORMS_ACTION_CLONE . '" alt="'
                        .        _AM_XFORMS_ACTION_CLONE . '"></a>'
-                           . '      <a href="' . $_SERVER['PHP_SELF'] . '?op=delete&form_id=' . $id . '"><img src="' . \Xmf\Module\Admin::iconUrl('delete.png', '16') . '" class="tooltip floatcenter1" title="' . _DELETE . '" alt="' . _DELETE . '"></a>'
+                           . '      <a href="' . $_SERVER['SCRIPT_NAME'] . '?op=delete&form_id=' . $id . '"><img src="' . \Xmf\Module\Admin::iconUrl('delete.png', '16') . '" class="tooltip floatcenter1" title="' . _DELETE . '" alt="' . _DELETE . '"></a>'
                        .        $ids->render()
                        . '      <a target="_blank" href="' . $helper->url('index.php?form_id=' . $id) . '"><img src="' . \Xmf\Module\Admin::iconUrl('view.png', '16') . '" class="tooltip floatcenter1" title="' . _AM_XFORMS_ACTION_VIEWFORM . '" alt="'
                        .        _AM_XFORMS_ACTION_VIEWFORM . '"></a>';
@@ -391,7 +391,7 @@ switch ($op) {
                 $hiddenFormId = new \XoopsFormHidden('form_id', $formId);
             }
         }
-        $output = new \XoopsThemeForm($caption, 'editform', $_SERVER['PHP_SELF'], 'post', true);
+        $output = new \XoopsThemeForm($caption, 'editform', $_SERVER['SCRIPT_NAME'], 'post', true);
         $output->addElement($textFormTitle, true);
         $output->addElement($tareaFormDesc);
         $output->addElement($selectFormActive);
@@ -433,14 +433,14 @@ switch ($op) {
                 //$formsHandler = $helper->getHandler('Forms');
                 $formObj            = $formsHandler->get($formId);
                 $formTitle          = $formObj->getVar('form_title');
-                xoops_confirm(array('op' => 'delete', 'form_id' => $formId, 'ok' => 1), $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_CONFIRM_DELETE, $formTitle));
+                xoops_confirm(array('op' => 'delete', 'form_id' => $formId, 'ok' => 1), $_SERVER['SCRIPT_NAME'], sprintf(_AM_XFORMS_CONFIRM_DELETE, $formTitle));
             } else {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
             }
 
         } else {
             if (!$xoopsSecurity->check()) {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
 
             $formId = \Xmf\Request::getInt('form_id', 0, 'POST');
@@ -457,12 +457,12 @@ switch ($op) {
 
                     //and now delete the form's permissions too
                     $formsHandler->deleteFormPermissions($formId);
-                    redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+                    redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
                 }
                 xoops_cp_header();
                 echo $formObj->getHtmlErrors();
             } else {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
             }
         }
         break;
@@ -475,24 +475,24 @@ switch ($op) {
                 //$formsHandler = $helper->getHandler('Forms');
                 $formObj            = $formsHandler->get($formId);
                 $formTitle          = $formObj->getVar('form_title');
-                xoops_confirm(array('op' => 'active', 'form_id' => $formId, 'ok' => Constants::CONFIRM_OK), $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_CONFIRM_ACTIVE, $formTitle));
+                xoops_confirm(array('op' => 'active', 'form_id' => $formId, 'ok' => Constants::CONFIRM_OK), $_SERVER['SCRIPT_NAME'], sprintf(_AM_XFORMS_CONFIRM_ACTIVE, $formTitle));
             } else {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
             }
         } else {
             if (!$xoopsSecurity->check()) {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             $formId = \Xmf\Request::getInt('form_id', 0, 'POST');
             //$formsHandler = $helper->getHandler('Forms');
             if (!empty($formId) && ($formObj = $formsHandler->get($formId)) && !$formObj->isNew()) {
                 if ($formsHandler->setActive($formObj)) {
-                    redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+                    redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
                 }
                 xoops_cp_header();
                 echo $formObj->getHtmlErrors();
             } else {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
             }
         }
         break;
@@ -505,36 +505,36 @@ switch ($op) {
                 //$formsHandler = $helper->getHandler('Forms');
                 $formObj   = $formsHandler->get($formId);
                 $formTitle = $formObj->getVar('form_title');
-                xoops_confirm(array('op' => 'inactive', 'form_id' => $formId, 'ok' => 1), $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_CONFIRM_INACTIVE, $formTitle));
+                xoops_confirm(array('op' => 'inactive', 'form_id' => $formId, 'ok' => 1), $_SERVER['SCRIPT_NAME'], sprintf(_AM_XFORMS_CONFIRM_INACTIVE, $formTitle));
             } else {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
             }
         } else {
             if (!$xoopsSecurity->check()) {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             $formId = \Xmf\Request::getInt('form_id', 0, 'POST');
             //$formsHandler = $helper->getHandler('Forms');
             if (!empty($formId) && ($formObj = $formsHandler->get($formId)) && !$formObj->isNew()) {
                 if ($formsHandler->setInactive($formObj)) {
-                    redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+                    redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
                 }
                 xoops_cp_header();
                 echo $form->getHtmlErrors();
             } else {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
             }
         }
         break;
 
     case 'saveorder':
         if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
 
         $ids = \Xmf\Request::getArray('ids', array(), 'POST');
         if (empty($ids)) {
-            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
         }
         $ids = array_map('intval', $ids); //sanitize the array
         // now get and filter the order too
@@ -545,16 +545,16 @@ switch ($op) {
             $form->setVar('form_order', $order[$id]);
             $formsHandler->insert($form);
         }
-        redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+        redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         break;
 
     case 'saveform':
         if (!isset($_POST['submit'])) {
-            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
         }
         // check security
         if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
 
         $formSaveDb     = \Xmf\Request::getInt('form_save_db', 0, 'POST');
@@ -563,7 +563,7 @@ switch ($op) {
         $cloneFormId    = \Xmf\Request::getInt('clone_form_id', 0, 'POST');
 
         if ((0 === (int)$formSaveDb) && (Constants::SEND_METHOD_NONE === $formSendMethod)) {
-            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SAVESENT);
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SAVESENT);
         }
 
         $error = '';
@@ -675,7 +675,7 @@ switch ($op) {
             if (_AM_XFORMS_SAVE_THEN_ELEMENTS === $_POST['submit']) {
                 redirect_header($helper->url('admin/elements.php?form_id=' . $ret), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
             } else {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
             }
         }
         break;

@@ -82,7 +82,7 @@ switch ($op) {
         }
 
         $sysHelper  = Helper::getHelper('system');
-        $output     = new \XoopsThemeForm($outputTitle, 'form_ele', $_SERVER['PHP_SELF'], 'post', true);
+        $output     = new \XoopsThemeForm($outputTitle, 'form_ele', $_SERVER['SCRIPT_NAME'], 'post', true);
 
         $value      = $element->getVar('ele_value', 'f');
         $eleReq     = $element->getVar('ele_req');
@@ -182,10 +182,10 @@ switch ($op) {
         if (empty($_POST['ok'])) {
             $element = $xformsEleHandler->get($eleId);
             xoops_cp_header();
-            xoops_confirm(array('op' => 'delete', 'ele_id' => $eleId, 'form_id' => $formId, 'ok' => Constants::CONFIRM_OK), $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_ELE_CONFIRM_DELETE, $element->getVar('ele_caption')), _YES);
+            xoops_confirm(array('op' => 'delete', 'ele_id' => $eleId, 'form_id' => $formId, 'ok' => Constants::CONFIRM_OK), $_SERVER['SCRIPT_NAME'], sprintf(_AM_XFORMS_ELE_CONFIRM_DELETE, $element->getVar('ele_caption')), _YES);
         } else {
             if (!$xoopsSecurity->check()) {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             //delete the element
             $eleObj = $xformsEleHandler->get($eleId);
@@ -201,7 +201,7 @@ switch ($op) {
     case 'save':
         //check to make sure this is from known location
         if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
         $element = $xformsEleHandler->get($eleId);
         if ($element->isNew()) {
@@ -575,10 +575,10 @@ switch ($op) {
             if (++$counter % 2) {
                 //odd
                 $cssClass = ('odd' === $cssClass) ? 'even' : 'odd';
-                echo '    <tr><td class="' . $cssClass . ' center"><a href="' . $_SERVER['PHP_SELF'] . '?op=edit&amp;ele_type=' . $thisType . '">' . $thisDesc . '</a></td>';
+                echo '    <tr><td class="' . $cssClass . ' center"><a href="' . $_SERVER['SCRIPT_NAME'] . '?op=edit&amp;ele_type=' . $thisType . '">' . $thisDesc . '</a></td>';
             } else {
                 //even
-                echo '<td class="' . $cssClass . ' center"><a href="' . $_SERVER['PHP_SELF'] . '?op=edit&amp;ele_type=' . $thisType . '">' . $thisDesc . '</a></td></tr>';
+                echo '<td class="' . $cssClass . ' center"><a href="' . $_SERVER['SCRIPT_NAME'] . '?op=edit&amp;ele_type=' . $thisType . '">' . $thisDesc . '</a></td></tr>';
             }
         }
         if ($counter % 2) { //odd so finish out table row

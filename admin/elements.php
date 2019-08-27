@@ -63,7 +63,7 @@ switch ($op) {
            . $formButton->render()
            . '  </form>'
            . '</div>'
-           . '<form action="' . $_SERVER['PHP_SELF'] . '" method="post">'
+           . '<form action="' . $_SERVER['SCRIPT_NAME'] . '" method="post">'
              /** var XoopsSecurity $xoopsSecurity */
            . $xoopsSecurity->getTokenHTML()
            . '<table class="outer width100 bspacing1">'
@@ -175,7 +175,7 @@ switch ($op) {
     case 'save': // Save element(s)
         // Check to make sure this is from known location
         if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
         $formId =\Xmf\Request::getInt('form_id', 0, 'POST');
         $formId = (int)$formId;  // to fix XMF\Request bug in XOOPS < 2.5.9
@@ -381,7 +381,7 @@ switch ($op) {
                 $helper->redirect('admin/main.php?op=edit&form_id=' . $formId, Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
                 //redirect_header($GLOBALS['xoops']->buildUrl('/modules/' . $moduleDirName . '/admin/main.php', array('op' => 'edit', 'form_id' => $formId)), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
             } else {
-                redirect_header($_SERVER['PHP_SELF'] . '?form_id=' . $formId, Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+                redirect_header($_SERVER['SCRIPT_NAME'] . '?form_id=' . $formId, Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
             }
         } else {
             xoops_cp_header();
