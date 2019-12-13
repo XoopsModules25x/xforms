@@ -22,6 +22,8 @@
 use XoopsModules\Xforms\Helper as xHelper;
 use Xmf\Module\Helper\Session;
 
+require dirname(__DIR__) . '/preloads/autoloader.php';
+
 // defined('XOOPS_ROOT_PATH') || exit('Restricted Access');
 
 $moduleDirName      = basename(dirname(__DIR__));

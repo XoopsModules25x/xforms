@@ -20,6 +20,7 @@
  */
 use Xmf\Request;
 use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Helper as xHelper;
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
@@ -30,6 +31,9 @@ $formId  = Request::getInt('form_id', 0, 'GET');
 $showAll = Request::getBool('showall', false, 'POST');
 
 $thisFileName = basename(__FILE__);
+$helper = xHelper::getInstance();
+/* @var XoopsModules\Xforms\FormsHandler $ xformsFormsHandler */
+$xformsFormsHandler = $helper->getHandler('Forms');
 
 if (empty($formId) && (!empty($_POST['op']) && !preg_match('/^purge(_do)*$/', $op))) {
     $op = '';
@@ -250,8 +254,6 @@ switch ($op) {
         require_once dirname(__DIR__) . '/include/common.php';
         $myts = \MyTextSanitizer::getInstance();
 
-        /* @var \XoopsModules\Xforms\Helper $helper */
-        $xformsFormsHandler = $helper->getHandler('Forms');
 /*****************************************/
         if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
@@ -380,8 +382,6 @@ switch ($op) {
         require_once dirname(__DIR__) . '/include/common.php';
         $myts = \MyTextSanitizer::getInstance();
 
-        /* @var \XoopsModules\Xforms\Helper $helper */
-        $xformsFormsHandler = $helper->getHandler('Forms');
 /*****************************************/
 
         if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
