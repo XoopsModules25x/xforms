@@ -24,10 +24,10 @@
  * @see \XoopsModules\Xforms\Helper
  */
 
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Constants;
-use \XoopsModules\Xforms\FormInput;
-use \Xmf\Module\Helper;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\FormInput;
+use Xmf\Module\Helper;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -41,15 +41,15 @@ if ($formsHandler->getCount() < 1) {
     $helper->redirect('admin/main.php?op=edit', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_GO_CREATE_FORM);
 }
 
-$op         = \Xmf\Request::getCmd('op', '');
-$clone      = \Xmf\Request::getInt('clone', Constants::FORM_NOT_CLONED);
-$formId     = \Xmf\Request::getInt('form_id', Constants::FORM_NOT_VALID);
-$eleId      = \Xmf\Request::getInt('ele_id', Constants::ELE_NOT_VALID);
-$eleValue   = \Xmf\Request::getArray('ele_value', '');
-$eleCaption = \Xmf\Request::getText('ele_caption', '', 'POST');
-$eleOrder   = \Xmf\Request::getInt('ele_order', 0, 'POST');
-$eleReq     = \Xmf\Request::getInt('ele_req', Constants::ELEMENT_NOT_REQD, 'POST');
-$submit     = \Xmf\Request::getCmd('submit', '', 'POST');
+$op         = Request::getCmd('op', '');
+$clone      = Request::getInt('clone', Constants::FORM_NOT_CLONED);
+$formId     = Request::getInt('form_id', Constants::FORM_NOT_VALID);
+$eleId      = Request::getInt('ele_id', Constants::ELE_NOT_VALID);
+$eleValue   = Request::getArray('ele_value', '');
+$eleCaption = Request::getText('ele_caption', '', 'POST');
+$eleOrder   = Request::getInt('ele_order', 0, 'POST');
+$eleReq     = Request::getInt('ele_req', Constants::ELEMENT_NOT_REQD, 'POST');
+$submit     = Request::getCmd('submit', '', 'POST');
 
 switch ($op) {
     case 'edit':
@@ -68,7 +68,7 @@ switch ($op) {
             $outputTitle = (Constants::FORM_CLONED === $clone) ? _AM_XFORMS_ELE_CREATE : sprintf(_AM_XFORMS_ELE_EDIT, $element->getVar('ele_caption'));
         } else {
             $element     = $xformsEleHandler->create();
-            $eleType     = mb_strtolower(\Xmf\Request::getCmd('ele_type', 'text'));
+            $eleType     = mb_strtolower(Request::getCmd('ele_type', 'text'));
             $outputTitle = _AM_XFORMS_ELE_CREATE;
         }
 
@@ -205,7 +205,7 @@ switch ($op) {
         }
         $element = $xformsEleHandler->get($eleId);
         if ($element->isNew()) {
-            $eleType = mb_strtolower(\Xmf\Request::getWord('ele_type', 'text', 'POST'));
+            $eleType = mb_strtolower(Request::getWord('ele_type', 'text', 'POST'));
         } else {
             $eleType = $element->getVar('ele_type');
         }
@@ -225,7 +225,7 @@ switch ($op) {
 //        $display = (isset($ele_display)) ? 1 : 0;
 //        $element->setVar('ele_order', $order);
 //        $element->setVar('ele_display', $display);
-        $eleDisplay = \Xmf\Request::getInt('ele_display', Constants::ELEMENT_NOT_DISPLAY, 'POST');
+        $eleDisplay = Request::getInt('ele_display', Constants::ELEMENT_NOT_DISPLAY, 'POST');
         $element->setVar('ele_order', $eleOrder);
         $element->setVar('ele_display', $eleDisplay);
         $element->setVar('ele_type', $eleType);
@@ -239,7 +239,7 @@ switch ($op) {
 
         switch ($eleType) {
             case 'checkbox':
-                $checked  = \Xmf\Request::getArray('checked', Constants::ELE_NOT_CHECKED, 'POST');
+                $checked  = Request::getArray('checked', Constants::ELE_NOT_CHECKED, 'POST');
                 $checked  = array_map('intval', $checked);
                 foreach($eleValue as $key=>$v) {
                 //while ($v = each($eleValue)) {
@@ -361,7 +361,7 @@ switch ($op) {
                 break;
 
             case 'radio':
-                $checked = \Xmf\Request::getCmd('checked', 0, 'POST');
+                $checked = Request::getCmd('checked', 0, 'POST');
                 foreach ($eleValue as $key=>$v) {
                 //while ($v = each($eleValue)) {
                     if ('' == $v) { // remove 'empty' options
@@ -402,7 +402,7 @@ switch ($op) {
                 $value[0]    = ($eleValue[0] > 0) ? (int)$eleValue[0] : 1; // size
                 $value[1]    = empty($ele_value[1]) ? Constants::DISALLOW_MULTI : Constants::ALLOW_MULTI; // multi-select
 
-                $checked     = \Xmf\Request::getArray('checked', array());
+                $checked     = Request::getArray('checked', array());
                 $tempValue   = array();
                 $noneChecked = true;
                 foreach ($eleValue[2] as $key => $option) {

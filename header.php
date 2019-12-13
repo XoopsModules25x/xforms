@@ -19,7 +19,7 @@
  * @since     1.30
  */
 
-use \XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper as xHelper;
 
 $moduleDirName = basename(__DIR__);
 

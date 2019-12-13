@@ -18,18 +18,19 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Constants;
-use \XoopsModules\Xforms\Helper as xHelper;
+use Xmf\Request;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Helper as xHelper;
 
 ob_start(); //To prevent problems in file send
 require __DIR__ . '/header.php';
 
-$udid  = \Xmf\Request::getInt('ui', 0, 'GET');
-$form  = \Xmf\Request::getInt('fm', 0, 'GET');
-$elem  = \Xmf\Request::getInt('el', 0, 'GET');
-$file  = \Xmf\Request::getString('f', '', 'GET');
-$fname = \Xmf\Request::getString('fn', '', 'GET');
+$udid  = Request::getInt('ui', 0, 'GET');
+$form  = Request::getInt('fm', 0, 'GET');
+$elem  = Request::getInt('el', 0, 'GET');
+$file  = Request::getString('f', '', 'GET');
+$fname = Request::getString('fn', '', 'GET');
 
 if (empty($file)) {
     if ((0 === $udid) || (0 === $form) || (0 === $elem)) {

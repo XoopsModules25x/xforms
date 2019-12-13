@@ -21,7 +21,7 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.00
  */
-use \XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Constants;
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
@@ -33,7 +33,7 @@ $moduleDirName                = basename(__DIR__);
 /*  @var array $modversion */
 $modversion['version']        = '2.00';
 $modversion['module_status']  = 'Alpha 2';
-$modversion['release_date']   = '2019/08/14';
+$modversion['release_date']   = '2019/12/12';
 $modversion['name']           = _MI_XFORMS_NAME;
 $modversion['description']    = _MI_XFORMS_DESC;
 $modversion['author']         = 'Brandycoke Productions, Dylian Melgert, Juan Garcés';

@@ -19,15 +19,16 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
-use \XoopsModules\Xforms\Constants;
-use \XoopsModules\Xforms\FormInput;
+use Xmf\Request;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\FormInput;
 
 require_once __DIR__ . '/admin_header.php';
 $myts = \MyTextSanitizer::getInstance();
 
-$op        = Xmf\Request::getCmd('op', 'list');
-$showAll   = \Xmf\Request::getBool('showall', false, 'POST');
-$saveOrder = \Xmf\Request::getBool('saveorder', false, 'POST');
+$op        = Request::getCmd('op', 'list');
+$showAll   = Request::getBool('showall', false, 'POST');
+$saveOrder = Request::getBool('saveorder', false, 'POST');
 
 if ($showAll) {
     $op = 'list';
@@ -49,7 +50,7 @@ switch ($op) {
 
         // Group all the page items together
         $xformsDisplay = new \stdClass;
-        $xformsDisplay->start   = \Xmf\Request::getInt('start', 0);
+        $xformsDisplay->start   = Request::getInt('start', 0);
         $xformsDisplay->perpage = ($perpage > 0) ? $perpage: Constants::FORMS_PER_PAGE_DEFAULT;
         $xformsDisplay->order   = 'ASC';
         $xformsDisplay->sort    = 'form_order';
@@ -220,8 +221,8 @@ switch ($op) {
         break;
 
     case 'edit':
-        $clone  = \Xmf\Request::getInt('clone', 0, 'GET');
-        $formId = \Xmf\Request::getInt('form_id', 0, 'GET');
+        $clone  = Request::getInt('clone', 0, 'GET');
+        $formId = Request::getInt('form_id', 0, 'GET');
         xoops_cp_header();
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url('browse.php?modules/' . $moduleDirName . '/assets/css/style.css'));
 
@@ -428,7 +429,7 @@ switch ($op) {
     case 'delete':
         if (empty($_POST['ok'])) {
             xoops_cp_header();
-            $formId = \Xmf\Request::getInt('form_id', 0, 'GET');
+            $formId = Request::getInt('form_id', 0, 'GET');
             if ($formId) {
                 //$formsHandler = $helper->getHandler('Forms');
                 $formObj            = $formsHandler->get($formId);
@@ -443,7 +444,7 @@ switch ($op) {
                 redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
 
-            $formId = \Xmf\Request::getInt('form_id', 0, 'POST');
+            $formId = Request::getInt('form_id', 0, 'POST');
             if (!empty($formId) && ($formObj = $formsHandler->get($formId)) && !$formObj->isNew()) {
                 if ($formsHandler->delete($formObj)) {
                     //form deleted so now delete the elements
@@ -470,7 +471,7 @@ switch ($op) {
     case 'active':
         if (empty($_POST['ok'])) {
             xoops_cp_header();
-            $formId = \Xmf\Request::getInt('form_id', 0,  'GET');
+            $formId = Request::getInt('form_id', 0,  'GET');
             if ($formId) {
                 //$formsHandler = $helper->getHandler('Forms');
                 $formObj            = $formsHandler->get($formId);
@@ -483,7 +484,7 @@ switch ($op) {
             if (!$xoopsSecurity->check()) {
                 redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
-            $formId = \Xmf\Request::getInt('form_id', 0, 'POST');
+            $formId = Request::getInt('form_id', 0, 'POST');
             //$formsHandler = $helper->getHandler('Forms');
             if (!empty($formId) && ($formObj = $formsHandler->get($formId)) && !$formObj->isNew()) {
                 if ($formsHandler->setActive($formObj)) {
@@ -500,7 +501,7 @@ switch ($op) {
     case 'inactive':
         if (empty($_POST['ok'])) {
             xoops_cp_header();
-            $formId = \Xmf\Request::getInt('form_id', 0,  'GET');
+            $formId = Request::getInt('form_id', 0,  'GET');
             if ($formId) {
                 //$formsHandler = $helper->getHandler('Forms');
                 $formObj   = $formsHandler->get($formId);
@@ -513,7 +514,7 @@ switch ($op) {
             if (!$xoopsSecurity->check()) {
                 redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
-            $formId = \Xmf\Request::getInt('form_id', 0, 'POST');
+            $formId = Request::getInt('form_id', 0, 'POST');
             //$formsHandler = $helper->getHandler('Forms');
             if (!empty($formId) && ($formObj = $formsHandler->get($formId)) && !$formObj->isNew()) {
                 if ($formsHandler->setInactive($formObj)) {
@@ -532,13 +533,13 @@ switch ($op) {
             redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
 
-        $ids = \Xmf\Request::getArray('ids', array(), 'POST');
+        $ids = Request::getArray('ids', array(), 'POST');
         if (empty($ids)) {
             redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
         }
         $ids = array_map('intval', $ids); //sanitize the array
         // now get and filter the order too
-        $order = \Xmf\Request::getArray('order', array(), 'POST');
+        $order = Request::getArray('order', array(), 'POST');
         array_walk($order, '\XoopsModules\Xforms\Utility::intArray'); // can't use array_map since must preserve keys
         foreach ($ids as $id) {
             $form = $formsHandler->get($id);
@@ -557,10 +558,10 @@ switch ($op) {
             redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
 
-        $formSaveDb     = \Xmf\Request::getInt('form_save_db', 0, 'POST');
-        $formSendMethod = \Xmf\Request::getCmd('form_save_method', '', 'POST');
-        $formId         = \Xmf\Request::getInt('form_id', 0, 'POST');
-        $cloneFormId    = \Xmf\Request::getInt('clone_form_id', 0, 'POST');
+        $formSaveDb     = Request::getInt('form_save_db', 0, 'POST');
+        $formSendMethod = Request::getCmd('form_save_method', '', 'POST');
+        $formId         = Request::getInt('form_id', 0, 'POST');
+        $cloneFormId    = Request::getInt('clone_form_id', 0, 'POST');
 
         if ((0 === (int)$formSaveDb) && (Constants::SEND_METHOD_NONE === $formSendMethod)) {
             redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SAVESENT);
@@ -569,26 +570,26 @@ switch ($op) {
         $error = '';
         $form = $formsHandler->get((int)$formId);
 
-        $formSendToGroup  = \Xmf\Request::getInt('form_send_to_group', 0, 'POST');
-        $formSendToOther  = \Xmf\Request::getString('form_send_to_other', '', 'POST');
-        $formSendCopy     = \Xmf\Request::getInt('form_send_copy', '', 'POST');
-        $formSendMethod   = \Xmf\Request::getWord('form_send_method', 'POST');
-        $formEmailHeader  = \Xmf\Request::getText('form_email_header', 'POST');
-        $formEmailFooter  = \Xmf\Request::getText('form_email_footer', '', 'POST');
-        $formEmailUheader = \Xmf\Request::getText('form_email_uheader', '', 'POST');
-        $formEmailUfooter = \Xmf\Request::getText('form_email_ufooter', '', 'POST');
-        $formType         = \Xmf\Request::getWord('form_type', 'XoopsThemeForm', 'POST');
-        $formOrder        = \Xmf\Request::getInt('form_order', 0, 'POST');
-        $formDelimiter    = \Xmf\Request::getString('form_delimiter', '', 'POST');
-        $formTitle        = \Xmf\Request::getString('form_title', '', 'POST');
-        $formSubmitText   = \Xmf\Request::getText('form_submit_text', '', 'POST');
-        $formDesc         = \Xmf\Request::getText('form_desc', '', 'POST');
-        $formIntro        = \Xmf\Request::getText('form_intro', '', 'POST');
-        $formWhereTo      = \Xmf\Request::getString('form_whereto', '', 'POST');
-        $formDisplayStyle = \Xmf\Request::getCmd('form_display_style', '', 'POST');
-        $defineFormBegin  = \Xmf\Request::getInt('define_form_begin', 0, 'POST');
-        $defineFormEnd    = \Xmf\Request::getInt('define_form_end', 0, 'POST');
-        $formActive       = \Xmf\Request::getInt('form_active', 0, 'POST');
+        $formSendToGroup  = Request::getInt('form_send_to_group', 0, 'POST');
+        $formSendToOther  = Request::getString('form_send_to_other', '', 'POST');
+        $formSendCopy     = Request::getInt('form_send_copy', '', 'POST');
+        $formSendMethod   = Request::getWord('form_send_method', 'POST');
+        $formEmailHeader  = Request::getText('form_email_header', 'POST');
+        $formEmailFooter  = Request::getText('form_email_footer', '', 'POST');
+        $formEmailUheader = Request::getText('form_email_uheader', '', 'POST');
+        $formEmailUfooter = Request::getText('form_email_ufooter', '', 'POST');
+        $formType         = Request::getWord('form_type', 'XoopsThemeForm', 'POST');
+        $formOrder        = Request::getInt('form_order', 0, 'POST');
+        $formDelimiter    = Request::getString('form_delimiter', '', 'POST');
+        $formTitle        = Request::getString('form_title', '', 'POST');
+        $formSubmitText   = Request::getText('form_submit_text', '', 'POST');
+        $formDesc         = Request::getText('form_desc', '', 'POST');
+        $formIntro        = Request::getText('form_intro', '', 'POST');
+        $formWhereTo      = Request::getString('form_whereto', '', 'POST');
+        $formDisplayStyle = Request::getCmd('form_display_style', '', 'POST');
+        $defineFormBegin  = Request::getInt('define_form_begin', 0, 'POST');
+        $defineFormEnd    = Request::getInt('define_form_end', 0, 'POST');
+        $formActive       = Request::getInt('form_active', 0, 'POST');
 
         //validate list of other email addresses
         $sToO = (!empty($FormSendToOther)) ? explode(';', $formSendToOther) : array();
@@ -622,13 +623,13 @@ switch ($op) {
         );
 
         if (0 !== (int)$defineFormBegin) {
-            $formBegin = \Xmf\Request::getArray('form_begin', array('date' => getdate(), 'time' => 0), 'POST');
+            $formBegin = Request::getArray('form_begin', array('date' => getdate(), 'time' => 0), 'POST');
             $formBegin = strtotime($formBegin['date']) + $formBegin['time'];
             $form->setVar('form_begin', (int)$formBegin);
         }
 
         if (0 !== (int)$defineFormEnd) {
-            $formEnd = \Xmf\Request::getArray('form_end', array('date' => getdate(), 'time' => 0), 'POST');
+            $formEnd = Request::getArray('form_end', array('date' => getdate(), 'time' => 0), 'POST');
             $formEnd = strtotime($formEnd['date']) + $formEnd['time'];
         } else {
             $formEnd = 0;
@@ -641,7 +642,7 @@ switch ($op) {
         } else {
             $formsHandler->deleteFormPermissions($ret);
 
-            $formGroupPerm = \Xmf\Request::getArray('form_group_perm', array(), 'POST');
+            $formGroupPerm = Request::getArray('form_group_perm', array(), 'POST');
             if (count($formGroupPerm > 0)) {
                 $formsHandler->insertFormPermissions($ret, $formGroupPerm);
             }

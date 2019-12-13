@@ -18,11 +18,11 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Constants;
-use \XoopsModules\Xforms\Helper as xHelper;
-use \Xmf\Module\Helper;
-use \Xmf\Module\Admin;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Helper as xHelper;
+use Xmf\Module\Helper;
+use Xmf\Module\Admin;
 
 include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 

@@ -19,9 +19,9 @@
  * @since     2.00
  */
 
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Helper as xHelper;
-use \XoopsModules\Xforms\Utility;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Utility;
 
 defined('XOOPS_ROOT_PATH') || die('Restricted access');
 

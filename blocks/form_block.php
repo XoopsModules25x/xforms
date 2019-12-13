@@ -18,8 +18,8 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper as xHelper;
 
 // instantiate module helper
 /* @var \XoopsModules\Xforms\Helper $helper */

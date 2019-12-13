@@ -18,10 +18,10 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Constants;
-use \XoopsModules\Xforms\Helper as xHelper;
-use \XoopsModules\Xforms\FormInput;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\FormInput;
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**

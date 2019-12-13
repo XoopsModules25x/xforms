@@ -18,14 +18,15 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
-use \XoopsModules\Xforms\Constants;
-use \XoopsModules\Xforms\Utility;
+use Xmf\Request;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Utility;
 
 require_once __DIR__ . '/admin_header.php';
 $thisFile = basename(__FILE__);
 
-$op = \Xmf\Request::getCmd('op', '');
-$ok = \Xmf\Request::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
+$op = Request::getCmd('op', '');
+$ok = Request::getInt('ok', Constants::CONFIRM_NOT_OK, 'POST');
 
 switch ($op) {
     default:

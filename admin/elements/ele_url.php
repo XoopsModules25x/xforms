@@ -20,9 +20,9 @@
  *
  * @see \XoopsModules\Xforms\Helper
  */
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Helper as xHelper;
-use \XoopsModules\Xforms\FormInput;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\FormInput;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 

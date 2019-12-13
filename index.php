@@ -18,12 +18,13 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Constants;
-use \XoopsModules\Xforms\Captcha;
-use \XoopsModules\Xforms\Utility;
-use \XoopsModules\Xforms\MediaUploader;
-use \Xmf\FilterInput;
+use Xmf\Request;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Captcha;
+use XoopsModules\Xforms\Utility;
+use XoopsModules\Xforms\MediaUploader;
+use Xmf\FilterInput;
 
 require __DIR__ . '/header.php';
 $myts   = \MyTextSanitizer::getInstance();
@@ -32,9 +33,9 @@ $myts   = \MyTextSanitizer::getInstance();
 /* @var \XoopsModules\Xforms\Helper $helper */
 $helper->loadLanguage('admin');
 
-$submit = \Xmf\Request::getCmd('submit', '', 'POST');
+$submit = Request::getCmd('submit', '', 'POST');
 if (empty($submit)) {
-    $formId = \Xmf\Request::getInt('form_id', 0, 'GET');
+    $formId = Request::getInt('form_id', 0, 'GET');
     if (empty($formId)) {
         if (Constants::FORM_LIST_NO_SHOW === (int)$helper->getConfig('showforms')) {
             // Don't show the forms available if no parameter set
@@ -120,7 +121,7 @@ if (!$xoopsSecurity->check()) {
     $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
 }
 
-$formId = \Xmf\Request::getInt('form_id', 0, 'POST');
+$formId = Request::getInt('form_id', 0, 'POST');
 if (empty($formId)
     || !($form = $formsHandler->get($formId))
     || (false === $formsHandler->getSingleFormPermission($formId)))
@@ -160,7 +161,7 @@ foreach ($_POST as $k => $v) {
     }
 }
 
-$xoopsUploadFile = \Xmf\Request::getArray('xoops_upload_file', array(), 'POST');
+$xoopsUploadFile = Request::getArray('xoops_upload_file', array(), 'POST');
 if (!empty($xoopsUploadFile)) {
     foreach ($xoopsUploadFile as $k => $v) {
         $n          = explode('_', $v);

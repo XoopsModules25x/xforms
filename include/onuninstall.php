@@ -22,9 +22,9 @@
 /**
  * @internal {Make sure you PROTECT THIS FILE}
  */
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Helper as xHelper;
-use \XoopsModules\Xforms\Utility;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Utility;
 
 if ((!defined('XOOPS_ROOT_PATH'))
     || !($GLOBALS['xoopsUser'] instanceof XoopsUser)

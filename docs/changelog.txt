@@ -1,27 +1,3 @@
-
-TODO:
-=================================
-- add sanitation to many of the form input values
-- create checkbox for number input in Admin to include/exclude default/step
-- add Modernizer to module to check browser capabilities and improve 'fallback' input methods for:
-  - range
-  - time (for Firefox - use http://trentrichardson.com/examples/timepicker/)
-- create renderValidationJS or use pattern for HTML5 types since many browsers don't actually validate data
-
-ENHANCEMENTS TO BE ADDED:
-=================================
-- create/test xBootstrap templates
-- Add option to date element to set 'Today' as the min/max/default date where 'Today' is dynamically calculated to   set minimum as 'Today' (not 'Current Date' which is fixed at time form is created).
-- In admin - allow selecting multiple 'default' values in select boxes (select, country, etc) if select box is set to 'allow multiple selections'.
-- add Elements:
-  - rating | use https://github.com/antennaio/jquery-bar-rating
-  - payment use xPayment plugin to create payment element
-- add Xmf\Metagen support to dynamically create meta data for front side pages/forms
-
-KNOWN BUGS:
-=================================
-- javascript 'fallback' methods don't work in form block (javascript not loaded in block)
-
 2.00 Alpha 2 [Not Released]
 =================================
 - added namespace support (\XoopsModules\Xforms)
@@ -61,7 +37,7 @@ KNOWN BUGS:
 - changed PHP each() to foreach() - each() deprecated in PHP 7.2.0+
 - changed intval to (int) where appropriate
 - changed calls to \MyTextSanitizer::makeTboxData4PreviewInForm (deprecated) to htmlSpecialChars
-- changed to use \Xmf\Request for var validation/filtering
+- changed to use Xmf\Request for var validation/filtering
 - changed to use Xmf for language loading functions
 - changed to require XOOPS 2.5.9+ - required to work around core CAPTCHA instance bug
 - changed unnecessary double-quote to single-quote in English language files

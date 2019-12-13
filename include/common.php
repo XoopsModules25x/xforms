@@ -19,8 +19,8 @@
  * @since     1.30
  */
 
-use \XoopsModules\Xforms\Helper as xHelper;
-use \Xmf\Module\Helper\Session;
+use XoopsModules\Xforms\Helper as xHelper;
+use Xmf\Module\Helper\Session;
 
 // defined('XOOPS_ROOT_PATH') || exit('Restricted Access');
 

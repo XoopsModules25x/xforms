@@ -21,12 +21,12 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Constants;
-use \XoopsModules\Xforms\Helper as xHelper;
-use \XoopsModules\Xforms\FormInput;
-use \XoopsModules\Xforms\FormRaw;
-use \Xmf\Module\Helper;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\FormInput;
+use XoopsModules\Xforms\FormRaw;
+use Xmf\Module\Helper;
 
 /**
  * \XoopsModules\Xforms\ElementRenderer class to dislay form elements

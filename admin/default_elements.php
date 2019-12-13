@@ -21,8 +21,8 @@
  *
  * @see \XoopsModules\Xforms\Helper
  */
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper as xHelper;
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 

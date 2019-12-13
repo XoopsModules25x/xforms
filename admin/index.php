@@ -21,8 +21,8 @@
  * @see \Xmf\Module\Helper
  * @see \Xmf\Module\Admin
  */
-use \XoopsModules\Xforms;
-use \XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Constants;
 
 require_once __DIR__ . '/admin_header.php';
 
