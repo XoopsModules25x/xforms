@@ -35,6 +35,7 @@ class Configurator
     public $oldFolders      = [];
     public $renameTables    = [];
     public $modCopyright;
+
     /**
      * Configurator constructor.
      */
@@ -43,7 +44,7 @@ class Configurator
         $moduleDirName      = basename(dirname(dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         require_once dirname(dirname(__DIR__)) . '/include/config.php';
-        $config = getConfig();
+        $config                = getConfig();
         $this->name            = $config->name;
         $this->paths           = $config->paths;
         $this->uploadFolders   = $config->uploadFolders;

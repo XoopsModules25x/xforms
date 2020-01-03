@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,6 +19,7 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
+
 use Xmf\Request;
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
@@ -43,10 +45,9 @@ if (empty($file)) {
     $helper       = xHelper::getInstance();
     $uDataHandler = $helper::getInstance()->getHandler('UserData');
     //$uDataHandler = $helper->getHandler('userdata');
-    if (!($uData  = $uDataHandler->get($udid))
+    if (!($uData = $uDataHandler->get($udid))
         || ((int)$uData->getVar('form_id') !== $form)
-        || ((int)$uData->getVar('ele_id') !== $elem))
-    {
+        || ((int)$uData->getVar('ele_id') !== $elem)) {
         //@todo - test ob_end_clean here - added in v2.00 ALPHA 2
         ob_end_clean();
         exit();
@@ -59,9 +60,9 @@ if (empty($file)) {
     }
     $file  = $uDataValue['file'];
     $fname = $uDataValue['name'];
-//}
+    //}
 
-//if (empty($file)) {
+    //if (empty($file)) {
     //@todo - shouldn't this be an ob_end_clean here instead of ob_end_flush?
     ob_end_flush();
     redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
@@ -82,14 +83,14 @@ ob_end_clean(); /*Clear all contents sending to browser to prevent corruptions i
 $mimeFile = 'application/octet-stream';
 
 if (class_exists('finfo')) { // should exist for >= PHP 5.3
-    $finfo    = new \finfo(FILEINFO_MIME);
+    $finfo = new \finfo(FILEINFO_MIME);
     //$mimeFile = $finfo->file($filename);
     $mimeFile = $finfo->file($fname);
 } else {
     $mimeTypes = include_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
     //$extArray  = explode('.', $filename);
-    $extArray  = explode('.', $fname);
-    $ext       = strtolower(array_pop($extArray));
+    $extArray = explode('.', $fname);
+    $ext      = mb_strtolower(array_pop($extArray));
     if (array_key_exists($ext, $mimeTypes)) {
         $mimeFile = $mimeTypes[$ext];
     }
@@ -97,7 +98,7 @@ if (class_exists('finfo')) { // should exist for >= PHP 5.3
 
 header('Content-Description: File Transfer');
 /**@todo check to see if Content-Type should be replaced by:
-header('Content-Type: ' . $mimeFile); */
+ * header('Content-Type: ' . $mimeFile); */
 header('Content-Type: application/octet-stream');
 header('Content-Disposition: attachment; filename=' . basename($fname));
 header('Content-Transfer-Encoding: binary');

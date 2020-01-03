@@ -21,7 +21,6 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
-
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -48,7 +47,6 @@ class UserData extends \XoopsObject
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see \XoopsObject::getVar()
      */
@@ -66,11 +64,11 @@ class UserData extends \XoopsObject
                 $myVar = '';
             }
         }
+
         return $myVar;
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see \XoopsObject::setVar()
      */
@@ -81,7 +79,7 @@ class UserData extends \XoopsObject
             $vals = array_values($val);
             $vals = array_map('base64_encode', $vals);
             $val  = array_combine($keys, $vals);
-            $val = serialize($val);
+            $val  = serialize($val);
         }
         parent::setVar($key, $val, $not_gpc);
     }

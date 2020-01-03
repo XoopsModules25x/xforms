@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,16 +19,16 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  *
- * @see \Xmf\Request
- * @see \Xmf\Module\Helper
- * @see \Xmf\Module\Admin
- * @see \XoopsModules\Xforms\Helper
+ * @see       \Xmf\Request
+ * @see       \Xmf\Module\Helper
+ * @see       \Xmf\Module\Admin
+ * @see       \XoopsModules\Xforms\Helper
  */
 
+use Xmf\Module\Helper;
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\FormInput;
-use Xmf\Module\Helper;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -57,11 +58,11 @@ switch ($op) {
         /* @var \Xmf\Module\Admin $adminObject */
         $adminObject->displayNavigation(basename(__FILE__));
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url('browse.php?modules/' . $moduleDirName . '/assets/css/style.css'));
-/*
-        if (!class_exists('XformsFormInput')) {
-            include_once $helper->path('class/FormInput.php');
-        }
-*/
+        /*
+                if (!class_exists('XformsFormInput')) {
+                    include_once $helper->path('class/FormInput.php');
+                }
+        */
         if (Constants::ELE_NOT_VALID !== (int)$eleId) {
             $element     = $xformsEleHandler->get($eleId);
             $eleType     = $element->getVar('ele_type');
@@ -81,8 +82,8 @@ switch ($op) {
             $GLOBALS['xoTheme']->addScript('browse.php?Frameworks/jquery/plugins/jquery.ui.js');
         }
 
-        $sysHelper  = Helper::getHelper('system');
-        $output     = new \XoopsThemeForm($outputTitle, 'form_ele', $_SERVER['SCRIPT_NAME'], 'post', true);
+        $sysHelper = Helper::getHelper('system');
+        $output    = new \XoopsThemeForm($outputTitle, 'form_ele', $_SERVER['SCRIPT_NAME'], 'post', true);
 
         $value      = $element->getVar('ele_value', 'f');
         $eleReq     = $element->getVar('ele_req');
@@ -92,16 +93,15 @@ switch ($op) {
 
         if ('html' !== $eleType) {
             // editor settings
-            $editorConfigs = array('editor' => $sysHelper->getConfig('general_editor'),
-                                     'rows' => 10,
-                                     'cols' => 60,
-                                    'width' => '100%',
-                                   'height' => '350px',
-                                     'name' => 'ele_caption',
-                                    'value' => (Constants::FORM_CLONED === $clone)
-                                               ? sprintf(_AM_XFORMS_COPIED, $element->getVar('ele_caption', 'e'))
-                                               : $element->getVar('ele_caption', 'e')
-            );
+            $editorConfigs = [
+                'editor' => $sysHelper->getConfig('general_editor'),
+                'rows'   => 10,
+                'cols'   => 60,
+                'width'  => '100%',
+                'height' => '350px',
+                'name'   => 'ele_caption',
+                'value'  => (Constants::FORM_CLONED === $clone) ? sprintf(_AM_XFORMS_COPIED, $element->getVar('ele_caption', 'e')) : $element->getVar('ele_caption', 'e'),
+            ];
             // end editor settings
             $textEleCaption  = new \XoopsFormEditor(_AM_XFORMS_ELE_CAPTION, 'ele_caption', $editorConfigs);
             $captionRenderer = $textEleCaption->editor->renderer;
@@ -122,7 +122,7 @@ switch ($op) {
             $checkEleDisplayRow->addOption(2, ' ');
             $output->addElement($checkEleDisplayRow);
         } else {
-            $textEleCaption = new \XoopsFormText(_AM_XFORMS_ELE_CAPTION, 'ele_caption',50, 255, $element->getVar('ele_caption', 'e'));
+            $textEleCaption = new \XoopsFormText(_AM_XFORMS_ELE_CAPTION, 'ele_caption', 50, 255, $element->getVar('ele_caption', 'e'));
             $textEleCaption->setDescription(_AM_XFORMS_ELE_HTML_CAPTION_DESC);
             $output->addElement($textEleCaption);
         }
@@ -134,16 +134,17 @@ switch ($op) {
         $orderEleDisp->setExtra('style="width: 5em;"');
         $output->addElement($orderEleDisp);
 
-        $elementName = '';
+        $elementName   = '';
         $validElements = $xformsEleHandler->getValidElements();
-        $validKeys = array_keys($validElements);
+        $validKeys     = array_keys($validElements);
         if (in_array($eleType, $validKeys)) {
-            $elementName = constant('_AM_XFORMS_ELE_' . strtoupper($eleType));
+            $elementName = constant('_AM_XFORMS_ELE_' . mb_strtoupper($eleType));
             include $helper->path('admin/elements/ele_' . $eleType . '.php');
         } else {
-            $helper->redirect('admin/index.php',
-                                    Constants::REDIRECT_DELAY_MEDIUM,
-                                    sprintf(_AM_XFORMS_ERR_BAD_ELEMENT, htmlspecialchars($eleType))
+            $helper->redirect(
+                'admin/index.php',
+                Constants::REDIRECT_DELAY_MEDIUM,
+                sprintf(_AM_XFORMS_ERR_BAD_ELEMENT, htmlspecialchars($eleType))
             );
         }
 
@@ -170,19 +171,19 @@ switch ($op) {
         echo '<h4 class="center">' . $elementName . '</h4>';
         $output->display();
         break;
-
     case 'delete':
         $eleId = (int)$eleId; // fix for Xmf\Request bug in XOOPS < 2.5.9 FINAL
         if (0 === (int)$eleId) {
-            $xformsHandler->redirect('admin/main.php',
-                                     Constants::REDIRECT_DELAY_NONE,
-                                     _AM_XFORMS_NOTHING_SELECTED
+            $xformsHandler->redirect(
+                'admin/main.php',
+                Constants::REDIRECT_DELAY_NONE,
+                _AM_XFORMS_NOTHING_SELECTED
             );
         }
         if (empty($_POST['ok'])) {
             $element = $xformsEleHandler->get($eleId);
             xoops_cp_header();
-            xoops_confirm(array('op' => 'delete', 'ele_id' => $eleId, 'form_id' => $formId, 'ok' => Constants::CONFIRM_OK), $_SERVER['SCRIPT_NAME'], sprintf(_AM_XFORMS_ELE_CONFIRM_DELETE, $element->getVar('ele_caption')), _YES);
+            xoops_confirm(['op' => 'delete', 'ele_id' => $eleId, 'form_id' => $formId, 'ok' => Constants::CONFIRM_OK], $_SERVER['SCRIPT_NAME'], sprintf(_AM_XFORMS_ELE_CONFIRM_DELETE, $element->getVar('ele_caption')), _YES);
         } else {
             if (!$xoopsSecurity->check()) {
                 redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
@@ -197,7 +198,6 @@ switch ($op) {
             redirect_header($helper->url('admin/elements.php?form_id=' . $formId), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         }
         break;
-
     case 'save':
         //check to make sure this is from known location
         if (!$xoopsSecurity->check()) {
@@ -221,37 +221,36 @@ switch ($op) {
             // Force text box to be 2 rows
             $element->setVar('ele_display_row', Constants::DISPLAY_DOUBLE_ROW);
         }
-//        $order   = empty($ele_order) ? 0 : (int)$eleOrder;
-//        $display = (isset($ele_display)) ? 1 : 0;
-//        $element->setVar('ele_order', $order);
-//        $element->setVar('ele_display', $display);
+        //        $order   = empty($ele_order) ? 0 : (int)$eleOrder;
+        //        $display = (isset($ele_display)) ? 1 : 0;
+        //        $element->setVar('ele_order', $order);
+        //        $element->setVar('ele_display', $display);
         $eleDisplay = Request::getInt('ele_display', Constants::ELEMENT_NOT_DISPLAY, 'POST');
         $element->setVar('ele_order', $eleOrder);
         $element->setVar('ele_display', $eleDisplay);
         $element->setVar('ele_type', $eleType);
-/* as of PHP 5.4 get_magic_quotes_gpc always returns false so $magicQuotes always eq false
-        $magicQuotes = false; // Flag to fix problem with slashes
-        if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
-            $magicQuotes = true;
-        }
-*/
-        $value = array();
+        /* as of PHP 5.4 get_magic_quotes_gpc always returns false so $magicQuotes always eq false
+                $magicQuotes = false; // Flag to fix problem with slashes
+                if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+                    $magicQuotes = true;
+                }
+        */
+        $value = [];
 
         switch ($eleType) {
             case 'checkbox':
-                $checked  = Request::getArray('checked', Constants::ELE_NOT_CHECKED, 'POST');
-                $checked  = array_map('intval', $checked);
-                foreach($eleValue as $key=>$v) {
-                //while ($v = each($eleValue)) {
+                $checked = Request::getArray('checked', Constants::ELE_NOT_CHECKED, 'POST');
+                $checked = array_map('intval', $checked);
+                foreach ($eleValue as $key => $v) {
+                    //while ($v = each($eleValue)) {
                     if ('' == $v) { // remove 'empty' options
                         unset($eleValue[$key]);
                     } else {
-                        $check = (isset($checked[$key]) && (Constants::ELE_CHECKED == $checked[$key])) ? Constants::ELE_CHECKED : Constants::ELE_NOT_CHECKED;
+                        $check     = (isset($checked[$key]) && (Constants::ELE_CHECKED == $checked[$key])) ? Constants::ELE_CHECKED : Constants::ELE_NOT_CHECKED;
                         $value[$v] = $check;
                     }
                 }
                 break;
-
             /**
              * Color element
              *
@@ -260,10 +259,9 @@ switch ($op) {
              */
             case 'color':
                 $currEleValues = $element->getVar('ele_value'); // get current values
-                $value[0] = !empty($eleValue[0]) ? $myts->htmlSpecialChars($eleValue[0]) : $currEleValues[0]; // default
-                $value[1] = !empty($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // input box size
+                $value[0]      = !empty($eleValue[0]) ? $myts->htmlSpecialChars($eleValue[0]) : $currEleValues[0]; // default
+                $value[1]      = !empty($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // input box size
                 break;
-
             /**
              * Date element
              *
@@ -276,14 +274,13 @@ switch ($op) {
              */
             case 'date':
                 $currEleValues = $element->getVar('ele_value'); // get current values
-                $value[0] = isset($eleValue[0]) ? $eleValue[0] : $currEleValues[0]; // default date
-                $value[1] = isset($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // default date option (0 = none, 1 = current, 2 = min date)
-                $value[2] = isset($eleValue[2]) ? $eleValue[2] : $currEleValues[2]; // min date
-                $value[3] = isset($eleValue[3]) ? (int)$eleValue[3] : $currEleValues[3]; // min date option (0 = none, 1 = current, 2 = min date)
-                $value[4] = isset($eleValue[4]) ? $eleValue[4] : $currEleValues[4]; // max date
-                $value[5] = isset($eleValue[5]) ? (int)$eleValue[5] : $currEleValues[5]; // max date option (0 = none, 1 = current, 2 = max date)
+                $value[0]      = isset($eleValue[0]) ? $eleValue[0] : $currEleValues[0]; // default date
+                $value[1]      = isset($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // default date option (0 = none, 1 = current, 2 = min date)
+                $value[2]      = isset($eleValue[2]) ? $eleValue[2] : $currEleValues[2]; // min date
+                $value[3]      = isset($eleValue[3]) ? (int)$eleValue[3] : $currEleValues[3]; // min date option (0 = none, 1 = current, 2 = min date)
+                $value[4]      = isset($eleValue[4]) ? $eleValue[4] : $currEleValues[4]; // max date
+                $value[5]      = isset($eleValue[5]) ? (int)$eleValue[5] : $currEleValues[5]; // max date option (0 = none, 1 = current, 2 = max date)
                 break;
-
             /**
              * Email element
              *
@@ -297,7 +294,6 @@ switch ($op) {
                 $value[1] = !empty($eleValue[1]) ? (int)$eleValue[1] : 254;
                 $value[2] = !empty($eleValue[2]) ? $myts->htmlSpecialChars($eleValue[2]) : '';
                 break;
-
             /**
              * HTML element
              *
@@ -306,7 +302,6 @@ switch ($op) {
             case 'html':
                 $value[] = $eleValue[0];
                 break;
-
             /**
              * Number element
              *
@@ -321,16 +316,15 @@ switch ($op) {
              */
             case 'number':
                 $currEleValues = $element->getVar('ele_value'); // get current values
-                $value[0] = isset($eleValue[0]) ? (int)$eleValue[0] : $currEleValues[0];  // min value
-                $value[1] = !empty($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // max value
-                $value[2] = !empty($eleValue[2]) ? (int)$eleValue[2] : $currEleValues[2]; // default value
-                $value[3] = !empty($eleValue[3]) ? (int)$eleValue[3] : $currEleValues[3]; // input box size
-                $value[4] = !empty($eleValue[4]) ? (int)$eleValue[4] : $currEleValues[4]; // set min value
-                $value[5] = !empty($eleValue[5]) ? (int)$eleValue[5] : $currEleValues[5]; // set max value
-                $value[6] = !empty($eleValue[6]) ? (int)$eleValue[6] : $currEleValues[6]; // set default value
-                $value[7] = !empty($eleValue[7]) ? (int)$eleValue[7] : $currEleValues[7]; // step size
+                $value[0]      = isset($eleValue[0]) ? (int)$eleValue[0] : $currEleValues[0];  // min value
+                $value[1]      = !empty($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // max value
+                $value[2]      = !empty($eleValue[2]) ? (int)$eleValue[2] : $currEleValues[2]; // default value
+                $value[3]      = !empty($eleValue[3]) ? (int)$eleValue[3] : $currEleValues[3]; // input box size
+                $value[4]      = !empty($eleValue[4]) ? (int)$eleValue[4] : $currEleValues[4]; // set min value
+                $value[5]      = !empty($eleValue[5]) ? (int)$eleValue[5] : $currEleValues[5]; // set max value
+                $value[6]      = !empty($eleValue[6]) ? (int)$eleValue[6] : $currEleValues[6]; // set default value
+                $value[7]      = !empty($eleValue[7]) ? (int)$eleValue[7] : $currEleValues[7]; // step size
                 break;
-
             /**
              * Obfuscated element
              *
@@ -342,7 +336,6 @@ switch ($op) {
                 $value[0] = !empty($eleValue[0]) ? (int)$eleValue[0] : $helper->getConfig('t_width');
                 $value[1] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('t_max');
                 break;
-
             /**
              * Pattern element
              *
@@ -359,20 +352,18 @@ switch ($op) {
                 $value[3] = isset($eleValue[3]) ? $eleValue[3] : '';
                 $value[4] = isset($eleValue[4]) ? $myts->htmlSpecialChars($eleValue[4]) : '';
                 break;
-
             case 'radio':
                 $checked = Request::getCmd('checked', 0, 'POST');
-                foreach ($eleValue as $key=>$v) {
-                //while ($v = each($eleValue)) {
+                foreach ($eleValue as $key => $v) {
+                    //while ($v = each($eleValue)) {
                     if ('' == $v) { // remove 'empty' options
                         unset($eleValue[$key]);
                     } else {
-                        $newVal = $myts->htmlSpecialChars($myts->addSlashes($v));
+                        $newVal         = $myts->htmlSpecialChars($myts->addSlashes($v));
                         $value[$newVal] = ($checked == $key) ? Constants::ELE_CHECKED : Constants::ELE_NOT_CHECKED;
                     }
                 }
                 break;
-
             /**
              * Range element
              *
@@ -384,13 +375,12 @@ switch ($op) {
              */
             case 'range':
                 $currEleValues = $element->getVar('ele_value'); //get current values
-                $value[0] = isset($eleValue[0]) ? (int)$eleValue[0] : $currEleValues[0]; // default
-                $value[1] = isset($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // default option (0 = no, 1 = yes)
-                $value[2] = isset($eleValue[2]) ? (int)$eleValue[2] : $currEleValues[2]; // min num
-                $value[3] = isset($eleValue[3]) ? (int)$eleValue[3] : $currEleValues[3]; // max num
-                $value[4] = isset($eleValue[4]) ? (int)$eleValue[4] : $currEleValues[4]; // step
+                $value[0]      = isset($eleValue[0]) ? (int)$eleValue[0] : $currEleValues[0]; // default
+                $value[1]      = isset($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // default option (0 = no, 1 = yes)
+                $value[2]      = isset($eleValue[2]) ? (int)$eleValue[2] : $currEleValues[2]; // min num
+                $value[3]      = isset($eleValue[3]) ? (int)$eleValue[3] : $currEleValues[3]; // max num
+                $value[4]      = isset($eleValue[4]) ? (int)$eleValue[4] : $currEleValues[4]; // step
                 break;
-
             /**
              * Select element
              *
@@ -399,11 +389,11 @@ switch ($op) {
              *                [2] => array (caption => selected)
              */
             case 'select':
-                $value[0]    = ($eleValue[0] > 0) ? (int)$eleValue[0] : 1; // size
-                $value[1]    = empty($ele_value[1]) ? Constants::DISALLOW_MULTI : Constants::ALLOW_MULTI; // multi-select
+                $value[0] = ($eleValue[0] > 0) ? (int)$eleValue[0] : 1; // size
+                $value[1] = empty($ele_value[1]) ? Constants::DISALLOW_MULTI : Constants::ALLOW_MULTI; // multi-select
 
-                $checked     = Request::getArray('checked', array());
-                $tempValue   = array();
+                $checked     = Request::getArray('checked', []);
+                $tempValue   = [];
                 $noneChecked = true;
                 foreach ($eleValue[2] as $key => $option) {
                     if (!empty($option)) { // throw out any blank options
@@ -417,7 +407,6 @@ switch ($op) {
                 }
                 $value[2] = $tempValue;
                 break;
-
             /**
              * Country element
              *
@@ -431,7 +420,6 @@ switch ($op) {
                 $value[1] = !empty($eleValue[1]) ? Constants::ALLOW_MULTI : Constants::DISALLOW_MULTI;
                 $value[2] = !empty($eleValue[2]) ? $eleValue[2] : $helper->getConfig('mycountry');
                 break;
-
             /**
              * Text element
              *
@@ -448,7 +436,6 @@ switch ($op) {
                 $value[3] = !empty($eleValue[3]) ? (int)$eleValue[3] : Constants::FIELD_IS_NOT_EMAIL;
                 $value[4] = isset($eleValue[4]) ? strip_tags($myts->htmlSpecialChars($eleValue[4])) : '';
                 break;
-
             /**
              * Textarea element
              *
@@ -463,7 +450,6 @@ switch ($op) {
                 $value[2] = !empty($eleValue[2]) ? (int)$eleValue[2] : $helper->getConfig('ta_cols');
                 $value[3] = isset($eleValue[3]) ? strip_tags($myts->htmlSpecialChars($eleValue[3])) : '';
                 break;
-
             /**
              * Time element
              *
@@ -484,7 +470,6 @@ switch ($op) {
                 $value[] = $eleValue[5]; // set max value 0|false = no, else = yes
                 $value[] = $eleValue[6]; // set def value 0|false = no, else = yes
                 break;
-
             /**
              * Uploadimg element
              *
@@ -498,7 +483,7 @@ switch ($op) {
             case 'uploadimg':
                 $value[4] = (int)$eleValue[4];
                 $value[5] = (int)$eleValue[5];
-                // intentional fall through (no break) - to set other upload values[]
+            // intentional fall through (no break) - to set other upload values[]
             /**
              * Upload element
              * value [0] = input size
@@ -506,24 +491,22 @@ switch ($op) {
              *       [2] = mime types
              *       [3] = save to (mail or directory)
              */
+            // no break
             case 'upload':
                 $value[0] = (int)$eleValue[0];
-                $ele1    = trim($eleValue[1], ' |\t\n\r\0\x0B');// normal trim & pipe '|' too
+                $ele1     = trim($eleValue[1], ' |\t\n\r\0\x0B'); // normal trim & pipe '|' too
                 // get rid of duplicate extensions
                 $ele1Array = explode('|', $ele1);
                 $ele1Array = array_unique($ele1Array);
-                $value[1] = implode('|', $ele1Array);
+                $value[1]  = implode('|', $ele1Array);
 
-                $ele2    = trim($eleValue[2], ' |\t\n\r\0\x0B');// normal trim & pipe '|' too
+                $ele2 = trim($eleValue[2], ' |\t\n\r\0\x0B'); // normal trim & pipe '|' too
                 // get rid of duplicate mime types
                 $ele2Array = explode('|', $ele2);
                 $ele2Array = array_unique($ele2Array);
-                $value[2] = implode('|', $ele2Array);
-                $value[3] = (Constants::UPLOAD_SAVEAS_FILE !== (int)$eleValue[3])
-                          ? Constants::UPLOAD_SAVEAS_ATTACHMENT
-                          : Constants::UPLOAD_SAVEAS_FILE;
+                $value[2]  = implode('|', $ele2Array);
+                $value[3]  = (Constants::UPLOAD_SAVEAS_FILE !== (int)$eleValue[3]) ? Constants::UPLOAD_SAVEAS_ATTACHMENT : Constants::UPLOAD_SAVEAS_FILE;
                 break;
-
             /**
              * Url element
              *
@@ -538,14 +521,13 @@ switch ($op) {
                 $value[] = isset($eleValue[2]) ? $myts->htmlSpecialChars($eleValue[2]) : '';
                 $value[] = isset($eleValue[3]) ? (int)$eleValue[3] : 0;
                 break;
-
             /**
              * RadioYN element
              *
              * value ['_YES'] = 1 is yes, else is no
              */
             case 'yn':
-                $value = ('_NO' === $eleValue[0]) ? array('_YES' => 0, '_NO' => 1) : array('_YES' => 1, '_NO' => 0);
+                $value = ('_NO' === $eleValue[0]) ? ['_YES' => 0, '_NO' => 1] : ['_YES' => 1, '_NO' => 0];
                 break;
         }
         $element->setVar('ele_value', $value);
@@ -556,7 +538,6 @@ switch ($op) {
             redirect_header($helper->url('admin/elements.php?form_id=' . $formId), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         }
         break;
-
     default:
         xoops_cp_header();
         $adminObject->displayNavigation(basename(__FILE__));
@@ -564,13 +545,9 @@ switch ($op) {
         //get the valid element types
         $validEleTypes = $xformsEleHandler->getValidElements();
 
-        $counter = 0;
+        $counter  = 0;
         $cssClass = '';
-        echo '  <table class="outer bspacing1">'
-           . '    <thead>'
-           . '    <tr><th colspan="2">' . _AM_XFORMS_ELE_CREATE . '</th></tr>'
-           . '    </thead>'
-           . '    <tbody>';
+        echo '  <table class="outer bspacing1">' . '    <thead>' . '    <tr><th colspan="2">' . _AM_XFORMS_ELE_CREATE . '</th></tr>' . '    </thead>' . '    <tbody>';
         foreach ($validEleTypes as $thisType => $thisDesc) {
             if (++$counter % 2) {
                 //odd
@@ -584,8 +561,7 @@ switch ($op) {
         if ($counter % 2) { //odd so finish out table row
             echo '<td class="' . $cssClass . ' center">&nbsp;</td></tr>';
         }
-        echo '  </tbody>'
-           . '  </table>';
+        echo '  </tbody>' . '  </table>';
         break;
 }
 include __DIR__ . '/admin_footer.php';

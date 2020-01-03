@@ -23,7 +23,6 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**

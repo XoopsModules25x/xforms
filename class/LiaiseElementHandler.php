@@ -12,6 +12,7 @@ namespace XoopsModules\Xforms;
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Xforms
  *
@@ -21,19 +22,16 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * Class \XoopsModules\Xforms\LiaiseElementHandler
- *
  */
 class LiaiseElementHandler extends \XoopsPersistableObjectHandler
 {
-    /**
-     * @param null|\XoopsDatabase $db
-     */
     public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'liaise_formelements', LiaiseElement::class, 'ele_id', 'ele_type');

@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -28,25 +29,21 @@ use XoopsModules\Xforms\Utility;
 /**
  * @internal {Make sure you PROTECT THIS FILE}
  */
-
 if ((!defined('XOOPS_ROOT_PATH'))
     || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
-    || !($GLOBALS['xoopsUser']->isAdmin()))
-{
+    || !($GLOBALS['xoopsUser']->isAdmin())) {
     exit('Restricted access' . PHP_EOL);
 }
 
 /**
  * Upgrade works to update Xforms from previous versions
  *
- * @param \XoopsModule $module
  * @param string $prev_version version * 100
  *
- * @uses \Xmf\Module\Admin
+ * @return bool
  * @uses \XoopsModules\Xforms\Utility
  *
- * @return bool
- *
+ * @uses \Xmf\Module\Admin
  */
 function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
 {
@@ -100,7 +97,6 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
     require_once $helper->path('include/common.php');
 
     if ($prev_version < 200) {
-
         $migrate = new \Xmf\Database\Tables();
 
         //-------------------------------
@@ -113,45 +109,51 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
 
         if (!$oldTableExists) {
             $module->setErrors(sprintf(_MI_XFORMS_INST_NO_TABLE, $oldTableName));
+
             return false;
         } elseif ($mainTableExists) {
             $module->setErrors(sprintf(_MI_XFORMS_INST_TABLE_EXISTS, $mainTableName));
+
             return false;
-        } else {
-            // Rename table to new table name
-            $success = $migrate->renameTable($oldTableName, $mainTableName);
-            $success &= $migrate->executeQueue();
-            if (false === $success) {
-                $module->setErrors($migrate->getLastError());
-                return false;
-            }
         }
+        // Rename table to new table name
+        $success = $migrate->renameTable($oldTableName, $mainTableName);
+        $success &= $migrate->executeQueue();
+        if (false === $success) {
+            $module->setErrors($migrate->getLastError());
+
+            return false;
+        }
+
         // Modify Form table - add columns
-        $columnArray = array(array('form_save_db', "tinyint(1) NOT NULL default '1'"),
-                             array('form_send_to_other', "varchar(255) NOT NULL default ''"),
-                             array('form_send_copy', "tinyint(1) NOT NULL default '1'"),
-                             array('form_email_header', "text NOT NULL"),
-                             array('form_email_footer', "text NOT NULL"),
-                             array('form_email_uheader', "text NOT NULL"),
-                             array('form_email_ufooter', "text NOT NULL"),
-                             array('form_display_style', "varchar(1) NOT NULL default 'f'"),
-                             array('form_begin', "int(10) unsigned NOT NULL default '0'"),
-                             array('form_end', "int(10) unsigned NOT NULL default '0'"),
-                             array('form_active', "tinyint(1) NOT NULL default '1'")
-        );
+        $columnArray = [
+            ['form_save_db', "tinyint(1) NOT NULL default '1'"],
+            ['form_send_to_other', "varchar(255) NOT NULL default ''"],
+            ['form_send_copy', "tinyint(1) NOT NULL default '1'"],
+            ['form_email_header', 'text NOT NULL'],
+            ['form_email_footer', 'text NOT NULL'],
+            ['form_email_uheader', 'text NOT NULL'],
+            ['form_email_ufooter', 'text NOT NULL'],
+            ['form_display_style', "varchar(1) NOT NULL default 'f'"],
+            ['form_begin', "int(10) unsigned NOT NULL default '0'"],
+            ['form_end', "int(10) unsigned NOT NULL default '0'"],
+            ['form_active', "tinyint(1) NOT NULL default '1'"],
+        ];
 
         $migrate->resetQueue();
         $migrate->useTable($mainTableName);
         foreach ($columnArray as $column) {
             if (false === $migrate->addColumn($mainTableName, $column[0], $column[1])) {
                 $module->setErrors($migrate->getLastError());
+
                 return false;
             }
         }
 
         if (false === $migrate->executeQueue()) {
-                $module->setErrors($migrate->getLastError());
-                return false;
+            $module->setErrors($migrate->getLastError());
+
+            return false;
         }
 
         //-------------------------------
@@ -166,18 +168,20 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
 
         if (!$oldTableExists) {
             $module->setErrors(sprintf(_MI_XFORMS_INST_NO_TABLE, $oldTableName));
+
             return false;
         } elseif ($mainTableExists) {
             $module->setErrors(sprintf(_MI_XFORMS_INST_TABLE_EXISTS, $mainTableName));
+
             return false;
-        } else {
-            // rename table to new table name
-            $success = $migrate->renameTable($oldTableName, $mainTableName);
-            $success &= $migrate->executeQueue();
-            if (false === $success) {
-                $module->setErrors($migrate->getLastError());
-                return false;
-            }
+        }
+        // rename table to new table name
+        $success = $migrate->renameTable($oldTableName, $mainTableName);
+        $success &= $migrate->executeQueue();
+        if (false === $success) {
+            $module->setErrors($migrate->getLastError());
+
+            return false;
         }
 
         // Add index to improve performance
@@ -192,7 +196,7 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
         // Change all 'select2' elements to 'country'
         $migrate->resetQueue();
         $success = $migrate->useTable($mainTableName);
-        $success &= $migrate->update($mainTableName, array('ele_type' => 'country'), new \Criteria('ele_type', 'select2'));
+        $success &= $migrate->update($mainTableName, ['ele_type' => 'country'], new \Criteria('ele_type', 'select2'));
         // Change ele_id from smallint(5) to mediumint(8)
         $success &= $migrate->alterColumn($mainTableName, 'ele_id', 'mediumint(8) NOT NULL auto_increment');
         // Change ele_caption from varchar(255) to text
@@ -210,18 +214,20 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
         $success &= $migrate->addTable($mainTableName);
 
         // Add UserData table columns
-        $columnArray = array(array('udata_id', "int(11) unsigned NOT NULL auto_increment"),
-                             array('uid', "mediumint(8) unsigned NOT NULL default '0'"),
-                             array('form_id', "smallint(5) NOT NULL"),
-                             array('ele_id', "mediumint(8) NOT NULL"),
-                             array('udata_time', "int(10) unsigned NOT NULL default '0'"),
-                             array('udata_ip', "varchar(100) NOT NULL default '0.0.0.0'"),
-                             array('udata_agent', "varchar(500) NOT NULL default ''"),
-                             array('udata_value', "text NOT NULL")
-        );
+        $columnArray = [
+            ['udata_id', 'int(11) unsigned NOT NULL auto_increment'],
+            ['uid', "mediumint(8) unsigned NOT NULL default '0'"],
+            ['form_id', 'smallint(5) NOT NULL'],
+            ['ele_id', 'mediumint(8) NOT NULL'],
+            ['udata_time', "int(10) unsigned NOT NULL default '0'"],
+            ['udata_ip', "varchar(100) NOT NULL default '0.0.0.0'"],
+            ['udata_agent', "varchar(500) NOT NULL default ''"],
+            ['udata_value', 'text NOT NULL'],
+        ];
         foreach ($columnArray as $column) {
             if (false === $migrate->addColumn($mainTableName, $column[0], $column[1])) {
                 $module->setErrors($migrate->getLastError());
+
                 return false;
             }
         }
@@ -231,20 +237,21 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
         $success &= $migrate->executeQueue();
         if (!$success) {
             $module->setErrors($migrate->getLastError());
+
             return false;
         }
 
         unset($migrate);
 
-
         //----------------------------------------------------------------
         // Remove previous .css, .js and .images directories since they're
         // being moved to ./assets
         //----------------------------------------------------------------
-        $old_directories = array($GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/css/'),
-                                 $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/js/'),
-                                 $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/images/')
-        );
+        $old_directories = [
+            $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/css/'),
+            $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/js/'),
+            $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/images/'),
+        ];
         foreach ($old_directories as $old_dir) {
             $dirInfo = new \SplFileInfo($old_dir);
             if ($dirInfo->isDir()) {
@@ -254,6 +261,7 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
         }
         if (!$success) {
             $module->setErrors(_MI_XFORMS_INST_NO_DEL_DIRS);
+
             return false;
         }
     }
@@ -263,11 +271,11 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
     //-----------------------------------------------------------------------
     // Remove old files
     $directory = $helper->path('templates/');
-//    $directory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/templates/');
+    //    $directory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/templates/');
     $dirInfo = new \SplFileInfo($directory);
     // Validate is a directory
     if ($dirInfo->isDir()) {
-        $fileList = array_diff(scandir($directory), array('..', '.', 'index.html'));
+        $fileList = array_diff(scandir($directory), ['..', '.', 'index.html']);
         foreach ($fileList as $k => $v) {
             if (!preg_match('/.tpl+$/i', $v)) {
                 $fileInfo = new \SplFileInfo($directory . $v);
@@ -295,10 +303,10 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
         // ./admin/elements/ele_*.php files
         //---------------------------------------------------------------
         $directory = $GLOBALS['xoops']->path('modules/' . $module->getVar('dirname', 'n') . '/admin/');
-        $dirInfo = new \SplFileInfo($directory);
+        $dirInfo   = new \SplFileInfo($directory);
         // Validate directory exists
         if ($dirInfo->isDir()) {
-            $fileList = array_diff(scandir($directory), array('..', '.', 'index.html'));
+            $fileList = array_diff(scandir($directory), ['..', '.', 'index.html']);
             foreach ($fileList as $k => $v) {
                 if (preg_match('/^(ele_).*(\.php)$/i', $v)) {
                     $fileInfo = new \SplFileInfo($directory . $v);

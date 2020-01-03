@@ -9,7 +9,8 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
- /**
+
+/**
  * Module: xForms
  *
  * @package   \XoopsModules\Xforms\include
@@ -18,6 +19,7 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
 
 $GLOBALS['xoopsOption']['nocommon'] = true;
@@ -38,7 +40,7 @@ if (!class_exists($issuesClass)) {
     xoops_load('Issues', $moduleDirName);
 }
 
-$modIssues = new $issuesClass;
+$modIssues = new $issuesClass();
 if ($modIssues->getCachedEtag()) {
     // Found the session var so check to see if anything's changed since last time we checked
     $hdrSize       = $modIssues->execCurl();
@@ -47,12 +49,12 @@ if ($modIssues->getCachedEtag()) {
     $status = $modIssues->getHeaderFromArray('Status: ');
     if (preg_match('/^304 Not Modified/', $status)) {
         // Hasn't been modified so get response & header size from session
-        $curl_response = isset($_SESSION[$modIssues->getsKeyResponse()]) ? base64_decode(unserialize($_SESSION[$modIssues->getsKeyResponse()])) : array();
+        $curl_response = isset($_SESSION[$modIssues->getsKeyResponse()]) ? base64_decode(unserialize($_SESSION[$modIssues->getsKeyResponse()])) : [];
         $hdrSize       = isset($_SESSION[$modIssues->getsKeyHdrSize()]) ? unserialize($_SESSION[$modIssues->getsKeyHdrSize()]) : 0;
     } elseif (preg_match('/^200 OK/', $status)) {
         // Ok, request new info
         unset($modIssues);
-        $modIssues     = new $issuesClass;
+        $modIssues     = new $issuesClass();
         $hdrSize       = $modIssues->execCurl();
         $curl_response = $modIssues->getCurlResponse();
     } elseif (preg_match('/^403 Forbidden/', $status)) {
@@ -61,7 +63,7 @@ if ($modIssues->getCachedEtag()) {
         $msgEle        = array_search('message: ', $responseArray);
         if (false !== $msgEle) {
             // Found the error message so set it
-            $modIssues->setError(substr($responseArray[$msgEle], 8)); //set the error message
+            $modIssues->setError(mb_substr($responseArray[$msgEle], 8)); //set the error message
         } else {
             // Couldn't find error message, but something went wrong
             // so clear session vars
@@ -83,40 +85,49 @@ if ($modIssues->getCachedEtag()) {
     // Nothing in session so request new info
     $hdrSize       = $modIssues->execCurl();
     $curl_response = $modIssues->getCurlResponse();
-
 }
 
-$hdr        = substr($curl_response, 0, $hdrSize);
-$rspSize    = strlen($curl_response) - $hdrSize;
-$response   = substr($curl_response, - $rspSize);
+$hdr        = mb_substr($curl_response, 0, $hdrSize);
+$rspSize    = mb_strlen($curl_response) - $hdrSize;
+$response   = mb_substr($curl_response, -$rspSize);
 $issuesObjs = json_decode($response); //get as objects
 
 echo '<br>'
-   . '<h4 class="odd">' . _AM_XFORMS_ISSUES_OPEN . '</h4>'
-   . '<p class="even">'
-   . '<table>'
-   . '  <thead>'
-   . '  <tr>'
-   . '    <th class="center width10">' . _AM_XFORMS_HELP_ISSUE . '</th>'
-   . '    <th class="center width10">' . _AM_XFORMS_HELP_DATE . '</th>'
-   . '    <th class="center">' . _AM_XFORMS_HELP_TITLE . '</th>'
-   . '    <th class="center width10">' . _AM_XFORMS_HELP_SUBMITTER . '</th>'
-   . '  </tr>'
-   . '  </thead>'
-   . '  <tbody>';
+     . '<h4 class="odd">'
+     . _AM_XFORMS_ISSUES_OPEN
+     . '</h4>'
+     . '<p class="even">'
+     . '<table>'
+     . '  <thead>'
+     . '  <tr>'
+     . '    <th class="center width10">'
+     . _AM_XFORMS_HELP_ISSUE
+     . '</th>'
+     . '    <th class="center width10">'
+     . _AM_XFORMS_HELP_DATE
+     . '</th>'
+     . '    <th class="center">'
+     . _AM_XFORMS_HELP_TITLE
+     . '</th>'
+     . '    <th class="center width10">'
+     . _AM_XFORMS_HELP_SUBMITTER
+     . '</th>'
+     . '  </tr>'
+     . '  </thead>'
+     . '  <tbody>';
 
 $pullReqFound = false;
 $suffix       = '';
 $cssClass     = 'odd';
-$i = 0;
+$i            = 0;
 if (!empty($issuesObjs)) {
     foreach ($issuesObjs as $issue) {
         $suffix = '';
         if (isset($issue->pull_request)) {
-            /** @internal {uncomment the following line if you don't want to see pull requests as issues}}}*/
-//            continue; // github counts pull requests as open issues so ignore these
+            /** @internal {uncomment the following line if you don't want to see pull requests as issues}}} */
+            //            continue; // github counts pull requests as open issues so ignore these
 
-            $suffix = '*';
+            $suffix       = '*';
             $pullReqFound = true;
         }
 
@@ -125,11 +136,32 @@ if (!empty($issuesObjs)) {
         ++$i; // issue count
 
         echo '  <tr>'
-           . '    <td class="' . $cssClass . ' center"><a href="' . $issue->html_url . '" target="_blank">' . (int)$issue->number . $suffix . '</a></td>'
-           . '    <td class="' . $cssClass . ' center">' . $dispDate . '</td>'
-           . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . htmlspecialchars($issue->title) . '</td>'
-           . '    <td class="' . $cssClass . ' center"><a href="' . htmlspecialchars($issue->user->html_url) . '" target="_blank">' . htmlspecialchars($issue->user->login) . '</a></td>'
-           . '  </tr>';
+             . '    <td class="'
+             . $cssClass
+             . ' center"><a href="'
+             . $issue->html_url
+             . '" target="_blank">'
+             . (int)$issue->number
+             . $suffix
+             . '</a></td>'
+             . '    <td class="'
+             . $cssClass
+             . ' center">'
+             . $dispDate
+             . '</td>'
+             . '    <td class="'
+             . $cssClass
+             . ' left" style="padding-left: 2em;">'
+             . htmlspecialchars($issue->title)
+             . '</td>'
+             . '    <td class="'
+             . $cssClass
+             . ' center"><a href="'
+             . htmlspecialchars($issue->user->html_url)
+             . '" target="_blank">'
+             . htmlspecialchars($issue->user->login)
+             . '</a></td>'
+             . '  </tr>';
         $cssClass = ('odd' === $cssClass) ? 'even' : 'odd';
     }
 }
@@ -141,8 +173,6 @@ if (!empty($modIssues->getError())) {
 }
 
 if ($pullReqFound) {
-    echo '    <tfoot>'
-       . '      <tr><td colspan="4" class="left italic marg3 foot">' . _AM_XFORMS_ISSUES_NOTE . '</td></tr>'
-       . '    </tfoot>';
+    echo '    <tfoot>' . '      <tr><td colspan="4" class="left italic marg3 foot">' . _AM_XFORMS_ISSUES_NOTE . '</td></tr>' . '    </tfoot>';
 }
 echo '    </tbody></table></p>';

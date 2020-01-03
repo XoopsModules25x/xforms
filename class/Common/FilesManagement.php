@@ -10,6 +10,7 @@ namespace XoopsModules\Xforms\Common;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -31,11 +32,11 @@ trait FilesManagement
                 }
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
         }
     }
+
     /**
      * @param $file
      * @param $folder
@@ -45,6 +46,7 @@ trait FilesManagement
     {
         return copy($file, $folder);
     }
+
     /**
      * @param $src
      * @param $dst
@@ -67,15 +69,16 @@ trait FilesManagement
         }
         closedir($dir);
     }
+
     /**
      * Remove files and (sub)directories
      *
      * @param string $src source directory to delete
      *
-     * @uses \Xmf\Module\Helper::getHelper()
+     * @return bool true on success
      * @uses \Xmf\Module\Helper::isUserAdmin()
      *
-     * @return bool true on success
+     * @uses \Xmf\Module\Helper::getHelper()
      */
     public static function deleteDirectory($src)
     {
@@ -111,8 +114,10 @@ trait FilesManagement
             // input is not a valid directory
             $success = false;
         }
+
         return $success;
     }
+
     /**
      * Recursively remove directory
      *
@@ -149,6 +154,7 @@ trait FilesManagement
         $iterator = null;   // clear iterator Obj to close file/directory
         return rmdir($src); // remove the directory & return results
     }
+
     /**
      * Recursively move files from one directory to another
      *
@@ -185,16 +191,17 @@ trait FilesManagement
         $iterator = null;   // clear iterator Obj to close file/directory
         return rmdir($src); // remove the directory & return results
     }
+
     /**
      * Recursively copy directories and files from one directory to another
      *
      * @param string $src  - Source of files being moved
      * @param string $dest - Destination of files being moved
      *
-     * @uses \Xmf\Module\Helper::getHelper()
+     * @return bool true on success
      * @uses \Xmf\Module\Helper::isUserAdmin()
      *
-     * @return bool true on success
+     * @uses \Xmf\Module\Helper::getHelper()
      */
     public static function rcopy($src, $dest)
     {
@@ -219,6 +226,7 @@ trait FilesManagement
                 self::rcopy($fObj->getPathname(), "{$dest}/" . $fObj->getFilename());
             }
         }
+
         return true;
     }
 }

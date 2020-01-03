@@ -12,7 +12,7 @@ namespace XoopsModules\Xforms;
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
- /**
+/**
  * Module: xForms
  *
  * @package   \XoopsModules\Xforms\class
@@ -24,9 +24,9 @@ namespace XoopsModules\Xforms;
 
 /**
  * Issues class to collect information from GitHub
- *
  */
- class Issues {
+class Issues
+{
     /**
      * @var array $hdrs
      */
@@ -63,33 +63,36 @@ namespace XoopsModules\Xforms;
      */
     public function __construct()
     {
-        $this->hdrs          = array();
+        $this->hdrs          = [];
         $this->curl_response = '';
         $this->hdrSize       = 0;
         $this->dirname       = basename(dirname(__DIR__));
         //$this->serviceUrl    = 'https://api.github.com/repos/xoops/xoopscore25/issues?state=open';
-        $this->serviceUrl    = 'https://github.com/XoopsModules25x/' . $this->dirname . '/issues?state=open';
+        $this->serviceUrl = 'https://github.com/XoopsModules25x/' . $this->dirname . '/issues?state=open';
         $this->setSessPrefix($this->dirname);
-        $this->err           = '';
+        $this->err = '';
     }
+
     /**
      * Function to put HTTP headers in an array
      *
      * @param string $hdrLine
+     * @param mixed  $curl
      *
      * @return int length of header line put into array
      */
     public function handleHeaderLine($curl, $hdrLine)
     {
         $this->hdrs[] = trim($hdrLine);
-        return strlen($hdrLine);
+
+        return mb_strlen($hdrLine);
     }
+
     /**
      * Function to get a header from the header array
      *
      * @param string $hdr
-     * @param array $hdrArray
-     * @param bool $asArray
+     * @param bool   $asArray
      *
      * @return array|false array($hdr => value) or false if not found
      */
@@ -98,12 +101,14 @@ namespace XoopsModules\Xforms;
         $val = '';
         foreach ($this->hdrs as $thisHdr) {
             if (preg_match("/^{$hdr}/i", $thisHdr)) {
-                $val = substr($thisHdr, strlen($hdr));
+                $val = mb_substr($thisHdr, mb_strlen($hdr));
                 break;
             }
         }
-        return (bool)$asArray ? array($hdr => trim($val)) : trim($val);
+
+        return (bool)$asArray ? [$hdr => trim($val)] : trim($val);
     }
+
     /**
      * Returns response from involking Curl
      *
@@ -115,6 +120,7 @@ namespace XoopsModules\Xforms;
     {
         return (bool)$serialized ? serialize(base64_encode($this->curl_response)) : $this->curl_response;
     }
+
     /**
      * Get the size of curl response headers
      *
@@ -124,6 +130,7 @@ namespace XoopsModules\Xforms;
     {
         return $this->hdrSize;
     }
+
     /**
      * Get the URL for curl
      *
@@ -133,6 +140,7 @@ namespace XoopsModules\Xforms;
     {
         return $this->serviceUrl;
     }
+
     /**
      * Get the Prefix for SESSION variable
      *
@@ -142,6 +150,7 @@ namespace XoopsModules\Xforms;
     {
         return $this->sessPrefix();
     }
+
     /**
      * Set the Prefix for SESSION variable
      *
@@ -152,8 +161,10 @@ namespace XoopsModules\Xforms;
     public function setSessPrefix($prefix)
     {
         $this->sessPrefix = htmlspecialchars($prefix) . '_';
+
         return $this->sessPrefix;
     }
+
     /**
      * Get the SESSION variable name for Etag key
      *
@@ -163,6 +174,7 @@ namespace XoopsModules\Xforms;
     {
         return $this->sessPrefix . 'github_etag';
     }
+
     /**
      * Get the SESSION variable name for Header Size key
      *
@@ -172,6 +184,7 @@ namespace XoopsModules\Xforms;
     {
         return $this->sessPrefix . 'github_hdr_size';
     }
+
     /**
      * Get the SESSION variable name for Response key
      *
@@ -181,6 +194,7 @@ namespace XoopsModules\Xforms;
     {
         return $this->sessPrefix . 'github_curl_response';
     }
+
     /**
      * Get the SESSION variable name for Array key
      *
@@ -188,8 +202,9 @@ namespace XoopsModules\Xforms;
      */
     public function getsKeyArray()
     {
-        return array($this->getsKeyEtag(), $this->getsKeyHdrSize(), $this->getsKeyResponse());
+        return [$this->getsKeyEtag(), $this->getsKeyHdrSize(), $this->getsKeyResponse()];
     }
+
     /**
      * Get the SESSION cached Etag key contents
      *
@@ -199,6 +214,7 @@ namespace XoopsModules\Xforms;
     {
         return isset($_SESSION[$this->getsKeyEtag()]) ? base64_decode(unserialize($_SESSION[$this->getsKeyEtag()])) : false;
     }
+
     /**
      * Set the error message associated with the latest Curl operation
      *
@@ -210,6 +226,7 @@ namespace XoopsModules\Xforms;
     {
         $this->err = $msg;
     }
+
     /**
      * Get the error message associated with the latest Curl operation
      *
@@ -219,6 +236,7 @@ namespace XoopsModules\Xforms;
     {
         return $this->err;
     }
+
     /**
      * Execute a curl operation to retrieve data from GitHub server
      *
@@ -229,17 +247,22 @@ namespace XoopsModules\Xforms;
     public function execCurl()
     {
         $curl = curl_init($this->getServiceUrl());
-        curl_setopt_array($curl, array(CURLOPT_RETURNTRANSFER => true,
-                                               CURLOPT_HEADER => true,
-                                              CURLOPT_VERBOSE => true,
-                                              CURLOPT_TIMEOUT => 5,
-                                              CURLOPT_HTTPGET => true,
-                                            CURLOPT_USERAGENT => 'XOOPS-' . $this->dirname,
-                                           CURLOPT_HTTPHEADER => array('Content-type:application/json',
-                                                                       'If-None-Match: ' . $this->getCachedEtag()),
-                                          CURLINFO_HEADER_OUT => true,
-                                         CURLOPT_HEADERFUNCTION => array($this, 'handleHeaderLine')
-                                 )
+        curl_setopt_array(
+            $curl,
+            [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER         => true,
+                CURLOPT_VERBOSE        => true,
+                CURLOPT_TIMEOUT        => 5,
+                CURLOPT_HTTPGET        => true,
+                CURLOPT_USERAGENT      => 'XOOPS-' . $this->dirname,
+                CURLOPT_HTTPHEADER     => [
+                    'Content-type:application/json',
+                    'If-None-Match: ' . $this->getCachedEtag(),
+                ],
+                CURLINFO_HEADER_OUT    => true,
+                CURLOPT_HEADERFUNCTION => [$this, 'handleHeaderLine'],
+            ]
         );
         // execute the session
         $this->curl_response = curl_exec($curl);
@@ -253,6 +276,7 @@ namespace XoopsModules\Xforms;
         $_SESSION[$this->getsKeyEtag()]     = serialize(base64_encode($hdrEtag));
         $_SESSION[$this->getsKeyHdrSize()]  = serialize($this->hdrSize);
         $_SESSION[$this->getsKeyResponse()] = serialize(base64_encode($this->curl_response));
+
         return $this->hdrSize;
     }
 }

@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,9 +19,10 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  *
- * @see \Xmf\Module\Helper
- * @see \Xmf\Module\Admin
+ * @see       \Xmf\Module\Helper
+ * @see       \Xmf\Module\Admin
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
@@ -28,8 +30,8 @@ require_once __DIR__ . '/admin_header.php';
 
 xoops_cp_header();
 /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
-$totalForms         = $formsHandler->getCount();
-$criteria           = new \CriteriaCompo();
+$totalForms = $formsHandler->getCount();
+$criteria   = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_active', Constants::FORM_ACTIVE, '='));
 $totalActiveForms   = $formsHandler->getCount($criteria);
 $totalInactiveForms = $totalForms - $totalActiveForms;

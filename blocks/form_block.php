@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,6 +19,7 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper as xHelper;
 
@@ -33,12 +35,13 @@ require_once $helper->path('include/common.php');
  *
  * @return boolean
  */
-function b_xforms_form_show($options) {
+function b_xforms_form_show($options)
+{
     // Instantiate module helper
     $helper = xHelper::getInstance();
     $helper->loadLanguage('admin');
 
-    $block = array();
+    $block = [];
 
     /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
     $formsHandler = $helper::getInstance()->getHandler('Forms');
@@ -46,7 +49,7 @@ function b_xforms_form_show($options) {
     $formOk  = $formsHandler->getSingleFormPermission((int)$options[0]);
     $formObj = $formsHandler->get((int)$options[0]); // get the form object we want
     if ($formObj instanceof XformsForms) {
-        $block   = $formObj->render();
+        $block = $formObj->render();
     }
 
     return $block;
@@ -55,12 +58,11 @@ function b_xforms_form_show($options) {
 /**
  * Create HTML for block editing functionality
  *
- * @param array $options[0] = id of form to show
  *
  * @return string html for edit form
- *
  */
-function b_xforms_form_edit($options) {
+function b_xforms_form_edit($options)
+{
     // Instantiate module helper
     $helper = xHelper::getInstance();     // module helper
 
@@ -74,7 +76,7 @@ function b_xforms_form_edit($options) {
     } else {
         $optForm .= '<select id="fs1"  name="options[0]">';
         foreach ($forms as $formObj) {
-            $sel = ($options[0] == $formObj->getVar('form_id')) ? ' selected' : '';
+            $sel     = ($options[0] == $formObj->getVar('form_id')) ? ' selected' : '';
             $optForm .= '  <option value="' . $formObj->getVar('form_id') . '"' . $sel . '>' . $formObj->getVar('form_title', 's') . '</option>';
         }
         $optForm .= '</select>';

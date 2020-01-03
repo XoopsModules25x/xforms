@@ -26,17 +26,19 @@ defined('XOOPS_ROOT_PATH') || die('Restricted access');
 class Helper extends \Xmf\Module\Helper
 {
     public $debug = false;
+
     /**
-     * @param bool $debug
+     * @param null|mixed $dirname
      */
     public function __construct($dirname = null)
     {
         if (null === $dirname) {
-            $dirname = basename(dirname(__DIR__));
+            $dirname       = basename(dirname(__DIR__));
             $this->dirname = $dirname;
         }
         parent::__construct($dirname);
     }
+
     /**
      * @param string $dirname module directory name
      *
@@ -48,8 +50,10 @@ class Helper extends \Xmf\Module\Helper
         if (null === $instance) {
             $instance = new static($dirname);
         }
+
         return $instance;
     }
+
     /**
      * @return string
      */
@@ -57,6 +61,7 @@ class Helper extends \Xmf\Module\Helper
     {
         return $this->dirname;
     }
+
     /**
      * Get an Object Handler
      *
@@ -66,7 +71,7 @@ class Helper extends \Xmf\Module\Helper
      */
     public function getHandler($name)
     {
-        $db    = \XoopsDatabaseFactory::getDatabaseConnection();
+        $db = \XoopsDatabaseFactory::getDatabaseConnection();
         //$class = '\\XoopsModules\\' . ucfirst(mb_strtolower(self::getDirname())) . '\\' . ucfirst($name) . 'Handler';
         $class = __NAMESPACE__ . '\\' . ucfirst($name) . 'Handler';
 

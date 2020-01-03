@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,6 +19,7 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\FormInput;
@@ -48,19 +50,19 @@ $setMinVal = !empty($value[4]) ? Constants::ELE_YES : Constants::ELE_NO;
 $setMaxVal = !empty($value[5]) ? Constants::ELE_YES : Constants::ELE_NO;
 $setDefVal = !empty($value[6]) ? Constants::ELE_YES : Constants::ELE_NO;
 
-$minTray   = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MIN, null, 'minTray');
-$setMin    = new \XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MIN), 'ele_value[4]', $setMinVal);
-$setMin->addOptionArray(array(Constants::ELE_NO => _NO, Constants::ELE_YES => _YES));
-$minInput  = new FormInput('', 'ele_value[0]', 8, 10, $minVal, null, 'time');
+$minTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MIN, null, 'minTray');
+$setMin  = new \XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MIN), 'ele_value[4]', $setMinVal);
+$setMin->addOptionArray([Constants::ELE_NO => _NO, Constants::ELE_YES => _YES]);
+$minInput = new FormInput('', 'ele_value[0]', 8, 10, $minVal, null, 'time');
 $minInput->setExtra('style="width: 8em;" required');
 $minInput->setAttribute('pattern', '[0-9:aAmMpP].');
 $minTray->addElement($setMin);
 $minTray->addElement($minInput);
 
-$maxTray   = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MAX, null, 'maxTray');
-$setMax    = new \XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MAX), 'ele_value[5]', $setMaxVal);
-$setMax->addOptionArray(array(Constants::ELE_NO => _NO, Constants::ELE_YES => _YES));
-$maxInput  = new FormInput('', 'ele_value[1]', 8, 10, $maxVal, null, 'time');
+$maxTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MAX, null, 'maxTray');
+$setMax  = new \XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MAX), 'ele_value[5]', $setMaxVal);
+$setMax->addOptionArray([Constants::ELE_NO => _NO, Constants::ELE_YES => _YES]);
+$maxInput = new FormInput('', 'ele_value[1]', 8, 10, $maxVal, null, 'time');
 $maxInput->setExtra('style="width: 8em;" required');
 $maxInput->setAttribute('pattern', '[0-9:aAmMpP].');
 $maxTray->addElement($setMax);
@@ -72,10 +74,10 @@ $stepInput->setExtra('style="width: 8em;"');
 $stepInput->setAttribute('pattern', '[0-9].');
 $stepInput->setAttribute('min', 1);
 
-$defTray   = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, null, 'defTray');
-$setDef    = new \XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_DEFAULT), 'ele_value[6]', $setDefVal);
-$setDef->addOptionArray(array(Constants::ELE_NO => _NO, Constants::ELE_YES => _YES));
-$defInput  = new FormInput(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', 8, 10, $defVal, null, 'time');
+$defTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, null, 'defTray');
+$setDef  = new \XoopsFormRadio(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_DEFAULT), 'ele_value[6]', $setDefVal);
+$setDef->addOptionArray([Constants::ELE_NO => _NO, Constants::ELE_YES => _YES]);
+$defInput = new FormInput(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', 8, 10, $defVal, null, 'time');
 $defInput->setExtra('style="width: 8em;" required');
 $defInput->setAttribute('pattern', '[0-9:aAmMpP].'); //useful if browser doesn't support 'time'
 $defTray->addElement($setDef);
@@ -91,40 +93,40 @@ $defTray->addElement($defInput);
  *    setMax = false;
  * }
  */
- $fixerJs = new FormRaw(
-           "<div id=\"ele_js\">\n"
-         . "  <script>\n"
-//         . "    $('input[id=\"ele_value[0]\"], input[id=\"ele_value[1]\"], input[id=\"ele_value[2]\"], input[name=\"ele_value[4]\"], input[name=\"ele_value[5]\"], input[name=\"ele_value[6]\"]').click(function() {\n"
+$fixerJs = new FormRaw(
+    "<div id=\"ele_js\">\n"
+    . "  <script>\n"
+    //         . "    $('input[id=\"ele_value[0]\"], input[id=\"ele_value[1]\"], input[id=\"ele_value[2]\"], input[name=\"ele_value[4]\"], input[name=\"ele_value[5]\"], input[name=\"ele_value[6]\"]').click(function() {\n"
     . "    $('input[id^=\"ele_value[\"]').click(function() {\n"
-         . "      var useMinDate = document.getElementById(\"ele_value[4]2\").checked;\n"
-         . "      var useMaxDate = document.getElementById(\"ele_value[5]2\").checked;\n"
-         . "      var useDefDate = document.getElementById(\"ele_value[6]2\").checked;\n"
-         . "      var minVal     = document.getElementById(\"ele_value[0]\").value;\n"
-         . "      var maxVal     = document.getElementById(\"ele_value[1]\").value;\n"
-         . "      var defVal     = document.getElementById(\"ele_value[2]\").value;\n"
-//         . "      alert(\"Input Changed \" + useMinDate)\n"
-         . "      if (useDefDate == true) {\n"
-//         . "          alert(\"Use default date \" + minVal + \" \" + maxVal + \" \" + defVal);\n"
-         . "        if (useMinDate == true) {\n"
-         . "          if (minVal > defVal) {\n"
-//         . "          alert(\"Min higher than default\");\n"
-         . "            document.getElementById(\"ele_value[2]\").value = minVal;\n"
-         . "          }\n"
-         . "        }\n"
-         . "        if (useMaxDate == true) {\n"
-         . "          if (maxVal <= minVal) {\n"
-//         . "          alert(\"Max lower than min date\");\n"
-         . "            document.getElementById(\"ele_value[5]1\").checked = true;"
-         . "          }\n"
-         . "          if (maxVal < defVal) {\n"
-//         . "          alert(\"Max lower than default\");\n"
-         . "            document.getElementById(\"ele_value[2]\").value = maxVal;\n"
-         . "          }\n"
-         . "        }\n"
-         . "      }\n"
-         . "    });\n"
-         . "  </script>\n"
-         . "</div>\n"
+    . "      var useMinDate = document.getElementById(\"ele_value[4]2\").checked;\n"
+    . "      var useMaxDate = document.getElementById(\"ele_value[5]2\").checked;\n"
+    . "      var useDefDate = document.getElementById(\"ele_value[6]2\").checked;\n"
+    . "      var minVal     = document.getElementById(\"ele_value[0]\").value;\n"
+    . "      var maxVal     = document.getElementById(\"ele_value[1]\").value;\n"
+    . "      var defVal     = document.getElementById(\"ele_value[2]\").value;\n"
+    //         . "      alert(\"Input Changed \" + useMinDate)\n"
+    . "      if (useDefDate == true) {\n"
+    //         . "          alert(\"Use default date \" + minVal + \" \" + maxVal + \" \" + defVal);\n"
+    . "        if (useMinDate == true) {\n"
+    . "          if (minVal > defVal) {\n"
+    //         . "          alert(\"Min higher than default\");\n"
+    . "            document.getElementById(\"ele_value[2]\").value = minVal;\n"
+    . "          }\n"
+    . "        }\n"
+    . "        if (useMaxDate == true) {\n"
+    . "          if (maxVal <= minVal) {\n"
+    //         . "          alert(\"Max lower than min date\");\n"
+    . '            document.getElementById("ele_value[5]1").checked = true;'
+    . "          }\n"
+    . "          if (maxVal < defVal) {\n"
+    //         . "          alert(\"Max lower than default\");\n"
+    . "            document.getElementById(\"ele_value[2]\").value = maxVal;\n"
+    . "          }\n"
+    . "        }\n"
+    . "      }\n"
+    . "    });\n"
+    . "  </script>\n"
+    . "</div>\n"
 );
 $defTray->addElement($fixerJs);
 

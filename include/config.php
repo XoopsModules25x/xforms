@@ -8,6 +8,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -20,9 +21,10 @@ function getConfig()
 {
     $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+
     return (object)[
-        'name'           => mb_strtoupper($moduleDirName) . ' Module Configurator',
-        'paths'          => [
+        'name'            => mb_strtoupper($moduleDirName) . ' Module Configurator',
+        'paths'           => [
             'dirname'    => $moduleDirName,
             'admin'      => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/admin',
             'modPath'    => XOOPS_ROOT_PATH . '/modules/' . $moduleDirName,
@@ -30,13 +32,13 @@ function getConfig()
             'uploadPath' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
             'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
         ],
-        'uploadFolders'  => [
+        'uploadFolders'   => [
             //        constant($moduleDirNameUpper . '_UPLOAD_PATH'),
             //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/category',
             //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/screenshots',
             //XOOPS_UPLOAD_PATH . '/flags'
         ],
-        'copyBlankFiles' => [
+        'copyBlankFiles'  => [
             //        constant($moduleDirNameUpper . '_UPLOAD_PATH'),
             //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/category',
             //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/screenshots',

@@ -9,20 +9,20 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  * Admin header file
  *
- * @package   \XoopsModules\Xforms\admin
- * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @package         \XoopsModules\Xforms\admin
+ * @author          XOOPS Module Development Team
+ * @copyright       Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
+ * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since           1.30
  *
- * @see \Xmf\Module\Helper
- * @see \Xmf\Module\Admin
+ * @see             \Xmf\Module\Helper
+ * @see             \Xmf\Module\Admin
  */
-
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once dirname(__DIR__) . '/include/common.php';

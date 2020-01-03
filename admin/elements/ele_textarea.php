@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,9 +19,10 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
 use XoopsModules\Xforms\FormInput;
+use XoopsModules\Xforms\Helper as xHelper;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
@@ -41,14 +43,14 @@ $rows      = new FormInput(_AM_XFORMS_ELE_ROWS, 'ele_value[1]', 3, 3, (string)((
 $rows->setAttribute('min', 0);
 $rows->setExtra('style="width: 5em;"');
 
-$cols    = new FormInput(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, (int)$colAttrib, null, 'number');
+$cols = new FormInput(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, (int)$colAttrib, null, 'number');
 $cols->setAttribute('min', 0);
 $cols->setExtra('style="width: 5em;"');
 
 $default = new \XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlSpecialChars($value[0]) : '', 5, 35);
 
 //placeholder
-$plAttrib = isset($value[3]) ? $myts->htmlSpecialChars($value[3]) : '';
+$plAttrib    = isset($value[3]) ? $myts->htmlSpecialChars($value[3]) : '';
 $placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[3]', 35, 255, $plAttrib);
 
 $output->addElement($rows, 1);

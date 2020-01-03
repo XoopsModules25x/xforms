@@ -10,6 +10,7 @@ namespace XoopsModules\Xforms\Common;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -43,12 +44,13 @@ trait VersionChecks
             $success = false;
             $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_XOOPS'), $requiredVer, $currentVer));
         }
+
         return $success;
     }
+
     /**
      * Verifies PHP version meets minimum requirements for this module
      * @static
-     * @param \XoopsModule|null $module
      *
      * @return bool true if meets requirements, false if not
      */
@@ -62,18 +64,19 @@ trait VersionChecks
         xoops_loadLanguage('admin', $moduleDirName);
         // check for minimum PHP version
         $success = true;
-        $verNum = PHP_VERSION;
-        $reqVer = &$module->getInfo('min_php');
+        $verNum  = PHP_VERSION;
+        $reqVer  = &$module->getInfo('min_php');
         if (false !== $reqVer && '' !== $reqVer) {
             if (version_compare($verNum, $reqVer, '<')) {
                 $module->setErrors(sprintf(constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_PHP'), $reqVer, $verNum));
                 $success = false;
             }
         }
+
         return $success;
     }
+
     /**
-     *
      * compares current module version with latest GitHub release
      * @static
      * @param \Xmf\Module\Helper $helper
@@ -90,7 +93,7 @@ trait VersionChecks
         $repository         = 'XoopsModules25x/' . $moduleDirName;
         /** @internal Developer Note: set repository to development github site for testing
          * uncomment out following line to test development repository
-         $repository         = 'zyspec/xforms'; //developer site
+         * $repository         = 'zyspec/xforms'; //developer site
          */
 
         $ret             = '';
@@ -104,10 +107,10 @@ trait VersionChecks
                 $curlReturn = curl_exec($curlHandle);
                 if (false === $curlReturn) {
                     trigger_error(curl_error($curlHandle));
-                } elseif (false !== strpos($curlReturn, 'Not Found')) {
+                } elseif (false !== mb_strpos($curlReturn, 'Not Found')) {
                     trigger_error(constant('CO_' . $moduleDirNameUpper . '_' . 'REPO_NOT_FOUND') . $infoReleasesUrl);
                 } else {
-                    $file              = json_decode($curlReturn, false);
+                    $file = json_decode($curlReturn, false);
                     if (empty($file)) {
                         trigger_error(constant('CO_' . $moduleDirNameUpper . '_' . 'NO_REL_FOUND') . $infoReleasesUrl);
                     } else {
@@ -136,6 +139,7 @@ trait VersionChecks
                 curl_close($curlHandle);
             }
         }
+
         return $ret;
     }
 }

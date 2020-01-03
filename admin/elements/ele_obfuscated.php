@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,9 +19,10 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
 use XoopsModules\Xforms\FormInput;
+use XoopsModules\Xforms\Helper as xHelper;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
@@ -40,7 +42,7 @@ $sizeInput = new FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 3, 3, $size, nul
 $sizeInput->setAttribute('min', 1);
 $sizeInput->setExtra('style="width: 5em;"');
 
-$maxInput  = new FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 3, 3, $max, null, 'number');
+$maxInput = new FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 3, 3, $max, null, 'number');
 $maxInput->setAttribute('min', 1);
 $maxInput->setExtra('style="width: 5em;"');
 

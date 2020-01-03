@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,11 +19,11 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
+use Xmf\Module\Helper;
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper as xHelper;
-use Xmf\Module\Helper;
-use Xmf\Module\Admin;
 
 include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
@@ -43,20 +44,23 @@ $helper->loadLanguage('main');
  *
  * @return array $block[] = array('title'=> item title, 'desc' => description), etc.
  */
-function b_xforms_list_show($options) {
+function b_xforms_list_show($options)
+{
     // Instantiate module helper
     /* @var \XoopsModules\Xforms\Helper $helper */
     $helper = xHelper::getInstance();
 
-    $block = array();
+    $block = [];
     /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
     $formsHandler = $helper::getInstance()->getHandler('Forms');
     //$formsHandler = $helper->getHandler('forms');
     $forms = $formsHandler->getPermittedForms();
     if (!empty($forms)) {
         foreach ($forms as $form) {
-            $block[$form->getVar('form_id')] = array('title' => $form->getVar('form_title', 's'),
-                                                      'desc' => $form->getVar('form_desc', 's'));
+            $block[$form->getVar('form_id')] = [
+                'title' => $form->getVar('form_title', 's'),
+                'desc'  => $form->getVar('form_desc', 's'),
+            ];
         }
     }
 
@@ -64,28 +68,26 @@ function b_xforms_list_show($options) {
 }
 
 /**
- *Create HTML for list block editing functionality
+ * Create HTML for list block editing functionality
  *
  * @param array $options [0] = sort, [1] = number to show
  *
  * @return string HTML to display
  */
-function b_xforms_list_edit($options) {
-    $optVals = explode(',', _MB_XFORMS_LIST_BLOCK_SORT_OPTS);
-    $optKeys = explode(',', Constants::LIST_BLOCK_SORT_KEYS);
-    $optArray = array_combine($optKeys, $optVals);
+function b_xforms_list_edit($options)
+{
+    $optVals    = explode(',', _MB_XFORMS_LIST_BLOCK_SORT_OPTS);
+    $optKeys    = explode(',', Constants::LIST_BLOCK_SORT_KEYS);
+    $optArray   = array_combine($optKeys, $optVals);
     $radioInput = '';
-    $sortBy = in_array($options[0], $optKeys) ? $options[0] : $optKeys[0];
+    $sortBy     = in_array($options[0], $optKeys) ? $options[0] : $optKeys[0];
     foreach ($optArray as $key => $val) {
-        $checked = ($sortBy == $key) ? ' checked' : '';
-        $radioInput .= '<input type="radio" name="options[0]" value="' . $key . '" id="' . $key . $checked . ' style="margin-right: 1em;">'
-                     . '<label for="' . $key . '" style="margin-right: 1em;">' . $val . '</label>';
+        $checked    = ($sortBy == $key) ? ' checked' : '';
+        $radioInput .= '<input type="radio" name="options[0]" value="' . $key . '" id="' . $key . $checked . ' style="margin-right: 1em;">' . '<label for="' . $key . '" style="margin-right: 1em;">' . $val . '</label>';
     }
     $options[1] = (int)$options[1];
 
-    $form = '<strong>' . _MB_XFORMS_SORTBY . '</strong>&nbsp;' . $radioInput . '<br>'
-          . '<label for="num_forms">' . _MB_XFORMS_NUM_FORMS . '</label>'
-          . '<input class="right" type="number" name="options[1]" id="num_forms" value="' . $options[1] . '" size="5" width="5em;"><br>';
+    $form = '<strong>' . _MB_XFORMS_SORTBY . '</strong>&nbsp;' . $radioInput . '<br>' . '<label for="num_forms">' . _MB_XFORMS_NUM_FORMS . '</label>' . '<input class="right" type="number" name="options[1]" id="num_forms" value="' . $options[1] . '" size="5" width="5em;"><br>';
 
     return $form;
 }

@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -22,14 +23,14 @@
 /**
  * @internal {Make sure you PROTECT THIS FILE}
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper as xHelper;
 use XoopsModules\Xforms\Utility;
 
 if ((!defined('XOOPS_ROOT_PATH'))
     || !($GLOBALS['xoopsUser'] instanceof XoopsUser)
-    || !($GLOBALS['xoopsUser']->isAdmin()))
-{
+    || !($GLOBALS['xoopsUser']->isAdmin())) {
     exit('Restricted access' . PHP_EOL);
 }
 
@@ -66,7 +67,7 @@ function xoops_module_uninstall_xforms(\XoopsModule $module)
 
     // Get uploads directory name from Preferences setting
     $uploadDir = $helper->getConfig('uploaddir');
-    $uploadDir = ('/' === substr($uploadDir, -1, 1)) ? substr($uploadDir, 0, -1) : $uploadDir;
+    $uploadDir = ('/' === mb_substr($uploadDir, -1, 1)) ? mb_substr($uploadDir, 0, -1) : $uploadDir;
     $dirInfo   = new \SplFileInfo($uploadDir);
     $success   = true;
     if ($dirInfo->isDir()) {
@@ -75,7 +76,7 @@ function xoops_module_uninstall_xforms(\XoopsModule $module)
     } else {
         // Try and delete uploads/xforms directory (default)
         $moduleUploadPath = XOOPS_UPLOAD_PATH . '/' . $module->dirname();
-        $uploadPathObj = new \SplFileInfo($moduleUploadPath);
+        $uploadPathObj    = new \SplFileInfo($moduleUploadPath);
         if (false !== $uploadPathObj->isDir()) {
             // directory exists so try and delete it
             $success = $utility::deleteDirectory($moduleUploadPath);
@@ -84,5 +85,6 @@ function xoops_module_uninstall_xforms(\XoopsModule $module)
     if (!$success) {
         $module->setErrors(sprintf(_MI_XFORMS_INST_NO_DEL_UPLOAD, $uploadDir));
     }
+
     return $success;
 }

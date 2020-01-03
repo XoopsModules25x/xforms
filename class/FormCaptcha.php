@@ -12,6 +12,7 @@ namespace XoopsModules\Xforms;
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -22,8 +23,8 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
+
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Captcha;
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
@@ -61,14 +62,14 @@ class FormCaptcha extends \XoopsFormElement
     /**
      * Class construtor
      *
-     * @param string  $caption    Caption of the form element, default value is defined in captcha/language/
-     * @param string  $name       Name for the input box
-     * @param boolean $skipmember Skip CAPTCHA check for members
-     * @param array   $configs
+     * @param string $caption    Caption of the form element, default value is defined in captcha/language/
+     * @param string $name       Name for the input box
+     * @param bool   $skipmember Skip CAPTCHA check for members
+     * @param array  $configs
      */
-    public function __construct($caption = '', $name = 'xformscaptcha', $skipmember = true, $configs = array())
+    public function __construct($caption = '', $name = 'xformscaptcha', $skipmember = true, $configs = [])
     {
-//        parent::__construct($caption, $name, $skipmember, $configs);
+        //        parent::__construct($caption, $name, $skipmember, $configs);
         $this->captchaHandler  = Captcha::getInstance();
         $configs['name']       = $name;
         $configs['skipmember'] = $skipmember;
@@ -87,7 +88,6 @@ class FormCaptcha extends \XoopsFormElement
      * @param $val
      *
      * @return mixed
-     *
      */
     public function setConfig($name, $val)
     {

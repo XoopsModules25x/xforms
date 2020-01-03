@@ -12,6 +12,7 @@ namespace XoopsModules\Xforms;
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -21,6 +22,7 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
+
 use XoopsModules\Xforms;
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
@@ -33,7 +35,7 @@ if (!class_exists('\XoopsMediaUploader')) {
  * Class \XoopsModules\Xforms\MediaUploader
  *
  * @see \XoopsMediaUploader
-*/
+ */
 class MediaUploader extends \XoopsMediaUploader
 {
     /**
@@ -54,11 +56,11 @@ class MediaUploader extends \XoopsMediaUploader
      */
     public function __construct($uploadDir = null, $maxFileSize = 0, $allowedExtensions = null, $allowedMimeTypes = null, $maxWidth = null, $maxHeight = null, $randomFilename = false)
     {
-        parent::__construct ($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight, $randomFilename);
+        parent::__construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight, $randomFilename);
         if (!empty($allowedExtensions)) {
             $this->allowedExtensions = $allowedExtensions;
         } else {
-            $mimeArray = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
+            $mimeArray               = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
             $this->allowedExtensions = array_keys($mimeArray);
         }
     }
@@ -78,30 +80,33 @@ class MediaUploader extends \XoopsMediaUploader
     /**
      * Is the file the right size?
      *
-     * @deprecated v2.00 ALPHA 2
      * @return bool
+     * @deprecated v2.00 ALPHA 2
      */
     public function checkMaxFileSize()
     {
         if ($this->noadmin_sizecheck) {
             return true;
         }
+
         return parent::checkMaxFileSize;
     }
+
     /**
      * Is the file the extension type allowed
      *
-     * @deprecated v2.00 ALPHA 2
      * @return bool
-     **/
+     **@deprecated v2.00 ALPHA 2
+     */
     public function checkExtension()
     {
-        $ext = substr(strrchr($this->mediaName, '.'), 1);
+        $ext    = mb_substr(mb_strrchr($this->mediaName, '.'), 1);
         $retVal = false;
-        if (!empty($this->allowedExtensions) && in_array(strtolower($ext), $this->allowedExtensions)) {
+        if (!empty($this->allowedExtensions) && in_array(mb_strtolower($ext), $this->allowedExtensions)) {
             $this->ext = $ext;
             $retVal    = true;
         }
+
         return $retVal;
     }
 }

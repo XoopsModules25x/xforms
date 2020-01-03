@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,7 +19,6 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -26,17 +26,17 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  *
  * value array [0] = text value
  */
-
-$defaultEditorConfigs = array('editor' => $sysHelper->getConfig('general_editor'),
-                                'rows' => 8,
-                                'cols' => 90,
-                               'width' => '100%',
-                              'height' => '260px',
-                                'name' => 'ele_value[0]',
-                               'value' => isset($value[0]) ? $myts->htmlSpecialChars($value[0]) : ''
-);
-$default = new \XoopsFormEditor(_AM_XFORMS_ELE_HTML_DEFAULT_DISP, 'ele_value[0]', $defaultEditorConfigs);
-$renderer = $default->editor->renderer;
+$defaultEditorConfigs = [
+    'editor' => $sysHelper->getConfig('general_editor'),
+    'rows'   => 8,
+    'cols'   => 90,
+    'width'  => '100%',
+    'height' => '260px',
+    'name'   => 'ele_value[0]',
+    'value'  => isset($value[0]) ? $myts->htmlSpecialChars($value[0]) : '',
+];
+$default              = new \XoopsFormEditor(_AM_XFORMS_ELE_HTML_DEFAULT_DISP, 'ele_value[0]', $defaultEditorConfigs);
+$renderer             = $default->editor->renderer;
 if (property_exists($renderer, 'skipPreview')) {
     $default->editor->renderer->skipPreview = true;
 }

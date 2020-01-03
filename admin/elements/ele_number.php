@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,6 +19,7 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\FormInput;
 
@@ -48,16 +50,16 @@ $setMaxVal = !empty($value[5]) ? 1 : 0;
 $setDefVal = !empty($value[6]) ? 1 : 0;
 $step      = !empty($value[7]) ? (float)$value[7] : (float)1;
 
-$minTray   = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MIN, '<br>', 'minTray');
-$setMin    = new \XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MIN), 'ele_value[4]', $setMinVal);
-$minInput  = new FormInput('', 'ele_value[0]', 7, 255, $minVal, null, 'number');
+$minTray  = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MIN, '<br>', 'minTray');
+$setMin   = new \XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MIN), 'ele_value[4]', $setMinVal);
+$minInput = new FormInput('', 'ele_value[0]', 7, 255, $minVal, null, 'number');
 $minInput->setAttribute('size', 7);
 $minTray->addElement($setMin);
 $minTray->addElement($minInput);
 
-$maxTray   = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MAX, '<br>', 'maxTray');
-$setMax    = new \XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MAX), 'ele_value[5]', $setMaxVal);
-$maxInput  = new FormInput('', 'ele_value[1]', 7, 255, $maxVal, null, 'number');
+$maxTray  = new \XoopsFormElementTray(_AM_XFORMS_ELE_NUMBER_MAX, '<br>', 'maxTray');
+$setMax   = new \XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_MAX), 'ele_value[5]', $setMaxVal);
+$maxInput = new FormInput('', 'ele_value[1]', 7, 255, $maxVal, null, 'number');
 $maxInput->setAttribute('size', 7);
 $maxTray->addElement($setMax);
 $maxTray->addElement($maxInput);
@@ -67,9 +69,9 @@ $stepInput->setAttribute('size', 7);
 $stepInput->setAttribute('min', 1);
 $stepInput->setAttribute('pattern', '[0-9].');
 
-$defTray   = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, '<br>', 'defTray');
-$setDef    = new \XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_DEFAULT), 'ele_value[6]', $setDefVal);
-$defInput  = new FormInput(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', 7, 255, $defVal, null, 'number');
+$defTray  = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, '<br>', 'defTray');
+$setDef   = new \XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_DEFAULT), 'ele_value[6]', $setDefVal);
+$defInput = new FormInput(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', 7, 255, $defVal, null, 'number');
 $defInput->setAttribute('size', 7);
 $defInput->setAttribute('pattern', '[0-9].');
 $defTray->addElement($setDef);

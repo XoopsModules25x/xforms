@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,11 +19,12 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Helper as xHelper;
 use XoopsModules\Xforms\ElementRenderer;
 use XoopsModules\Xforms\FormCaptcha;
+use XoopsModules\Xforms\Helper as xHelper;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
@@ -63,7 +65,7 @@ $criteria->add(new \Criteria('form_id', $form->getVar('form_id')));
 $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY));
 $criteria->setSort('ele_order');
 $criteria->order = 'ASC';
-$elements = $xformsEleHandler->getObjects($criteria, true);
+$elements        = $xformsEleHandler->getObjects($criteria, true);
 
 $helper->loadLanguage('admin');
 $helper->loadLanguage('main');
@@ -90,7 +92,7 @@ foreach ($elements as $i) {
     }
     $formEle->setExtra('tabindex="' . $count++ . '"'); // allow tabbing through fields on form
 
-    if (in_array($i->getVar('ele_type'), array('upload', 'uploadimg'))) {
+    if (in_array($i->getVar('ele_type'), ['upload', 'uploadimg'])) {
         $multipart = true; // will be a multipart form
     }
 
@@ -112,7 +114,7 @@ $subButton = new \XoopsFormButton('', 'submit', $form->getVar('form_submit_text'
 $subButton->setExtra('tabindex="' . $count++ . '"'); // allow tabbing to the Submit button too
 $formOutput->addElement($subButton, 1);
 
-$eles = array();
+$eles = [];
 foreach ($formOutput->getElements() as $e) {
     $id      = $req = $name = $ele_type = false;
     $name    = $e->getName();
@@ -131,28 +133,33 @@ foreach ($formOutput->getElements() as $e) {
         $ele_type    = $elements[$id]->getVar('ele_type');
         $display_row = (int)$elements[$id]->getVar('ele_display_row');
     }
-    $eles[] = array('caption' => $caption,
-                       'name' => $name,
-                       'body' => $e->render(),
-                     'hidden' => $e->isHidden(),
-                   'required' => $req,
-                'display_row' => $display_row,
-                   'ele_type' => $ele_type
-    );
+    $eles[] = [
+        'caption'     => $caption,
+        'name'        => $name,
+        'body'        => $e->render(),
+        'hidden'      => $e->isHidden(),
+        'required'    => $req,
+        'display_row' => $display_row,
+        'ele_type'    => $ele_type,
+    ];
 }
 $js = $formOutput->renderValidationJS();
-$GLOBALS['xoopsTpl']->assign('form_output', array('title' => $formOutput->getTitle(),
-                                                   'name' => $formOutput->getName(),
-                                                 'action' => $formOutput->getAction(),
-                                                 'method' => $formOutput->getMethod(),
-                                                  'extra' => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
-                                             'javascript' => $js,
-                                               'elements' => $eles,
-                                        'form_req_prefix' => $helper->getConfig('prefix'),
-                                        'form_req_suffix' => $helper->getConfig('suffix'),
-                                             'form_intro' => $form->getVar('form_intro'),
-                                       'form_text_global' => $myts->displayTarea($helper->getConfig('global')),
-                                        'xoops_pagetitle' => $form->getVar('form_title'))
+$GLOBALS['xoopsTpl']->assign(
+    'form_output',
+    [
+        'title'            => $formOutput->getTitle(),
+        'name'             => $formOutput->getName(),
+        'action'           => $formOutput->getAction(),
+        'method'           => $formOutput->getMethod(),
+        'extra'            => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
+        'javascript'       => $js,
+        'elements'         => $eles,
+        'form_req_prefix'  => $helper->getConfig('prefix'),
+        'form_req_suffix'  => $helper->getConfig('suffix'),
+        'form_intro'       => $form->getVar('form_intro'),
+        'form_text_global' => $myts->displayTarea($helper->getConfig('global')),
+        'xoops_pagetitle'  => $form->getVar('form_title'),
+    ]
 );
 if (Constants::FORM_HIDDEN == $form->getVar('form_order')) {
     if (!$helper->isUserAdmin()) {

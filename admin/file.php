@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,6 +19,7 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use Xmf\Request;
 use XoopsModules\Xforms\Constants;
 
@@ -28,10 +30,10 @@ if (!$file || !preg_match('/^[0-9]+_{1}[0-9a-z]+\.[0-9a-z]+$/', $file) || !file_
     redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
 }
 
-header("Content-Type: application/octet-stream");
-header("Expires: Mon, 26 Jul 1997 05:00:00 GMT");
-header("Cache-Control: private, no-cache");
-header("Pragma: no-cache");
+header('Content-Type: application/octet-stream');
+header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+header('Cache-Control: private, no-cache');
+header('Pragma: no-cache');
 header("Content-Disposition: attachment; filename='{$file}'");
 header("Content-Length: {filesize($path)}");
 

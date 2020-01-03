@@ -14,18 +14,14 @@
  * Module: xForms
  * Admin footer file
  *
- * @package   \XoopsModules\Xforms\admin
- * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @package         \XoopsModules\Xforms\admin
+ * @author          XOOPS Module Development Team
+ * @copyright       Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
+ * @license         http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since           1.30
  *
- * @see \Xmf\Module\Admin
+ * @see             \Xmf\Module\Admin
  */
-
-echo '<div class="adminfooter">'
-   . '<div class="center">'
-   . '  <a href="https://www.xoops.org" rel="external" target="_blank"><img src="' . \Xmf\Module\Admin::iconUrl('xoopsmicrobutton.gif') . '" ' . 'alt="XOOPS" title="XOOPS"></a>'
-   . '</div>' . _AM_MODULEADMIN_ADMIN_FOOTER . '</div>';
+echo '<div class="adminfooter">' . '<div class="center">' . '  <a href="https://www.xoops.org" rel="external" target="_blank"><img src="' . \Xmf\Module\Admin::iconUrl('xoopsmicrobutton.gif') . '" ' . 'alt="XOOPS" title="XOOPS"></a>' . '</div>' . _AM_MODULEADMIN_ADMIN_FOOTER . '</div>';
 
 xoops_cp_footer();

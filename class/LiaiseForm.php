@@ -21,8 +21,6 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-use XoopsModules\Xforms\Constants;
-
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -41,7 +39,7 @@ class LiaiseForm extends \XoopsObject
     public function __construct()
     {
         parent::__construct();
-    //    key, data_type, value, req, max, opt
+        //    key, data_type, value, req, max, opt
         $this->initVar('form_id', XOBJ_DTYPE_INT);
         $this->initVar('form_send_method', XOBJ_DTYPE_TXTBOX, Constants::SEND_METHOD_MAIL, true, 1);
         $this->initVar('form_send_to_group', XOBJ_DTYPE_TXTBOX, '', false, 3);

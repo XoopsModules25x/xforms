@@ -21,7 +21,6 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -30,17 +29,14 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 class LiaiseFormHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     *
      * @var \XoopsDatabase
      */
     public $db;
     /**
-     *
      * @var string
      */
     public $db_table;
     /**
-     *
      * @var string name of permission
      */
     public $perm_name = 'liaise_form_access';

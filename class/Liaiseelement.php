@@ -21,8 +21,6 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-use XoopsModules\Xforms\Constants;
-
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -42,7 +40,7 @@ class LiaiseElement extends \XoopsObject
         $this->initVar('ele_caption', XOBJ_DTYPE_TXTAREA);
         $this->initVar('ele_order', XOBJ_DTYPE_INT, 0);
         $this->initVar('ele_req', XOBJ_DTYPE_INT, Constants::ELEMENT_NOT_REQD);
-        $this->initVar('ele_value', XOBJ_DTYPE_ARRAY, array());
+        $this->initVar('ele_value', XOBJ_DTYPE_ARRAY, []);
         $this->initVar('ele_display', XOBJ_DTYPE_INT, Constants::ELEMENT_DISPLAY);
     }
 }

@@ -21,8 +21,6 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
-use XoopsModules\Xforms\Constants;
-
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -37,7 +35,7 @@ class Element extends \XoopsObject
     {
         parent::__construct();
         $this->initVar('ele_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('form_id', XOBJ_DTYPE_INT,0, true);
+        $this->initVar('form_id', XOBJ_DTYPE_INT, 0, true);
         $this->initVar('ele_type', XOBJ_DTYPE_TXTBOX, 'text', true, 10);
         $this->initVar('ele_caption', XOBJ_DTYPE_TXTAREA, '');
         $this->initVar('ele_order', XOBJ_DTYPE_INT, 0);
@@ -48,7 +46,6 @@ class Element extends \XoopsObject
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see \XoopsObject::getVar()
      */
@@ -66,11 +63,11 @@ class Element extends \XoopsObject
                 $myVar = '';
             }
         }
+
         return $myVar;
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see \XoopsObject::getVars()
      */
@@ -79,11 +76,11 @@ class Element extends \XoopsObject
         foreach (array_keys($this->vars) as $key) {
             $this->getVar($key);
         }
+
         return $this->vars;
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see \XoopsObject::setVar()
      */
@@ -100,7 +97,6 @@ class Element extends \XoopsObject
     }
 
     /**
-     *
      * {@inheritDoc}
      * @see \XoopsObject::assignVar()
      */

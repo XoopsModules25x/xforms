@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,6 +19,7 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\FormRaw;
 
@@ -40,16 +42,16 @@ $optTray->setDescription('<br>' . _AM_XFORMS_ELE_OTHER);
 $optTray->addElement(new FormRaw('<div id="checked_checkboxtray">'));
 
 //create 2 empty "options" if none exist
-$keys = (!empty($value) && is_array($value)) ? array_keys($value) : array('', '');
+$keys     = (!empty($value) && is_array($value)) ? array_keys($value) : ['', ''];
 $keyCount = count($keys);
 for ($i = 0; $i < $keyCount; ++$i) {
-    $eleTray = new \XoopsFormElementTray('');
+    $eleTray     = new \XoopsFormElementTray('');
     $checkboxVal = (isset($value[$keys[$i]]) && !empty($value[$keys[$i]])) ? $i : null;
     $checkboxEle = new \XoopsFormCheckbox('', 'ckbox', $checkboxVal);
     $checkboxEle->addOption($i, ' ');
     $eleTray->addElement($checkboxEle);
-    $optVal      = $myts->htmlSpecialChars($keys[$i]);
-    $formEleObj  = new \XoopsFormText('', 'ele_value[' . $i . ']', 40, 255, $optVal);
+    $optVal     = $myts->htmlSpecialChars($keys[$i]);
+    $formEleObj = new \XoopsFormText('', 'ele_value[' . $i . ']', 40, 255, $optVal);
     $formEleObj->setExtra('placeholder = "' . _AM_XFORMS_ELE_OPT_PLACEHOLDER . '"');
     $eleTray->addElement($formEleObj);
     $optTray->addElement($eleTray);
@@ -65,7 +67,8 @@ $output->addElement($optTray);
  * more places than just here. It could then be loaded using 'standard' .js
  * include methods for a cleaner implementation}}}
  */
-$funcScript = new FormRaw("<script>function addToCboxTray() {
+$funcScript = new FormRaw(
+    "<script>function addToCboxTray() {
 //first time through set id (counter)
 if (typeof addToCboxTray.counter == \"undefined\") {
   addToCboxTray.counter = $('[id^=\"ele_value[\"]').length;
@@ -104,5 +107,6 @@ checkboxTray.appendChild(ib);
 // add a line feed to separate the elements
 checkboxTray.insertAdjacentHTML('beforeend', \"<br>\");
 addToCboxTray.counter = addToCboxTray.counter + 1;
-}</script>");
+}</script>"
+);
 $output->addElement($funcScript);

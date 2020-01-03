@@ -21,7 +21,6 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
-
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -42,7 +41,7 @@ class EfElement extends \XoopsObject
         $this->initVar('ele_order', XOBJ_DTYPE_INT, 0);
         $this->initVar('ele_req', XOBJ_DTYPE_INT, 0);
         $this->initVar('ele_display_row', XOBJ_DTYPE_INT);
-        $this->initVar('ele_value', XOBJ_DTYPE_ARRAY, array());
+        $this->initVar('ele_value', XOBJ_DTYPE_ARRAY, []);
         $this->initVar('ele_display', XOBJ_DTYPE_INT, 1);
     }
 }

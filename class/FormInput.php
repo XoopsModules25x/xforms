@@ -23,7 +23,6 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -37,7 +36,6 @@ defined('XOOPS_ROOT_PATH') || exit('Restricted access');
  * {@internal this class is a modification of the combination of the
  * \Xoops\HTML\Abstract, \Xoops\Form\Element and the \Xoops\Form\Input
  * classes from XOOPS 2.6}}
- *
  */
 class FormInput extends \XoopsFormElement
 {
@@ -47,7 +45,7 @@ class FormInput extends \XoopsFormElement
      * @var array
      * @access protected
      */
-    protected $attributes = array();
+    protected $attributes = [];
     /**
      * Javascript performing additional validation of this element data
      *
@@ -59,14 +57,14 @@ class FormInput extends \XoopsFormElement
      * @var array ()
      * @access public
      */
-//    public $customValidationCode = array();
+    //    public $customValidationCode = array();
 
     /**
      * caption of the element
      *
      * @var string
      * @access private
-    */
+     */
     private $caption = '';
 
     /**
@@ -91,14 +89,14 @@ class FormInput extends \XoopsFormElement
      * @var array
      * @access private
      */
-    private $extra = array();
+    private $extra = [];
 
     /**
      * description of the field
      *
      * @var string
      * @access private
-    */
+     */
     private $description = '';
 
     /**
@@ -123,13 +121,13 @@ class FormInput extends \XoopsFormElement
     /**
      * __construct
      *
-     * @param string  $caption     Caption
-     * @param string  $name        name attribute
-     * @param integer $size        Size
-     * @param integer $maxlength   Maximum length of text
-     * @param string  $value       Initial text
-     * @param string  $placeholder placeholder for this element
-     * @param string  $type        HTML <input> type defaults to 'text'
+     * @param string $caption     Caption
+     * @param string $name        name attribute
+     * @param int    $size        Size
+     * @param int    $maxlength   Maximum length of text
+     * @param string $value       Initial text
+     * @param string $placeholder placeholder for this element
+     * @param string $type        HTML <input> type defaults to 'text'
      */
     public function __construct($caption, $name, $size, $maxlength, $value = '', $placeholder = '', $type = 'text')
     {
@@ -191,26 +189,26 @@ class FormInput extends \XoopsFormElement
      */
     public function getHtmlTypes()
     {
-        return array('color' => array(),
-                      'date' => array('min', 'max'),
-//                  'datetime' => array(),
-//            'datetime-local' => array(),
-                     'email' => array(),
-//                     'month' => array(),
-                    'number' => array('min', 'max', 'step'),
-                  'password' => array('autocomplete'),
-                     'range' => array('min', 'max', 'step'),
-//                    'search' => array(),
-//                       'tel' => array(),
-                      'text' => array(),
-                      'time' => array(),
-                       'url' => array(),
-//                      'week' => array()
-        );
+        return [
+            'color'    => [],
+            'date'     => ['min', 'max'],
+            //                  'datetime' => array(),
+            //            'datetime-local' => array(),
+            'email'    => [],
+            //                     'month' => array(),
+            'number'   => ['min', 'max', 'step'],
+            'password' => ['autocomplete'],
+            'range'    => ['min', 'max', 'step'],
+            //                    'search' => array(),
+            //                       'tel' => array(),
+            'text'     => [],
+            'time'     => [],
+            'url'      => [],
+            //                      'week' => array()
+        ];
     }
 
     /**
-     *
      * @param int $size
      *
      * @return void
@@ -226,6 +224,7 @@ class FormInput extends \XoopsFormElement
             }
         }
     }
+
     /**
      * Set Type text value
      *
@@ -239,7 +238,7 @@ class FormInput extends \XoopsFormElement
             $htmlTypes = $this->getHtmlTypes();
             if (is_array($value)) {
                 if (isset($value['type'])) {
-                    $valueType = strtolower(trim($value['type']));
+                    $valueType = mb_strtolower(trim($value['type']));
                     if (isset($valueType) && isset($htmlTypes[$valueType])) {
                         $this->setAttribute('type', $valueType); // set the HTML <input> type
                         foreach ($htmlTypes[$valueType] as $typeAttrib) {
@@ -254,7 +253,7 @@ class FormInput extends \XoopsFormElement
                     $this->setAttribute('type', 'text');
                 }
             } else {
-                $value = isset($htmlTypes[strtolower($value)]) ? strtolower($value) : 'text';
+                $value = isset($htmlTypes[mb_strtolower($value)]) ? mb_strtolower($value) : 'text';
                 $this->setAttribute('type', $value);
             }
         } else {
@@ -269,13 +268,13 @@ class FormInput extends \XoopsFormElement
      * @param mixed  $value value for the attribute
      *
      * @return void
-    */
+     */
     public function setAttribute($name, $value = null)
     {
         // convert boolean to strings, so getAttribute can return boolean
         // false for attributes that are not defined
-        $value = (false === $value) ? '0' : $value;
-        $value = (true === $value) ? '1' : $value;
+        $value                                                 = (false === $value) ? '0' : $value;
+        $value                                                 = (true === $value) ? '1' : $value;
         $this->attributes[htmlspecialchars($name, ENT_QUOTES)] = $value;
     }
 
@@ -311,17 +310,18 @@ class FormInput extends \XoopsFormElement
      * get an attribute value
      *
      * @param string $name name of the attribute
-     * @param bool $encode
+     * @param bool   $encode
      *
      * @return string|false value of attribute or false if not a valid attribute
      */
     public function getAttribute($name, $encode = true)
     {
         $value = false;
-        $name = htmlspecialchars($name, ENT_QUOTES);
+        $name  = htmlspecialchars($name, ENT_QUOTES);
         if (isset($this->attributes[$name])) {
             $value = (bool)$encode ? htmlspecialchars($this->attributes[$name], ENT_QUOTES) : $this->attributes[$name];
         }
+
         return $value;
     }
 
@@ -335,13 +335,14 @@ class FormInput extends \XoopsFormElement
     public function hasAttribute($name)
     {
         $name = htmlspecialchars($name, ENT_QUOTES);
+
         return array_key_exists($name, $this->attributes);
     }
 
     /**
      * add an element attribute value to a multi-value attribute (like class)
      *
-     * @param string $name  name of the attribute
+     * @param string       $name  name of the attribute
      * @param string|array $value value for the attribute
      *
      * @return void
@@ -349,11 +350,11 @@ class FormInput extends \XoopsFormElement
     public function addAttribute($name, $value)
     {
         if (is_scalar($value)) {
-            $value = explode(' ', (string) $value);
+            $value = explode(' ', (string)$value);
         }
         $name = htmlspecialchars($name, ENT_QUOTES);
         if (false === $this->hasAttribute($name)) {
-            $this->attributes[$name] = array();
+            $this->attributes[$name] = [];
         }
         foreach ($value as $v) {
             if (!in_array($v, $this->attributes[$name])) {
@@ -374,30 +375,32 @@ class FormInput extends \XoopsFormElement
         if (null === $type) {
             $type = $this->getType();
         }
-        $invalid = array('color' => array('max', 'maxlength', 'min', 'size', 'step'),
-                          'date' => array('maxlength', 'placeholder', 'size'),
-//                      'datetime' => array('maxlength', 'placeholder', 'size'),
-//                'datetime-local' => array('maxlength', 'placeholder', 'size'),
-                         'email' => array('max', 'min', 'step'),
-//                         'month' => array('maxlength', 'placeholder', 'size'),
-                                 /* 07/2016 - allow 'size' in number for now
-                                  * some browsers don't support number
-                                  * and will render as a text box
-                                  */
-                        'number' => array('maxlength'),
-                      'password' => array('list', 'max', 'min', 'step'),
-                         'range' => array('maxlength', 'placeholder', 'size'),
-//                        'search' => array('max', 'min', 'step'),
-//                           'tel' => array('max', 'min', 'step'),
-                          'text' => array('max', 'min', 'step'),
-                          'time' => array('maxlength', 'placeholder', 'size'),
-                           'url' => array('max', 'min', 'step'),
-//                          'week' => array('maxlength', 'size')
-        );
-        $ret = array();
+        $invalid = [
+            'color'    => ['max', 'maxlength', 'min', 'size', 'step'],
+            'date'     => ['maxlength', 'placeholder', 'size'],
+            //                      'datetime' => array('maxlength', 'placeholder', 'size'),
+            //                'datetime-local' => array('maxlength', 'placeholder', 'size'),
+            'email'    => ['max', 'min', 'step'],
+            //                         'month' => array('maxlength', 'placeholder', 'size'),
+            /* 07/2016 - allow 'size' in number for now
+             * some browsers don't support number
+             * and will render as a text box
+             */
+            'number'   => ['maxlength'],
+            'password' => ['list', 'max', 'min', 'step'],
+            'range'    => ['maxlength', 'placeholder', 'size'],
+            //                        'search' => array('max', 'min', 'step'),
+            //                           'tel' => array('max', 'min', 'step'),
+            'text'     => ['max', 'min', 'step'],
+            'time'     => ['maxlength', 'placeholder', 'size'],
+            'url'      => ['max', 'min', 'step'],
+            //                          'week' => array('maxlength', 'size')
+        ];
+        $ret     = [];
         if (isset($htmlTypes[$type]) && isset($invalid[$type])) {
             $ret = (array)$invalid[$type];
         }
+
         return $ret;
     }
 
@@ -410,8 +413,9 @@ class FormInput extends \XoopsFormElement
      */
     public function isAttributeValid($attr)
     {
-        $type = $this->getType();
+        $type              = $this->getType();
         $invalidAttributes = $this->getInvalidAttributes();
+
         return in_array($attr, $invalidAttributes);
     }
 
@@ -429,8 +433,8 @@ class FormInput extends \XoopsFormElement
         // generate id from name if not already set
         if (!$this->hasAttribute('id')) {
             $id = $this->getAttribute('name');
-            if (substr($id, -2) === '[]') {
-                $id = substr($id, 0, strlen($id)-2);
+            if ('[]' === mb_substr($id, -2)) {
+                $id = mb_substr($id, 0, mb_strlen($id) - 2);
             }
             $this->setAttribute('id', $id);
         }
@@ -439,43 +443,45 @@ class FormInput extends \XoopsFormElement
         foreach ($this->attributes as $name => $value) {
             if ('name' === $name
                 && $this->hasAttribute('multiple')
-                && '[]' !== substr($value, -2)
-            ) {
+                && '[]' !== mb_substr($value, -2)) {
                 $value .= '[]';
             }
             // check to see if this attribute is valid for this type
             if (!in_array($name, $invalidAttr)) {
                 if (is_array($value)) {
                     // arrays can be used for class attributes, space separated
-                    $set = '="' . htmlspecialchars(implode(' ', $value), ENT_QUOTES) .'"';
+                    $set = '="' . htmlspecialchars(implode(' ', $value), ENT_QUOTES) . '"';
                 } elseif (null === $value) {
                     // null indicates name only, like autofocus or readonly
                     $set = '';
                 } else {
-                    $set = '="' . htmlspecialchars($value, ENT_QUOTES) .'"';
+                    $set = '="' . htmlspecialchars($value, ENT_QUOTES) . '"';
                 }
                 $rendered .= $name . $set . ' ';
             }
         }
+
         return $rendered;
     }
 
     /**
      * getValue - Get an array of pre-selected values
      *
-     * @param boolean $encode True to encode special characters
+     * @param bool $encode True to encode special characters
      *
      * @return mixed
      */
     public function getValue($encode = false)
     {
         if (is_array($this->value)) {
-            $ret = array();
+            $ret = [];
             foreach ($this->value as $value) {
                 $ret[] = $encode ? htmlspecialchars($value, ENT_QUOTES) : $value;
             }
+
             return $ret;
         }
+
         return $encode ? htmlspecialchars($this->value, ENT_QUOTES) : $this->value;
     }
 
@@ -515,6 +521,7 @@ class FormInput extends \XoopsFormElement
     /**
      * getName - get the "name" attribute for the element
      *
+     * @param mixed $encode
      * @return string
      */
     public function getName($encode = true)
@@ -554,12 +561,10 @@ class FormInput extends \XoopsFormElement
     public function getAccessString($str)
     {
         $access = $this->getAccessKey();
-        if (!empty($access) && (false !== ($pos = strpos($str, $access)))) {
-            return htmlspecialchars(substr($str, 0, $pos), ENT_QUOTES)
-                 . '<span style="text-decoration: underline;">'
-                 . htmlspecialchars(substr($str, $pos, 1), ENT_QUOTES) . '</span>'
-                 . htmlspecialchars(substr($str, $pos + 1), ENT_QUOTES);
+        if (!empty($access) && (false !== ($pos = mb_strpos($str, $access)))) {
+            return htmlspecialchars(mb_substr($str, 0, $pos), ENT_QUOTES) . '<span style="text-decoration: underline;">' . htmlspecialchars(mb_substr($str, $pos, 1), ENT_QUOTES) . '</span>' . htmlspecialchars(mb_substr($str, $pos + 1), ENT_QUOTES);
         }
+
         return htmlspecialchars($str, ENT_QUOTES);
     }
 
@@ -572,7 +577,7 @@ class FormInput extends \XoopsFormElement
      */
     public function setClass($class)
     {
-        $this->addAttribute('class', (string) $class);
+        $this->addAttribute('class', (string)$class);
     }
 
     /**
@@ -583,9 +588,10 @@ class FormInput extends \XoopsFormElement
     public function getClass()
     {
         $class = $this->getAttribute('class');
-        if ($class === false) {
+        if (false === $class) {
             return false;
         }
+
         return htmlspecialchars(implode(' ', $class), ENT_QUOTES);
     }
 
@@ -623,6 +629,7 @@ class FormInput extends \XoopsFormElement
         if (empty($this->pattern_description)) {
             return '';
         }
+
         return $this->pattern_description;
     }
 
@@ -659,13 +666,14 @@ class FormInput extends \XoopsFormElement
             $ret .= '<option value="' . htmlspecialchars($datalist, ENT_QUOTES) . '">' . NWLINE;
         }
         $ret .= '</datalist>' . NWLINE;
+
         return $ret;
     }
 
     /**
      * isDatalist - is there a datalist for the element?
      *
-     * @return boolean true if element has a non-empty datalist
+     * @return bool true if element has a non-empty datalist
      */
     public function isDatalist()
     {
@@ -687,6 +695,7 @@ class FormInput extends \XoopsFormElement
     /**
      * getCaption - get the caption for the element
      *
+     * @param mixed $encode
      * @return string
      */
     public function getCaption($encode = true)
@@ -709,19 +718,19 @@ class FormInput extends \XoopsFormElement
     /**
      * getTitle - get the title for the element
      *
+     * @param mixed $encode
      * @return string
      */
     public function getTitle($encode = true)
     {
         if ($this->hasAttribute('title')) {
             return $this->getAttribute('title', (bool)$encode);
-        } else {
-            if (strlen($this->pattern_description) > 0) {
-                return htmlspecialchars(strip_tags($this->caption . ' - ' . $this->pattern_description), ENT_QUOTES);
-            } else {
-                return htmlspecialchars(strip_tags($this->caption), ENT_QUOTES);
-            }
         }
+        if (mb_strlen($this->pattern_description) > 0) {
+            return htmlspecialchars(strip_tags($this->caption . ' - ' . $this->pattern_description), ENT_QUOTES);
+        }
+
+        return htmlspecialchars(strip_tags($this->caption), ENT_QUOTES);
     }
 
     /**
@@ -739,7 +748,7 @@ class FormInput extends \XoopsFormElement
     /**
      * getDescription - get the element's description
      *
-     * @param boolean $encode True to encode special characters
+     * @param bool $encode True to encode special characters
      *
      * @return string
      */
@@ -798,8 +807,8 @@ class FormInput extends \XoopsFormElement
      * This string will be inserted verbatim and unvalidated in the
      * element's tag. Know what you are doing!
      *
-     * @param string  $extra   extra raw text to insert into form
-     * @param boolean $replace If true, passed string will replace current
+     * @param string $extra    extra raw text to insert into form
+     * @param bool   $replace  If true, passed string will replace current
      *                         content, otherwise it will be appended to it
      *
      * @return string[] New content of the extra string
@@ -807,10 +816,11 @@ class FormInput extends \XoopsFormElement
     public function setExtra($extra, $replace = false)
     {
         if ($replace) {
-            $this->extra = array(trim($extra));
+            $this->extra = [trim($extra)];
         } else {
             $this->extra[] = trim($extra);
         }
+
         return $this->extra;
     }
 
@@ -826,10 +836,11 @@ class FormInput extends \XoopsFormElement
         if (!$encode) {
             return implode(' ', $this->extra);
         }
-        $value = array();
+        $value = [];
         foreach ($this->extra as $val) {
             $value[] = str_replace('>', '&gt;', str_replace('<', '&lt;', $val));
         }
+
         return empty($value) ? '' : ' ' . implode(' ', $value);
     }
 
@@ -844,21 +855,18 @@ class FormInput extends \XoopsFormElement
         if (!empty($this->customValidationCode)) {
             return implode(NWLINE, $this->customValidationCode);
             // generate validation code if required
-        } else {
-            if ($this->isRequired() && $eltname = $this->getName()) {
-                // $eltname    = $this->getName();
-                $eltcaption = $this->getCaption();
-                $eltmsg = empty($eltcaption)
-                    ? sprintf(\XoopsLocale::F_ENTER, $eltname)
-                    : sprintf(\XoopsLocale::F_ENTER, $eltcaption);
-                $eltmsg = str_replace(array(':', '?', '%'), '', $eltmsg);
-                $eltmsg = str_replace('"', '\"', stripslashes($eltmsg));
-                $eltmsg = strip_tags($eltmsg);
-                return NWLINE
-                    . "if ( myform.{$eltname}.value == \"\" ) { window.alert(\"{$eltmsg}\");"
-                    . " myform.{$eltname}.focus(); return false; }\n";
-            }
         }
+        if ($this->isRequired() && $eltname = $this->getName()) {
+            // $eltname    = $this->getName();
+            $eltcaption = $this->getCaption();
+            $eltmsg     = empty($eltcaption) ? sprintf(\XoopsLocale::F_ENTER, $eltname) : sprintf(\XoopsLocale::F_ENTER, $eltcaption);
+            $eltmsg     = str_replace([':', '?', '%'], '', $eltmsg);
+            $eltmsg     = str_replace('"', '\"', stripslashes($eltmsg));
+            $eltmsg     = strip_tags($eltmsg);
+
+            return NWLINE . "if ( myform.{$eltname}.value == \"\" ) { window.alert(\"{$eltmsg}\");" . " myform.{$eltname}.focus(); return false; }\n";
+        }
+
         return false;
     }
 
@@ -890,7 +898,6 @@ class FormInput extends \XoopsFormElement
             $this->addAttribute('list', 'list_' . $this->getName());
         }
 
-        return '<input ' . $this->renderAttributeString() . 'value="'
-            . $this->getValue() . '" ' . $this->getExtra() .' >';
+        return '<input ' . $this->renderAttributeString() . 'value="' . $this->getValue() . '" ' . $this->getExtra() . ' >';
     }
 }

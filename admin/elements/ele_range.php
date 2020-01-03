@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Xforms
  *
@@ -18,6 +19,7 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\FormInput;
@@ -33,7 +35,6 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  *       [3] = max num
  *       [4] = step
  */
-
 $default    = !empty($value[0]) ? $value[0] : null;
 $minNum     = !empty($value[2]) ? $value[2] : 0;
 $maxNum     = !empty($value[3]) ? $value[3] : 0;
@@ -55,9 +56,9 @@ $stepEle->setClass('center');
 
 $defTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT);
 // use XoopsFormRadio instead of XoopsFormRadioYN so order or options can be set to No then Yes
-$setDef  = new \XoopsFormRadio('', 'ele_value[1]', $setTheDef);
-$setDef->addOptionArray(array(0 =>_NO, 1 =>_YES));
-$defEle  = new FormInput('', 'ele_value[0]', 15, 15, $default, null, 'number');
+$setDef = new \XoopsFormRadio('', 'ele_value[1]', $setTheDef);
+$setDef->addOptionArray([0 => _NO, 1 => _YES]);
+$defEle = new FormInput('', 'ele_value[0]', 15, 15, $default, null, 'number');
 $defEle->setAttribute('pattern', '[\d.\+\-]*$');
 //@todo need to add javascript to make sure min < default < max
 $defTray->addElement($setDef);

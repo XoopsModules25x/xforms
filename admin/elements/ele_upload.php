@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -18,6 +19,7 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\FormInput;
@@ -32,9 +34,7 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  *       [3] = save to (mail or directory)
  */
 $size   = (!empty($value[0])) ? (int)$value[0] : 0;
-$saveAs = (empty($value[3]) || (Constants::UPLOAD_SAVEAS_FILE !== (int)$value[3]))
-           ? Constants::UPLOAD_SAVEAS_ATTACHMENT
-           : Constants::UPLOAD_SAVEAS_FILE;
+$saveAs = (empty($value[3]) || (Constants::UPLOAD_SAVEAS_FILE !== (int)$value[3])) ? Constants::UPLOAD_SAVEAS_ATTACHMENT : Constants::UPLOAD_SAVEAS_FILE;
 
 //$size = new \XoopsFormText(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, 'ele_value[0]', 10, 20, $size);
 //$size->setDescription(_AM_XFORMS_ELE_UPLOAD_MAXSIZE_DESC . '<br>' . _AM_XFORMS_ELE_UPLOAD_DESC_SIZE_NOLIMIT);
@@ -45,15 +45,15 @@ $size->setAttribute('min', 0);
 $size->setAttribute('step', 512);
 $size->setExtra('style="width: 10em;"');
 
-$mimeArray    = include_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
-$mimeTypes    = implode('|', $mimeArray);
-$mimeTypesJS  = implode('\|', $mimeArray);
+$mimeArray   = include_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
+$mimeTypes   = implode('|', $mimeArray);
+$mimeTypesJS = implode('\|', $mimeArray);
 $mimeTypesIn = empty($eleId) ? $mimeTypes : $myts->htmlSpecialChars($value[2]);
 
 $mimeExtArray = array_keys($mimeArray);
 $mimeExt      = implode('|', $mimeExtArray);
 $mimeExtJS    = implode('\|', $mimeExtArray);
-$mimeExtIn   = empty($eleId) ? $mimeExt : $myts->htmlSpecialChars($value[1]);
+$mimeExtIn    = empty($eleId) ? $mimeExt : $myts->htmlSpecialChars($value[1]);
 unset($mimeArray, $mimeExtArray);
 
 $extTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT, '<br>');
@@ -67,14 +67,14 @@ $extTray->addElement($setExtButton);
 
 $mimeTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME, '<br>');
 $mimeTray->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME_DESC . '<br><br>' . _AM_XFORMS_ELE_UPLOAD_DESC_NOLIMIT);
-$mime = new \XoopsFormTextArea('', 'ele_value[2]', $mimeTypesIn, 5, 50);
+$mime          = new \XoopsFormTextArea('', 'ele_value[2]', $mimeTypesIn, 5, 50);
 $setMimeButton = new \XoopsFormButton('', 'setmime', _ADD . ' ' . _AM_XFORMS_ELE_DEFAULT, 'button');
 $setMimeButton->setExtra('onclick="document.getElementById(\'ele_value[2]\').value += \'\|' . $mimeTypesJS . '\';"');
 $mimeTray->addElement($mime);
 $mimeTray->addElement($setMimeButton);
 
 $saveAs = new \XoopsFormSelect(_AM_XFORMS_ELE_UPLOAD_SAVEAS, 'ele_value[3]', $saveAs);
-$saveAs->addOptionArray(array(Constants::UPLOAD_SAVEAS_ATTACHMENT => _AM_XFORMS_ELE_UPLOAD_SAVEAS_MAIL, Constants::UPLOAD_SAVEAS_FILE => _AM_XFORMS_ELE_UPLOAD_SAVEAS_FILE));
+$saveAs->addOptionArray([Constants::UPLOAD_SAVEAS_ATTACHMENT => _AM_XFORMS_ELE_UPLOAD_SAVEAS_MAIL, Constants::UPLOAD_SAVEAS_FILE => _AM_XFORMS_ELE_UPLOAD_SAVEAS_FILE]);
 
 $output->addElement($size, Constants::REQUIRED);
 //$output->addElement($ext);

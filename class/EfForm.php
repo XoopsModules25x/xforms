@@ -12,6 +12,7 @@ namespace XoopsModules\Xforms;
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: Xforms
  *
@@ -21,8 +22,8 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Constants;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 /*
@@ -31,6 +32,7 @@ if (!interface_exists('\XoopsModules\Xforms\Constants')) {
 //    xoops_load('constants', 'xforms');
 }
 */
+
 /**
  * Class \XoopsModules\Xforms\EfForm
  */
@@ -47,7 +49,7 @@ class EfForm extends \XoopsObject
     public function __construct()
     {
         parent::__construct();
-    //    key, data_type, value, req, max, opt
+        //    key, data_type, value, req, max, opt
         $this->initVar('form_id', XOBJ_DTYPE_INT);
         $this->initVar('form_send_method', XOBJ_DTYPE_TXTBOX, Constants::SEND_METHOD_MAIL, true, 1);
         $this->initVar('form_send_to_group', XOBJ_DTYPE_TXTBOX, '', false, 3);

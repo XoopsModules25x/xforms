@@ -1,4 +1,5 @@
 <?php
+
 define('_AM_XFORMS_SAVE', 'Save');
 define('_AM_XFORMS_COPIED', '%s copy');
 define('_AM_XFORMS_DBUPDATED', 'Database Updated Successfully!');
@@ -255,7 +256,7 @@ define('_AM_XFORMS_RENAME_TBL_ELEMENTS', 'Rename form elements table...');
 define('_AM_XFORMS_TBL_COL_ADD', 'Add %s to %s table...');
 define('_AM_XFORMS_TBL_COL_CHANGE', 'Change default value of %s in %s table...');
 define('_AM_XFORMS_TBL_CREATE', 'Create %s table...');
-define('_AM_XFORMS_TBL_INSERT_DEFAULT', 'Insert default data into %s table.');
+define('_AM_XFORMS_TBL_INSERT_DEFAULT', 'INSERT default DATA INTO %s TABLE.');
 define('_AM_XFORMS_DONE', 'done.');
 define('_AM_XFORMS_FAILED', 'failed.');
 define('_AM_XFORMS_SET_PERMS', 'Setting up default permissions...');
@@ -271,7 +272,6 @@ define('_AM_XFORMS_ERROR_BAD_XOOPS', 'This module requires XOOPS %s+ (%s install
 define('_AM_XFORMS_ERROR_BAD_PHP', 'This module requires PHP version %s+ (%s installed)');
 define('_AM_XFORMS_ERROR_BAD_UPLOAD_PATH', 'Could not create %s directory');
 define('_AM_XFORMS_ERROR_BAD_INDEX', 'Could not create %s file');
-
 
 define('_AM_XFORMS_ERR_COPY_UPLOADS', 'Could not copy uploaded files from %s');
 define('_AM_XFORMS_ERR_CREATE_FORM', 'Could not create form object (%s form Id = %s)');
