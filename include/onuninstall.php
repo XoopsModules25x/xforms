@@ -9,69 +9,80 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
  * Module: xForms
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           1.30
+ * @package   \XoopsModules\Xforms\include
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     1.30
  */
 
+/**
+ * @internal {Make sure you PROTECT THIS FILE}
+ */
 use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Utility;
+
+if ((!defined('XOOPS_ROOT_PATH'))
+    || !($GLOBALS['xoopsUser'] instanceof XoopsUser)
+    || !($GLOBALS['xoopsUser']->isAdmin()))
+{
+    exit('Restricted access' . PHP_EOL);
+}
 
 /**
  * Prepare to uninstall module
  *
+ * @param XoopsModule $module
  *
- * @param \XoopsModule $xoopsModule
  * @return bool success
  */
-function xoops_module_pre_uninstall_xforms(\XoopsModule $xoopsModule)
+function xoops_module_pre_uninstall_xforms(\XoopsModule $module)
 {
-    /*********************************
-     * Remove uploads directory
-     * (and all files in the directory)
-     *********************************/
-    $moduleDirName = basename(dirname(__DIR__));
-    $helper        = Xforms\Helper::getHelper($moduleDirName);
-    $helper->loadLanguage('modinfo');
-    //    $modulePrefix = $helper->getModule()->getVar('dirname');
-
-    if (!$helper->isUserAdmin()) {
-        $xoopsModule->setErrors(_NOPERM);
-
-        return false;
-    }
-    // get uploads directory name from Preferences setting
-    $uploadDir = $helper->getConfig('uploaddir');
-    $uploadDir = ('/' === mb_substr($uploadDir, -1, 1)) ? mb_substr($uploadDir, 0, -1) : $uploadDir;
-    $dirInfo   = new \SplFileInfo($uploadDir);
-    $success   = true;
-    require_once __DIR__ . '/functions.php';
-    if ($dirInfo->isDir()) {
-        // directory exists so try and delete it
-        $success = xformsDeleteDirectory($uploadDir);
-    }
-    if (false === $success) {
-        $xoopsModule->setErrors(sprintf(_MI_XFORMS_INST_NO_DEL_UPLOAD, $uploadDir));
-    }
-
-    return $success;
+    // NOP
+    return true;
 }
 
 /**
  * Uninstall module
  *
+ * @param XoopsModule $module
  *
- * @param \XoopsModule $xoopsModule
  * @return bool success
  */
-function xoops_module_uninstall_xforms(\XoopsModule $xoopsModule)
+function xoops_module_uninstall_xforms(\XoopsModule $module)
 {
-    // NOP
-    return true;
+    /* @var \XoopsModules\Xforms\Helper $helper */
+    $helper = xHelper::getInstance();
+    $helper->loadLanguage('modinfo');
+
+    // Remove uploads directory (and all files in the directory)
+
+    /* @var \XoopsModules\Xforms\Utility $utility */
+    $utility = new Utility();
+
+    // Get uploads directory name from Preferences setting
+    $uploadDir = $helper->getConfig('uploaddir');
+    $uploadDir = ('/' === substr($uploadDir, -1, 1)) ? substr($uploadDir, 0, -1) : $uploadDir;
+    $dirInfo   = new \SplFileInfo($uploadDir);
+    $success   = true;
+    if ($dirInfo->isDir()) {
+        // Directory exists so try and delete it
+        $success = $utility::deleteDirectory($uploadDir);
+    } else {
+        // Try and delete uploads/xforms directory (default)
+        $moduleUploadPath = XOOPS_UPLOAD_PATH . '/' . $module->dirname();
+        $uploadPathObj = new \SplFileInfo($moduleUploadPath);
+        if (false !== $uploadPathObj->isDir()) {
+            // directory exists so try and delete it
+            $success = $utility::deleteDirectory($moduleUploadPath);
+        }
+    }
+    if (!$success) {
+        $module->setErrors(sprintf(_MI_XFORMS_INST_NO_DEL_UPLOAD, $uploadDir));
+    }
+    return $success;
 }

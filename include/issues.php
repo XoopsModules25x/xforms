@@ -9,290 +9,140 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
-/**
+ /**
  * Module: xForms
  *
- * @category        Module
- * @package         xforms
- * @author          ZySpec <owners@zyspec.com>
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           2.00
+ * @package   \XoopsModules\Xforms\include
+ * @author    ZySpec <zyspec@yahoo.com>
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     2.00
  */
-/*
-use Xmf\Module\Helper\Session;
-use Xmf\Module\Helper\AbstractHelper;
+use XoopsModules\Xforms;
 
-require_once  dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-*/
+$GLOBALS['xoopsOption']['nocommon'] = true;
+include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require dirname(__DIR__) . '/preloads/autoloader.php';
+
 $moduleDirName = basename(dirname(__DIR__));
-require_once dirname(__DIR__) . '/language/english/admin.php'; // messages will be in english
-//$sessionHelper = new Session($moduleDirName);
-//@todo test without session_start() to see if it's needed...
-if (false === @session_start()) {
-    throw new \RuntimeException('Session could not start.');
+
+if (isset($GLOBALS['xoopsConfig']['language']) && file_exists(dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php')) {
+    include_once dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+} else {
+    include_once dirname(__DIR__) . '/language/english/admin.php'; // messages will be in english
+}
+//session_start();
+
+$issuesClass = '\XoopsModules\\' . ucfirst(mb_strtolower($moduleDirName)) . '\Issues';
+if (!class_exists($issuesClass)) {
+    xoops_load('Issues', $moduleDirName);
 }
 
-global $hdrs;
-$hdrs = [];
-/**
- * Function to put HTTP headers in an array
- *
- * @param unknown $curl
- * @param string  $hdrLine
- *
- * @return int length of header line put into array
- */
-function HandleHeaderLine($curl, $hdrLine)
-{
-    global $hdrs;
-    $hdrs[] = trim($hdrLine);
+$modIssues = new $issuesClass;
+if ($modIssues->getCachedEtag()) {
+    // Found the session var so check to see if anything's changed since last time we checked
+    $hdrSize       = $modIssues->execCurl();
+    $curl_response = $modIssues->getCurlResponse();
 
-    return mb_strlen($hdrLine);
-}
-
-/**
- * @param string $hdr
- * @param array  $hdrArray
- * @param bool   $asArray
- *
- * @return array|false array($hdr => value) or false if not found
- */
-function getHeaderFromArray($hdr, $hdrArray, $asArray = false)
-{
-    $val = '';
-    foreach ($hdrArray as $thisHdr) {
-        if (preg_match("/^{$hdr}/i", $thisHdr)) {
-            $val = mb_substr($thisHdr, mb_strlen($hdr));
-            break;
-        }
-    }
-
-    return (bool)$asArray ? [$hdr => trim($val)] : trim($val);
-}
-
-//$serviceUrl   = 'https://api.github.com/repos/xoops/xoopscore25/issues?state=open';
-$serviceUrl   = "https://github.com/XoopsModules25x/{$moduleDirName}/issues?state=open";
-$sessPrefix   = "{$moduleDirName}_";
-$err          = '';
-$sKeyEtag     = "{$sessPrefix}github_etag";
-$sKeyHdrSize  = "{$sessPrefix}github_hdr_size";
-$sKeyResponse = "{$sessPrefix}github_curl_response";
-$sKeyArray    = [$sKeyEtag, $sKeyHdrSize, $sKeyResponse];
-
-$cachedEtag = isset($_SESSION[$sKeyEtag]) ? base64_decode(unserialize($_SESSION[$sKeyEtag]), true) : false;
-//$cachedEtag = $sessionHelper->get($sKeyEtag);
-//echo "<br>xForms: Etag: {$cachedEtag}<br>SESSION:<br><pre>" . var_dump($_SESSION) . "</pre><br>";
-
-if ($cachedEtag) {
-    // found the session var so check to see if anything's changed since last time we checked
-    $curl = curl_init($serviceUrl);
-    curl_setopt_array(
-        $curl,
-        [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER         => true,
-            CURLOPT_VERBOSE        => true,
-            CURLOPT_TIMEOUT        => 5,
-            //                                    CURLOPT_CUSTOMREQUEST => 'GET',
-            CURLOPT_HTTPGET        => true,
-            CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
-            CURLOPT_HTTPHEADER     => [
-                'Content-type:application/json',
-                'If-None-Match: ' . $cachedEtag,
-            ],
-            CURLINFO_HEADER_OUT    => true,
-            CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
-        ]
-    );
-    // execute the session
-    $curl_response = curl_exec($curl);
-    // get the header size and finish off the session
-    $hdrSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-    curl_close($curl);
-
-    $status = getHeaderFromArray('Status: ', $hdrs);
-    //echo "<br>xForms: Status: {$status}<br>";
+    $status = $modIssues->getHeaderFromArray('Status: ');
     if (preg_match('/^304 Not Modified/', $status)) {
-        // hasn't been modified so get response & header size from session
-        $curl_response = isset($_SESSION[$sKeyResponse]) ? base64_decode(unserialize($_SESSION[$sKeyResponse]), true) : [];
-        $hdrSize       = isset($_SESSION[$sKeyHdrSize]) ? unserialize($_SESSION[$sKeyHdrSize]) : 0;
-        //        $curl_response = base64_decode($sessionHelper->get($sKeyResponse));
-        //        $hdrSize       = (int)$sessionHelper->get($sKeyHdrSize);
+        // Hasn't been modified so get response & header size from session
+        $curl_response = isset($_SESSION[$modIssues->getsKeyResponse()]) ? base64_decode(unserialize($_SESSION[$modIssues->getsKeyResponse()])) : array();
+        $hdrSize       = isset($_SESSION[$modIssues->getsKeyHdrSize()]) ? unserialize($_SESSION[$modIssues->getsKeyHdrSize()]) : 0;
     } elseif (preg_match('/^200 OK/', $status)) {
-        // ok - request new info
-        $hdrs = []; //reset the header array for new curl op
-        $curl = curl_init($serviceUrl);
-        curl_setopt_array(
-            $curl,
-            [
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HEADER         => true,
-                CURLOPT_VERBOSE        => true,
-                CURLOPT_TIMEOUT        => 5,
-                CURLOPT_HTTPGET        => true,
-                CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
-                CURLOPT_HTTPHEADER     => ['Content-type:application/json'],
-                CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
-            ]
-        );
-        // execute the session
-        $curl_response = curl_exec($curl);
-        // get the header size and finish off the session
-        $hdrSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-        curl_close($curl);
-
-        $hdrEtag = getHeaderFromArray('Etag: ', $hdrs);
-        /*
-                $sessionHelper->set($sKeyEtag, $hdrEtag);
-                $sessionHelper->set($sKeyHdrSize, (int)$hdrSize);
-                $sessionHelper->set($sKeyResponse, base64_encode($curl_response));
-        */
-        $_SESSION[$sKeyEtag]     = serialize(base64_encode($hdrEtag));
-        $_SESSION[$sKeyHdrSize]  = serialize((int)$hdrSize);
-        $_SESSION[$sKeyResponse] = serialize(base64_encode($curl_response));
+        // Ok, request new info
+        unset($modIssues);
+        $modIssues     = new $issuesClass;
+        $hdrSize       = $modIssues->execCurl();
+        $curl_response = $modIssues->getCurlResponse();
     } elseif (preg_match('/^403 Forbidden/', $status)) {
-        // probably exceeded rate limit
-        $responseArray = explode('\n', $curl_response);
-        $msgEle        = array_search('message: ', $responseArray, true);
+        // Probably exceeded rate limit
+        $responseArray = explode('\n', $modIssues->getCurlResponse());
+        $msgEle        = array_search('message: ', $responseArray);
         if (false !== $msgEle) {
-            //found the error message so set it
-            $err = mb_substr($responseArray[$msgEle], 8); //get the message
+            // Found the error message so set it
+            $modIssues->setError(substr($responseArray[$msgEle], 8)); //set the error message
         } else {
-            // couldn't find error message, but something went wrong
-            // clear session vars
-            foreach ($sKeyArray as $key) {
+            // Couldn't find error message, but something went wrong
+            // so clear session vars
+            foreach ($modIssues->getsKeyArray() as $key) {
                 $_SESSION[$key] = null;
                 unset($_SESSION[$key]);
             }
-            $err = _AM_XFORMS_ISSUES_ERR_UNKNOWN;
+            $modIssues->setError(_AM_XFORMS_ISSUES_ERR_UNKNOWN);
         }
     } else {
-        // unknown error condition - display message
-        // clear session vars
-        foreach ($sKeyArray as $key) {
+        // Unknown error condition - display message & clear session vars
+        foreach ($modIssues->getsKeyArray() as $key) {
             $_SESSION[$key] = null;
             unset($_SESSION[$key]);
         }
-        $err = _AM_XFORMS_ISSUES_STATUS_UNKNOWN;
+        $modIssues->setError(_AM_XFORMS_ISSUES_STATUS_UNKNOWN);
     }
 } else {
-    // nothing in session so request new info
-    $hdrs = [];
-    /*
-    echo "<br>xForms: Didn't find anything in SESSION<br>";
-    var_dump($_SESSION);
-    */
-    $curl = curl_init($serviceUrl);
-    curl_setopt_array(
-        $curl,
-        [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER         => true,
-            CURLOPT_VERBOSE        => true,
-            CURLOPT_TIMEOUT        => 5,
-            CURLOPT_HTTPGET        => true,
-            CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
-            CURLOPT_HTTPHEADER     => ['Content-type:application/json'],
-            CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
-        ]
-    );
-    // execute the session
-    $curl_response = curl_exec($curl);
-    // get the header size and finish off the session
-    $hdrSize = curl_getinfo($curl, CURLINFO_HEADER_SIZE);
-    curl_close($curl);
+    // Nothing in session so request new info
+    $hdrSize       = $modIssues->execCurl();
+    $curl_response = $modIssues->getCurlResponse();
 
-    $hdrEtag = getHeaderFromArray('Etag: ', $hdrs);
-    //echo "<br>xForms: Etag: {$hdrEtag}";
-    /*
-        $sessionHelper->set($sKeyEtag, $hdrEtag);
-        $sessionHelper->set($sKeyHdrSize, (int)$hdrSize);
-        $sessionHelper->set($sKeyResponse, base64_encode($curl_response));
-    */
-    $_SESSION[$sKeyEtag]     = serialize(base64_encode($hdrEtag));
-    $_SESSION[$sKeyHdrSize]  = serialize((int)$hdrSize);
-    $_SESSION[$sKeyResponse] = serialize(base64_encode($curl_response));
 }
-//echo "<br>Curl Response:<br>" . var_dump($curl_response);
 
-$hdr        = mb_substr($curl_response, 0, $hdrSize);
-$rspSize    = mb_strlen($curl_response) - $hdrSize;
-$response   = mb_substr($curl_response, -$rspSize);
+$hdr        = substr($curl_response, 0, $hdrSize);
+$rspSize    = strlen($curl_response) - $hdrSize;
+$response   = substr($curl_response, - $rspSize);
 $issuesObjs = json_decode($response); //get as objects
 
-echo "    <br>\n"
-     . '    <h4 class="odd">'
-     . _AM_XFORMS_ISSUES_OPEN
-     . "</h4>\n"
-     . "    <p class=\"even\">\n"
-     . "    <table>\n"
-     . "      <thead>\n"
-     . "      <tr>\n"
-     . '        <th class="center width10">'
-     . _AM_XFORMS_HELP_ISSUE
-     . "</th>\n"
-     . '        <th class="center width10">'
-     . _AM_XFORMS_HELP_DATE
-     . "</th>\n"
-     . '        <th class="center">'
-     . _AM_XFORMS_HELP_TITLE
-     . "</th>\n"
-     . '        <th class="center width10">'
-     . _AM_XFORMS_HELP_SUBMITTER
-     . "</th>\n"
-     . "      </tr>\n"
-     . "      </thead>\n"
-     . "      <tbody>\n";
+echo '<br>'
+   . '<h4 class="odd">' . _AM_XFORMS_ISSUES_OPEN . '</h4>'
+   . '<p class="even">'
+   . '<table>'
+   . '  <thead>'
+   . '  <tr>'
+   . '    <th class="center width10">' . _AM_XFORMS_HELP_ISSUE . '</th>'
+   . '    <th class="center width10">' . _AM_XFORMS_HELP_DATE . '</th>'
+   . '    <th class="center">' . _AM_XFORMS_HELP_TITLE . '</th>'
+   . '    <th class="center width10">' . _AM_XFORMS_HELP_SUBMITTER . '</th>'
+   . '  </tr>'
+   . '  </thead>'
+   . '  <tbody>';
 
 $pullReqFound = false;
 $suffix       = '';
 $cssClass     = 'odd';
-$i            = 0;
+$i = 0;
 if (!empty($issuesObjs)) {
     foreach ($issuesObjs as $issue) {
+        $suffix = '';
         if (isset($issue->pull_request)) {
-            /** @internal {uncomment the following line if you don't want to see pull requests as issues}}} */
-            //            continue; // github counts pull requests as open issues so ignore these
+            /** @internal {uncomment the following line if you don't want to see pull requests as issues}}}*/
+//            continue; // github counts pull requests as open issues so ignore these
 
-            $suffix       = '*';
+            $suffix = '*';
             $pullReqFound = true;
-        } else {
-            $suffix = '';
         }
 
-        $dateTimeObj = DateTime::createFromFormat(DateTime::ISO8601, $issue->created_at);
+        $dateTimeObj = \DateTime::createFromFormat(\DateTime::ISO8601, $issue->created_at);
         $dispDate    = $dateTimeObj->format('Y-m-d');
         ++$i; // issue count
 
-        echo "      <tr>\n"
-             . "        <td class=\"{$cssClass} center\"><a href=\""
-             . $issue->html_url
-             . '" target="_blank">'
-             . (int)$issue->number
-             . "{$suffix}</a></td>\n"
-             . "        <td class=\"{$cssClass} center\">{$dispDate}</td>\n"
-             . "        <td class=\"{$cssClass} left\" style=\"padding-left: 2em;\">"
-             . htmlspecialchars($issue->title, ENT_QUOTES | ENT_HTML5)
-             . "</td>\n"
-             . "        <td class=\"{$cssClass} center\"><a href=\""
-             . htmlspecialchars($issue->user->html_url, ENT_QUOTES | ENT_HTML5)
-             . '" target="_blank">'
-             . htmlspecialchars($issue->user->login, ENT_QUOTES | ENT_HTML5)
-             . "</a></td>\n"
-             . "      </tr>\n";
+        echo '  <tr>'
+           . '    <td class="' . $cssClass . ' center"><a href="' . $issue->html_url . '" target="_blank">' . (int)$issue->number . $suffix . '</a></td>'
+           . '    <td class="' . $cssClass . ' center">' . $dispDate . '</td>'
+           . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . htmlspecialchars($issue->title) . '</td>'
+           . '    <td class="' . $cssClass . ' center"><a href="' . htmlspecialchars($issue->user->html_url) . '" target="_blank">' . htmlspecialchars($issue->user->login) . '</a></td>'
+           . '  </tr>';
         $cssClass = ('odd' === $cssClass) ? 'even' : 'odd';
     }
 }
 
-if (!empty($err)) {
-    echo "    <tr><td colspan=\"4\" class=\"{$cssClass} center bold italic\">" . htmlspecialchars($err, ENT_QUOTES | ENT_HTML5) . "</td></tr>\n";
+if (!empty($modIssues->getError())) {
+    echo '    <tr><td colspan="4" class="' . $cssClass . ' center bold italic">' . htmlspecialchars($modIssues->getError()) . '</td></tr>';
 } elseif (0 == $i) { // no issues found
-    echo "    <tr><td colspan=\"4\" class=\"{$cssClass} center bold italic\">" . _AM_XFORMS_ISSUES_NONE . "</td></tr>\n";
+    echo '    <tr><td colspan="4" class="' . $cssClass . ' center bold italic">' . _AM_XFORMS_ISSUES_NONE . '</td></tr>';
 }
 
 if ($pullReqFound) {
-    echo "    <tfoot>\n" . '      <tr><td colspan="4" class="left italic marg3 foot">' . _AM_XFORMS_ISSUES_NOTE . "</td></tr>\n" . "    </tfoot>\n";
+    echo '    <tfoot>'
+       . '      <tr><td colspan="4" class="left italic marg3 foot">' . _AM_XFORMS_ISSUES_NOTE . '</td></tr>'
+       . '    </tfoot>';
 }
-echo "    </tbody></table></p>\n";
+echo '    </tbody></table></p>';

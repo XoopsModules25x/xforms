@@ -6,7 +6,6 @@ namespace XoopsModules\Xforms\Common;
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit authors.
-
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
@@ -36,7 +35,6 @@ class Configurator
     public $oldFolders      = [];
     public $renameTables    = [];
     public $modCopyright;
-
     /**
      * Configurator constructor.
      */
@@ -44,10 +42,8 @@ class Configurator
     {
         $moduleDirName      = basename(dirname(dirname(__DIR__)));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-
-        require_once dirname(dirname(__DIR__)) . '/config/config.php';
+        require_once dirname(dirname(__DIR__)) . '/include/config.php';
         $config = getConfig();
-
         $this->name            = $config->name;
         $this->paths           = $config->paths;
         $this->uploadFolders   = $config->uploadFolders;

@@ -9,25 +9,24 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
  * Module: xForms
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           2.00
+ * @package   \XoopsModules\Xforms\admin\elements
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     2.00
  */
-
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\FormInput;
+use XoopsModules\Xforms\FormRaw;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-if (!class_exists('Xforms\FormRaw')) {
-    XoopsLoad::load('FormRaw', basename(dirname(dirname(__DIR__))));
+if (!class_exists('\XoopsModules\Xforms\FormRaw')) {
+    xoops_load('formraw', basename(dirname(dirname(__DIR__))));
 }
 /**
  * Date element
@@ -39,6 +38,7 @@ if (!class_exists('Xforms\FormRaw')) {
  *       [4] = max date
  *       [5] = max date option (0 = none, 1 = current, 2 = max date)
  */
+
 $dateValue = !empty($value[0]) ? $value[0] : date('Y-m-d');
 $minDate   = !empty($value[2]) ? $value[2] : date('Y-m-d');
 $maxDate   = !empty($value[4]) ? $value[4] : date('Y-m-d');
@@ -48,48 +48,46 @@ $setTheMax = !empty($value[5]) ? (int)$value[5] : Constants::ELE_NO;
 
 $minTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_DATE_MIN);
 $setMin  = new \XoopsFormRadio('', 'ele_value[3]', $setTheMin);
-$setMin->addOptionArray(
-    [
-        Constants::ELE_NO    => _NO,
-        Constants::ELE_CURR  => _AM_XFORMS_ELE_DATE_CUR,
-        Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER,
-    ]
+$setMin->addOptionArray(array(Constants::ELE_NO => _NO,
+                            Constants::ELE_CURR => _AM_XFORMS_ELE_DATE_CUR,
+                           Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER)
 );
-$minEle = new Xforms\FormInput('', 'ele_value[2]', 15, 15, $minDate, null, 'date');
+$minEle = new FormInput('', 'ele_value[2]', 15, 15, $minDate, null, 'date');
 $minTray->addElement($setMin);
 $minTray->addElement($minEle);
 
 $maxTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_DATE_MAX);
 $setMax  = new \XoopsFormRadio('', 'ele_value[5]', $setTheMax);
-$setMax->addOptionArray(
-    [
-        Constants::ELE_NO    => _NO,
-        Constants::ELE_CURR  => _AM_XFORMS_ELE_DATE_CUR,
-        Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER,
-    ]
+$setMax->addOptionArray(array(Constants::ELE_NO => _NO,
+                            Constants::ELE_CURR => _AM_XFORMS_ELE_DATE_CUR,
+                           Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER)
 );
-$maxEle = new Xforms\FormInput('', 'ele_value[4]', 15, 15, $maxDate, null, 'date');
+$maxEle = new FormInput('', 'ele_value[4]', 15, 15, $maxDate, null, 'date');
 $maxTray->addElement($setMax);
 $maxTray->addElement($maxEle);
 
 $date   = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT);
 $setDef = new \XoopsFormRadio('', 'ele_value[1]', $setTheDef);
-$setDef->addOptionArray(
-    [
-        Constants::ELE_CURR  => _AM_XFORMS_ELE_DATE_CUR,
-        Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER,
-    ]
+$setDef->addOptionArray(array(Constants::ELE_CURR => _AM_XFORMS_ELE_DATE_CUR,
+                             Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER)
 );
-// changed this to array and element 0
-$inpEle = new Xforms\FormInput('', 'ele_value[0]', 15, 15, $dateValue, null, 'date');
+
+$inpEle = new FormInput('', 'ele_value[0]', 15, 15, $dateValue, null, 'date');
 $date->addElement($setDef);
 $date->addElement($inpEle);
-$date->addElement(
-    new Xforms\FormRaw(
-        "<script>\n" . "if (!Modernizr.inputtypes.date) {\n" //    .    "alert(\"Browser doesn't support date\");\n"
-        . "  $('input[type=date]')\n" . "  .attr('type', 'text')\n" . "  .datepicker({\n" . "  // Consistent format with the HTML5 picker\n" . "  dateFormat: 'yy-mm-dd'\n" . "  });\n" . "}\n" . "</script>\n"
-    )
-);
+$date->addElement(new FormRaw(
+    "<script>\n"
+    .    "if (!Modernizr.inputtypes.date) {\n"
+//    .    "alert(\"Browser doesn't support date\");\n"
+    .    "  $('input[type=date]')\n"
+    .    "  .attr('type', 'text')\n"
+    .    "  .datepicker({\n"
+    .    "  // Consistent format with the HTML5 picker\n"
+    .    "  dateFormat: 'yy-mm-dd'\n"
+    .    "  });\n"
+    .    "}\n"
+    . "</script>\n"
+));
 
 $output->addElement($minTray);
 $output->addElement($maxTray);

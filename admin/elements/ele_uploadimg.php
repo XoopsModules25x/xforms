@@ -9,19 +9,18 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
  * Module: xForms
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           1.30
+ * @package   \XoopsModules\Xforms\admin\elements
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     2.00
  */
-
 use XoopsModules\Xforms;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\FormInput;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
@@ -35,8 +34,8 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  *       [4] = image width
  *       [5] = image height
  */
-$mimeArray = require $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
-$imgArray  = [];
+$mimeArray = include_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
+$imgArray  = array();
 foreach ($mimeArray as $ext => $type) {
     //get image MIME types as defined by IANA (images/ with no /x-**** which are not official)
     if (preg_match('/^image\/[^x-]/i', $type)) {
@@ -50,18 +49,21 @@ $mimeExtArray = array_keys($imgArray);
 $mimeExt      = implode('|', $mimeExtArray);
 $mimeExtJS    = implode('\|', $mimeExtArray);
 
-$size = !empty($value[0]) ? (int)$value[0] : 0;
+$size        = !empty($value[0]) ? (int)$value[0] : 0;
 //$ext         = empty($eleId) ? 'jpg|jpeg|gif|png|tif|tiff' : $value[1];
 //$mime        = empty($eleId) ? 'image/jpeg|image/pjpeg|image/png|image/x-png|image/gif|image/tiff' : $value[2];
 $mimeExtIn   = empty($eleId) ? $mimeExt : $value[1];
 $mimeTypesIn = empty($eleId) ? $mimeTypes : $value[2];
-$saveAs      = (empty($value[3]) || 1 != $value[3]) ? 0 : 1;
+$saveAs      = (empty($value[3]) || (Constants::UPLOAD_SAVEAS_FILE !== (int)$value[3]))
+                ? Constants::UPLOAD_SAVEAS_ATTACHMENT
+                : Constants::UPLOAD_SAVEAS_FILE;
 $width       = !empty($value[4]) ? (int)$value[4] : 0;
 $height      = !empty($value[5]) ? (int)$value[5] : 0;
 
 //$size = new \XoopsFormText(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, 'ele_value[0]', 10, 20, $size);
-$size = new Xforms\FormInput(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, 'ele_value[0]', 10, 20, (string)$size, null, 'number');
+$size = new FormInput(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, 'ele_value[0]', 10, 20, (string)$size, null, 'number');
 $size->setAttribute('min', 0);
+$size->setAttribute('step', 512);
 $size->setDescription(_AM_XFORMS_ELE_UPLOAD_MAXSIZE_DESC . '<br>' . _AM_XFORMS_ELE_UPLOAD_DESC_SIZE_NOLIMIT);
 
 /*
@@ -83,22 +85,38 @@ $mime->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME_DESC . '<br><br>' . _AM
 */
 $mimeTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME, '<br>');
 $mimeTray->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME_DESC . '<br><br>' . _AM_XFORMS_ELE_UPLOAD_DESC_NOLIMIT);
-$mime          = new \XoopsFormTextArea('', 'ele_value[2]', $myts->htmlSpecialChars($mimeTypesIn), 5, 50);
+$mime = new \XoopsFormTextArea('', 'ele_value[2]', $myts->htmlSpecialChars($mimeTypesIn), 5, 50);
 $setMimeButton = new \XoopsFormButton('', 'setmime', _ADD . ' ' . _AM_XFORMS_ELE_DEFAULT, 'button');
 $setMimeButton->setExtra('onclick="document.getElementById(\'ele_value[2]\').value += \'\|' . $mimeTypesJS . '\';"');
 $mimeTray->addElement($mime);
 $mimeTray->addElement($setMimeButton);
 
 $saveAs = new \XoopsFormSelect(_AM_XFORMS_ELE_UPLOAD_SAVEAS, 'ele_value[3]', $saveAs);
-$saveAs->addOptionArray([0 => _AM_XFORMS_ELE_UPLOAD_SAVEAS_MAIL, 1 => _AM_XFORMS_ELE_UPLOAD_SAVEAS_FILE]);
+$saveAs->addOptionArray(array(Constants::UPLOAD_SAVEAS_ATTACHMENT => _AM_XFORMS_ELE_UPLOAD_SAVEAS_MAIL,
+                              Constants::UPLOAD_SAVEAS_FILE => _AM_XFORMS_ELE_UPLOAD_SAVEAS_FILE)
+);
 
 //$width = new \XoopsFormText(_AM_XFORMS_ELE_UPLOADIMG_MAXWIDTH, 'ele_value[4]', 10, 20, $width);
-$width = new Xforms\FormInput(_AM_XFORMS_ELE_UPLOADIMG_MAXWIDTH, 'ele_value[4]', 10, 20, (string)$width, null, 'number');
+$width = new FormInput(_AM_XFORMS_ELE_UPLOADIMG_MAXWIDTH,
+                       'ele_value[4]',
+                       10,
+                       20,
+                       (string)$width,
+                       null,
+                       'number'
+);
 $width->setAttribute('min', 0);
 $width->setDescription(_AM_XFORMS_ELE_UPLOAD_DESC_SIZE_NOLIMIT);
 
 //$height = new \XoopsFormText(_AM_XFORMS_ELE_UPLOADIMG_MAXHEIGHT, 'ele_value[5]', 10, 20, $height);
-$height = new Xforms\FormInput(_AM_XFORMS_ELE_UPLOADIMG_MAXHEIGHT, 'ele_value[5]', 10, 20, (string)$height, null, 'number');
+$height = new FormInput(_AM_XFORMS_ELE_UPLOADIMG_MAXHEIGHT,
+                        'ele_value[5]',
+                        10,
+                        20,
+                        (string)$height,
+                        null,
+                        'number'
+);
 $height->setAttribute('min', 0);
 $height->setDescription(_AM_XFORMS_ELE_UPLOAD_DESC_SIZE_NOLIMIT);
 

@@ -2,7 +2,7 @@ Read Me First
 =============
 
 This module is used to create forms for user feedback. You can use it as a
-contact form on your Website, for collecting user feedback or a variety of
+contact form on your website, for collecting user feedback or a variety of
 other uses where data needs to be collected from site users.
 
 Install/Uninstall

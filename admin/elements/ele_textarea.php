@@ -9,24 +9,23 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
  * Module: xForms
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           1.30
+ * @package   \XoopsModules\Xforms\admin\elements
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     2.00
  */
-
 use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\FormInput;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-/** @var Xforms\Helper $helper */
-$helper = Xforms\Helper::getInstance();
+/* @var \XoopsModules\Xforms\Helper $helper */
+$helper = xHelper::getInstance();
 
 /**
  * Textarea element
@@ -38,18 +37,18 @@ $helper = Xforms\Helper::getInstance();
  */
 $rowAttrib = !empty($value[1]) ? $value[1] : $helper->getConfig('ta_rows');
 $colAttrib = !empty($value[2]) ? $value[2] : $helper->getConfig('ta_cols');
-$rows      = new Xforms\FormInput(_AM_XFORMS_ELE_ROWS, 'ele_value[1]', 3, 3, (string)((int)$rowAttrib), null, 'number');
+$rows      = new FormInput(_AM_XFORMS_ELE_ROWS, 'ele_value[1]', 3, 3, (string)((int)$rowAttrib), null, 'number');
 $rows->setAttribute('min', 0);
 $rows->setExtra('style="width: 5em;"');
 
-$cols = new Xforms\FormInput(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, (int)$colAttrib, null, 'number');
+$cols    = new FormInput(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, (int)$colAttrib, null, 'number');
 $cols->setAttribute('min', 0);
 $cols->setExtra('style="width: 5em;"');
 
 $default = new \XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlSpecialChars($value[0]) : '', 5, 35);
 
 //placeholder
-$plAttrib    = isset($value[4]) ? $value[3] : '';
+$plAttrib = isset($value[3]) ? $myts->htmlSpecialChars($value[3]) : '';
 $placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[3]', 35, 255, $plAttrib);
 
 $output->addElement($rows, 1);

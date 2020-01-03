@@ -1,6 +1,7 @@
+
 <script>
-    $(function () {
-        $("#includedContent").load("<{$xoops_url}>/modules/xforms/include/issues.php");
+    $(function(){
+      $("#includedContent").load("<{$xoops_url}>/modules/xforms/include/issues.php");
     });
 </script>
 <div id="help-template" class="outer">
@@ -12,8 +13,7 @@
     <!-- -----Help Content ---------- -->
     <h4 class="odd">Report Issues</h4>
     <p class="even">
-        To report an issue with the module please go to <a href="https://github.com/XoopsModules25x/xforms/issues/"
-                                                           target="_blank">https://github.com/XoopsModules25x/xforms/issues/</a>.
+        To report an issue with the module please go to <a href="https://github.com/XoopsModules25x/xforms/issues/" target="_blank">https://github.com/XoopsModules25x/xforms/issues/</a>.
     </p>
     <div id="includedContent"></div>
     <!-- -----Help Content ---------- -->

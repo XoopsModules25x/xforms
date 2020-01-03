@@ -13,22 +13,21 @@ namespace XoopsModules\Xforms;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Module: xForms
+ * Module: Xforms
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           1.30
+ * @package   \XoopsModules\Xforms\class
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     1.30
  */
 
 //defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
- * class Constants
+ * Interface \XoopsModules\Xforms\Constants
  */
-class Constants
+interface Constants
 {
     /**#@+
      * Constant definition
@@ -36,28 +35,28 @@ class Constants
 
     const DISALLOW = 0;
 
-    // CONFIG displayicons
+// CONFIG displayicons
     const DISPLAYICONS_ICON = 1;
     const DISPLAYICONS_TEXT = 2;
-    const DISPLAYICONS_NO = 3;
+    const DISPLAYICONS_NO   = 3;
 
-    // CONFIG submissions
-    const SUBMISSIONS_NONE = 1;
+// CONFIG submissions
+    const SUBMISSIONS_NONE     = 1;
     const SUBMISSIONS_DOWNLOAD = 2;
-    const SUBMISSIONS_MIRROR = 3;
-    const SUBMISSIONS_BOTH = 4;
+    const SUBMISSIONS_MIRROR   = 3;
+    const SUBMISSIONS_BOTH     = 4;
 
-    // CONFIG anonpost
-    const ANONPOST_NONE = 1;
+// CONFIG anonpost
+    const ANONPOST_NONE     = 1;
     const ANONPOST_DOWNLOAD = 2;
-    const ANONPOST_MIRROR = 3;
-    const ANONPOST_BOTH = 4;
+    const ANONPOST_MIRROR   = 3;
+    const ANONPOST_BOTH     = 4;
 
-    // CONFIG autoapprove
-    const AUTOAPPROVE_NONE = 1;
+// CONFIG autoapprove
+    const AUTOAPPROVE_NONE     = 1;
     const AUTOAPPROVE_DOWNLOAD = 2;
-    const AUTOAPPROVE_MIRROR = 3;
-    const AUTOAPPROVE_BOTH = 4;
+    const AUTOAPPROVE_MIRROR   = 3;
+    const AUTOAPPROVE_BOTH     = 4;
 
     const DEFAULT_ELEMENT_SIZE = 1;
 
@@ -70,6 +69,10 @@ class Constants
      * default forms to show per page in lists
      */
     const FORMS_PER_PAGE_DEFAULT = 10;
+    /**
+     * form - invalid ID
+     */
+    const FORM_NOT_VALID = 0;
     /**
      * form Active
      */
@@ -95,6 +98,10 @@ class Constants
      */
     const DISALLOW_HTML = 0;
     /**
+     * Element - invalid ID
+     */
+    const ELE_NOT_VALID = 0;
+    /**
      * Element - no
      */
     const ELE_NO = 0;
@@ -114,6 +121,14 @@ class Constants
      * range default step size
      */
     const ELE_DEFAULT_STEP = 1;
+    /**
+     * Element not checked
+     */
+    const ELE_NOT_CHECKED = 0;
+    /**
+     * Element checked
+     */
+    const ELE_CHECKED = 1;
     /**
      * form save in database
      */
@@ -171,6 +186,22 @@ class Constants
      */
     const DISPLAY_SINGLE_ROW = 1;
     /**
+     * save uploaded file to mail
+     */
+    const FILE_AS_MAIL = 0;
+    /**
+     * save uploaded file to file
+     */
+    const FILE_AS_FILE = 1;
+    /**
+     * form text field is not an email
+     */
+    const FIELD_IS_NOT_EMAIL = 0;
+    /**
+     * form text field is an email addr
+     */
+    const FIELD_IS_EMAIL = 1;
+    /**
      * indicates form results sent via email
      */
     const SEND_METHOD_MAIL = 'e';
@@ -206,6 +237,14 @@ class Constants
      * save uploaded file as attachment
      */
     const UPLOAD_SAVEAS_FILE = 1;
+    /**
+     * Form is not a clone
+     */
+    const FORM_NOT_CLONED = 0;
+    /**
+     * Form is a clone
+     */
+    const FORM_CLONED = 1;
     /**
      * no delay XOOPS redirect delay (in seconds)
      */

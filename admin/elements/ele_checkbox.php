@@ -9,28 +9,22 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
  * Module: xForms
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           2.00
+ * @package   \XoopsModules\Xforms\admin\elements
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     2.00
  */
-
 use XoopsModules\Xforms;
+use XoopsModules\Xforms\FormRaw;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-if (!class_exists('Xforms\FormInput')) {
-    XoopsLoad::load('FormInput', basename(dirname(dirname(__DIR__))));
-}
-
-if (!class_exists('Xforms\FormRaw')) {
-    XoopsLoad::load('FormRaw', basename(dirname(dirname(__DIR__))));
+if (!class_exists('\XoopsModules\Xforms\FormRaw')) {
+    xoops_load('FormRaw', basename(dirname(dirname(__DIR__))));
 }
 
 /**
@@ -43,27 +37,27 @@ if (!class_exists('Xforms\FormRaw')) {
  */
 $optTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_OPT, '<br>');
 $optTray->setDescription('<br>' . _AM_XFORMS_ELE_OTHER);
-$optTray->addElement(new Xforms\FormRaw('<div id="checked_checkboxtray">'));
+$optTray->addElement(new FormRaw('<div id="checked_checkboxtray">'));
 
 //create 2 empty "options" if none exist
-$keys     = (!empty($value) && is_array($value)) ? array_keys($value) : ['', ''];
+$keys = (!empty($value) && is_array($value)) ? array_keys($value) : array('', '');
 $keyCount = count($keys);
 for ($i = 0; $i < $keyCount; ++$i) {
-    $eleTray     = new \XoopsFormElementTray('');
+    $eleTray = new \XoopsFormElementTray('');
     $checkboxVal = (isset($value[$keys[$i]]) && !empty($value[$keys[$i]])) ? $i : null;
     $checkboxEle = new \XoopsFormCheckbox('', 'ckbox', $checkboxVal);
     $checkboxEle->addOption($i, ' ');
     $eleTray->addElement($checkboxEle);
-    $optVal     = $myts->htmlSpecialChars($keys[$i]);
-    $formEleObj = new \XoopsFormText('', "ele_value[{$i}]", 40, 255, $optVal);
+    $optVal      = $myts->htmlSpecialChars($keys[$i]);
+    $formEleObj  = new \XoopsFormText('', 'ele_value[' . $i . ']', 40, 255, $optVal);
     $formEleObj->setExtra('placeholder = "' . _AM_XFORMS_ELE_OPT_PLACEHOLDER . '"');
     $eleTray->addElement($formEleObj);
     $optTray->addElement($eleTray);
 }
-//$optTray->addElement(new Xforms\FormRaw('<div id="' . $checkboxEle->getName(true) . '_checkboxtray"></div>'));
-$optTray->addElement(new Xforms\FormRaw('</div>'));
+//$optTray->addElement(new FormRaw('<div id="' . $checkboxEle->getName(true) . '_checkboxtray"></div>'));
+$optTray->addElement(new FormRaw('</div>'));
 $moreOptsButton = new \XoopsFormButton('', 'moreoptions', _ADD, 'button');
-$moreOptsButton->setExtra("onclick='addToCboxTray()'");
+$moreOptsButton->setExtra('onclick="addToCboxTray()"');
 $optTray->addElement($moreOptsButton);
 $output->addElement($optTray);
 
@@ -71,14 +65,13 @@ $output->addElement($optTray);
  * more places than just here. It could then be loaded using 'standard' .js
  * include methods for a cleaner implementation}}}
  */
-$funcScript = new Xforms\FormRaw(
-    "<script>function addToCboxTray() {
+$funcScript = new FormRaw("<script>function addToCboxTray() {
 //first time through set id (counter)
 if (typeof addToCboxTray.counter == \"undefined\") {
   addToCboxTray.counter = $('[id^=\"ele_value[\"]').length;
 }
 
-//setup the checkbox button
+// setup the checkbox button
 var checkboxTray = document.getElementById(\"checked_checkboxtray\");
 var rb = document.createElement(\"input\");
 rb.setAttribute(\"type\", \"checkbox\");

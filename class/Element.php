@@ -13,58 +13,50 @@ namespace XoopsModules\Xforms;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Module: xForms
+ * Module: Xforms
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           1.30
+ * @package   \XoopsModules\Xforms\admin\class
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     1.30
  */
-//defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+use XoopsModules\Xforms\Constants;
 
-//if (!interface_exists('Xforms\Constants')) {
-//    require_once __DIR__ . '/constants.php';
-//    //    xoops_load('constants', 'xforms');
-//}
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
- * Class Element
+ * Class \XoopsModules\Xforms\Element
  */
 class Element extends \XoopsObject
 {
     /**
-     * Xforms\Element class constructor
+     * \XoopsModules\Xforms\Element class constructor
      */
     public function __construct()
     {
         parent::__construct();
         $this->initVar('ele_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('form_id', XOBJ_DTYPE_INT, 0, true);
-        // changed ele_type to default to text in v2.00 ALPHA 2
+        $this->initVar('form_id', XOBJ_DTYPE_INT,0, true);
         $this->initVar('ele_type', XOBJ_DTYPE_TXTBOX, 'text', true, 10);
         $this->initVar('ele_caption', XOBJ_DTYPE_TXTAREA, '');
         $this->initVar('ele_order', XOBJ_DTYPE_INT, 0);
         $this->initVar('ele_req', XOBJ_DTYPE_INT, Constants::ELEMENT_NOT_REQD);
         $this->initVar('ele_display_row', XOBJ_DTYPE_INT, Constants::DISPLAY_SINGLE_ROW);
-        // changed ele_value to OTHER from ARRAY
         $this->initVar('ele_value', XOBJ_DTYPE_OTHER, '');
         $this->initVar('ele_display', XOBJ_DTYPE_INT, Constants::ELEMENT_DISPLAY);
     }
 
     /**
+     *
      * {@inheritDoc}
-     * @see XoopsObject::getVar()
+     * @see \XoopsObject::getVar()
      */
     public function getVar($key, $format = 's')
     {
         $myVar = parent::getVar($key, $format);
-        //        if (('ele_value' == $key) && (in_array($this->vars['ele_type']['value'], array('checkbox', 'select', 'country', 'radio', 'yn')))) {
-        //        if (!empty($myVar) && !is_array($myVar)) {
         if (('ele_value' === $key) && !empty($myVar) && !is_array($myVar)) {
             $myVar = unserialize($myVar);
-            //            }
             if (!empty($myVar) && is_array($myVar)) {
                 $keys  = array_keys($myVar);
                 $vals  = array_values($myVar);
@@ -74,26 +66,26 @@ class Element extends \XoopsObject
                 $myVar = '';
             }
         }
-
         return $myVar;
     }
 
     /**
+     *
      * {@inheritDoc}
-     * @see XoopsObject::getVars()
+     * @see \XoopsObject::getVars()
      */
     public function &getVars()
     {
         foreach (array_keys($this->vars) as $key) {
             $this->getVar($key);
         }
-
         return $this->vars;
     }
 
     /**
+     *
      * {@inheritDoc}
-     * @see XoopsObject::setVar()
+     * @see \XoopsObject::setVar()
      */
     public function setVar($key, $val, $not_gpc = false)
     {
@@ -108,8 +100,9 @@ class Element extends \XoopsObject
     }
 
     /**
+     *
      * {@inheritDoc}
-     * @see XoopsObject::assignVar()
+     * @see \XoopsObject::assignVar()
      */
     public function assignVar($key, $val)
     {

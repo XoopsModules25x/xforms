@@ -13,71 +13,68 @@ namespace XoopsModules\Xforms;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 /**
- * Module: xForms
+ * Module: Xforms
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           1.30
+ * @package   \XoopsModules\Xforms\admin\class
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     1.30
  */
-//defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+//use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper as xHelper;
 
-//if (!interface_exists('Xforms\Constants')) {
-//    require_once __DIR__ . '/constants.php';
-//    //    xoops_load('constants', 'xforms');
-//}
+defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
- * Class ElementHandler
+ * Class \XoopsModules\Xforms\ElementHandler
  *
- * @param \XoopsDatabase|null $db the database object
+ * @param \XoopsDatabase $db the database object
  */
 class ElementHandler extends \XoopsPersistableObjectHandler
 {
     /** {@internal HTML password (obfuscated) is stored in dB in 'plain text' as
-     * there's no way to see/use them otherwise - thus making this pretty useless
-     * for passwords}}
-     */
-    protected $_validElementTypes = [
-        'checkbox'   => _AM_XFORMS_ELE_CHECKBOX,
-        'color'      => _AM_XFORMS_ELE_COLOR,
-        'country'    => _AM_XFORMS_ELE_COUNTRY,
-        'date'       => _AM_XFORMS_ELE_DATE,
-        'email'      => _AM_XFORMS_ELE_EMAIL,
-        'html'       => _AM_XFORMS_ELE_HTML,
-        'number'     => _AM_XFORMS_ELE_NUMBER,
-        'obfuscated' => _AM_XFORMS_ELE_OBFUSCATED,
-        'pattern'    => _AM_XFORMS_ELE_PATTERN,
-        'radio'      => _AM_XFORMS_ELE_RADIO,
-        'range'      => _AM_XFORMS_ELE_RANGE,
-        'select'     => _AM_XFORMS_ELE_SELECT,
-        'text'       => _AM_XFORMS_ELE_TEXT,
-        'textarea'   => _AM_XFORMS_ELE_TEXTAREA,
-        'time'       => _AM_XFORMS_ELE_TIME,
-        'url'        => _AM_XFORMS_ELE_URL,
-        'upload'     => _AM_XFORMS_ELE_UPLOAD,
-        'uploadimg'  => _AM_XFORMS_ELE_UPLOADIMG,
-        'yn'         => _AM_XFORMS_ELE_YN,
-    ];
-    //    public $db;
-    //    public $db_table;
-    //    public $obj_class = 'Xforms\Element';
+      * there's no way to see/use them otherwise - thus making this pretty useless
+      * for passwords}}
+      */
+    protected $_validElementTypes = array(
+                                      'checkbox' => _AM_XFORMS_ELE_CHECKBOX,
+                                         'color' => _AM_XFORMS_ELE_COLOR,
+                                       'country' => _AM_XFORMS_ELE_COUNTRY,
+                                          'date' => _AM_XFORMS_ELE_DATE,
+                                         'email' => _AM_XFORMS_ELE_EMAIL,
+                                          'html' => _AM_XFORMS_ELE_HTML,
+                                        'number' => _AM_XFORMS_ELE_NUMBER,
+                                    'obfuscated' => _AM_XFORMS_ELE_OBFUSCATED,
+                                       'pattern' => _AM_XFORMS_ELE_PATTERN,
+                                         'radio' => _AM_XFORMS_ELE_RADIO,
+                                         'range' => _AM_XFORMS_ELE_RANGE,
+                                        'select' => _AM_XFORMS_ELE_SELECT,
+                                          'text' => _AM_XFORMS_ELE_TEXT,
+                                      'textarea' => _AM_XFORMS_ELE_TEXTAREA,
+                                          'time' => _AM_XFORMS_ELE_TIME,
+                                           'url' => _AM_XFORMS_ELE_URL,
+                                        'upload' => _AM_XFORMS_ELE_UPLOAD,
+                                     'uploadimg' => _AM_XFORMS_ELE_UPLOADIMG,
+                                            'yn' => _AM_XFORMS_ELE_YN
+    );
 
     /**
      * Element class constructor
-     * @param \XoopsDatabase|null $db
+     *
+     * @param \XoopsDatabase $db
      */
     public function __construct(\XoopsDatabase $db = null)
     {
-        //        $this->db       = $db;
-        //        $this->db_table = $this->db->prefix('xforms_element');
+//        $this->db       = $db;
+//        $this->db_table = $this->db->prefix('xforms_element');
         parent::__construct($db, 'xforms_element', Element::class, 'ele_id', 'ele_type');
         natcasesort($this->_validElementTypes); // put items in a logical order for display
     }
 
     /**
+     * Get the valid HTML input types supported by this class
+     *
      * @return array list of valid elements (type => title)
      */
     public function getValidElements()
@@ -92,23 +89,21 @@ class ElementHandler extends \XoopsPersistableObjectHandler
      */
     public function insertDefaults($form_id)
     {
-        include XFORMS_ROOT_PATH . 'admin/default_elements.php';
+        $dFile = xHelper::getInstance()->path('admin/default_elements.php');
+        include $dFile;
         if (count($defaults) > 0) {
             $error = '';
             foreach ($defaults as $d) {
                 $ele = $this->create();
-                $ele->setVars(
-                    [
-                        'form_id'         => $form_id,
-                        'ele_caption'     => $d['caption'],
-                        'ele_req'         => $d['req'],
-                        'ele_display_row' => $d['ele_display_row'],
-                        'ele_order'       => $d['order'],
-                        'ele_display'     => $d['display'],
-                        'ele_type'        => $d['type'],
-                        'ele_value'       => $d['value'],
-                    ]
-                );
+                $ele->setVars(array('form_id' => (int)$form_id,
+                                'ele_caption' => $d['caption'],
+                                    'ele_req' => $d['req'],
+                            'ele_display_row' => $d['ele_display_row'],
+                                  'ele_order' => $d['order'],
+                                'ele_display' => $d['display'],
+                                   'ele_type' => $d['type'],
+                                  'ele_value' => $d['value'])
+                    );
                 if (!$this->insert($ele)) {
                     $error .= $ele->getHtmlErrors();
                 }
@@ -117,7 +112,6 @@ class ElementHandler extends \XoopsPersistableObjectHandler
                 return $error;
             }
         }
-
         return false;
     }
 }

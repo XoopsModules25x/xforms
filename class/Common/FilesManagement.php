@@ -6,12 +6,10 @@ namespace XoopsModules\Xforms\Common;
  You may not change or alter any portion of this comment or credits
  of supporting developers from this source code or any supporting source code
  which is considered copyrighted (c) material of the original comment or credit authors.
-
  This program is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
@@ -31,14 +29,13 @@ trait FilesManagement
                 if (!is_dir($folder) && !mkdir($folder) && !is_dir($folder)) {
                     throw new \RuntimeException(sprintf('Unable to create the %s directory', $folder));
                 }
-
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }
-        } catch (\Exception $e) {
+        }
+        catch (\Exception $e) {
             echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
         }
     }
-
     /**
      * @param $file
      * @param $folder
@@ -48,7 +45,6 @@ trait FilesManagement
     {
         return copy($file, $folder);
     }
-
     /**
      * @param $src
      * @param $dst
@@ -71,16 +67,15 @@ trait FilesManagement
         }
         closedir($dir);
     }
-
     /**
      * Remove files and (sub)directories
      *
      * @param string $src source directory to delete
      *
-     * @return bool true on success
+     * @uses \Xmf\Module\Helper::getHelper()
      * @uses \Xmf\Module\Helper::isUserAdmin()
      *
-     * @uses \Xmf\Module\Helper::getHelper()
+     * @return bool true on success
      */
     public static function deleteDirectory($src)
     {
@@ -88,7 +83,6 @@ trait FilesManagement
         if (!($GLOBALS['xoopsUser'] instanceof \XoopsUser) || !$GLOBALS['xoopsUser']->isAdmin()) {
             return false;
         }
-
         $success = true;
         // remove old files
         $dirInfo = new \SplFileInfo($src);
@@ -117,10 +111,8 @@ trait FilesManagement
             // input is not a valid directory
             $success = false;
         }
-
         return $success;
     }
-
     /**
      * Recursively remove directory
      *
@@ -136,14 +128,10 @@ trait FilesManagement
         if (!($GLOBALS['xoopsUser'] instanceof \XoopsUser) || !$GLOBALS['xoopsUser']->isAdmin()) {
             return false;
         }
-
         // If source is not a directory stop processing
         if (!is_dir($src)) {
             return false;
         }
-
-        $success = true;
-
         // Open the source directory to read in files
         $iterator = new \DirectoryIterator($src);
         foreach ($iterator as $fObj) {
@@ -161,7 +149,6 @@ trait FilesManagement
         $iterator = null;   // clear iterator Obj to close file/directory
         return rmdir($src); // remove the directory & return results
     }
-
     /**
      * Recursively move files from one directory to another
      *
@@ -176,17 +163,14 @@ trait FilesManagement
         if (!($GLOBALS['xoopsUser'] instanceof \XoopsUser) || !$GLOBALS['xoopsUser']->isAdmin()) {
             return false;
         }
-
         // If source is not a directory stop processing
         if (!is_dir($src)) {
             return false;
         }
-
         // If the destination directory does not exist and could not be created stop processing
         if (!is_dir($dest) && !mkdir($dest) && !is_dir($dest)) {
             return false;
         }
-
         // Open the source directory to read in files
         $iterator = new \DirectoryIterator($src);
         foreach ($iterator as $fObj) {
@@ -201,17 +185,16 @@ trait FilesManagement
         $iterator = null;   // clear iterator Obj to close file/directory
         return rmdir($src); // remove the directory & return results
     }
-
     /**
      * Recursively copy directories and files from one directory to another
      *
      * @param string $src  - Source of files being moved
      * @param string $dest - Destination of files being moved
      *
-     * @return bool true on success
+     * @uses \Xmf\Module\Helper::getHelper()
      * @uses \Xmf\Module\Helper::isUserAdmin()
      *
-     * @uses \Xmf\Module\Helper::getHelper()
+     * @return bool true on success
      */
     public static function rcopy($src, $dest)
     {
@@ -219,17 +202,14 @@ trait FilesManagement
         if (!($GLOBALS['xoopsUser'] instanceof \XoopsUser) || !$GLOBALS['xoopsUser']->isAdmin()) {
             return false;
         }
-
         // If source is not a directory stop processing
         if (!is_dir($src)) {
             return false;
         }
-
         // If the destination directory does not exist and could not be created stop processing
         if (!is_dir($dest) && !mkdir($dest) && !is_dir($dest)) {
             return false;
         }
-
         // Open the source directory to read in files
         $iterator = new \DirectoryIterator($src);
         foreach ($iterator as $fObj) {
@@ -239,7 +219,6 @@ trait FilesManagement
                 self::rcopy($fObj->getPathname(), "{$dest}/" . $fObj->getFilename());
             }
         }
-
         return true;
     }
 }

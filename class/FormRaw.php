@@ -15,14 +15,15 @@ namespace XoopsModules\Xforms;
 /**
  * Module: xForms
  *
- * @category        Module
- * @package         xforms
- * @author          trabis <trabisdementia@gmail.com>
- * @author          ZySpec <owners@zyspec.com>
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           2.00
+ * @package   \XoopsModules\Xforms\class
+ * @author    trabis <trabisdementia@gmail.com>
+ * @author    ZySpec <owners@zyspec.com>
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     2.00
  */
+
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -58,7 +59,9 @@ class FormRaw extends \XoopsFormElement
     /**
      * Set initial text value
      *
-     * @param string $value
+     * @param  $value string
+     *
+     * @return void
      */
     public function setValue($value)
     {

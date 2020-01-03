@@ -3,58 +3,53 @@
 namespace XoopsModules\Xforms;
 
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
-
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
-*/
-/**
- * xoalbum module for xoops
+ * You may not change or alter any portion of this comment or credits
+ * of supporting developers from this source code or any supporting source code
+ * which is considered copyrighted (c) material of the original comment or credit authors.
  *
- * @copyright       XOOPS Project (https://xoops.org)
- * @license         GPL 2.0 or later
- * @package         xoalbum
- * @since           2.0.0
- * @author          XOOPS Development Team <https://xoops.org>
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
-//defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+/**
+ * @copyright    XOOPS Project https://xoops.org/
+ * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
+ * @package
+ * @since
+ * @author       XOOPS Development Team
+ */
+defined('XOOPS_ROOT_PATH') || die('Restricted access');
 
 /**
  * Class Helper
  */
 class Helper extends \Xmf\Module\Helper
 {
-    public $debug;
-
+    public $debug = false;
     /**
      * @param bool $debug
      */
-    public function __construct($debug = false)
+    public function __construct($dirname = null)
     {
-        $this->debug   = $debug;
-        $moduleDirName = basename(dirname(__DIR__));
-        parent::__construct($moduleDirName);
+        if (null === $dirname) {
+            $dirname = basename(dirname(__DIR__));
+            $this->dirname = $dirname;
+        }
+        parent::__construct($dirname);
     }
-
     /**
-     * @param bool $debug
+     * @param string $dirname module directory name
      *
      * @return \XoopsModules\Xforms\Helper
      */
-    public static function getInstance($debug = false)
+    public static function getInstance($dirname = null)
     {
         static $instance;
         if (null === $instance) {
-            $instance = new static($debug);
+            $instance = new static($dirname);
         }
-
         return $instance;
     }
-
     /**
      * @return string
      */
@@ -62,7 +57,6 @@ class Helper extends \Xmf\Module\Helper
     {
         return $this->dirname;
     }
-
     /**
      * Get an Object Handler
      *
@@ -72,18 +66,10 @@ class Helper extends \Xmf\Module\Helper
      */
     public function getHandler($name)
     {
-        $ret = false;
-
+        $db    = \XoopsDatabaseFactory::getDatabaseConnection();
+        //$class = '\\XoopsModules\\' . ucfirst(mb_strtolower(self::getDirname())) . '\\' . ucfirst($name) . 'Handler';
         $class = __NAMESPACE__ . '\\' . ucfirst($name) . 'Handler';
-        if (!class_exists($class)) {
-            throw new \RuntimeException("Class '$class' not found");
-        }
-        /** @var \XoopsMySQLDatabase $db */
-        $db     = \XoopsDatabaseFactory::getDatabaseConnection();
-        $helper = self::getInstance();
-        $ret    = new $class($db, $helper);
-        $this->addLog("Getting handler '{$name}'");
 
-        return $ret;
+        return new $class($db);
     }
 }

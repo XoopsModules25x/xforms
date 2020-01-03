@@ -12,193 +12,162 @@ namespace XoopsModules\Xforms;
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
- * Module: xForms
+ * Module: Xforms
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @author          Mamba, ZySpec
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           2.00
+ * @package   \XoopsModules\Xforms\class
+ * @author    XOOPS Module Development Team
+ * @author    Mamba
+ * @author    ZySpec <zyspec@yahoo.com>
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     2.00
  */
-
 use XoopsModules\Xforms;
 
-/**
- * Class Utility
- */
+ /**
+  * \XoopsModules\Xforms\Utility
+  *
+  * Static utility class to provide common functionality
+  *
+  */
 class Utility
 {
     use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
-
     use Common\ServerStats; // getServerStats Trait
-
     use Common\FilesManagement; // Files Management Trait
 
-    //--------------- Custom module methods -----------------------------
+    /** @var array errs list of errors */
+    static $errs = array();
 
     /**
-     * truncateHtml can truncate a string up to a number of characters while preserving whole words and HTML tags
-     * www.gsdesign.ro/blog/cut-html-string-without-breaking-the-tags
-     * www.cakephp.org
+     * Copies files from one directory to another, does not alter source directory files
      *
-     * @param string $text         String to truncate.
-     * @param int    $length       Length of returned string, including ellipsis.
-     * @param string $ending       Ending to be appended to the trimmed string.
-     * @param bool   $exact        If false, $text will not be cut mid-word
-     * @param bool   $considerHtml If true, HTML tags would be handled correctly
+     * @deprecated
+     * @param string $fromDir copy from directory
+     * @param string $toDir copy to directory
+     * @param array $exceptions don't copy these files
+     * @param bool $okNotExist true if source (from) directory doesn't exist | false if source must exist
      *
-     * @return string Trimmed string.
+     * @return boolean
      */
-    public static function truncateHtml($text, $length = 100, $ending = '...', $exact = false, $considerHtml = true)
-    {
-        if ($considerHtml) {
-            // if the plain text is shorter than the maximum length, return the whole text
-            if (mb_strlen(preg_replace('/<.*?' . '>/', '', $text)) <= $length) {
-                return $text;
-            }
-            // splits all html-tags to scanable lines
-            preg_match_all('/(<.+?' . '>)?([^<>]*)/s', $text, $lines, PREG_SET_ORDER);
-            $total_length = mb_strlen($ending);
-            $open_tags    = [];
-            $truncate     = '';
-            foreach ($lines as $line_matchings) {
-                // if there is any html-tag in this line, handle it and add it (uncounted) to the output
-                if (!empty($line_matchings[1])) {
-                    // if it's an "empty element" with or without xhtml-conform closing slash
-                    if (preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
-                        // do nothing
-                        // if tag is a closing tag
-                    } elseif (preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
-                        // delete tag from $open_tags list
-                        $pos = array_search($tag_matchings[1], $open_tags, true);
-                        if (false !== $pos) {
-                            unset($open_tags[$pos]);
-                        }
-                        // if tag is an opening tag
-                    } elseif (preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $line_matchings[1], $tag_matchings)) {
-                        // add tag to the beginning of $open_tags list
-                        array_unshift($open_tags, mb_strtolower($tag_matchings[1]));
-                    }
-                    // add html-tag to $truncate'd text
-                    $truncate .= $line_matchings[1];
-                }
-                // calculate the length of the plain text part of the line; handle entities as one character
-                $content_length = mb_strlen(preg_replace('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', ' ', $line_matchings[2]));
-                if ($total_length + $content_length > $length) {
-                    // the number of characters which are left
-                    $left            = $length - $total_length;
-                    $entities_length = 0;
-                    // search for html entities
-                    if (preg_match_all('/&[0-9a-z]{2,8};|&#[0-9]{1,7};|[0-9a-f]{1,6};/i', $line_matchings[2], $entities, PREG_OFFSET_CAPTURE)) {
-                        // calculate the real length of all entities in the legal range
-                        foreach ($entities[0] as $entity) {
-                            if ($left >= $entity[1] + 1 - $entities_length) {
-                                $left--;
-                                $entities_length += mb_strlen($entity[0]);
-                            } else {
-                                // no more characters left
-                                break;
-                            }
-                        }
-                    }
-                    $truncate .= mb_substr($line_matchings[2], 0, $left + $entities_length);
-                    // maximum lenght is reached, so get off the loop
-                    break;
-                }
-                $truncate     .= $line_matchings[2];
-                $total_length += $content_length;
+/**
+    function copyFiles($fromDir, $toDir, $exceptions = array(), $okNotExist = false) {
+        $xformsHelper = \Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
 
-                // if the maximum length is reached, get off the loop
-                if ($total_length >= $length) {
-                    break;
+        $toUploadDir = ('/' === substr($toDir, -1, 1)) ? substr($toDir, 0, -1) : $toDir;
+        $toDirInfo = new \SplFileInfo($toDir);
+        $fromUploadDir = ('/' === substr($fromDir, -1, 1)) ? substr($fromDir, 0, -1) : $fromDir;
+        $fromDirInfo = new \SplFileInfo($fromUploadDir);
+
+        $success = true;
+        // validate they are valid directories
+        if ($toDirInfo->isDir() && $fromDirInfo->isDir()) {
+            $exceptions = (array) $exceptions;
+            $exceptArray = array_merge(array('..', '.'), $exceptions);
+            $fileList = array_diff(scandir($fromUploadDir), $exceptArray);
+
+            //now copy the file(s) to the (to) directory
+            foreach ($fileList as $fileName) {
+                if (($fileInfo = new \SplFileInfo($eformsUploadDir . $fileName))
+                    && ($currFileInfo = new \SplFileinfo($eformsUploadDir . $fileName)))
+                {
+                    $fileSuccess = copy($eformsUploadDir . $fileName, $eformsUploadDir . $fileName);
+                    $success &= $fileSuccess;
                 }
             }
         } else {
-            if (mb_strlen($text) <= $length) {
-                return $text;
-            }
-            $truncate = mb_substr($text, 0, $length - mb_strlen($ending));
+            // Input directory(ies) not valid
+            $success = $okNotExist ? true : false;
         }
-        // if the words shouldn't be cut in the middle...
-        if (!$exact) {
-            // ...search the last occurance of a space...
-            $spacepos = mb_strrpos($truncate, ' ');
-            if (isset($spacepos)) {
-                // ...and cut the text in this position
-                $truncate = mb_substr($truncate, 0, $spacepos);
+        return $success;
+    }
+*/
+    /**
+     * Check Other element setting
+     *
+     * Checks to see if there's anything in the 'Other' setting
+     *
+     * @param string $key
+     * @param int $id
+     * @param string|bool returns 'Other' string or false if nothing set or on error
+     *
+     * @global array $_POST
+     *
+     * @return bool|string false on error | string for 'other' element
+     */
+    public static function checkOther($key, $id, $caption) {
+        $id = (int)$id;
+        if (!preg_match('/\{OTHER\|+[0-9]+\}/', $key)) {
+            return false;
+        } else {
+            /* @var \MyTextSanitizer $myts */
+            $myts = \MyTextSanitizer::getInstance();
+            if (!empty($_POST['other']['ele_' . $id])) {
+                return _MD_XFORMS_OPT_OTHER . $myts->htmlSpecialChars($_POST['other']['ele_' . $id]);
+            } else {
+                $this->setErrors(sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption)), true);
+                //global $err;
+                //$err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
             }
         }
-        // add the defined ending to the text
-        $truncate .= $ending;
-        if ($considerHtml) {
-            // close all unclosed html-tags
-            foreach ($open_tags as $tag) {
-                $truncate .= '</' . $tag . '>';
-            }
-        }
+        return false;
+    }
 
-        return $truncate;
+    /**
+     * Decode HTML entities
+     *
+     * function used for smarty output filter of csv files
+     *
+     * @param string $tpl_output
+     *
+     * @return string filtered to decode HTML entities
+     */
+    public static function undoHtmlEntities($tpl_output) {
+        return html_entity_decode($tpl_output);
     }
 
     /**
      * Callback function to convert item to integer
      *
-     * @param mixed $item
+     * Allows use of PHP array_walk to also preserve keys
      *
-     * @return void
+     * @param string|int $item
+     *
+     * @return int
      */
-    public static function intArray(&$item)
-    {
+    public static function intArray(&$item) {
         $item = (int)$item;
     }
-
     /**
-     * @param $var
-     * @return mixed
-     */
-    public static function quoteThisString($var)
-    {
-        return $GLOBALS['xoopsDB']->escape($var);
-    }
-
-    /**
-     * @param        $key
-     * @param int    $id
-     * @param string $caption
+     * Set errors for the Utility class
      *
-     * @return bool|string false on error | string for 'other' element
-     * @global       array err - used to keep error messages
-     * @global array $_POST
+     * @param string|array item
+     * @param bool replace true to replace errors, false to add item to list of errors
      *
-     * @todo refactor code to eliminate use of 'global $err' to track errors
+     * @return int
      */
-    public static function checkOther($key, $id, $caption)
-    {
-        $myts = \MyTextSanitizer::getInstance();
-        $id   = (int)$id;
-        global $err;
-        if (!preg_match('/\{OTHER\|+\d+\}/', $key)) {
-            return false;
+    public static function setErrors(&$item, $replace = true) {
+        if (!empty($item)) {
+            $item = (array)$item;
+            if ($replace) {
+                $this->errs = $item;
+            } else {
+                $this->errs = array_merge($this->errs, $item);
+                $this->errs = array_unique($this->errs);
+            }
+        } else {
+            $this->errs = array(); // clears the array if $item is empty
         }
-        if (!empty($_POST['other']["ele_{$id}"])) {
-            return _MD_XFORMS_OPT_OTHER . $_POST['other']["ele_{$id}"];
-        }
-        $err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
-
-        return false;
+        return $this->errs;
     }
-
     /**
-     * function used for smarty output of csv files
-     * @param unknown $tpl_output
-     * @return string
+     * Get Utility class errors
+     *
+     * @return array
      */
-    public function undoHtmlEntities($tpl_output)
-    {
-        return html_entity_decode($tpl_output);
+    public static function getErrors() {
+
+        return $this->errs();
     }
 }

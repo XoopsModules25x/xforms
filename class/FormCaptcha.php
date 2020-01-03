@@ -12,38 +12,35 @@ namespace XoopsModules\Xforms;
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
  * Module: xForms
  *
- * @category        Module
- * @package         xforms
- * @author          Taiwen Jiang <phppp@users.sourceforge.net>
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           1.30
+ * @package   \XoopsModules\Xforms\admin
+ * @author    Taiwen Jiang <phppp@users.sourceforge.net>
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     1.30
  */
-
 use XoopsModules\Xforms;
+use XoopsModules\Xforms\Captcha;
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 xoops_load('xoopsformelement');
-//if (!class_exists('Xforms\Captcha')) { // hack for XOOPS < 2.6
-//    xoops_load('captcha', 'xforms');
-//}
+
 /**
- * Usage of Xforms\FormCaptcha
+ * Usage of \XoopsModules\Xforms\FormCaptcha
  *
- * @see XoopsFormCaptcha
+ * @see \XoopsFormCaptcha
  * For form creation:
- * Add form element where proper: <code>$xform->addElement(new Xforms\FormCaptcha($caption, $name, $skipmember, $configs));</code>
+ * Add form element where proper:
+ *     <code>$xform->addElement(new FormCaptcha($caption, $name, $skipmember, $configs));</code>
  *
  * For verification:
  * <code>
  *               xoops_load('captcha', 'xforms');
- *               $xformsCaptcha = Xforms\Captcha::getInstance();
+ *               $xformsCaptcha = Captcha::getInstance();
  *               if (!$xformsCaptcha->verify()) {
  *                   echo $xformsCaptcha->getMessage();
  *                   ...
@@ -56,7 +53,6 @@ xoops_load('xoopsformelement');
  *
  * @author  Taiwen Jiang <phppp@users.sourceforge.net>
  * @author  XOOPS Module Development Team
- * @package xforms
  */
 class FormCaptcha extends \XoopsFormElement
 {
@@ -65,15 +61,15 @@ class FormCaptcha extends \XoopsFormElement
     /**
      * Class construtor
      *
-     * @param string $caption    Caption of the form element, default value is defined in captcha/language/
-     * @param string $name       Name for the input box
-     * @param bool   $skipmember Skip CAPTCHA check for members
-     * @param array  $configs
+     * @param string  $caption    Caption of the form element, default value is defined in captcha/language/
+     * @param string  $name       Name for the input box
+     * @param boolean $skipmember Skip CAPTCHA check for members
+     * @param array   $configs
      */
-    public function __construct($caption = '', $name = 'xformscaptcha', $skipmember = true, $configs = [])
+    public function __construct($caption = '', $name = 'xformscaptcha', $skipmember = true, $configs = array())
     {
-        //        parent::__construct($caption, $name, $skipmember, $configs);
-        $this->captchaHandler  = \XoopsModules\Xforms\Captcha::getInstance();
+//        parent::__construct($caption, $name, $skipmember, $configs);
+        $this->captchaHandler  = Captcha::getInstance();
         $configs['name']       = $name;
         $configs['skipmember'] = $skipmember;
         $this->captchaHandler->setConfigs($configs);
@@ -91,6 +87,7 @@ class FormCaptcha extends \XoopsFormElement
      * @param $val
      *
      * @return mixed
+     *
      */
     public function setConfig($name, $val)
     {

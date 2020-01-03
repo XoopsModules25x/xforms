@@ -12,29 +12,20 @@
 
 /**
  * Module: xForms
+ * Admin footer file
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @package   \XoopsModules\Xforms\admin
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
+ * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since           1.30
+ *
+ * @see \Xmf\Module\Admin
  */
 
-use XoopsModules\Xforms;
-
-/** @var Xforms\Helper $helper */
-$helper = Xforms\Helper::getInstance();
-
-$pathIcon32 = \Xmf\Module\Admin::iconUrl('', 32);
-
-$language = empty($GLOBALS['xoopsConfig']['language']) ? 'english' : $GLOBALS['xoopsConfig']['language'];
-if (file_exists($fileinc = $GLOBALS['xoops']->path("Frameworks/moduleclasses/moduleadmin/language/{$language}/main.php"))) {
-    require_once $fileinc;
-} elseif (file_exists($fileinc = $GLOBALS['xoops']->path('Frameworks/moduleclasses/moduleadmin/language/english/main.php'))) {
-    require_once $fileinc;
-}
-
-echo "<div class='adminfooter'>\n" . "  <div class='center'>\n" . "    <a href='https://xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n" . "  </div>\n" . '  ' . _AM_MODULEADMIN_ADMIN_FOOTER . "\n" . "</div>\n";
+echo '<div class="adminfooter">'
+   . '<div class="center">'
+   . '  <a href="https://www.xoops.org" rel="external" target="_blank"><img src="' . \Xmf\Module\Admin::iconUrl('xoopsmicrobutton.gif') . '" ' . 'alt="XOOPS" title="XOOPS"></a>'
+   . '</div>' . _AM_MODULEADMIN_ADMIN_FOOTER . '</div>';
 
 xoops_cp_footer();

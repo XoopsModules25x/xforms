@@ -1,20 +1,18 @@
 @CHARSET "ISO-8859-1";
 
-input[type=number], input[type=color], input[type=datetime], input[type=datetime-local], input[type=email], input[type=month], input[type=range], input[type=search], input[type=tel], input[type=time], input[type=url], input[type=week] {
-    border: 1px solid #ccc;
-    margin: 2px 5px 2px 0;
-    padding: 2px;
-    background-color: #f7f7f7;
-    padding-left: .2em;
-    color: inherit;
-    border: #ccc solid 1px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    -khtml-border-radius: 5px;
-    border-radius: 5px;
+input[type=number],input[type=color],input[type=date],input[type=email],input[type=number],input[type=password],input[type=range],input[type=time],input[type=time],input[type=url] {
+  border: #ccc solid 1px;
+  margin: 2px 5px 2px 0;
+  padding: 2px;
+  background-color: #f7f7f7;
+  padding-left: .2em;
+  color: inherit;
+  -moz-border-radius: 5px;
+  -webkit-border-radius: 5px;
+  -khtml-border-radius: 5px;
+  border-radius: 5px;
 }
-
 input[type=number] {
-    text-align: center;
-    vertical-align: middle;
+  text-align: center;
+  vertical-align: middle;
 }

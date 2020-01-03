@@ -9,27 +9,27 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
  * Module: xForms
  *
- * @param mixed $queryArray
- * @param mixed $andor
- * @param mixed $limit
- * @param mixed $offset
- * @param mixed $uid
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           2.00
+ * @package   \XoopsModules\Xforms\search
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     2.00
  */
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper as xHelper;
 
 //defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * xforms_search()
+ *
+ * @uses \CriteriaCompo
+ * @uses \Criteria
+ * @uses \Xmf\Module\Helper
+ * @uses \Xmf\Module\Helper\Permission
  *
  * @param mixed $queryArray
  * @param mixed $andor
@@ -37,24 +37,19 @@
  * @param mixed $offset
  * @param mixed $uid
  * @return array
- * @uses CriteriaCompo
- * @uses Criteria
- * @uses Xmf\Module\Helper
- * @uses Xmf\Module\Helper\Permission
  */
 function xforms_search($queryArray, $andor, $limit, $offset, $uid)
 {
-    $ret = [];
+    $ret = array();
     if (0 == (int)$uid) {
-        $moduleDirName = basename(dirname(__DIR__));
-        /** @var \XoopsModules\Xforms\Helper $helper */
-        $helper       = \XoopsModules\Xforms\Helper::getInstance();
-        $formsHandler = $helper->getHandler('Forms');
+        /* @var \XoopsModules\Xforms\Helper $helper */
+        $helper             = xHelper::getInstance();
+        $formsHandler = $helper::getInstance()->getHandler('Forms');
+        //$formsHandler = $helper->getHandler('Forms');
 
         // get all forms user has rights to view
-        $permittedForms = $formsHandler->getPermittedForms();
-        if ($permittedForms) {
-            $pIdArray = [];
+        if ($permittedForms = $formsHandler->getPermittedForms()) {
+            $pIdArray = array();
             foreach ($permittedForms as $pForm) {
                 $pIdArray[] = $pForm->getVar('form_id');
             }
@@ -62,7 +57,7 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
 
             $criteria = new \CriteriaCompo();
             $criteria->setSort('form_order');
-            $criteria->setOrder('ASC');
+            $criteria->order = 'ASC';
             $criteria->add(new \Criteria('form_id', $pIds, 'IN'));
 
             if (isset($limit) && ((int)$limit > 0)) {
@@ -73,28 +68,27 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
             }
 
             if (is_array($queryArray) && !empty($queryArray)) {
-                foreach ($queryArray as $idx => $idxValue) {
-                    $qual        = (0 == $idx) ? 'AND' : $andor;
+                $queryCount = count($queryArray);
+                for ($idx = 0; $idx < $queryCount; ++$idx) {
+                    $qual = (0 === $idx) ? 'AND' : $andor;
                     $subCriteria = new \CriteriaCompo();
-                    $subCriteria->add(new \Criteria('form_title', "%$idxValue%", 'LIKE'));
-                    $subCriteria->add(new \Criteria('form_desc', "%$idxValue%", 'LIKE'), 'OR');
-                    $subCriteria->add(new \Criteria('form_intro', "%$idxValue%", 'LIKE'), 'OR');
+                    $subCriteria->add(new \Criteria('form_title', '%' . $queryArray[$idx] . '%', 'LIKE'));
+                    $subCriteria->add(new \Criteria('form_desc', '%' . $queryArray[$idx] . '%', 'LIKE'), 'OR');
+                    $subCriteria->add(new \Criteria('form_intro', '%' . $queryArray[$idx] . '%', 'LIKE'), 'OR');
                     $criteria->add($subCriteria, $qual);
                     unset($subCriteria);
                 }
 
                 $formObjArray = $formsHandler->getAll($criteria);
                 foreach ($formObjArray as $id => $formObj) {
-                    $ret[] = [
-                        'image' => 'assets/images/icons/32/content.png',
-                        'link'  => "index.php?form_id={$id}",
-                        'title' => $formObj->getvar('form_title'),
-                        'time'  => ($formObj->getVar('form_begin') > 0) ? $formObj->getVar('form_begin') : 0,
-                    ];
+                    $ret[] = array ('image' => 'assets/images/icons/32/content.png',
+                                    'link'  => 'index.php?form_id=' . $id,
+                                    'title' => $formObj->getvar('form_title'),
+                                    'time'  => ($formObj->getVar('form_begin') > 0) ? $formObj->getVar('form_begin') : 0
+                    );
                 }
             }
         }
     }
-
     return $ret;
 }

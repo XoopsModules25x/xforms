@@ -9,40 +9,46 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-
 /**
- * Module: xForms
+ * Module: Xforms
  *
- * @category        Module
- * @package         xforms
- * @author          XOOPS Module Development Team
- * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
- * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since           2.00
+ * @package   \XoopsModules\Xforms\admin\elements
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     2.00
  */
-
 use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\FormInput;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
-/** @var Xforms\Helper $helper */
-$helper = Xforms\Helper::getInstance();
+
+/* @var \XoopsModules\Xforms\Helper $helper */
+$helper = xHelper::getInstance();
 
 /**
  * Email element
  *
  * value
  *      [0] = element rendered box size
- *      [1] = maximum size length
+ *      [1] = max length
+ *      [2] = default value
  */
-$size      = !empty($value[0]) ? (int)$value[0] : $helper->getConfig('t_width');
-$max       = !empty($value[1]) ? (int)$value[1] : $helper->getConfig('t_max');
-$sizeInput = new Xforms\FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 3, 3, $size, null, 'number');
+$size     = !empty($value[0]) ? (int)$value[0] : $helper->getConfig('t_width');
+$maxAttr  = !empty($value[1]) ? (int)$value[1] : 254;
+$defVal   = isset($value[2]) ? $myts->htmlSpecialChars($value[2]) : '';
+
+$sizeInput = new FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, $size, null, 'number');
 $sizeInput->setAttribute('min', 1);
 $sizeInput->setExtra('style="width: 5em;"');
 
-$maxInput = new Xforms\FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 3, 3, $max, null, 'number');
-$maxInput->setAttribute('min', 1);
-$maxInput->setExtra('style="width: 5em;"');
+$max       = new FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 5, 5, $maxAttr, null, 'number');
+$max->setAttribute('min', 1);
+$max->setExtra('style="width: 5em;"');
 
-$output->addElement($sizeInput);
-$output->addElement($maxInput);
+$default   = new \XoopsFormText(_AM_XFORMS_ELE_EMAIL_ADD_DEFAULT, 'ele_value[2]', $size, $maxAttr, $defVal);
+
+$output->addElement($sizeInput,1);
+$output->addElement($max,1);
+$output->addElement($default);
