@@ -20,11 +20,9 @@ namespace XoopsModules\Xforms;
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
-
 
 /**
  * Class FormsHandler
@@ -36,9 +34,6 @@ class XformsHandler extends \XoopsPersistableObjectHandler
     public $perm_name = 'eforms_form_access';
     public $obj_class = Xforms::class;
 
-    /**
-     * @param \XoopsDatabase|null $db
-     */
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db       = $db;

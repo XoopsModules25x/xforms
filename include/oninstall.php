@@ -27,7 +27,6 @@ defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * @param \XoopsModule $module
- *
  * @return bool success
  */
 function xoops_module_pre_install_xforms(\XoopsModule $module)
@@ -48,7 +47,6 @@ function xoops_module_pre_install_xforms(\XoopsModule $module)
 
 /**
  * @param \XoopsModule $module
- *
  * @return bool success
  */
 function xoops_module_install_xforms(\XoopsModule $module)

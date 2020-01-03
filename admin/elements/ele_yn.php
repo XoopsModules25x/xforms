@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -17,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
@@ -33,8 +33,10 @@ if (!empty($eleId)) {
     $selected = '_YES';
 }
 $options = new \XoopsFormRadio(_AM_XFORMS_ELE_DEFAULT, 'ele_value', $selected);
-$options->addOptionArray([
-                             '_YES' => _YES,
-                             '_NO'  => _NO,
-                         ]);
+$options->addOptionArray(
+    [
+        '_YES' => _YES,
+        '_NO'  => _NO,
+    ]
+);
 $output->addElement($options);

@@ -1,4 +1,5 @@
 <?php
+
 define('_AM_XFORMS_SAVE', 'Save');
 define('_AM_XFORMS_COPIED', '%s copy');
 define('_AM_XFORMS_DBUPDATED', 'Database Updated Successfully!');

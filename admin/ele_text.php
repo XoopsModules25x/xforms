@@ -30,8 +30,8 @@ $helper = Xforms\Helper::getInstance();
 $profileHandler = $helper->getHandler('Profile', 'profile');
 $memberHandler  = xoops_getHandler('member');
 
-$size           = !empty($value[0]) ? intval($value[0], 10) : $helper->getConfig('t_width');
-$max            = !empty($value[1]) ? intval($value[1], 10) : $helper->getConfig('t_max');
+$size           = !empty($value[0]) ? (int)$value[0] : $helper->getConfig('t_width');
+$max            = !empty($value[1]) ? (int)$value[1] : $helper->getConfig('t_max');
 $size           = new \XoopsFormText(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 3, 3, $size);
 $max            = new \XoopsFormText(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 3, 3, $max);
 $default        = new \XoopsFormText('', 'ele_value[2]', 50, 255, $myts->htmlSpecialChars($myts->stripSlashesGPC($value[2])));
@@ -60,7 +60,7 @@ $default_tray->addElement($default);
 $default_tray->addElement($select_default);
 $default_tray->setDescription(_AM_XFORMS_ELE_TEXT_DESC);
 
-$emailindicator = new \XoopsFormRadioYN(_AM_XFORMS_ELE_CONTAINS_EMAIL, 'ele_value[3]', (intval($value[3], 10) > 0 ? 1 : 0), _YES, _NO);
+$emailindicator = new \XoopsFormRadioYN(_AM_XFORMS_ELE_CONTAINS_EMAIL, 'ele_value[3]', ((int)$value[3] > 0 ? 1 : 0), _YES, _NO);
 $emailindicator->setDescription(_AM_XFORMS_ELE_CONTAINS_EMAIL_DESC);
 
 $output->addElement($size, 1);

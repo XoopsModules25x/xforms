@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -52,7 +51,7 @@ switch ($op) {
         }
 
         $userdataHandler = $helper->getHandler('Userdata');
-        $uData        = $userdataHandler->getReport($formId);
+        $uData           = $userdataHandler->getReport($formId);
         if (empty($uData)) { // is there anything to report?
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
         }
@@ -223,7 +222,7 @@ switch ($op) {
             $pDTtimestamp = $purgeDateTimeObj->getTimestamp();
 
             $userdataHandler = $helper->getHandler('Userdata');
-            $numItems     = $userdataHandler->deleteAll(new \Criteria('udata_time', $pDTtimestamp, '<'));
+            $numItems        = $userdataHandler->deleteAll(new \Criteria('udata_time', $pDTtimestamp, '<'));
             if ($numItems > 0) {
                 $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, sprintf(_AM_XFORMS_RPT_PURGE_DELETED, (int)$numItems));
             } elseif (0 === $numItems) {
@@ -247,7 +246,7 @@ switch ($op) {
         }
 
         $userdataHandler = $helper->getHandler('Userdata');
-        $uData        = $userdataHandler->getReport($formId);
+        $uData           = $userdataHandler->getReport($formId);
         if (empty($uData)) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
         }
@@ -263,7 +262,7 @@ switch ($op) {
         $xformsTpl->assign('delim', ','); //force delimiter for now
 
         $elementHandler = $helper->getHandler('Element');
-        $criteria         = new \CriteriaCompo();
+        $criteria       = new \CriteriaCompo();
         $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
         $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
         $criteria->setSort('ele_order');
@@ -369,7 +368,7 @@ switch ($op) {
         }
 
         $userdataHandler = $helper->getHandler('Userdata');
-        $uData        = $userdataHandler->getReport($formId);
+        $uData           = $userdataHandler->getReport($formId);
         if (empty($uData)) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_RPT_NODATA);
         }
@@ -498,8 +497,8 @@ switch ($op) {
 
         // first get forms that have data in the Userdata table
         $userdataHandler = $helper->getHandler('Userdata');
-        $fields       = ['form_id'];
-        $criteria     = new \CriteriaCompo();
+        $fields          = ['form_id'];
+        $criteria        = new \CriteriaCompo();
         $criteria->setGroupBy('form_id');
         $uDataForms = $userdataHandler->getAll($criteria, $fields, false, false);
         $formList   = [];
@@ -632,21 +631,10 @@ switch ($op) {
                         }
                     }
                     $cssClass = ('even' === $cssClass) ? 'odd' : even;
-                    echo "    <tr>\n"
-                         . "      <td class='{$cssClass} center'>{$id}</td>\n"
-                         . "      <td class='{$cssClass}'>\n"
-                         . "        <a target='_blank' href='"
-                         . $helper->url("index.php?form_id={$id}")
-                         . "'>"
-                         . $f->getVar('form_title')
-                         . "</a><br>\n"
-                         . '        '
-                         . $f->getVar('form_desc', 's')
-                         . "\n"
-                         . "      </td>\n"
-                         . "      <td class='{$cssClass} center'>{$fStatus}</td>\n"
-                         . "      <td class='{$cssClass} center'>{$sendTo}</td>\n"
-                         . "      <td class='{$cssClass} center'>\n";
+                    echo "    <tr>\n" . "      <td class='{$cssClass} center'>{$id}</td>\n" . "      <td class='{$cssClass}'>\n" . "        <a target='_blank' href='" . $helper->url("index.php?form_id={$id}") . "'>" . $f->getVar('form_title') . "</a><br>\n" . '        ' . $f->getVar(
+                            'form_desc',
+                            's'
+                        ) . "\n" . "      </td>\n" . "      <td class='{$cssClass} center'>{$fStatus}</td>\n" . "      <td class='{$cssClass} center'>{$sendTo}</td>\n" . "      <td class='{$cssClass} center'>\n";
                     if (0 !== (int)$f->getVar('form_save_db')) {
                         echo "        <a href='{$thisFileName}?op=show&form_id={$id}'>"
                              . "<img src='{$pathModIcon16}/rptsee.png' class='tooltip floatcenter1' title='"

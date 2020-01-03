@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -29,8 +28,8 @@ require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 
 $formsHandler = $helper->getHandler('Forms');
-$totalForms         = $formsHandler->getCount();
-$criteria           = new \CriteriaCompo();
+$totalForms   = $formsHandler->getCount();
+$criteria     = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_active', Constants::FORM_ACTIVE, '='));
 $totalActiveForms   = $formsHandler->getCount($criteria);
 $totalInactiveForms = $totalForms - $totalActiveForms;

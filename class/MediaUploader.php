@@ -20,7 +20,6 @@ namespace XoopsModules\Xforms;
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
@@ -59,8 +58,8 @@ class MediaUploader extends \XoopsMediaUploader
         $allowedMimeTypes = null,
         $maxWidth = null,
         $maxHeight = null,
-        $randomFilename = false)
-    {
+        $randomFilename = false
+    ) {
         parent::__construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight, $randomFilename);
         if (!empty($allowedExtensions)) {
             $this->allowedExtensions = $allowedExtensions;

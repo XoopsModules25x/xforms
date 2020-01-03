@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -29,7 +30,9 @@ $moduleDirName = basename(dirname(__DIR__));
 require_once dirname(__DIR__) . '/language/english/admin.php'; // messages will be in english
 //$sessionHelper = new Session($moduleDirName);
 //@todo test without session_start() to see if it's needed...
-session_start();
+if (false === @session_start()) {
+    throw new \RuntimeException('Session could not start.');
+}
 
 global $hdrs;
 $hdrs = [];
@@ -85,21 +88,24 @@ $cachedEtag = isset($_SESSION[$sKeyEtag]) ? base64_decode(unserialize($_SESSION[
 if ($cachedEtag) {
     // found the session var so check to see if anything's changed since last time we checked
     $curl = curl_init($serviceUrl);
-    curl_setopt_array($curl, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER         => true,
-        CURLOPT_VERBOSE        => true,
-        CURLOPT_TIMEOUT        => 5,
-        //                                    CURLOPT_CUSTOMREQUEST => 'GET',
-        CURLOPT_HTTPGET        => true,
-        CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
-        CURLOPT_HTTPHEADER     => [
-            'Content-type:application/json',
-            'If-None-Match: ' . $cachedEtag,
-        ],
-        CURLINFO_HEADER_OUT    => true,
-        CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
-    ]);
+    curl_setopt_array(
+        $curl,
+        [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER         => true,
+            CURLOPT_VERBOSE        => true,
+            CURLOPT_TIMEOUT        => 5,
+            //                                    CURLOPT_CUSTOMREQUEST => 'GET',
+            CURLOPT_HTTPGET        => true,
+            CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
+            CURLOPT_HTTPHEADER     => [
+                'Content-type:application/json',
+                'If-None-Match: ' . $cachedEtag,
+            ],
+            CURLINFO_HEADER_OUT    => true,
+            CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
+        ]
+    );
     // execute the session
     $curl_response = curl_exec($curl);
     // get the header size and finish off the session
@@ -118,16 +124,19 @@ if ($cachedEtag) {
         // ok - request new info
         $hdrs = []; //reset the header array for new curl op
         $curl = curl_init($serviceUrl);
-        curl_setopt_array($curl, [
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_HEADER         => true,
-            CURLOPT_VERBOSE        => true,
-            CURLOPT_TIMEOUT        => 5,
-            CURLOPT_HTTPGET        => true,
-            CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
-            CURLOPT_HTTPHEADER     => ['Content-type:application/json'],
-            CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
-        ]);
+        curl_setopt_array(
+            $curl,
+            [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_HEADER         => true,
+                CURLOPT_VERBOSE        => true,
+                CURLOPT_TIMEOUT        => 5,
+                CURLOPT_HTTPGET        => true,
+                CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
+                CURLOPT_HTTPHEADER     => ['Content-type:application/json'],
+                CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
+            ]
+        );
         // execute the session
         $curl_response = curl_exec($curl);
         // get the header size and finish off the session
@@ -176,16 +185,19 @@ if ($cachedEtag) {
     var_dump($_SESSION);
     */
     $curl = curl_init($serviceUrl);
-    curl_setopt_array($curl, [
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_HEADER         => true,
-        CURLOPT_VERBOSE        => true,
-        CURLOPT_TIMEOUT        => 5,
-        CURLOPT_HTTPGET        => true,
-        CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
-        CURLOPT_HTTPHEADER     => ['Content-type:application/json'],
-        CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
-    ]);
+    curl_setopt_array(
+        $curl,
+        [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_HEADER         => true,
+            CURLOPT_VERBOSE        => true,
+            CURLOPT_TIMEOUT        => 5,
+            CURLOPT_HTTPGET        => true,
+            CURLOPT_USERAGENT      => "XOOPS-{$moduleDirName}",
+            CURLOPT_HTTPHEADER     => ['Content-type:application/json'],
+            CURLOPT_HEADERFUNCTION => 'HandleHeaderLine',
+        ]
+    );
     // execute the session
     $curl_response = curl_exec($curl);
     // get the header size and finish off the session
@@ -241,7 +253,7 @@ $i            = 0;
 if (!empty($issuesObjs)) {
     foreach ($issuesObjs as $issue) {
         if (isset($issue->pull_request)) {
-            /** @internal {uncomment the following line if you don't want to see pull requests as issues}}}*/
+            /** @internal {uncomment the following line if you don't want to see pull requests as issues}}} */
             //            continue; // github counts pull requests as open issues so ignore these
 
             $suffix       = '*';

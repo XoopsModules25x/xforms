@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -32,9 +31,9 @@ $elementHandler = $helper->getHandler('Element');
 // require_once  dirname(__DIR__) . '/class/elementrenderer.php';
 //define('_THIS_PAGE', $helper->url('admin/editelement.php');
 /** @var \XoopsModules\Xforms\Helper $helper */
-$helper             = \XoopsModules\Xforms\Helper::getInstance();
+$helper       = \XoopsModules\Xforms\Helper::getInstance();
 $formsHandler = $helper->getHandler('Forms');
-$myts = \MyTextSanitizer::getInstance();
+$myts         = \MyTextSanitizer::getInstance();
 if ($formsHandler->getCount() < 1) {
     redirect_header($GLOBALS['xoops']->url($helper->url('admin/main.php?op=edit')), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_GO_CREATE_FORM);
 }
@@ -97,7 +96,7 @@ switch ($op) {
         ];
         // end editor settings
 
-        $output = new \XoopsThemeForm($outputTitle, 'form_ele', $_SERVER['PHP_SELF'], 'post', true);
+        $output = new \XoopsThemeForm($outputTitle, 'form_ele', $_SERVER['SCRIPT_NAME'], 'post', true);
 
         $editorConfigs['value'] = $clone ? sprintf(_AM_XFORMS_COPIED, $element->getVar('ele_caption', 'e')) : $element->getVar('ele_caption', 'e');
         $textEleCaption         = new \XoopsFormEditor(_AM_XFORMS_ELE_CAPTION, 'ele_caption', $editorConfigs);
@@ -173,10 +172,10 @@ switch ($op) {
         if (empty($_POST['ok'])) {
             $element = $elementHandler->get($eleId);
             xoops_cp_header();
-            xoops_confirm(['op' => 'delete', 'ele_id' => $eleId, 'form_id' => $formId, 'ok' => 1], $_SERVER['PHP_SELF'], sprintf(_AM_XFORMS_ELE_CONFIRM_DELETE, $element->getVar('ele_caption')), _YES);
+            xoops_confirm(['op' => 'delete', 'ele_id' => $eleId, 'form_id' => $formId, 'ok' => 1], $_SERVER['SCRIPT_NAME'], sprintf(_AM_XFORMS_ELE_CONFIRM_DELETE, $element->getVar('ele_caption')), _YES);
         } else {
             if (!$xoopsSecurity->check()) {
-                redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
             //delete the element
             $eleObj = $elementHandler->get($eleId);
@@ -190,7 +189,7 @@ switch ($op) {
     case 'save':
         //check to make sure this is from known location
         if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
         $element = $elementHandler->get($eleId);
         if ($element->isNew()) {
@@ -219,7 +218,7 @@ switch ($op) {
         $element->setVar('ele_type', $eleType);
         /* as of PHP 5.4 get_magic_quotes_gpc always returns false so $magicQuotes always eq false
                 $magicQuotes = false; // Flag to fix problem with slashes
-                if (function_exists('get_magic_quotes_gpc') && get_magic_quotes_gpc()) {
+                if (@function_exists('get_magic_quotes_gpc') && @get_magic_quotes_gpc()) {
                     $magicQuotes = true;
                 }
         */
@@ -417,10 +416,10 @@ switch ($op) {
             if (++$counter % 2) {
                 //odd
                 $cssClass = ('odd' === $cssClass) ? 'even' : 'odd';
-                echo "    <tr><td class='{$cssClass} center'><a href='" . $_SERVER['PHP_SELF'] . "?op=edit&amp;ele_type={$thisType}'>{$thisDesc}</a></td>";
+                echo "    <tr><td class='{$cssClass} center'><a href='" . $_SERVER['SCRIPT_NAME'] . "?op=edit&amp;ele_type={$thisType}'>{$thisDesc}</a></td>";
             } else {
                 //even
-                echo "<td class='{$cssClass} center'><a href='" . $_SERVER['PHP_SELF'] . "?op=edit&amp;ele_type={$thisType}'>{$thisDesc}</a></td></tr>\n";
+                echo "<td class='{$cssClass} center'><a href='" . $_SERVER['SCRIPT_NAME'] . "?op=edit&amp;ele_type={$thisType}'>{$thisDesc}</a></td></tr>\n";
             }
         }
         if ($counter % 2) { //odd so finish out table row

@@ -21,7 +21,6 @@ namespace XoopsModules\Xforms;
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -130,8 +129,8 @@ class Forms extends \XoopsObject
     /**
      * Render the Form
      *
-     * @since v2.00 ALPHA 2
      * @return bool|array false on error|array containing variables for template
+     * @since v2.00 ALPHA 2
      */
     public function render()
     {
@@ -189,7 +188,7 @@ class Forms extends \XoopsObject
         $formOutput->addElement(new \XoopsFormHidden('form_id', $this->getVar('form_id')));
 
         // load captcha
-//        xoops_load('formCaptcha', XFORMS_DIRNAME);
+        //        xoops_load('formCaptcha', XFORMS_DIRNAME);
         $xfFormCaptcha = new Xforms\FormCaptcha();
         $formOutput->addElement($xfFormCaptcha);
 

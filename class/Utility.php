@@ -170,12 +170,11 @@ class Utility
      * @param int    $id
      * @param string $caption
      *
-     * @todo refactor code to eliminate use of 'global $err' to track errors
-     *
+     * @return bool|string false on error | string for 'other' element
      * @global       array err - used to keep error messages
      * @global array $_POST
      *
-     * @return bool|string false on error | string for 'other' element
+     * @todo refactor code to eliminate use of 'global $err' to track errors
      */
     public static function checkOther($key, $id, $caption)
     {
@@ -184,13 +183,11 @@ class Utility
         global $err;
         if (!preg_match('/\{OTHER\|+\d+\}/', $key)) {
             return false;
-        } else {
-            if (!empty($_POST['other']["ele_{$id}"])) {
-                return _MD_XFORMS_OPT_OTHER . $_POST['other']["ele_{$id}"];
-            } else {
-                $err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
-            }
         }
+        if (!empty($_POST['other']["ele_{$id}"])) {
+            return _MD_XFORMS_OPT_OTHER . $_POST['other']["ele_{$id}"];
+        }
+        $err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
 
         return false;
     }

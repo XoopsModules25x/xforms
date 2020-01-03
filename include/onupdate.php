@@ -23,7 +23,6 @@
  * @since           2.00
  */
 
-use Xmf\Database\Tables;
 use Xmf\Module\Admin;
 use XoopsModules\Xforms;
 
@@ -53,19 +52,19 @@ function xoops_module_pre_update_xforms(\XoopsModule $module)
  * Upgrade works to update Xforms from previous versions
  *
  * @param \XoopsModule $xoopsModule
- * @param string      $prev_version version * 100
- *
- * @uses Xmf\Module\Admin
- * @uses XformsUtility
+ * @param string       $prev_version version * 100
  *
  * @return bool
+ * @uses XformsUtility
+ *
+ * @uses Xmf\Module\Admin
  */
 function xoops_module_update_xforms(\XoopsModule $xoopsModule, $prev_version)
 {
     $moduleDirName      = basename(dirname(__DIR__));
     $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
-    /** @var Xforms\Helper $helper */
+    /** @var Xforms\Helper $helper */ 
     /** @var Xforms\Utility $utility */
     /** @var Xforms\Common\Configurator $configurator */
     $helper       = Xforms\Helper::getInstance();

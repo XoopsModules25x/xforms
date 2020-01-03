@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
@@ -45,12 +44,11 @@ function quoteThisString($var)
  * @param int    $id
  * @param string $caption
  *
- * @todo refactor code to eliminate use of 'global $err' to track errors
- *
+ * @return bool|string false on error | string for 'other' element
  * @global       array err - used to keep error messages
  * @global array $_POST
  *
- * @return bool|string false on error | string for 'other' element
+ * @todo refactor code to eliminate use of 'global $err' to track errors
  */
 function xformsCheckOther($key, $id, $caption)
 {

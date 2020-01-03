@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -79,10 +78,12 @@ $mimeTray->addElement($mime);
 $mimeTray->addElement($setMimeButton);
 
 $saveAs = new \XoopsFormSelect(_AM_XFORMS_ELE_UPLOAD_SAVEAS, 'ele_value[3]', $saveAs);
-$saveAs->addOptionArray([
-                            Constants::UPLOAD_SAVEAS_ATTACHMENT => _AM_XFORMS_ELE_UPLOAD_SAVEAS_MAIL,
-                            Constants::UPLOAD_SAVEAS_FILE       => _AM_XFORMS_ELE_UPLOAD_SAVEAS_FILE,
-                        ]);
+$saveAs->addOptionArray(
+    [
+        Constants::UPLOAD_SAVEAS_ATTACHMENT => _AM_XFORMS_ELE_UPLOAD_SAVEAS_MAIL,
+        Constants::UPLOAD_SAVEAS_FILE       => _AM_XFORMS_ELE_UPLOAD_SAVEAS_FILE,
+    ]
+);
 
 $output->addElement($size, Constants::REQUIRED);
 //$output->addElement($ext);

@@ -91,9 +91,8 @@ class Dbupdater
      *
      * @param object $table {@link xFormsTable} that will be updated
      *
-     * @see xFormsTable
-     *
      * @return bool true if success, false if an error occured
+     * @see xFormsTable
      */
     public function updateTable($table)
     {

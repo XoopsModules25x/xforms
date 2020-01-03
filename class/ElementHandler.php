@@ -20,7 +20,6 @@ namespace XoopsModules\Xforms;
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 //defined('XFORMS_ROOT_PATH') || exit('Restricted access');
@@ -68,7 +67,6 @@ class ElementHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Element class constructor
-     *
      * @param \XoopsDatabase|null $db
      */
     public function __construct(\XoopsDatabase $db = null)
@@ -99,16 +97,18 @@ class ElementHandler extends \XoopsPersistableObjectHandler
             $error = '';
             foreach ($defaults as $d) {
                 $ele = $this->create();
-                $ele->setVars([
-                                  'form_id'         => $form_id,
-                                  'ele_caption'     => $d['caption'],
-                                  'ele_req'         => $d['req'],
-                                  'ele_display_row' => $d['ele_display_row'],
-                                  'ele_order'       => $d['order'],
-                                  'ele_display'     => $d['display'],
-                                  'ele_type'        => $d['type'],
-                                  'ele_value'       => $d['value'],
-                              ]);
+                $ele->setVars(
+                    [
+                        'form_id'         => $form_id,
+                        'ele_caption'     => $d['caption'],
+                        'ele_req'         => $d['req'],
+                        'ele_display_row' => $d['ele_display_row'],
+                        'ele_order'       => $d['order'],
+                        'ele_display'     => $d['display'],
+                        'ele_type'        => $d['type'],
+                        'ele_value'       => $d['value'],
+                    ]
+                );
                 if (!$this->insert($ele)) {
                     $error .= $ele->getHtmlErrors();
                 }

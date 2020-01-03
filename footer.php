@@ -15,12 +15,10 @@
  * @license      GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
  * @package
  * @since
- * @author     XOOPS Development Team
+ * @author       XOOPS Development Team
  */
-require  dirname(dirname(__DIR__)) . '/mainfile.php';
-
+require dirname(dirname(__DIR__)) . '/mainfile.php';
 
 $moduleDirName = basename(__DIR__);
-
 
 require XOOPS_ROOT_PATH . '/footer.php';

@@ -116,8 +116,8 @@ class Uploader
         $allowedExtensions = 0,
         $allowedMimeTypes = 0,
         $maxWidth = 0,
-        $maxHeight = 0)
-    {
+        $maxHeight = 0
+    ) {
         if (!empty($maxFileSize)) {
             $this->maxFileSize = (int)$maxFileSize;
         }
@@ -153,8 +153,8 @@ class Uploader
      * @param int     $index      Index of the file (if more than one uploaded under that name)
      *
      * @param         $ele
-     * @global        $HTTP_POST_FILES
      * @return bool
+     * @global        $HTTP_POST_FILES
      */
     public function fetchMedia($media_name, $index, &$ele)
     {
@@ -164,14 +164,14 @@ class Uploader
             return false;
         } elseif (is_array($_FILES[$media_name]['name']) && isset($index)) {
             $index              = (int)$index;
-            $this->mediaName    = get_magic_quotes_gpc() ? stripslashes($_FILES[$media_name]['name'][$index]) : $_FILES[$media_name]['name'][$index];
+            $this->mediaName    = @get_magic_quotes_gpc() ? stripslashes($_FILES[$media_name]['name'][$index]) : $_FILES[$media_name]['name'][$index];
             $this->mediaType    = $_FILES[$media_name]['type'][$index];
             $this->mediaSize    = $_FILES[$media_name]['size'][$index];
             $this->mediaTmpName = $_FILES[$media_name]['tmp_name'][$index];
             $this->mediaError   = !empty($_FILES[$media_name]['error'][$index]) ? $_FILES[$media_name]['error'][$index] : 0;
         } else {
             $media_name         = @$_FILES[$media_name];
-            $this->mediaName    = get_magic_quotes_gpc() ? stripslashes($media_name['name']) : $media_name['name'];
+            $this->mediaName    = @get_magic_quotes_gpc() ? stripslashes($media_name['name']) : $media_name['name'];
             $this->mediaName    = $media_name['name'];
             $this->mediaType    = $media_name['type'];
             $this->mediaSize    = $media_name['size'];
@@ -346,7 +346,7 @@ class Uploader
     /**
      * Check the file and copy it to the destination
      *
-     * @param  int $chmod
+     * @param int $chmod
      * @return bool
      */
     public function upload($chmod = 0644)
@@ -425,7 +425,7 @@ class Uploader
         if (isset($this->targetFileName)) {
             $this->savedFileName = $this->targetFileName;
         } elseif (isset($this->prefix)) {
-            $this->savedFileName = uniqid($this->prefix) . '.' . mb_strtolower($matched[1]);
+            $this->savedFileName = uniqid($this->prefix, true) . '.' . mb_strtolower($matched[1]);
         } else {
             $this->savedFileName = mb_strtolower($this->mediaName);
         }

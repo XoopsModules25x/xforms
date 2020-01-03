@@ -9,6 +9,7 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * Module: xForms
  *
@@ -70,7 +71,8 @@ $output->addElement($optTray);
  * more places than just here. It could then be loaded using 'standard' .js
  * include methods for a cleaner implementation}}}
  */
-$funcScript = new Xforms\FormRaw("<script>function addToCboxTray() {
+$funcScript = new Xforms\FormRaw(
+    "<script>function addToCboxTray() {
 //first time through set id (counter)
 if (typeof addToCboxTray.counter == \"undefined\") {
   addToCboxTray.counter = $('[id^=\"ele_value[\"]').length;

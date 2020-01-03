@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -29,7 +28,7 @@ use XoopsModules\Xforms\Constants;
 require_once __DIR__ . '/header.php';
 $myts = \MyTextSanitizer::getInstance();
 /** @var \XoopsModules\Xforms\Helper $helper */
-$helper             = \XoopsModules\Xforms\Helper::getInstance();
+$helper       = \XoopsModules\Xforms\Helper::getInstance();
 $formsHandler = $helper->getHandler('Forms');
 
 //if (!interface_exists('Constants::')) {
@@ -70,12 +69,15 @@ if (empty($submit)) {
             require_once $GLOBALS['xoops']->path('/header.php');
             if ((false !== $forms) && (count($forms) > 0)) {
                 foreach ($forms as $form) {
-                    $GLOBALS['xoopsTpl']->append('forms', [
-                        'title'          => $form->getVar('form_title'),
-                        'desc'           => $form->getVar('form_desc'),
-                        'id'             => $form->getVar('form_id'),
-                        'form_edit_link' => $form->getEditLinkInfo(),
-                    ]);
+                    $GLOBALS['xoopsTpl']->append(
+                        'forms',
+                        [
+                            'title'          => $form->getVar('form_title'),
+                            'desc'           => $form->getVar('form_desc'),
+                            'id'             => $form->getVar('form_id'),
+                            'form_edit_link' => $form->getEditLinkInfo(),
+                        ]
+                    );
                 }
                 $GLOBALS['xoopsTpl']->assign('forms_intro', $myts->displayTarea($helper->getConfig('intro'), 1));
             } else {
@@ -119,7 +121,7 @@ if (empty($submit)) {
  * Now execute the form
  * /***********************/
 if (!$xoopsSecurity->check()) {
-    redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+    redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
 }
 
 $formId = Request::getInt('form_id', 0, 'POST');
@@ -145,7 +147,7 @@ require_once $helper->path('include/functions.php');
 //require_once $GLOBALS['xoops']->path("modules/{$moduleDirName}/include/functions.php");
 
 $elementHandler = $helper->getHandler('Element');
-$criteria         = new \CriteriaCompo();
+$criteria       = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
 $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
 $criteria->setSort('ele_order');
@@ -183,9 +185,9 @@ $genInfo = [
  * Loops through the elements of the form to save or send e-mail
  */
 $userdataHandler = $helper->getHandler('Userdata');
-$udatas       = [];
-$userMailText = ''; // Capturing email for user if have textbox in the form
-$saveToDB     = (Constants::SAVE_IN_DB == $form->getVar('form_save_db')) ? true : false;
+$udatas          = [];
+$userMailText    = ''; // Capturing email for user if have textbox in the form
+$saveToDB        = (Constants::SAVE_IN_DB == $form->getVar('form_save_db')) ? true : false;
 
 if (0 == count($err)) {
     if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
@@ -229,14 +231,16 @@ if (0 == count($err)) {
 
         if ($saveToDB) {
             $udata = $userdataHandler->create();
-            $udata->setVars([
-                                'uid'         => (int)$genInfo['UID'],
-                                'form_id'     => $formId,
-                                'udata_time'  => $timeData,
-                                'udata_ip'    => $genInfo['IP'],
-                                'udata_agent' => $genInfo['AGENT'],
-                                'ele_id'      => (int)$eleId,
-                            ]);
+            $udata->setVars(
+                [
+                    'uid'         => (int)$genInfo['UID'],
+                    'form_id'     => $formId,
+                    'udata_time'  => $timeData,
+                    'udata_ip'    => $genInfo['IP'],
+                    'udata_agent' => $genInfo['AGENT'],
+                    'ele_id'      => (int)$eleId,
+                ]
+            );
         }
 
         $ele[$eleId] = is_scalar($ele[$eleId]) ? trim($ele[$eleId]) : $ele[$eleId];
@@ -378,9 +382,9 @@ if (0 == count($err)) {
                 case 'upload':
                 case 'uploadimg':
                     if (\Xmf\Request::hasVar('ele_{$eleId}', 'FILES[')) {
-//                        if (!class_exists('MediaUploader')) {
-//                            xoops_load('MediaUploader', $moduleDirName);
-//                        }
+                        //                        if (!class_exists('MediaUploader')) {
+                        //                            xoops_load('MediaUploader', $moduleDirName);
+                        //                        }
                         $maxSize   = empty($eleValue[0]) ? 0 : (int)$eleValue[0];
                         $ext       = empty($eleValue[1]) ? null : explode('|', $eleValue[1]);
                         $mime      = empty($eleValue[2]) ? null : explode('|', $eleValue[2]);
@@ -668,13 +672,15 @@ if (count($err) > 0) {
     }
     $GLOBALS['xoopsOption']['template_main'] = 'xforms_error.tpl';
     require_once $GLOBALS['xoops']->path('/header.php');
-    $xoopsTpl->assign([
-                          'error_heading'   => _MD_XFORMS_ERR_HEADING,
-                          'errors'          => $err,
-                          'go_back'         => _BACK,
-                          'xforms_url'      => $helper->url("index.php?form_id={$formId}"),
-                          'xoops_pagetitle' => _MD_XFORMS_ERR_HEADING,
-                      ]);
+    $xoopsTpl->assign(
+        [
+            'error_heading'   => _MD_XFORMS_ERR_HEADING,
+            'errors'          => $err,
+            'go_back'         => _BACK,
+            'xforms_url'      => $helper->url("index.php?form_id={$formId}"),
+            'xoops_pagetitle' => _MD_XFORMS_ERR_HEADING,
+        ]
+    );
     require_once $GLOBALS['xoops']->path('/footer.php');
     exit();
 }

@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -78,7 +77,8 @@ $output->addElement($optTray);
 
 //@TODO - this code should be made more generic so it can be used in more places than just here. It could
 //        then be loaded using 'standard' .js include methods for a cleaner implementation
-$funcScript = new Xforms\FormRaw('<script>function addToTray' . $element->getVar('ele_id') . '() {
+$funcScript = new Xforms\FormRaw(
+    '<script>function addToTray' . $element->getVar('ele_id') . '() {
 //first time through set id (counter)
 if (typeof addToTray' . $element->getVar('ele_id') . '.counter == "undefined") {
   addToTray' . $element->getVar('ele_id') . ".counter = $('[id^=\"ele_value[\"]').length;

@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -41,8 +40,8 @@ function b_xforms_form_show($options)
     $block = [];
 
     $formsHandler = $helper->getHandler('Forms');
-    $formOk             = $formsHandler->getSingleFormPermission((int)$options[0]);
-    $formObj            = $formsHandler->get((int)$options[0]); // get the form object we want
+    $formOk       = $formsHandler->getSingleFormPermission((int)$options[0]);
+    $formObj      = $formsHandler->get((int)$options[0]); // get the form object we want
     if ($formObj instanceof Xforms\Forms) {
         $block = $formObj->render();
     }
@@ -63,8 +62,8 @@ function b_xforms_form_edit($options)
     $helper = \XoopsModules\Xforms\Helper::getInstance();
 
     $formsHandler = $helper->getHandler('Forms');
-    $forms              = $formsHandler->getAll();
-    $optForm            = "<label for='fs1'>Form to Display</label>\n";
+    $forms        = $formsHandler->getAll();
+    $optForm      = "<label for='fs1'>Form to Display</label>\n";
     if (empty($forms)) {
         $optForm .= "<input id='fs1' type='text' placeholder='No Active Forms' size='20' disabled>\n";
     } else {

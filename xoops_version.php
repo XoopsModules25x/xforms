@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.00
  */
 
@@ -28,9 +27,9 @@ require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName = basename(__DIR__);
 
-$modversion['version']       = '2.00';
+$modversion['version']       = '2.00.0';
 $modversion['module_status'] = 'Alpha 2';
-$modversion['release_date']  = '2018/09/01';
+$modversion['release_date']  = '2019/12/22';
 $modversion['name']          = _MI_XFORMS_NAME;
 $modversion['description']   = _MI_XFORMS_DESC;
 $modversion['author']        = 'Brandycoke Productions, Dylian Melgert, Juan Garcés';
@@ -58,7 +57,7 @@ $modversion['helpsection'] = [
 
 $modversion['module_website_url']  = 'https://xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['min_php']             = '5.5';
+$modversion['min_php']             = '5.6';
 $modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];

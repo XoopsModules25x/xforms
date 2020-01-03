@@ -21,7 +21,6 @@ namespace XoopsModules\Xforms;
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
@@ -37,9 +36,6 @@ class UserdataHandler extends \XoopsPersistableObjectHandler
     public $db_table;
     public $obj_class = Userdata::class;
 
-    /**
-     * @param \XoopsDatabase|null $db
-     */
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db       = $db;
@@ -105,10 +101,10 @@ class UserdataHandler extends \XoopsPersistableObjectHandler
 
                 // get element info from dB
                 /** @var \XoopsModules\Xforms\Helper $helper */
-                $helper           = \XoopsModules\Xforms\Helper::getInstance();
+                $helper         = \XoopsModules\Xforms\Helper::getInstance();
                 $elementHandler = $helper->getHandler('Element');
-                $eleIdArray       = array_unique($eleIdArray);
-                $criteria         = new \CriteriaCompo();
+                $eleIdArray     = array_unique($eleIdArray);
+                $criteria       = new \CriteriaCompo();
                 $criteria->add(new \Criteria('ele_id', '(' . implode(',', $eleIdArray) . ')', 'IN'));
                 $criteria->setSort('ele_order');
                 $criteria->setOrder('ASC');

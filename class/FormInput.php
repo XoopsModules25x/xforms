@@ -826,7 +826,7 @@ class FormInput extends \XoopsFormElement
         if ($this->isRequired() && $eltname = $this->getName()) {
             // $eltname    = $this->getName();
             $eltcaption = $this->getCaption();
-            $eltmsg     = empty($eltcaption) ? sprintf(\XoopsLocale::F_ENTER, $eltname) : sprintf(\XoopsLocale::F_ENTER, $eltcaption);
+            $eltmsg     = empty($eltcaption) ? sprintf(\XoopsLocal::F_ENTER, $eltname) : sprintf(\XoopsLocal::F_ENTER, $eltcaption);
             $eltmsg     = str_replace([':', '?', '%'], '', $eltmsg);
             $eltmsg     = str_replace('"', '\"', stripslashes($eltmsg));
             $eltmsg     = strip_tags($eltmsg);

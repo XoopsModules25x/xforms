@@ -8,6 +8,7 @@
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
  * xForms module
  *
@@ -17,6 +18,9 @@
  * @since           1.30
  * @author          Xoops Development Team
  */
+
+use XoopsModules\Xforms;
+
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 //require(XOOPS_ROOT_PATH . "/modules/xforms/class/dbupdater.php");
 //require(XOOPS_ROOT_PATH . "/modules/xforms/include/common.php");
@@ -106,7 +110,7 @@ function xoops_module_uninstall_xforms(\XoopsObject $module)
  */
 function update_tables_to_130($module)
 {
-    $migrate = new Migrate();
+    $migrate = new Xforms\Common\Migrate();
     //    $migrate->copyTable('demomvc_log', 'demomvc_log2', true);
     //    $migrate->addColumn('demomvc_log2', 'log_xint', 'log_start_time','int(10) not null default \'0\'' );
     //    $migrate->update('demomvc_log2', array('log_xint' => time()), '');
@@ -352,7 +356,7 @@ zz
 // =========================================================================================
 function invert_nohtm_dohtml_values()
 {
-    $ret = array();
+    $ret = [];
     global $xoopsDB;
     $catHandler = xoops_getModuleHandler('category', 'xforms');
     $result = $xoopsDB->query("SHOW COLUMNS FROM ".$catHandler->table);

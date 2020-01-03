@@ -1,4 +1,5 @@
 <?php
+
 define('_MD_XFORMS_MSG_SUBJECT', '%s - %s');
 define('_MD_XFORMS_MSG_SENT', 'Your form has been sent. Thank you.');
 define('_MD_XFORMS_MSG_SUBJECT_COPY', 'Copy of: %s');

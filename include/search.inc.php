@@ -13,17 +13,17 @@
 /**
  * Module: xForms
  *
+ * @param mixed $queryArray
+ * @param mixed $andor
+ * @param mixed $limit
+ * @param mixed $offset
+ * @param mixed $uid
  * @category        Module
  * @package         xforms
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since           2.00
- * @param mixed $queryArray
- * @param mixed $andor
- * @param mixed $limit
- * @param mixed $offset
- * @param mixed $uid
  */
 
 //defined('XOOPS_ROOT_PATH') || exit('Restricted access');
@@ -31,17 +31,16 @@
 /**
  * xforms_search()
  *
- * @uses CriteriaCompo
- * @uses Criteria
- * @uses Xmf\Module\Helper
- * @uses Xmf\Module\Helper\Permission
- *
  * @param mixed $queryArray
  * @param mixed $andor
  * @param mixed $limit
  * @param mixed $offset
  * @param mixed $uid
  * @return array
+ * @uses CriteriaCompo
+ * @uses Criteria
+ * @uses Xmf\Module\Helper
+ * @uses Xmf\Module\Helper\Permission
  */
 function xforms_search($queryArray, $andor, $limit, $offset, $uid)
 {
@@ -49,11 +48,12 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
     if (0 == (int)$uid) {
         $moduleDirName = basename(dirname(__DIR__));
         /** @var \XoopsModules\Xforms\Helper $helper */
-        $helper             = \XoopsModules\Xforms\Helper::getInstance();
+        $helper       = \XoopsModules\Xforms\Helper::getInstance();
         $formsHandler = $helper->getHandler('Forms');
 
         // get all forms user has rights to view
-        if ($permittedForms = $formsHandler->getPermittedForms()) {
+        $permittedForms = $formsHandler->getPermittedForms();
+        if ($permittedForms) {
             $pIdArray = [];
             foreach ($permittedForms as $pForm) {
                 $pIdArray[] = $pForm->getVar('form_id');

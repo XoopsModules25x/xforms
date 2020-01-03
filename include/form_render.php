@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -139,15 +138,18 @@ foreach ($formOutput->getElements() as $e) {
     ];
 }
 $js = $formOutput->renderValidationJS();
-$GLOBALS['xoopsTpl']->assign('form_output', [
-    'title'      => $formOutput->getTitle(),
-    'name'       => $formOutput->getName(),
-    'action'     => $formOutput->getAction(),
-    'method'     => $formOutput->getMethod(),
-    'extra'      => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
-    'javascript' => $js,
-    'elements'   => $eles,
-]);
+$GLOBALS['xoopsTpl']->assign(
+    'form_output',
+    [
+        'title'      => $formOutput->getTitle(),
+        'name'       => $formOutput->getName(),
+        'action'     => $formOutput->getAction(),
+        'method'     => $formOutput->getMethod(),
+        'extra'      => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
+        'javascript' => $js,
+        'elements'   => $eles,
+    ]
+);
 
 $GLOBALS['xoopsTpl']->assign('form_req_prefix', $helper->getConfig('prefix'));
 $GLOBALS['xoopsTpl']->assign('form_req_suffix', $helper->getConfig('suffix'));

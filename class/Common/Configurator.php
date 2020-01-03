@@ -21,8 +21,6 @@ namespace XoopsModules\Xforms\Common;
  * @since       1.05
  */
 
-// require_once dirname(dirname(__DIR__)) . '/include/common.php';
-
 /**
  * Class Configurator
  */

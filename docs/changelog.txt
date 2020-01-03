@@ -28,6 +28,14 @@
     &nbsp;&nbsp;- updated addInfoBoxLine entries (mamba)
     &nbsp;&nbsp;- displayNavigation(basename(__FILE__))  (mamba)
     &nbsp;&nbsp;- changed to ->displayButton('left') (mamba)
+- 'PHP_SELF' to 'SCRIPT_NAME' (mamba)
+- Type casting (mamba)
+- Assignment in condition (mamba)
+- instanceof (mamba)
+- \RuntimeException (mamba)
+- @get_magic_quotes_gpc() (mamba)
+
+
 WORK IN PROGRESS
 
 <h5>KNOWN BUGS:</h5>

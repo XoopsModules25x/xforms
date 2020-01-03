@@ -18,16 +18,18 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
- * @since           1.30
  */
 
 use Xmf\Request;
+use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 
 //defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 //require_once $GLOBALS['xoops']->path('./modules/xforms/class/constants.php');
 //xoops_load('filechecker', 'xforms');
@@ -38,6 +40,6 @@ if ('copyfile' === $op) {
     $filePath         = Request::getString('file_path', null, 'POST');
     $redirect         = Request::getString('redirect', null, 'POST');
 
-    $msg = XformsFileChecker::copyFile($originalFilePath, $filePath) ? _FC_XFORMS_FILECOPIED : _FC_XFORMS_FILENOTCOPIED;
+    $msg = Xforms\Common\FileChecker::copyFile($originalFilePath, $filePath) ? constant('CO_' . $moduleDirNameUpper . '_' . 'FC_FILECOPIED') : constant('CO_' . $moduleDirNameUpper . '_' . 'FC_FILENOTCOPIED');
     redirect_header($redirect, Constants::REDIRECT_DELAY_MEDIUM, "{$msg}: {$filePath}");
 }

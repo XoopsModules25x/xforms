@@ -21,7 +21,6 @@ namespace XoopsModules\Xforms;
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -37,7 +36,7 @@ class ElementRenderer
 
     /**
      * constructor for ElementRenderer
-     * @param Xforms\Element $eleObj
+     * @param \XoopsModules\Xforms\Element $eleObj
      */
     public function __construct(Xforms\Element $eleObj)
     {
@@ -48,10 +47,11 @@ class ElementRenderer
     /**
      * constructElement method creates displayable XoopsForm element
      *
-     * @todo test refactored code to eliminate need for 'global $form'
      * @param bool   $admin
      * @param string $delimiter
      *
+     * @return XoopsFormTextArea|\XoopsFormElementTray|\XoopsFormLabel|\XoopsFormSelect|\XoopsFormText|\XoopsFormTextArea|Xforms\FormInput
+     * @todo test refactored code to eliminate need for 'global $form'
      * @uses MyTextSanitizer
      * @uses Xforms\FormInput
      * @uses XoopsFormCheckBox
@@ -64,17 +64,15 @@ class ElementRenderer
      * @uses XoopsFormSelectCountry
      * @uses XoopsFormText
      * @uses XoopsFormTextArea
-     *
-     * @return XoopsFormTextArea|\XoopsFormElementTray|\XoopsFormLabel|\XoopsFormSelect|\XoopsFormText|\XoopsFormTextArea|Xforms\FormInput
      */
     public function constructElement($admin = false, $delimiter = ' ')
     {
         /** @var Xforms\Helper $helper */
         $helper = Xforms\Helper::getInstance();
 
-//        if (!class_exists('Xforms\FormInput')) {  // hack for XOOPS ver < 2.6
-//            xoops_load('FormInput', XFORMS_DIRNAME);
-//        }
+        //        if (!class_exists('Xforms\FormInput')) {  // hack for XOOPS ver < 2.6
+        //            xoops_load('FormInput', XFORMS_DIRNAME);
+        //        }
         //        if (!interface_exists('Xforms\Constants')) {  // hack for XOOPS ver < 2.6
         //            require_once $helper->path('class/constants.php');
         //        }
@@ -126,10 +124,9 @@ class ElementRenderer
                  if (isset($post_val)) {
                  $eleValue = $post_val;
                  }
-                 */
-//                if (!class_exists('Xforms\FormRaw')) {
-//                    xoops_load('FormRaw', 'xforms');
-//                }
+                 */ //                if (!class_exists('Xforms\FormRaw')) {
+                //                    xoops_load('FormRaw', 'xforms');
+                //                }
                 $formElement = new \XoopsFormElementTray($eleCaption);
 
                 // set default date
@@ -139,8 +136,7 @@ class ElementRenderer
                      default:
                      $dateDef = null;
                      break;
-                     */
-                    case 1: // to current date
+                     */ case 1: // to current date
                     default:
                         $dateDef = date('Y-m-d');
                         break;
@@ -164,7 +160,7 @@ class ElementRenderer
                     case 2: // to specific date
                         $dateMin = $eleValue[2];
                         $inpEle->setAttribute('min', $dateMin);
-                        $inpEleDesc = sprintf(_AM_XFORMS_ELE_DATE_MIN_LBL, XoopsLocal::formatTimestamp(strtotime($eleValue[2]), 's'));
+                        $inpEleDesc = sprintf(_AM_XFORMS_ELE_DATE_MIN_LBL, \XoopsLocal::formatTimestamp(strtotime($eleValue[2]), 's'));
                         break;
                 }
                 // set start (max) date
@@ -180,7 +176,7 @@ class ElementRenderer
                     case 2: // to specific date
                         $dateMax = $eleValue[4];
                         $inpEle->setAttribute('max', $dateMax);
-                        $inpEleDesc .= sprintf(_AM_XFORMS_ELE_DATE_MAX_LBL, XoopsLocal::formatTimestamp(strtotime($eleValue[4]), 's'));
+                        $inpEleDesc .= sprintf(_AM_XFORMS_ELE_DATE_MAX_LBL, \XoopsLocal::formatTimestamp(strtotime($eleValue[4]), 's'));
                         break;
                 }
                 if (!empty($inpEleDesc)) {
@@ -307,16 +303,17 @@ class ElementRenderer
                  *       [2] = min num
                  *       [3] = max num
                  *       [4] = step
-                 */
-                $default     = isset($eleValue[0]) ? $eleValue[0] : null;
+                 */ $default = isset($eleValue[0]) ? $eleValue[0] : null;
                 $formElement = new \XoopsFormElementTray("{$eleCaption}<br>Min: {$eleValue[2]} Max: {$eleValue[3]}");
                 $rangeEle    = new Xforms\FormInput('', $formEleId, 15, 255, $default, null, 'range');
                 $stepSize    = isset($eleValue[4]) ? $eleValue[4] : Constants::ELE_DEFAULT_STEP;
-                $rangeEle->setAttributes([
-                                             'min'  => $eleValue[2],
-                                             'max'  => $eleValue[3],
-                                             'step' => (float)$stepSize,
-                                         ]);
+                $rangeEle->setAttributes(
+                    [
+                        'min'  => $eleValue[2],
+                        'max'  => $eleValue[3],
+                        'step' => (float)$stepSize,
+                    ]
+                );
                 $rangeEle->setExtra('onchange="document.getElementById(\'range_label\').innerHTML = this.value;"');
                 $rangeLbl = new \XoopsFormLabel('', "<label class='middle bold' id='range_label' for='{$formEleId}'>{$default}</label>");
                 $formElement->addElement($rangeEle);
@@ -335,9 +332,10 @@ class ElementRenderer
                     ++$optionCount;
                 }
 
-                $formElement = new \XoopsFormSelect($eleCaption, $formEleId, $selected, (isset($eleValue[0])
-                                                                                         && ((int)$eleValue[0] > 0)) ? (int)$eleValue[0] : 1, // size
-                                                    (bool)$eleValue[1] // multiple
+                $formElement = new \XoopsFormSelect(
+                    $eleCaption, $formEleId, $selected, (isset($eleValue[0])
+                                                         && ((int)$eleValue[0] > 0)) ? (int)$eleValue[0] : 1, // size
+                    (bool)$eleValue[1] // multiple
                 );
 
                 if ($eleValue[1]) {
@@ -347,17 +345,17 @@ class ElementRenderer
                 break;
             case 'select2': // left for backward compatibility
             case 'country':
-                $formElement            = new \XoopsFormSelectCountry($eleCaption, $formEleId, $myts->htmlSpecialChars($eleValue[2]), //default
-                                                                      (isset($eleValue[0])
-                                                                       && ((int)$eleValue[0] > 0)) ? (int)$eleValue[0] : 1 // size
+                $formElement            = new \XoopsFormSelectCountry(
+                    $eleCaption, $formEleId, $myts->htmlSpecialChars($eleValue[2]), //default
+                    (isset($eleValue[0])
+                     && ((int)$eleValue[0] > 0)) ? (int)$eleValue[0] : 1 // size
                 );
                 $formElement->_multiple = (bool)$eleValue[1];
                 break;
             case 'text':
-                /** @var \XoopsMemberHandler $memberHandler */
-                $memberHandler = xoops_getHandler('member');
-                $xur           = (isset($GLOBALS['xoopsUser'])
-                        && $GLOBALS['xoopsUser'] instanceof \XoopsUser) ? $GLOBALS['xoopsUser'] : $memberHandler->createUser();
+                /** @var \XoopsMemberHandler $memberHandler */ $memberHandler = xoops_getHandler('member');
+                $xur                                                          = (isset($GLOBALS['xoopsUser'])
+                                                                                 && $GLOBALS['xoopsUser'] instanceof \XoopsUser) ? $GLOBALS['xoopsUser'] : $memberHandler->createUser();
                 if (!$admin) {
                     foreach ($xur->vars as $k => $v) {
                         $eleValue[2] = str_replace('{U_' . $k . '}', $xur->getVar($k, 'e'), $eleValue[2]);
@@ -377,18 +375,20 @@ class ElementRenderer
                     unset($criteria, $profileActive, $profileHandler, $xpr);
                 }
 
-                $formElement = new \XoopsFormText($eleCaption, $formEleId, $eleValue[0], // box width
-                                                  $eleValue[1], // maxlength
-                                                  $myts->htmlSpecialChars($eleValue[2]) // default value
+                $formElement = new \XoopsFormText(
+                    $eleCaption, $formEleId, $eleValue[0], // box width
+                    $eleValue[1], // maxlength
+                    $myts->htmlSpecialChars($eleValue[2]) // default value
                 );
                 if (isset($eleValue[4])) { // not set if form was imported
                     $formElement->setExtra("placeholder=\"{$eleValue[4]}\"");
                 }
                 break;
             case 'textarea':
-                $formElement = new \XoopsFormTextArea($eleCaption, $formEleId, $myts->htmlSpecialChars($eleValue[0]), // default value
-                                                      $eleValue[1], // rows
-                                                      $eleValue[2]  // cols
+                $formElement = new \XoopsFormTextArea(
+                    $eleCaption, $formEleId, $myts->htmlSpecialChars($eleValue[0]), // default value
+                    $eleValue[1], // rows
+                    $eleValue[2]  // cols
                 );
                 if (isset($eleValue[3])) { // not set if form was imported
                     $formElement->setExtra("placeholder=\"{$eleValue[3]}\"");
@@ -548,7 +548,7 @@ class ElementRenderer
         if (!preg_match('/\{OTHER\|+[0-9]+\}/', $s)) {
             return false;
         }
-//        $helper = Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
+        //        $helper = Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
         /** @var \XoopsModules\Xforms\Helper $helper */
         $helper = \XoopsModules\Xforms\Helper::getInstance();
 

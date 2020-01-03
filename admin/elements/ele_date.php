@@ -48,38 +48,48 @@ $setTheMax = !empty($value[5]) ? (int)$value[5] : Constants::ELE_NO;
 
 $minTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_DATE_MIN);
 $setMin  = new \XoopsFormRadio('', 'ele_value[3]', $setTheMin);
-$setMin->addOptionArray([
-                            Constants::ELE_NO    => _NO,
-                            Constants::ELE_CURR  => _AM_XFORMS_ELE_DATE_CUR,
-                            Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER,
-                        ]);
+$setMin->addOptionArray(
+    [
+        Constants::ELE_NO    => _NO,
+        Constants::ELE_CURR  => _AM_XFORMS_ELE_DATE_CUR,
+        Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER,
+    ]
+);
 $minEle = new Xforms\FormInput('', 'ele_value[2]', 15, 15, $minDate, null, 'date');
 $minTray->addElement($setMin);
 $minTray->addElement($minEle);
 
 $maxTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_DATE_MAX);
 $setMax  = new \XoopsFormRadio('', 'ele_value[5]', $setTheMax);
-$setMax->addOptionArray([
-                            Constants::ELE_NO    => _NO,
-                            Constants::ELE_CURR  => _AM_XFORMS_ELE_DATE_CUR,
-                            Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER,
-                        ]);
+$setMax->addOptionArray(
+    [
+        Constants::ELE_NO    => _NO,
+        Constants::ELE_CURR  => _AM_XFORMS_ELE_DATE_CUR,
+        Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER,
+    ]
+);
 $maxEle = new Xforms\FormInput('', 'ele_value[4]', 15, 15, $maxDate, null, 'date');
 $maxTray->addElement($setMax);
 $maxTray->addElement($maxEle);
 
 $date   = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT);
 $setDef = new \XoopsFormRadio('', 'ele_value[1]', $setTheDef);
-$setDef->addOptionArray([
-                            Constants::ELE_CURR  => _AM_XFORMS_ELE_DATE_CUR,
-                            Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER,
-                        ]);
+$setDef->addOptionArray(
+    [
+        Constants::ELE_CURR  => _AM_XFORMS_ELE_DATE_CUR,
+        Constants::ELE_OTHER => _AM_XFORMS_ELE_OPT_OTHER,
+    ]
+);
 // changed this to array and element 0
 $inpEle = new Xforms\FormInput('', 'ele_value[0]', 15, 15, $dateValue, null, 'date');
 $date->addElement($setDef);
 $date->addElement($inpEle);
-$date->addElement(new Xforms\FormRaw("<script>\n" . "if (!Modernizr.inputtypes.date) {\n" //    .    "alert(\"Browser doesn't support date\");\n"
-                                     . "  $('input[type=date]')\n" . "  .attr('type', 'text')\n" . "  .datepicker({\n" . "  // Consistent format with the HTML5 picker\n" . "  dateFormat: 'yy-mm-dd'\n" . "  });\n" . "}\n" . "</script>\n"));
+$date->addElement(
+    new Xforms\FormRaw(
+        "<script>\n" . "if (!Modernizr.inputtypes.date) {\n" //    .    "alert(\"Browser doesn't support date\");\n"
+        . "  $('input[type=date]')\n" . "  .attr('type', 'text')\n" . "  .datepicker({\n" . "  // Consistent format with the HTML5 picker\n" . "  dateFormat: 'yy-mm-dd'\n" . "  });\n" . "}\n" . "</script>\n"
+    )
+);
 
 $output->addElement($minTray);
 $output->addElement($maxTray);

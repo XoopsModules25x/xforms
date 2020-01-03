@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -107,8 +106,8 @@ $GLOBALS['xoopsTpl']->assign('mod_url', XOOPS_URL . '/modules/' . $moduleDirName
  * "offending" block(s) need to be fixed so they DO work without a global here
  */
 global $xforms_isAdmin;
-$xforms_isAdmin     = $helper->isUserAdmin();
-$formsHandler = $helper->getHandler('Forms');
+$xforms_isAdmin = $helper->isUserAdmin();
+$formsHandler   = $helper->getHandler('Forms');
 /*
 // Load only if module is installed
 if (is_object($xforms->getModule())) {
@@ -141,7 +140,7 @@ if (!$uploadChecked) {
     $fileInfo = new \SplFileInfo(XFORMS_UPLOAD_PATH . 'index.html');
     if (!$fileInfo->isFile()) {
         // index file doesn't exist so create it
-        $fhandle = fopen(XFORMS_UPLOAD_PATH . 'index.html', 'w');
+        $fhandle = fopen(XFORMS_UPLOAD_PATH . 'index.html', 'wb');
         if (false !== $fhandle) {
             // write out file
             $string = '<script>history.go(-1);</script>';

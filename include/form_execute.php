@@ -148,7 +148,7 @@ if (0 == count($err)) {
                 case 'upload':
                 case 'uploadimg':
                     if (isset($_FILES['ele_' . $ele_id])) {
-//                        require_once XFORMS_ROOT_PATH . '/class/uploader.php';
+                        //                        require_once XFORMS_ROOT_PATH . '/class/uploader.php';
                         $ext  = empty($ele_value[1]) ? 0 : explode('|', $ele_value[1]);
                         $mime = empty($ele_value[2]) ? 0 : explode('|', $ele_value[2]);
 
@@ -199,7 +199,7 @@ if (0 == count($err)) {
                     }
                     $msg[$ele_id]   .= $myts->stripSlashesGPC($ele[$ele_id]);
                     $udata_value[0] = $myts->stripSlashesGPC($ele[$ele_id]);
-                    if ((0 != intval($ele_value[3], 10)) && empty($userMailText) && !empty($ele[$ele_id])) {
+                    if ((0 != (int)$ele_value[3]) && empty($userMailText) && !empty($ele[$ele_id])) {
                         /* Obtain the user email from the form */
                         $userMailText = $myts->stripSlashesGPC($ele[$ele_id]);
                     }
@@ -410,7 +410,7 @@ if ((0 == count($err)) && ('n' !== $form->getVar('form_send_method'))) {
     $copyMail = null;
     $copyMsg  = null;
     $sendCopy = false;
-    if (0 != intval($form->getVar('form_send_copy'), 10)) {
+    if (0 != (int)$form->getVar('form_send_copy')) {
         $sendCopy = true;
     }
     if ($sendCopy) {
@@ -441,7 +441,7 @@ if ((0 == count($err)) && ('n' !== $form->getVar('form_send_method'))) {
     /*
      * Send form by selected method
      */
-    $send_group = intval($form->getVar('form_send_to_group'), 10);
+    $send_group = (int)$form->getVar('form_send_to_group');
     $group      = false;
     if (-1 != $send_group) {
         $group = $memberHandler->getGroup($send_group);

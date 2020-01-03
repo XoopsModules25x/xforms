@@ -33,9 +33,6 @@ class ElementsHandler
     public $db_table;
     public $obj_class = Elements::class;
 
-    /**
-     * @param \XoopsDatabase|null $db
-     */
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db       = $db;
@@ -114,13 +111,26 @@ class ElementsHandler
         }
         if ($element->isNew() || empty($ele_id)) {
             $ele_id = $this->db->genId($this->db_table . '_ele_id_seq');
-            $sql    = sprintf('INSERT INTO `%s` (
+            $sql    = sprintf(
+                'INSERT INTO `%s` (
                                 ele_id, form_id, ele_type, ele_caption, ele_order, ele_req, ele_display_row, ele_value, ele_display
                                 ) VALUES (
                                 %u, %u, %s, %s, %u, %u, %u, %s, %u
-                                )', $this->db_table, $ele_id, $form_id, $this->db->quoteString($ele_type), $this->db->quoteString($ele_caption), $ele_order, $ele_req, $ele_display_row, $this->db->quoteString($ele_value), $ele_display);
+                                )',
+                $this->db_table,
+                $ele_id,
+                $form_id,
+                $this->db->quoteString($ele_type),
+                $this->db->quoteString($ele_caption),
+                $ele_order,
+                $ele_req,
+                $ele_display_row,
+                $this->db->quoteString($ele_value),
+                $ele_display
+            );
         } else {
-            $sql = sprintf('UPDATE `%s` SET
+            $sql = sprintf(
+                'UPDATE `%s` SET
                                 form_id = %u,
                                 ele_type = %s,
                                 ele_caption = %s,
@@ -129,7 +139,18 @@ class ElementsHandler
                                 ele_display_row = %u,
                                 ele_value = %s,
                                 ele_display = %u
-                                WHERE ele_id = %u', $this->db_table, $form_id, $this->db->quoteString($ele_type), $this->db->quoteString($ele_caption), $ele_order, $ele_req, $ele_display_row, $this->db->quoteString($ele_value), $ele_display, $ele_id);
+                                WHERE ele_id = %u',
+                $this->db_table,
+                $form_id,
+                $this->db->quoteString($ele_type),
+                $this->db->quoteString($ele_caption),
+                $ele_order,
+                $ele_req,
+                $ele_display_row,
+                $this->db->quoteString($ele_value),
+                $ele_display,
+                $ele_id
+            );
         }
         if (false !== $force) {
             $result = $this->db->queryF($sql);
@@ -182,7 +203,7 @@ class ElementsHandler
         $rtnVariable = false;
         $limit       = $start = 0;
         $sql         = 'SELECT * FROM ' . $this->db_table;
-        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (isset($criteria) && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
             if ('' != $criteria->getSort()) {
                 $sql .= ' ORDER BY ' . $criteria->getSort() . ' ' . $criteria->getOrder();
@@ -219,7 +240,7 @@ class ElementsHandler
     public function getCount($criteria = null)
     {
         $sql = 'SELECT COUNT(*) FROM ' . $this->db_table;
-        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (isset($criteria) && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         $result = $this->db->query($sql);
@@ -239,7 +260,7 @@ class ElementsHandler
     public function deleteAll($criteria = null)
     {
         $sql = 'DELETE FROM ' . $this->db_table;
-        if (isset($criteria) && is_subclass_of($criteria, 'CriteriaElement')) {
+        if (isset($criteria) && $criteria instanceof \CriteriaElement) {
             $sql .= ' ' . $criteria->renderWhere();
         }
         if (!$result = $this->db->query($sql)) {

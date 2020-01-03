@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -59,14 +58,17 @@ switch ($op) {
         echo "  </form>\n"
              . "</div>\n"
              . "<form action='"
-             . $_SERVER['PHP_SELF']
+             . $_SERVER['SCRIPT_NAME']
              . "' method='post'>\n"
              . $xoopsSecurity->getTokenHTML()
              . "\n"
              . "<table class='outer width100 bspacing1'>\n"
              . "  <thead>\n"
              . "  <tr><th colspan='7'>"
-             . sprintf(_AM_XFORMS_ELEMENTS_OF_FORM, $form->getVar('form_title'))
+             . sprintf(
+                 _AM_XFORMS_ELEMENTS_OF_FORM,
+                 $form->getVar('form_title')
+             )
              . "</th></tr>\n"
              . "  <tr>\n"
              . "    <th class='head center'>"
@@ -100,7 +102,8 @@ switch ($op) {
         $criteria->setSort('ele_order ASC, ele_caption');  // trick criteria to allow 2 sort criteria
         $criteria->setOrder('ASC');
 
-        if ($elements = $elementHandler->getObjects($criteria)) {
+        $elements = $elementHandler->getObjects($criteria);
+        if ($elements) {
             foreach ($elements as $eleObj) {
                 $renderer = new Xforms\ElementRenderer($eleObj);
                 $eleValue = $renderer->constructElement(true, $form->getVar('form_delimiter'));
@@ -141,9 +144,9 @@ switch ($op) {
                      . "    </td>\n"
                      . "    <td class='even center middle' nowrap='nowrap' rowspan='2'>\n"
                      . "      <a href='"
-                     . $helper->url("admin/editelement.php?op=delete&amp;ele_id={$id}&amp;form_id={$formId}")
-                     . "'><img src='{$pathIcon16}/delete.png' class='tooltip floatcenter1' title='"
-                     . _DELETE
+                     . $helper->url("admin/editelement.php?op=edit&amp;ele_id={$id}&amp;form_id={$formId}")
+                     . "'><img src='{$pathIcon16}/edit.png' class='tooltip floatcenter1' title='"
+                     . _EDIT
                      . "'></a>\n"
                      . "      <a href='"
                      . $helper->url("admin/editelement.php?op=edit&amp;ele_id={$id}&amp;form_id={$formId}&amp;clone=1")
@@ -151,9 +154,9 @@ switch ($op) {
                      . _CLONE
                      . "'></a>\n"
                      . "      <a href='"
-                     . $helper->url("admin/editelement.php?op=edit&amp;ele_id={$id}&amp;form_id={$formId}")
-                     . "'><img src='{$pathIcon16}/edit.png' class='tooltip floatcenter1' title='"
-                     . _EDIT
+                     . $helper->url("admin/editelement.php?op=delete&amp;ele_id={$id}&amp;form_id={$formId}")
+                     . "'><img src='{$pathIcon16}/delete.png' class='tooltip floatcenter1' title='"
+                     . _DELETE
                      . "'></a>\n"
                      . "    </td>\n"
                      . "  </tr>\n";
@@ -198,7 +201,7 @@ switch ($op) {
     case 'save': // Save element(s)
         //check to make sure this is from known location
         if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['PHP_SELF'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
         }
 
         $formId = Request::getInt('form_id', 0, 'POST');
@@ -237,12 +240,14 @@ switch ($op) {
                            && (Constants::ELEMENT_DISPLAY == $eleDisplay[$id])) ? Constants::ELEMENT_DISPLAY : Constants::ELEMENT_NOT_DISPLAY;
             $type       = $element->getVar('ele_type');
             $value      = $element->getVar('ele_value');
-            $element->setVars([
-                                  'ele_req'         => $req,
-                                  'ele_order'       => $order,
-                                  'ele_display_row' => $displayRow,
-                                  'ele_display'     => $display,
-                              ]);
+            $element->setVars(
+                [
+                    'ele_req'         => $req,
+                    'ele_order'       => $order,
+                    'ele_display_row' => $displayRow,
+                    'ele_display'     => $display,
+                ]
+            );
 
             switch ($type) {
                 case 'checkbox':
@@ -391,7 +396,7 @@ switch ($op) {
             if (_AM_XFORMS_SAVE_THEN_FORM == $_POST['submit']) {
                 redirect_header($GLOBALS['xoops']->buildUrl("/modules/{$moduleDirName}/admin/main.php", ['op' => 'edit', 'form_id' => $formId]), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
             } else {
-                redirect_header($_SERVER['PHP_SELF'] . "?form_id={$formId}", Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+                redirect_header($_SERVER['SCRIPT_NAME'] . "?form_id={$formId}", Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
             }
         } else {
             xoops_cp_header();

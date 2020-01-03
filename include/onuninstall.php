@@ -18,7 +18,6 @@
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -27,8 +26,8 @@ use XoopsModules\Xforms;
 /**
  * Prepare to uninstall module
  *
- * @param \XoopsModule $xoopsModule
  *
+ * @param \XoopsModule $xoopsModule
  * @return bool success
  */
 function xoops_module_pre_uninstall_xforms(\XoopsModule $xoopsModule)
@@ -67,8 +66,8 @@ function xoops_module_pre_uninstall_xforms(\XoopsModule $xoopsModule)
 /**
  * Uninstall module
  *
- * @param \XoopsModule $xoopsModule
  *
+ * @param \XoopsModule $xoopsModule
  * @return bool success
  */
 function xoops_module_uninstall_xforms(\XoopsModule $xoopsModule)

@@ -21,7 +21,6 @@ namespace XoopsModules\Xforms;
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 
@@ -154,7 +153,8 @@ class FormsHandler extends \XoopsPersistableObjectHandler
         $criteria->add(new \Criteria('form_order', Constants::FORM_HIDDEN, '>'));
         $criteria->setSort('form_order');
         $criteria->setOrder('ASC');
-        if ($forms = $this->getAll($criteria)) {
+        $forms = $this->getAll($criteria);
+        if ($forms) {
             $ret = [];
             foreach ($forms as $f) {
                 if ($f->isActive()) {

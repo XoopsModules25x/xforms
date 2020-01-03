@@ -20,7 +20,6 @@ namespace XoopsModules\Xforms;
  * @author          XOOPS Module Development Team
  * @copyright       Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
-
  * @since           1.30
  */
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
@@ -30,9 +29,6 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  */
 class FormselementHandler extends \XoopsPersistableObjectHandler
 {
-    /**
-     * @param \XoopsDatabase|null $db
-     */
     public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'eforms_element', 'Formselement', 'ele_id', 'ele_type');

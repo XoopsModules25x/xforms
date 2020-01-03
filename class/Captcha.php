@@ -25,7 +25,6 @@ namespace XoopsModules\Xforms;
  */
 
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Constants;
 
 xoops_load('xoopscaptcha');
 
@@ -55,9 +54,9 @@ class Captcha extends \XoopsCaptcha
         $xformsCaptchaConfig = $helper->getConfig('captcha');
         unset($helper);
 
-//        if (!interface_exists('Xforms\Constants')) {
-//            xoops_load('constants', $this->dirname);
-//        }
+        //        if (!interface_exists('Xforms\Constants')) {
+        //            xoops_load('constants', $this->dirname);
+        //        }
 
         switch ($xformsCaptchaConfig) {
             case Constants::CAPTCHA_INHERIT:
@@ -109,11 +108,10 @@ class Captcha extends \XoopsCaptcha
      *
      * config setting priorities: plugin (highest) -> basic -> core (lowest)
      *
-     * @see loadConfig()
-     *
      * @param mixed $filename
      *
      * @return array An array of captcha configs
+     * @see loadConfig()
      */
     public function loadConfig($filename = null)
     {
