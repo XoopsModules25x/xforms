@@ -24,7 +24,7 @@
  * @see       \Xmf\Module\Admin
  * @see       \XoopsModules\Xforms\Helper
  */
-
+use Xmf\Request;
 use Xmf\Module\Helper;
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
