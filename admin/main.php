@@ -177,7 +177,7 @@ switch ($op) {
                    . '  <tfoot>'
                    . '  <tr>'
                    . '    <td class="foot" colspan="2">' . $bshow->render() . '</td>'
-                   . '    <td class="foot center">' . $submit->render() . $xoopsSecurity->getTokenHTML() . '</td>'
+                   . '    <td class="foot center">' . $submit->render() . $GLOBALS['xoopsSecurity']->getTokenHTML() . '</td>'
                    . '    <td class="foot" colspan="3">&nbsp;</td>'
                    . '  </tr>'
                    . '  </tfoot>'
@@ -440,8 +440,8 @@ switch ($op) {
             }
 
         } else {
-            if (!$xoopsSecurity->check()) {
-                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
             }
 
             $formId = Request::getInt('form_id', 0, 'POST');
@@ -481,8 +481,8 @@ switch ($op) {
                 redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
             }
         } else {
-            if (!$xoopsSecurity->check()) {
-                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             $formId = Request::getInt('form_id', 0, 'POST');
             //$formsHandler = $helper->getHandler('Forms');
@@ -511,8 +511,8 @@ switch ($op) {
                 redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
             }
         } else {
-            if (!$xoopsSecurity->check()) {
-                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             $formId = Request::getInt('form_id', 0, 'POST');
             //$formsHandler = $helper->getHandler('Forms');
@@ -529,8 +529,8 @@ switch ($op) {
         break;
 
     case 'saveorder':
-        if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+        if (!$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
         }
 
         $ids = Request::getArray('ids', array(), 'POST');
@@ -554,8 +554,8 @@ switch ($op) {
             redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
         }
         // check security
-        if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+        if (!$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
         }
 
         $formSaveDb     = Request::getInt('form_save_db', 0, 'POST');
@@ -592,7 +592,7 @@ switch ($op) {
         $formActive       = Request::getInt('form_active', 0, 'POST');
 
         //validate list of other email addresses
-        $sToO = (!empty($FormSendToOther)) ? explode(';', $formSendToOther) : array();
+        $sToO = (!empty($formSendToOther)) ? explode(';', $formSendToOther) : array();
         $valArray = array();
         foreach ($sToO as $oEmail) {
             if ($valEmail = filter_var($oEmail, FILTER_VALIDATE_EMAIL)) {
@@ -646,27 +646,26 @@ switch ($op) {
             if (count($formGroupPerm > 0)) {
                 $formsHandler->insertFormPermissions($ret, $formGroupPerm);
             }
+            $eleHandler = $helper->getHandler('Element');
             if (!empty($cloneFormId)) {
-                //$xformsEleHandler = $helper->getHandler('Element');
-                $criteria         = new \Criteria('form_id', $cloneFormId);
-                $count            = $xformsEleHandler->getCount($criteria);
+                $criteria = new \Criteria('form_id', $cloneFormId);
+                $count    = $eleHandler->getCount($criteria);
                 if ($count > 0) {
-                    $elements = $xformsEleHandler->getObjects($criteria);
+                    $elements = $eleHandler->getObjects($criteria);
                     foreach ($elements as $e) {
                         $values = $e->getValues();
                         unset($values['ele_id']);
                         $values['form_id'] = $ret;
                         $cloned = $xformsEleHandler->create();
                         $cloned->setVars($values);
-                        if (!$xformsEleHandler->insert($cloned)) {
+                        if (!$eleHandler->insert($cloned)) {
                             $error .= $cloned->getHtmlErrors();
                         }
                         unset($values, $cloned);
                     }
                 }
             } elseif (empty($formId)) {
-                $xformsEleHandler = $helper->getHandler('Element');
-                $error            = $xformsEleHandler->insertDefaults($ret);
+                $error = $eleHandler->insertDefaults($ret);
             }
         }
         if (!empty($error)) {
