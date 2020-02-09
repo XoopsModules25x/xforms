@@ -24,10 +24,10 @@
  * @see \XoopsModules\Xforms\Helper
  */
 
-use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\FormInput;
 use Xmf\Module\Helper;
+use Xmf\Request;
 
 require_once __DIR__ . '/admin_header.php';
 
@@ -37,6 +37,7 @@ $xformsEleHandler = $helper->getHandler('Element');
 
 $myts = \MyTextSanitizer::getInstance();
 
+/* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
 if ($formsHandler->getCount() < 1) {
     $helper->redirect('admin/main.php?op=edit', Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_GO_CREATE_FORM);
 }
@@ -174,9 +175,9 @@ switch ($op) {
     case 'delete':
         $eleId = (int)$eleId; // fix for Xmf\Request bug in XOOPS < 2.5.9 FINAL
         if (0 === (int)$eleId) {
-            $xformsHandler->redirect('admin/main.php',
-                                     Constants::REDIRECT_DELAY_NONE,
-                                     _AM_XFORMS_NOTHING_SELECTED
+            $helper->redirect('admin/main.php',
+                              Constants::REDIRECT_DELAY_NONE,
+                              _AM_XFORMS_NOTHING_SELECTED
             );
         }
         if (empty($_POST['ok'])) {
@@ -184,8 +185,8 @@ switch ($op) {
             xoops_cp_header();
             xoops_confirm(array('op' => 'delete', 'ele_id' => $eleId, 'form_id' => $formId, 'ok' => Constants::CONFIRM_OK), $_SERVER['SCRIPT_NAME'], sprintf(_AM_XFORMS_ELE_CONFIRM_DELETE, $element->getVar('ele_caption')), _YES);
         } else {
-            if (!$xoopsSecurity->check()) {
-                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             //delete the element
             $eleObj = $xformsEleHandler->get($eleId);
@@ -200,8 +201,8 @@ switch ($op) {
 
     case 'save':
         //check to make sure this is from known location
-        if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+        if (!$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         $element = $xformsEleHandler->get($eleId);
         if ($element->isNew()) {
@@ -400,7 +401,7 @@ switch ($op) {
              */
             case 'select':
                 $value[0]    = ($eleValue[0] > 0) ? (int)$eleValue[0] : 1; // size
-                $value[1]    = empty($ele_value[1]) ? Constants::DISALLOW_MULTI : Constants::ALLOW_MULTI; // multi-select
+                $value[1]    = empty($eleValue[1]) ? Constants::DISALLOW_MULTI : Constants::ALLOW_MULTI; // multi-select
 
                 $checked     = Request::getArray('checked', array());
                 $tempValue   = array();
