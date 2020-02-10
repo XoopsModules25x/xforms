@@ -673,11 +673,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
         $interMail->assign('MSG', implode('<br><br>', $msg));
     }
     if (!$interMail->send(true)) {
-        if (0 < count($err)) {
-            $err = array_merge($err, $interMail->getErrors());
-        } else {
-            $err[] = $interMail->getErrors();
-        }
+        $err = array_merge($err, $interMail->getErrors(false)); // get mail errors as an array
     }
     if ($sendCopy && (0 == count($err))) {
         $emailstoCopy = array();
