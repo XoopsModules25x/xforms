@@ -672,10 +672,13 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
     } else {
         $interMail->assign('MSG', implode('<br><br>', $msg));
     }
-    if ((count($err) < 1) && (!$interMail->send(true))) {
-        $err = array_merge($err, $interMail->getErrors());
+    if (!$interMail->send(true)) {
+        if (0 < count($err)) {
+            $err = array_merge($err, $interMail->getErrors());
+        } else {
+            $err[] = $interMail->getErrors();
+        }
     }
-
     if ($sendCopy && (0 == count($err))) {
         $emailstoCopy = array();
         if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
@@ -692,7 +695,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
 }
 
 // Redirect user to error page on error in the process
-if (count($err) > 0) {
+if (0 < count($err)) {
     if (isset($uploaded) && (count($uploaded) > 0)) {
         foreach ($uploaded as $u) {
             @unlink(XFORMS_UPLOAD_PATH . "/{$u['file']}");
