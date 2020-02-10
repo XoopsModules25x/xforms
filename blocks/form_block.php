@@ -18,12 +18,11 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 
 // instantiate module helper
 /* @var \XoopsModules\Xforms\Helper $helper */
-$helper = xHelper::getInstance();     // module helper
+$helper = Helper::getInstance();     // module helper
 require_once $helper->path('include/common.php');
 
 /**
@@ -35,7 +34,7 @@ require_once $helper->path('include/common.php');
  */
 function b_xforms_form_show($options) {
     // Instantiate module helper
-    $helper = xHelper::getInstance();
+    $helper = Helper::getInstance();
     $helper->loadLanguage('admin');
 
     $block = array();
@@ -44,11 +43,12 @@ function b_xforms_form_show($options) {
     $formsHandler = $helper::getInstance()->getHandler('Forms');
     //$formsHandler = $helper->getHandler('forms');
     $formOk  = $formsHandler->getSingleFormPermission((int)$options[0]);
-    $formObj = $formsHandler->get((int)$options[0]); // get the form object we want
-    if ($formObj instanceof XformsForms) {
-        $block   = $formObj->render();
+    if ($formOk) {
+        $formObj = $formsHandler->get((int)$options[0]); // get the form object we want
+        if ($formObj instanceof \XoopsModules\Xforms\Forms) {
+            $block   = $formObj->render();
+        }
     }
-
     return $block;
 }
 
@@ -62,7 +62,7 @@ function b_xforms_form_show($options) {
  */
 function b_xforms_form_edit($options) {
     // Instantiate module helper
-    $helper = xHelper::getInstance();     // module helper
+    $helper = Helper::getInstance();     // module helper
 
     /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
     $formsHandler = $helper::getInstance()->getHandler('Forms');

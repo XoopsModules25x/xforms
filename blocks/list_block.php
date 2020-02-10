@@ -18,17 +18,14 @@
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Helper as xHelper;
-use Xmf\Module\Helper;
-use Xmf\Module\Admin;
+use XoopsModules\Xforms\Helper;
 
 include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 // Instantiate module helper
 /* @var \XoopsModules\Xforms\Helper $helper */
-$helper = xHelper::getInstance();
+$helper = Helper::getInstance();
 require_once $helper->path('include/common.php');
 
 // Load language files
@@ -46,17 +43,17 @@ $helper->loadLanguage('main');
 function b_xforms_list_show($options) {
     // Instantiate module helper
     /* @var \XoopsModules\Xforms\Helper $helper */
-    $helper = xHelper::getInstance();
+    $helper = Helper::getInstance();
 
-    $block = array();
+    $block = [];
     /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
     $formsHandler = $helper::getInstance()->getHandler('Forms');
     //$formsHandler = $helper->getHandler('forms');
     $forms = $formsHandler->getPermittedForms();
     if (!empty($forms)) {
         foreach ($forms as $form) {
-            $block[$form->getVar('form_id')] = array('title' => $form->getVar('form_title', 's'),
-                                                      'desc' => $form->getVar('form_desc', 's'));
+            $block[$form->getVar('form_id')] = ['title' => $form->getVar('form_title', 's'),
+                                                'desc'  => $form->getVar('form_desc', 's')];
         }
     }
 
