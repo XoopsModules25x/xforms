@@ -100,6 +100,7 @@ echo '<br>'
    . '    <th class="center width10">' . _AM_XFORMS_HELP_ISSUE . '</th>'
    . '    <th class="center width10">' . _AM_XFORMS_HELP_DATE . '</th>'
    . '    <th class="center">' . _AM_XFORMS_HELP_TITLE . '</th>'
+   . '    <th class="center">' . _AM_XFORMS_HELP_DESC . '</th>'
    . '    <th class="center width10">' . _AM_XFORMS_HELP_SUBMITTER . '</th>'
    . '  </tr>'
    . '  </thead>'
@@ -122,12 +123,22 @@ if (!empty($issuesObjs)) {
 
         $dateTimeObj = \DateTime::createFromFormat(\DateTime::ISO8601, $issue->created_at);
         $dispDate    = $dateTimeObj->format('Y-m-d');
-        ++$i; // issue count
 
+        $labelDesc = '';
+        if (!empty($issue->labels)) {
+            foreach ($issue->labels as $desc) {
+                if (!empty($labelDesc)) {
+                    $labelDesc .= ', ';
+                }
+                $labelDesc .= $desc->description;
+            }
+        }
+        ++$i; // issue count
         echo '  <tr>'
            . '    <td class="' . $cssClass . ' center"><a href="' . $issue->html_url . '" target="_blank">' . (int)$issue->number . $suffix . '</a></td>'
            . '    <td class="' . $cssClass . ' center">' . $dispDate . '</td>'
            . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . htmlspecialchars($issue->title) . '</td>'
+           . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . $labelDesc . '</td>'
            . '    <td class="' . $cssClass . ' center"><a href="' . htmlspecialchars($issue->user->html_url) . '" target="_blank">' . htmlspecialchars($issue->user->login) . '</a></td>'
            . '  </tr>';
         $cssClass = ('odd' === $cssClass) ? 'even' : 'odd';

@@ -67,8 +67,9 @@ namespace XoopsModules\Xforms;
         $this->curl_response = '';
         $this->hdrSize       = 0;
         $this->dirname       = basename(dirname(__DIR__));
-        //$this->serviceUrl    = 'https://api.github.com/repos/xoops/xoopscore25/issues?state=open';
-        $this->serviceUrl    = 'https://github.com/XoopsModules25x/' . $this->dirname . '/issues?state=open';
+        //$this->serviceUrl    = 'https://api.github.com/repos/xoops/xoopscore25/issues?state:open';
+        //$this->serviceUrl    = 'https://api.github.com/repos/XoopsModules25x/' . $this->dirname . '/issues?state:open';
+        $this->serviceUrl    = 'https://api.github.com/repos/zyspec/' . $this->dirname . '/issues?state:open';
         $this->setSessPrefix($this->dirname);
         $this->err           = '';
     }
@@ -234,7 +235,7 @@ namespace XoopsModules\Xforms;
                                               CURLOPT_VERBOSE => true,
                                               CURLOPT_TIMEOUT => 5,
                                               CURLOPT_HTTPGET => true,
-                                            CURLOPT_USERAGENT => 'XOOPS-' . $this->dirname,
+                                            CURLOPT_USERAGENT => 'XOOPS-' . mb_strtoupper($this->dirname),
                                            CURLOPT_HTTPHEADER => array('Content-type:application/json',
                                                                        'If-None-Match: ' . $this->getCachedEtag()),
                                           CURLINFO_HEADER_OUT => true,
