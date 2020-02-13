@@ -14,38 +14,35 @@
  *
  * @package   \XoopsModules\Xforms\include
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
-use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\ElementRenderer;
 use XoopsModules\Xforms\FormCaptcha;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-if (empty($form) || (!$form instanceof Forms)) {
+if (empty($form) || (!$form instanceof \XoopsModules\Xforms\Forms)) {
     header('Location: index.php');
     exit();
 }
 
+/** @var \XoopsModules\Xforms\Forms $form */
+$myts = \MyTextSanitizer::getInstance();
 xoops_load('xoopsformloader');
-
 $moduleDirName = basename(dirname(__DIR__));
 
-// Instantiate
-/* @var \XoopsModules\Xforms\Helper $helper */
-$helper = xHelper::getInstance();     // module helper
-
-$xformsElesHandler = $helper::getInstance()->getHandler('Element');
-//$xformsEleHandler = $helper->getHandler('Element');
+// Instantiate Element handler
+/**
+ * @var \XoopsModules\Xforms\Helper $helper
+ * @var \XoopsModules\Xforms\ElementHandler $xformsEleHandler
+ */
+$helper = Helper::getInstance();
+$xformsEleHandler = $helper->getHandler('Element');
 require_once $helper->path('class/elementrenderer.php');
-
-if (!interface_exists('\XoopsModules\Xforms\Constants')) {
-    require_once $helper->path('class/constants.php');
-}
 
 if (Constants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
     $GLOBALS['xoopsOption']['template_main'] = 'xforms_form.tpl';
