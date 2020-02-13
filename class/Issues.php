@@ -67,9 +67,11 @@ namespace XoopsModules\Xforms;
         $this->curl_response = '';
         $this->hdrSize       = 0;
         $this->dirname       = basename(dirname(__DIR__));
-        //$this->serviceUrl    = 'https://api.github.com/repos/xoops/xoopscore25/issues?state:open';
-        //$this->serviceUrl    = 'https://api.github.com/repos/XoopsModules25x/' . $this->dirname . '/issues?state:open';
-        $this->serviceUrl    = 'https://api.github.com/repos/zyspec/' . $this->dirname . '/issues?state:open';
+        $this->baseUrl       = 'https://api.github.com/repos/zyspec/' . $this->dirname;
+        $this->issueUrl      = 'https://github.com/zyspec/xforms/issues/';
+        //$this->baseUrl       = 'https://api.github.com/repos/XoopsModules25x/';
+        //$this->issueUrl      = 'https://github.com/repos/XoopsModules25x/xforms/issues/';
+        $this->serviceUrl    = $this->baseUrl . '/issues?state:open';
         $this->setSessPrefix($this->dirname);
         $this->err           = '';
     }

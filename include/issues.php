@@ -19,17 +19,24 @@
  * @since     2.00
  */
 use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper;
 
 $GLOBALS['xoopsOption']['nocommon'] = true;
-include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+//include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+include_once dirname(dirname(dirname(__DIR__))) . '/cpheader.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName      = basename(dirname(__DIR__));
 
-if (isset($GLOBALS['xoopsConfig']['language']) && file_exists(dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php')) {
+if (isset($GLOBALS['xoopsConfig']['language'])
+    && file_exists(dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php')
+    && file_exists(dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php'))
+{
     include_once dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+    include_once dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php';
 } else {
     include_once dirname(__DIR__) . '/language/english/admin.php'; // messages will be in english
+    include_once dirname(__DIR__) . '/language/english/modinfo.php'; // messages will be in english
 }
 //session_start();
 
@@ -91,6 +98,21 @@ $rspSize    = strlen($curl_response) - $hdrSize;
 $response   = substr($curl_response, - $rspSize);
 $issuesObjs = json_decode($response); //get as objects
 
+$homeIcon = '../../Frameworks/moduleclasses/icons/32/home.png';
+// header
+//@todo move hard coded language strings to language file
+echo '<h1 class="head">Help:'
+    . '<a class="ui-corner-all tooltip" href="' . '/modules/' . $moduleDirName . '/admin/index.php' .'"'
+        . ' title="Back to the administration of ' .  _MI_XFORMS_NAME . '"> ' . _MI_XFORMS_NAME . ' <img src="' . $homeIcon . '"'
+            . ' alt="Back to the Administration of ' .  _MI_XFORMS_NAME . '">'
+   . "</a></h1>\n"
+   . "<!-- -----Help Content ---------- -->\n"
+   . "<h4 class=\"odd\">Report Issues</h4>\n"
+   . '<p class="even">'
+   . 'To report an issue with the module please go to <a href="' . $modIssues->issueUrl . '" target="_blank">' . $modIssues->issueUrl . '</a>'
+   . "</p>\n";
+
+// isue table
 echo '<br>'
    . '<h4 class="odd">' . _AM_XFORMS_ISSUES_OPEN . '</h4>'
    . '<p class="even">'
