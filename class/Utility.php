@@ -17,13 +17,12 @@ namespace XoopsModules\Xforms;
  *
  * @package   \XoopsModules\Xforms\class
  * @author    XOOPS Module Development Team
- * @author    Mamba
+ * @author    Mamba <mambax7@gmail.com>
  * @author    ZySpec <zyspec@yahoo.com>
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-use XoopsModules\Xforms;
 
  /**
   * \XoopsModules\Xforms\Utility
@@ -38,7 +37,7 @@ class Utility
     use Common\FilesManagement; // Files Management Trait
 
     /** @var array errs list of errors */
-    static $errs = array();
+    public static $errs = [];
 
     /**
      * Copies files from one directory to another, does not alter source directory files
@@ -106,7 +105,7 @@ class Utility
             if (!empty($_POST['other']['ele_' . $id])) {
                 return _MD_XFORMS_OPT_OTHER . $myts->htmlSpecialChars($_POST['other']['ele_' . $id]);
             } else {
-                $this->setErrors(sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption)), true);
+                static::setErrors(sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption)), true);
                 //global $err;
                 //$err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
             }
@@ -147,19 +146,19 @@ class Utility
      *
      * @return int
      */
-    public static function setErrors(&$item, $replace = true) {
+    public static function setErrors($item, $replace = true) {
         if (!empty($item)) {
             $item = (array)$item;
             if ($replace) {
-                $this->errs = $item;
+                static::$errs = $item;
             } else {
-                $this->errs = array_merge($this->errs, $item);
-                $this->errs = array_unique($this->errs);
+                static::$errs = array_merge(static::$errs, $item);
+                static::$errs = array_unique(static::$errs);
             }
         } else {
-            $this->errs = array(); // clears the array if $item is empty
+            static::$errs = []; // clears the array if $item is empty
         }
-        return $this->errs;
+        return static::errs;
     }
     /**
      * Get Utility class errors
@@ -168,6 +167,6 @@ class Utility
      */
     public static function getErrors() {
 
-        return $this->errs();
+        return static::$errs;
     }
 }
