@@ -20,7 +20,7 @@
  */
 use Xmf\Request;
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
@@ -31,9 +31,9 @@ $formId  = Request::getInt('form_id', 0, 'GET');
 $showAll = Request::getBool('showall', false, 'POST');
 
 $thisFileName = basename(__FILE__);
-$helper = xHelper::getInstance();
+$helper = Helper::getInstance();
 /* @var XoopsModules\Xforms\FormsHandler $ xformsFormsHandler */
-$xformsFormsHandler = $helper->getHandler('Forms');
+$formsHandler = $helper->getHandler('Forms');
 
 if (empty($formId) && (!empty($_POST['op']) && !preg_match('/^purge(_do)*$/', $op))) {
     $op = '';
@@ -47,7 +47,7 @@ switch ($op) {
         xoops_load('XoopsLocal');
 /*****************************************/
         // Get the UserData to see if there's any reports
-        if ((!$form = $xformsFormsHandler->get($formId)) || $form->isNew()) {
+        if ((!$form = $formsHandler->get($formId)) || $form->isNew()) {
             /* @var \XoopsModules\Xforms\Helper $helper */
             $helper->redirect('admin/' . $thisFileName,
                                     Constants::REDIRECT_DELAY_MEDIUM,
@@ -89,9 +89,9 @@ switch ($op) {
            . '  </thead>'
            . '  <tbody>';
 
-        $countu = $dproc = 0;
-        $ipproc = '';
-        //$firstRow   = true;
+        $countu   = $dproc = 0;
+        $ipproc   = '';
+        $cssClass = 'even';
 
         foreach ($uData as $data) {
             $dtime  = $data['udata_time'];
@@ -111,7 +111,7 @@ switch ($op) {
             $dproc  = $dtime;
             $ipproc = $ipuser;
 
-            $cssClass   = (empty($cssClass) || $cssClass === 'even') ? 'odd' : 'even';
+            $cssClass   = ($cssClass === 'even') ? 'odd' : 'even';
             $eleCaption = $myts->displayTarea($data['ele_caption'], Constants::ALLOW_HTML);
             echo '  <tr class="' . $cssClass . '">'
                . '    <td' . $border . ' class="center" nowrap>' . $ucount . '</td>'
@@ -218,8 +218,8 @@ switch ($op) {
 /*****************************************/
         if ($ok) {
             // Security check to make sure came from a good location
-            if (!$xoopsSecurity->check()) {
-                $helper->redirect('admin/' . $thisFileName, Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                $helper->redirect("admin/{$thisFileName}", Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
             }
             // Ok - delete reports
             xoops_cp_header();
@@ -255,7 +255,7 @@ switch ($op) {
         $myts = \MyTextSanitizer::getInstance();
 
 /*****************************************/
-        if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
+        if ((!$form = $formsHandler->get($formId)) && $form->isNew()) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
         } elseif (0 == $form->getVar('form_save_db')) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
@@ -311,7 +311,7 @@ switch ($op) {
                 break;
         }
 
-        $rptArray = $tmpTpl = array();
+        $rptArray = [];
         $rptTime  = null;
         $rptIp    = '';
         $blankEleArray = array_fill_keys(array_keys($elements), '&nbsp;');
@@ -384,7 +384,7 @@ switch ($op) {
 
 /*****************************************/
 
-        if ((!$form = $xformsFormsHandler->get($formId)) && $form->isNew()) {
+        if ((!$form = $formsHandler->get($formId)) && $form->isNew()) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTEXISTS);
         } elseif (0 == $form->getVar('form_save_db')) {
             redirect_header($thisFileName, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_FORM_NOTSAVE);
@@ -520,10 +520,12 @@ switch ($op) {
         break;
 
     default: // Show list of forms with reports
-/*****************************************/
         require __DIR__ . '/admin_header.php';
+        /**
+         * @var string $moduleDirName // defined in ./include/common.php
+         * @var string $mypathIcon16  // defined in ./include/common.php
+         */
         $myts = \MyTextSanitizer::getInstance();
-/*****************************************/
 
         xoops_cp_header();
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url('browse.php?modules/'
@@ -546,7 +548,7 @@ switch ($op) {
         // Get all those forms from the Form table
         $perpage = (int)$helper->getConfig('perpage'); // get number of items to show per page
 
-        $xformsDisplay = new \stdClass;
+        $xformsDisplay          = new \stdClass;
         $xformsDisplay->start   = Request::getInt('start', 0);
         $xformsDisplay->perpage = ($perpage > 0) ? $perpage: Constants::FORMS_PER_PAGE_DEFAULT;
         $xformsDisplay->order   = 'ASC';
@@ -560,12 +562,12 @@ switch ($op) {
         $criteria->add(new \Criteria('form_id', '(' . implode(',', $formList) . ')', 'IN'));
         $criteria->setSort($xformsDisplay->sort);
         $criteria->order = $xformsDisplay->order;
-        $ttlFormCount = $xformsFormsHandler->getCount($criteria); // count all forms with reports
+        $ttlFormCount = $formsHandler->getCount($criteria); // count all forms with reports
 
         // Get the forms we want
         $criteria->setStart($xformsDisplay->start);
         $criteria->setLimit($xformsDisplay->perpage);
-        $forms = $xformsFormsHandler->getAll($criteria);
+        $forms = $formsHandler->getAll($criteria);
 
         $formList = '<select name="form_id" id="inputSel" size="1" style="width: 25em;">';
         foreach ($forms as $formItem) {
@@ -717,7 +719,7 @@ switch ($op) {
                            .    $GLOBALS['xoops']->buildUrl('/modules/xforms/admin/main.php',
                                                             array('op' => 'edit', 'form_id' => $id))
                            . '">'
-                           .   '<img src="' . Admin::iconUrl('edit.png', '16') . '" '
+                           .   '<img src="' . \Xmf\Module\Admin::iconUrl('edit.png', '16') . '" '
                            .     'title="' . _AM_XFORMS_ACTION_EDITFORM . '" '
                            .     'alt="' . _AM_XFORMS_ACTION_EDITFORM . '"'
                            .   '>'
