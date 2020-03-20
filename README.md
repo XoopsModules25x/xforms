@@ -6,7 +6,7 @@
 [![Latest Pre-Release](https://img.shields.io/github/tag/XoopsModules25x/xforms.svg?style=flat)](https://github.com/XoopsModules25x/xforms/tags/)
 [![Latest Version](https://img.shields.io/github/release/XoopsModules25x/xforms.svg?style=flat)](https://github.com/XoopsModules25x/xforms/releases/)
 
-**xForms** is a module for XOOPS that offers widely customizable forms. xForms generates different kind of form elements e.g. text areas, check boxes for webmasters to create custom forms like "Contact Us", questionaires, surveys, quiz forms, registration forms, quote request forms, etc.
+**xForms** is a module for XOOPS that offers widely customizable forms. xForms generates different kind of form elements e.g. text areas, check boxes for webmasters to create custom forms like "Contact Us", questionnaires, surveys, quiz forms, registration forms, quote request forms, etc.
 
 Results can be stored in the database and emailed if desired.
 

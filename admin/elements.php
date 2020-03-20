@@ -314,7 +314,7 @@ switch ($op) {
                             } else {
                                 foreach ($value[2] as $key=>$j) {
                                 //while ($j = each($value[2])) {
-                                    $newVars =!empty($eleValue[$id]) ? array($key => 1) : array($key => 0);
+                                    $newVars = empty($eleValue[$id]) ? array($key => 0) : array($key => 1);
                                 }
                             }
                         }

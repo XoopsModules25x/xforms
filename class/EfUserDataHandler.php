@@ -33,7 +33,7 @@ class EfUserDataHandler extends \XoopsPersistableObjectHandler
 {
     /**
      *
-     * @var XoopsDatabase
+     * @var \XoopsDatabase
      */
     public $db;
     /**

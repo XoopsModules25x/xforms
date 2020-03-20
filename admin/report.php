@@ -19,6 +19,7 @@
  * @since     1.30
  */
 use Xmf\Request;
+use Xmf\Module\Admin;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper;
 
@@ -719,7 +720,7 @@ switch ($op) {
                            .    $GLOBALS['xoops']->buildUrl('/modules/xforms/admin/main.php',
                                                             array('op' => 'edit', 'form_id' => $id))
                            . '">'
-                           .   '<img src="' . \Xmf\Module\Admin::iconUrl('edit.png', '16') . '" '
+                           .   '<img src="' . Admin::iconUrl('edit.png', '16') . '" '
                            .     'title="' . _AM_XFORMS_ACTION_EDITFORM . '" '
                            .     'alt="' . _AM_XFORMS_ACTION_EDITFORM . '"'
                            .   '>'

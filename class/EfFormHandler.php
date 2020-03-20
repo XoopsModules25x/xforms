@@ -31,7 +31,7 @@ class EfFormHandler extends \XoopsPersistableObjectHandler
 {
     /**
      *
-     * @var XoopsDatabase
+     * @var \XoopsDatabase
      */
     public $db;
     /**

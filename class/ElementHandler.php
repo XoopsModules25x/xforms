@@ -91,6 +91,7 @@ class ElementHandler extends \XoopsPersistableObjectHandler
     {
         $dFile = xHelper::getInstance()->path('admin/default_elements.php');
         include $dFile;
+        /** @var array $defaults */
         if (count($defaults) > 0) {
             $error = '';
             foreach ($defaults as $d) {

@@ -107,7 +107,7 @@ class UserDataHandler extends \XoopsPersistableObjectHandler
                 $criteria         = new \CriteriaCompo();
                 $criteria->add(new \Criteria('ele_id', '(' . implode(',', $eleIdArray) . ')', 'IN'));
                 $criteria->setSort('ele_order');
-                $criteria->order  = 'ASC'; //@todo - remove this hack if this has been fixed in XOOPS core
+                $criteria->order  = 'ASC';
                 $uDataEleArray    = $xformsEleHandler->getAll($criteria, array('ele_type', 'ele_caption', 'ele_order'), false);
 
                 foreach ($userDataArray as $thisDataObj) {

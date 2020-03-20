@@ -77,7 +77,7 @@ function xoops_module_install_xforms(\XoopsModule $module)
     $uploadPathObj = new \SplFileInfo($configurator->paths['uploadPath']);
     if ((false === $uploadPathObj->isDir()) && (false === mkdir($configurator->paths['uploadPath'], 0755, true))) {
         $success = false;
-        $xoopsModule->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_UPLOAD_PATH, $configurator->paths['uploadPath']));
+        $module->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_UPLOAD_PATH, $configurator->paths['uploadPath']));
     } else {
         // Create index file in new directories
         $newFile = $configurator->paths['uploadPath']. '/index.html';
@@ -87,7 +87,7 @@ function xoops_module_install_xforms(\XoopsModule $module)
         $fileObj = null; // destroy SplFileObject so it closes file
         if (null === $success) {
             $success = false;
-            $xoopsModule->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_INDEX, $newFile));
+            $module->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_INDEX, $newFile));
             //break;
         }
         $fileInfo = null; // destroy this splFileInfo object
