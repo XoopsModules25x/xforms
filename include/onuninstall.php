@@ -14,16 +14,17 @@
  *
  * @package   \XoopsModules\Xforms\include
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link http://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 
 /**
  * @internal {Make sure you PROTECT THIS FILE}
  */
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\Utility;
 
 if ((!defined('XOOPS_ROOT_PATH'))
@@ -56,7 +57,7 @@ function xoops_module_pre_uninstall_xforms(\XoopsModule $module)
 function xoops_module_uninstall_xforms(\XoopsModule $module)
 {
     /* @var \XoopsModules\Xforms\Helper $helper */
-    $helper = xHelper::getInstance();
+    $helper = Helper::getInstance();
     $helper->loadLanguage('modinfo');
 
     // Remove uploads directory (and all files in the directory)

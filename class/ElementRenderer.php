@@ -17,16 +17,17 @@ namespace XoopsModules\Xforms;
  *
  * @package   \XoopsModules\Xforms\class
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\FormInput;
 use XoopsModules\Xforms\FormRaw;
-use Xmf\Module\Helper;
+use Xmf\Module\Helper as sHelper;
 
 /**
  * \XoopsModules\Xforms\ElementRenderer class to dislay form elements
@@ -84,7 +85,7 @@ class ElementRenderer
     {
         // Instantiate
         /* @var \XoopsModules\Xforms\Helper $helper */
-        $helper     = xHelper::getInstance(); // module helper
+        $helper     = Helper::getInstance(); // module helper
         $myts       = \MyTextSanitizer::getInstance();
         $eleCaption = $myts->displayTarea($this->ele->getVar('ele_caption'), Constants::ALLOW_HTML);
         $eleValue   = $this->ele->getVar('ele_value');
@@ -230,7 +231,7 @@ class ElementRenderer
                         $eleCaption, $myts->displayTarea($eleValue[0], Constants::ALLOW_HTML), $formEleId
                         );
                 } else {
-                    $sysHelper = Helper::getHelper('system');
+                    $sysHelper = sHelper::getHelper('system');
                     $formHtmlConfigs = array('editor' => $sysHelper->getConfig('general_editor'),
                                                'rows' => 8,
                                                'cols' => 90,
@@ -395,7 +396,7 @@ class ElementRenderer
                 }
 
                 //check to see if profile module is active
-                $profileHelper = Helper::getHelper('profile');
+                $profileHelper = sHelper::getHelper('profile');
                 if (false !== $profileHelper) {
                     $profileHandler = $profileHelper->getHandler('profile');
                     $xpr = (isset($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof \XoopsUser) ? $profileHandler->get($GLOBALS['xoopsUser']->getVar('uid')) : $profileHandler->create();
@@ -589,7 +590,7 @@ class ElementRenderer
             return false;
         }
         /* @var \XoopsModules\Xforms\Helper $helper */
-        $helper = xHelper::getInstance();
+        $helper = Helper::getInstance();
 
         $s   = explode('|', preg_replace('/[\{\}]/', '', $s));
 //        $len = !empty($s[1]) ? $s[1] : $GLOBALS['xoopsModuleConfig']['t_width'];

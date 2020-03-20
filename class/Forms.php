@@ -17,12 +17,13 @@ namespace XoopsModules\Xforms;
  *
  * @package   \XoopsModules\Xforms\class
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\FormCaptcha;
 use XoopsModules\Xforms\ElementRenderer;
 
@@ -107,7 +108,7 @@ class Forms extends \XoopsObject
         $editLink = '';
         // Instantiate
         /* @var \XoopsModules\Xforms\Helper $helper */
-        $helper = xHelper::getInstance();     // module helper
+        $helper = Helper::getInstance();     // module helper
         if (isset($GLOBALS['xoopsUser']) && $helper->isUserAdmin()) {
             $editLink = array('location'      => $helper->url('admin/main.php')
                                                . '?op=edit&form_id='
@@ -131,7 +132,7 @@ class Forms extends \XoopsObject
     {
         // Instantiate
         /* @var \XoopsModules\Xforms\Helper $helper */
-        $helper = xHelper::getInstance();     // module helper
+        $helper = Helper::getInstance();     // module helper
         $myts = \MyTextSanitizer::getInstance();
 
         if ((Constants::FORM_HIDDEN == $this->getVar('form_order'))

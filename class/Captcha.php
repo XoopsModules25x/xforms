@@ -17,13 +17,14 @@ namespace XoopsModules\Xforms;
  *
  * @package   \XoopsModules\Xforms\class
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper as Helper;
 
 xoops_load('xoopscaptcha');
 
@@ -50,7 +51,7 @@ class Captcha extends \XoopsCaptcha
 
         // instantiate module helper
         /* @var \XoopsModules\Xforms\Helper $helper */
-        $helper = xHelper::getInstance();
+        $helper = Helper::getInstance();
 
         // get this module's Preferences for captcha
         $xformsCaptchaConfig = $helper->getConfig('captcha');

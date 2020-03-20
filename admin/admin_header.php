@@ -17,7 +17,7 @@
  * @author    XOOPS Module Development Team
  * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since     1.30
+ * @link      https://github.com/XoopsModules25x/xforms
  *
  * @see \Xmf\Module\Helper
  * @see \Xmf\Module\Admin
@@ -27,11 +27,15 @@ require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require_once dirname(__DIR__) . '/include/common.php';
 
-/* @var \Xmf\Module\Admin $adminObject */
+$moduleDirName = basename(dirname(__DIR__));
+
+/**
+ * @var \Xmf\Module\Admin $adminObject
+ * @var \XoopsModules\Xforms\Helper $helper
+ * @var \XoopsModules\Xforms\FormsHandler $formsHandler
+ */
 $adminObject = \Xmf\Module\Admin::getInstance();
-/* @var \XoopsModules\Xforms\Helper $helper */
 $helper = \XoopsModules\Xforms\Helper::getInstance();
-/* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
 $formsHandler = $helper->getHandler('Forms');
 
 // Load language files

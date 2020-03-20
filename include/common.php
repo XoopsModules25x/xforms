@@ -14,12 +14,13 @@
  *
  * @package   \XoopsModules\Xforms\include
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 use Xmf\Module\Helper\Session;
 
 require dirname(__DIR__) . '/preloads/autoloader.php';
@@ -30,7 +31,7 @@ $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
 // Instantiate Module Helper
-$helper = xHelper::getInstance();
+$helper = Helper::getInstance();
 
 if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));

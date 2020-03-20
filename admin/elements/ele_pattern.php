@@ -19,13 +19,13 @@
  * @since     2.00
  */
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\FormInput;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /* @var \XoopsModules\Xforms\Helper $helper */
-$helper = xHelper::getInstance();
+$helper = Helper::getInstance();
 
 /**
  * Pattern element

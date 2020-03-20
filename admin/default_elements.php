@@ -15,20 +15,20 @@
  *
  * @package   \XoopsModules\Xforms\admin
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link http://xoops.org XOOPS Project}
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since     1.30
+ * @link      https://github.com/XoopsModules25x/xforms
  *
  * @see \XoopsModules\Xforms\Helper
  */
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 // Instantiate classes
 /* @var \XoopsModules\Xforms\Helper $helper */
-$helper   = xHelper::getInstance();     // module helper
+$helper   = Helper::getInstance();     // module helper
 $defaults = array(0 => array('caption' => _AM_XFORMS_DEFAULT_ELE_YOURNAME,
                                  'req' => true,
                      'ele_display_row' => 1,

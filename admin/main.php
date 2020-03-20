@@ -17,14 +17,21 @@
  * @author    XOOPS Module Development Team
  * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since     1.30
+ * @link     https://github.com/XoopsModules25x/xforms
  */
 use Xmf\Request;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\FormInput;
 
 require_once __DIR__ . '/admin_header.php';
-$myts = \MyTextSanitizer::getInstance();
+/**
+ * Vars defined via inclusion of ./admin_header.php
+ * @var string $moduleDirName
+ * @var \Xmf\Module\Admin $adminObject
+ * @var \XoopsModules\Xforms\Helper $helper
+ * @var \XoopsModules\Xforms\FormsHandler $formsHandler
+ * @var string $mypathIcon16
+ */
 
 $op        = Request::getCmd('op', 'list');
 $showAll   = Request::getBool('showall', false, 'POST');

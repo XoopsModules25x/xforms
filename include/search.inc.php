@@ -14,12 +14,13 @@
  *
  * @package   \XoopsModules\Xforms\search
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 
 //defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
@@ -42,10 +43,9 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
 {
     $ret = array();
     if (0 == (int)$uid) {
-        /* @var \XoopsModules\Xforms\Helper $helper */
-        $helper             = xHelper::getInstance();
+        /** @var \XoopsModules\Xforms\Helper $helper */
+        $helper       = Helper::getInstance();
         $formsHandler = $helper::getInstance()->getHandler('Forms');
-        //$formsHandler = $helper->getHandler('Forms');
 
         // get all forms user has rights to view
         if ($permittedForms = $formsHandler->getPermittedForms()) {

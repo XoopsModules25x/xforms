@@ -14,13 +14,12 @@
  *
  * @package   \XoopsModules\Xforms\admin\elements
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-20209 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since     1.30
+ * @link      https://github.com/XoopsModules/xforms
  */
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Helper as xHelper;
 use XoopsModules\Xforms\ElementRenderer;
 use XoopsModules\Xforms\FormInput;
 use Xmf\Module\Admin;
@@ -28,9 +27,13 @@ use Xmf\Request;
 
 require __DIR__ . '/admin_header.php';
 
-/* @var \XoopsModules\Xforms\Helper $helper */
-/* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
-/* @var \XoopsModules\Xforms\ElementHandler $xformsEleHandler */
+/**
+ * @var string $moduleDirName
+ * @var \XoopsModules\Xforms\Helper $helper
+ * @var \XoopsModules\Xforms\FormsHandler $formsHandler
+ * @var \XoopsModules\Xforms\ElementHandler $xformsEleHandler
+ * @var \Xmf\Module\Admin $adminObject
+ */
 $xformsEleHandler = $helper->getHandler('Element');
 
 $op = Request::getCmd('op', '', 'POST');
@@ -65,8 +68,8 @@ switch ($op) {
            . '  </form>'
            . '</div>'
            . '<form action="' . $_SERVER['SCRIPT_NAME'] . '" method="post">'
-             /** var XoopsSecurity $xoopsSecurity */
-           . $xoopsSecurity->getTokenHTML()
+             /** var XoopsSecurity $GLOBALS['xoopsSecurity'] */
+           . $GLOBALS['xoopsSecurity']->getTokenHTML()
            . '<table class="outer width100 bspacing1">'
            . '  <thead>'
            . '  <tr><th colspan="7">' . sprintf(_AM_XFORMS_ELEMENTS_OF_FORM, $form->getVar('form_title')) . '</th></tr>'
@@ -175,8 +178,8 @@ switch ($op) {
 
     case 'save': // Save element(s)
         // Check to make sure this is from known location
-        if (!$xoopsSecurity->check()) {
-            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+        if (!$GLOBALS['xoopsSecurity']->check()) {
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
         }
         $formId =Request::getInt('form_id', 0, 'POST');
         $formId = (int)$formId;  // to fix Xmf\Request bug in XOOPS < 2.5.9

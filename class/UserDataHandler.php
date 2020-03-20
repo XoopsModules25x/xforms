@@ -17,12 +17,13 @@ namespace XoopsModules\Xforms;
  *
  * @package   \XoopsModules\Xforms\class
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
- */
+ * @link      https://github.com/XoopsModules25x/xforms
+*/
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 use Xmf\Module;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
@@ -102,7 +103,7 @@ class UserDataHandler extends \XoopsPersistableObjectHandler
                 }
 
                 // get element info from dB
-                $xformsEleHandler = xHelper::getInstance()->getHandler('Element');
+                $xformsEleHandler = Helper::getInstance()->getHandler('Element');
                 $eleIdArray       = array_unique($eleIdArray);
                 $criteria         = new \CriteriaCompo();
                 $criteria->add(new \Criteria('ele_id', '(' . implode(',', $eleIdArray) . ')', 'IN'));
