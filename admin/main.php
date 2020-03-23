@@ -596,8 +596,8 @@ switch ($op) {
         $formActive       = Request::getInt('form_active', 0, 'POST');
 
         //validate list of other email addresses
-        $sToO = (!empty($FormSendToOther)) ? explode(';', $formSendToOther) : array();
-        $valArray = array();
+        $sToO = (!empty($FormSendToOther)) ? explode(';', $formSendToOther) : [];
+        $valArray = [];
         foreach ($sToO as $oEmail) {
             if ($valEmail = filter_var($oEmail, FILTER_VALIDATE_EMAIL)) {
                 $valArray[] = $valEmail;
