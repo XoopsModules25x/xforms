@@ -71,7 +71,9 @@ if (!$uploadChecked) {
         //create Upload directory, if it does not exist
         if (!is_dir(XFORMS_UPLOAD_PATH)) {
             $oldumask = umask(0);
-            mkdir(XFORMS_UPLOAD_PATH);
+            if (!mkdir($concurrentDirectory = XFORMS_UPLOAD_PATH) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
             umask($oldumask);
         }
         if (is_dir(XFORMS_UPLOAD_PATH) && !is_writable(XFORMS_UPLOAD_PATH)) {

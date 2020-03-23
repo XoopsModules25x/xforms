@@ -75,7 +75,7 @@ function xoops_module_install_xforms(\XoopsModule $module)
     //$uploadPathObj = new \SplFileInfo($moduleUploadPath);
     //if ((false === $uploadPathObj->isDir()) && (false === mkdir($moduleUploadPath, 0755, true))) {
     $uploadPathObj = new \SplFileInfo($configurator->paths['uploadPath']);
-    if ((false === $uploadPathObj->isDir()) && (false === mkdir($configurator->paths['uploadPath'], 0755, true))) {
+    if ((false === $uploadPathObj->isDir()) && !mkdir($concurrentDirectory = $configurator->paths['uploadPath'], 0755, true) && !is_dir($concurrentDirectory)) {
         $success = false;
         $module->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_UPLOAD_PATH, $configurator->paths['uploadPath']));
     } else {
