@@ -31,7 +31,7 @@ require_once $helper->path('include/common.php');
  *
  * @param array $options
  *
- * @return boolean
+ * @return bool
  */
 function b_xforms_form_show($options)
 {

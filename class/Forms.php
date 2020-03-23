@@ -126,7 +126,7 @@ class Forms extends \XoopsObject
      * Render the Form
      *
      * @since v2.00 ALPHA 2
-     * @return boolean|array false on error|array containing variables for template
+     * @return bool|array false on error|array containing variables for template
      */
     public function render()
     {

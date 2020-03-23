@@ -113,7 +113,7 @@ class FormInput extends \XoopsFormElement
     /**
      * maximum columns for a field
      *
-     * @var integer
+     * @var int
      * @access private
      */
     private $maxcols = 6;
@@ -330,7 +330,7 @@ class FormInput extends \XoopsFormElement
      *
      * @param string $name name of the attribute
      *
-     * @return boolean
+     * @return bool
      */
     public function hasAttribute($name)
     {
@@ -875,7 +875,7 @@ class FormInput extends \XoopsFormElement
     /**
      * getMaxcols - get the maximum columns for a field
      *
-     * @return integer
+     * @return int
      */
     public function getMaxcols()
     {

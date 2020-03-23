@@ -48,7 +48,7 @@ class Utility extends Common\SysUtility
      * @param array $exceptions don't copy these files
      * @param bool $okNotExist true if source (from) directory doesn't exist | false if source must exist
      *
-     * @return boolean
+     * @return bool
      */
 /**
     function copyFiles($fromDir, $toDir, $exceptions = array(), $okNotExist = false) {
