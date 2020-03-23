@@ -53,7 +53,7 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
 
     $success = true;
     $success = $utility::checkVerXoops($module);
-    $success = $utility::checkVerPHP($module);
+    $success = $utility::checkVerPhp($module);
     if (!$success) {
         return false;
     }

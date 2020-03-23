@@ -49,7 +49,7 @@ function xoops_module_pre_install_xforms(\XoopsModule $module)
     /* @var \XoopsModules\Xforms\Utility $utility */
     $utility      = new Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
-    $phpSuccess   = $utility::checkVerPHP($module);
+    $phpSuccess   = $utility::checkVerPhp($module);
 
     return $xoopsSuccess && $phpSuccess;
 }
