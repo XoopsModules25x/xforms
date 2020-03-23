@@ -62,7 +62,8 @@ class FormsHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Set the form inactive and update it in the database
-     * @param bool $force true to force write to database independent of security settings
+     * @param \XoopsModules\Xforms\Forms $form
+     * @param bool                       $force true to force write to database independent of security settings
      *
      * @return bool true on success
      */
@@ -83,7 +84,8 @@ class FormsHandler extends \XoopsPersistableObjectHandler
 
     /**
      * Set the form active and update it in the database
-     * @param bool $force true to force write to database independent of security settings
+     * @param \XoopsModules\Xforms\Forms $form
+     * @param bool                       $force true to force write to database independent of security settings
      *
      * @return bool true on success
      */

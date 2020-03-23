@@ -95,8 +95,7 @@ class Issues
      * Function to get a header from the header array
      *
      * @param string $hdr
-     * @param array $hdrArray
-     * @param bool $asArray
+     * @param bool   $asArray
      *
      * @return array|false array($hdr => value) or false if not found
      */
@@ -202,7 +201,7 @@ class Issues
     /**
      * Get the SESSION variable name for Array key
      *
-     * @return string
+     * @return array
      */
     public function getsKeyArray()
     {

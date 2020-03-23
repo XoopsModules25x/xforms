@@ -126,15 +126,15 @@ class Utility extends Common\SysUtility
         return html_entity_decode($tpl_output);
     }
 
-    /**
-     * Callback function to convert item to integer
-     *
-     * Allows use of PHP array_walk to also preserve keys
-     *
-     * @param string|int $item
-     *
-     * @return int
-     */
+        /**
+         * Callback function to convert item to integer
+         *
+         * Allows use of PHP array_walk to also preserve keys
+         *
+         * @param string|int $item
+         *
+         * @return void
+         */
     public static function intArray(&$item)
     {
         $item = (int)$item;

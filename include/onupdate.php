@@ -39,7 +39,8 @@ if ((!defined('XOOPS_ROOT_PATH'))
 /**
  * Upgrade works to update Xforms from previous versions
  *
- * @param string $prev_version version * 100
+ * @param \XoopsModule $module
+ * @param string       $prev_version version * 100
  *
  * @return bool
  * @uses \XoopsModules\Xforms\Utility
