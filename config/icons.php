@@ -5,7 +5,7 @@ function getIcons()
     $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
 
     return (object)[
-        'name'  => mb_strtoupper($moduleDirName) . ' Module Configurator',
+        'name'  => $moduleDirNameUpper . ' Module Configurator',
         'icons' => [
             'edit'    => "<img src='" . $pathIcon16 . "/edit.png'  alt=" . _EDIT . "' align='middle'>",
             'delete'  => "<img src='" . $pathIcon16 . "/delete.png' alt='" . _DELETE . "' align='middle'>",

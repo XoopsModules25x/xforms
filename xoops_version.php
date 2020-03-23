@@ -18,7 +18,7 @@
  * @author    Dylian Melgert
  * @author    Juan Garcés
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.00
  */
@@ -32,9 +32,9 @@ require_once __DIR__ . '/preloads/autoloader.php';
 $moduleDirName = basename(__DIR__);
 
 /*  @var array $modversion */
-$modversion['version']       = '2.00';
+$modversion['version']       = '2.00.0';
 $modversion['module_status'] = 'Alpha 2';
-$modversion['release_date']  = '2019/12/12';
+$modversion['release_date']  = '2019/12/22';
 $modversion['name']          = _MI_XFORMS_NAME;
 $modversion['description']   = _MI_XFORMS_DESC;
 $modversion['author']        = 'Brandycoke Productions, Dylian Melgert, Juan Garcés';
@@ -44,9 +44,8 @@ $modversion['license_url']   = 'www.gnu.org/licenses/gpl-2.0.html';
 $modversion['official']      = 0;
 $modversion['image']         = 'assets/images/logoModule.png';
 $modversion['dirname']       = $moduleDirName;
-//$modversion['dirmoduleadmin'] = '/Frameworks/moduleclasses/moduleadmin';
-//$modversion['icons16']        = '../../Frameworks/moduleclasses/icons/16';
-//$modversion['icons32']        = '../../Frameworks/moduleclasses/icons/32';
+$modversion['modicons16']    = 'assets/images/icons/16';
+$modversion['modicons32']    = 'assets/images/icons/32';
 
 // Help file(s)
 $modversion['help']        = 'page=help';
@@ -203,7 +202,12 @@ $modversion['config'] = [
         'formtype'    => 'select_multi',
         'valuetype'   => 'array',
         'default'     => ['user', 'ip', 'agent'],
-        'options'     => [_MI_XFORMS_MOREINFO_USER => 'user', _MI_XFORMS_MOREINFO_IP => 'ip', _MI_XFORMS_MOREINFO_AGENT => 'agent', _MI_XFORMS_MOREINFO_FORM => 'form'],
+        'options'     => [
+            _MI_XFORMS_MOREINFO_USER  => 'user',
+            _MI_XFORMS_MOREINFO_IP    => 'ip',
+            _MI_XFORMS_MOREINFO_AGENT => 'agent',
+            _MI_XFORMS_MOREINFO_FORM  => 'form',
+        ],
     ],
 
     [
@@ -213,7 +217,7 @@ $modversion['config'] = [
         'formtype'    => 'select',
         'valuetype'   => 'text',
         'default'     => '-----',
-        'options'     => array_flip(XoopsLists::getCountryList()),
+        'options'     => array_flip(\XoopsLists::getCountryList()),
     ],
 
     [

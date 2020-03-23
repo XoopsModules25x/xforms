@@ -1,7 +1,6 @@
-
 <script>
-    $(function(){
-      $("#includedContent").load("<{$xoops_url}>/modules/xforms/include/issues.php");
+    $(function () {
+        $("#includedContent").load("<{$xoops_url}>/modules/xforms/include/issues.php");
     });
 </script>
 <div id="help-template" class="outer">

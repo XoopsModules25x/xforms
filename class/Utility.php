@@ -20,25 +20,21 @@ namespace XoopsModules\Xforms;
  * @author    XOOPS Module Development Team
  * @author    Mamba
  * @author    ZySpec <zyspec@yahoo.com>
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
 
 use XoopsModules\Xforms;
+use XoopsModules\Xforms\Common;
+use XoopsModules\Xforms\Constants;
 
 /**
- * \XoopsModules\Xforms\Utility
- *
- * Static utility class to provide common functionality
+ * Class Utility
  */
-class Utility
+class Utility extends Common\SysUtility
 {
-    use Common\VersionChecks; //checkVerXoops, checkVerPhp Traits
-
-    use Common\ServerStats; // getServerStats Trait
-
-    use Common\FilesManagement; // Files Management Trait
+    //--------------- Custom module methods -----------------------------
 
     /** @var array errs list of errors */
     public static $errs = [];
@@ -50,7 +46,7 @@ class Utility
      * @param mixed $id
      * @param mixed $caption
      *
-     * @return boolean
+     * @return bool
      * @deprecated
      */
     /**
@@ -110,7 +106,7 @@ class Utility
         if (!empty($_POST['other']['ele_' . $id])) {
             return _MD_XFORMS_OPT_OTHER . $myts->htmlSpecialChars($_POST['other']['ele_' . $id]);
         }
-        $this->setErrors(sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption)), true);
+        self::setErrors(sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption)), true);
         //global $err;
         //$err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
 
@@ -138,7 +134,7 @@ class Utility
      *
      * @param string|int $item
      *
-     * @return int
+     * @return void
      */
     public static function intArray(&$item)
     {
@@ -148,14 +144,12 @@ class Utility
     /**
      * Set errors for the Utility class
      *
-     * @param string|array item
-     * @param bool replace true to replace errors, false to add item to list of errors
      * @param mixed $item
      * @param mixed $replace
      *
      * @return int
      */
-    public static function setErrors(&$item, $replace = true)
+    public static function setErrors($item, $replace = true)
     {
         if (!empty($item)) {
             $item = (array)$item;
@@ -179,6 +173,6 @@ class Utility
      */
     public static function getErrors()
     {
-        return $this->errs();
+        return $this->errs;
     }
 }

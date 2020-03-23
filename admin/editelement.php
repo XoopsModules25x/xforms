@@ -15,7 +15,7 @@
  *
  * @package   \XoopsModules\Xforms\admin
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  *
@@ -24,6 +24,7 @@
  * @see       \Xmf\Module\Admin
  * @see       \XoopsModules\Xforms\Helper
  */
+
 use Xmf\Request;
 use Xmf\Module\Helper;
 use XoopsModules\Xforms;

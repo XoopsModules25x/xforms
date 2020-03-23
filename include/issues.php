@@ -15,7 +15,7 @@
  *
  * @package   \XoopsModules\Xforms\include
  * @author    ZySpec <zyspec@yahoo.com>
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */

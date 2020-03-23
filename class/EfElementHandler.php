@@ -17,8 +17,8 @@ namespace XoopsModules\Xforms;
  *
  * @package   XoopsModules\Xforms\admin\class
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2017 {@link http://xoops.org XOOPS Project}
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
