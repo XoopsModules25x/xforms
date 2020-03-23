@@ -145,7 +145,7 @@ switch ($op) {
             $helper->redirect(
                 'admin/index.php',
                                     Constants::REDIRECT_DELAY_MEDIUM,
-                                    sprintf(_AM_XFORMS_ERR_BAD_ELEMENT, htmlspecialchars($eleType))
+                                    sprintf(_AM_XFORMS_ERR_BAD_ELEMENT, htmlspecialchars($eleType, ENT_QUOTES | ENT_HTML5))
             );
         }
 

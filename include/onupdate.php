@@ -293,7 +293,7 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
         }
     } else {
         // Couldn't find template directory - that's bad
-        $module->setErrors(sprintf(_MI_XFORMS_INST_DIR_NOT_FOUND, htmlspecialchars($directory)));
+        $module->setErrors(sprintf(_MI_XFORMS_INST_DIR_NOT_FOUND, htmlspecialchars($directory, ENT_QUOTES | ENT_HTML5)));
         $success = false;
     }
 
@@ -319,7 +319,7 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
             }
         } else {
             // Couldn't find ./admin directory - that's bad
-            $module->setErrors(sprintf(_MI_XFORMS_INST_DIR_NOT_FOUND, htmlspecialchars($directory)));
+            $module->setErrors(sprintf(_MI_XFORMS_INST_DIR_NOT_FOUND, htmlspecialchars($directory, ENT_QUOTES | ENT_HTML5)));
             $success = false;
         }
     }

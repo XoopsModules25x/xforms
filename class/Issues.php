@@ -163,7 +163,7 @@ class Issues
      */
     public function setSessPrefix($prefix)
     {
-        $this->sessPrefix = htmlspecialchars($prefix) . '_';
+        $this->sessPrefix = htmlspecialchars($prefix, ENT_QUOTES | ENT_HTML5) . '_';
 
         return $this->sessPrefix;
     }

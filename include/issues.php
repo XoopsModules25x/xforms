@@ -159,16 +159,16 @@ if (!empty($issuesObjs)) {
         echo '  <tr>'
            . '    <td class="' . $cssClass . ' center"><a href="' . $issue->html_url . '" target="_blank">' . (int)$issue->number . $suffix . '</a></td>'
            . '    <td class="' . $cssClass . ' center">' . $dispDate . '</td>'
-           . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . htmlspecialchars($issue->title) . '</td>'
+           . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . htmlspecialchars($issue->title, ENT_QUOTES | ENT_HTML5) . '</td>'
            . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . $labelDesc . '</td>'
-           . '    <td class="' . $cssClass . ' center"><a href="' . htmlspecialchars($issue->user->html_url) . '" target="_blank">' . htmlspecialchars($issue->user->login) . '</a></td>'
+           . '    <td class="' . $cssClass . ' center"><a href="' . htmlspecialchars($issue->user->html_url, ENT_QUOTES | ENT_HTML5) . '" target="_blank">' . htmlspecialchars($issue->user->login, ENT_QUOTES | ENT_HTML5) . '</a></td>'
            . '  </tr>';
         $cssClass = ('odd' === $cssClass) ? 'even' : 'odd';
     }
 }
 
 if (!empty($modIssues->getError())) {
-    echo '    <tr><td colspan="4" class="' . $cssClass . ' center bold italic">' . htmlspecialchars($modIssues->getError()) . '</td></tr>';
+    echo '    <tr><td colspan="4" class="' . $cssClass . ' center bold italic">' . htmlspecialchars($modIssues->getError(), ENT_QUOTES | ENT_HTML5) . '</td></tr>';
 } elseif (0 == $i) { // no issues found
     echo '    <tr><td colspan="4" class="' . $cssClass . ' center bold italic">' . _AM_XFORMS_ISSUES_NONE . '</td></tr>';
 }
