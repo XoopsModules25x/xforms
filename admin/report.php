@@ -719,7 +719,7 @@ switch ($op) {
                            .     'title="' . _AM_XFORMS_ACTION_EDITFORM . '" '
                            .     'alt="' . _AM_XFORMS_ACTION_EDITFORM . '"'
                            .   '>'
-                           . '</a>';
+                           . '</a>');
                     }
                     echo '</tr>';
                 }
