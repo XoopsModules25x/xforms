@@ -113,7 +113,7 @@ switch ($op) {
             $dproc  = $dtime;
             $ipproc = $ipuser;
 
-            $cssClass   = ($cssClass === 'even') ? 'odd' : 'even';
+            $cssClass   = ('even' === $cssClass) ? 'odd' : 'even';
             $eleCaption = $myts->displayTarea($data['ele_caption'], Constants::ALLOW_HTML);
             echo '  <tr class="' . $cssClass . '">'
                . '    <td' . $border . ' class="center" nowrap>' . $ucount . '</td>'
