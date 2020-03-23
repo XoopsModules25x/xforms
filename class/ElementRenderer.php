@@ -77,7 +77,7 @@ class ElementRenderer
      * @uses \XoopsFormText
      * @uses \XoopsFormTextArea
      *
-     * @return \XoopsFormTextArea|\XoopsFormElementTray|\XoopsFormLabel|\XoopsFormSelect|\XoopsFormText|\XoopsFormTextArea|\XoopsModules\Xforms\FormInput
+     * @return \XoopsFormTextArea|\XoopsFormElementTray|\XoopsFormLabel|\XoopsFormSelect|\XoopsFormText|\XoopsModules\Xforms\FormInput
      */
     public function constructElement($admin = false, $delimiter = ' ')
     {
