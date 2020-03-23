@@ -29,7 +29,7 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 class EfElementHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     * @param XoopsDatabase $db
+     * @param \XoopsDatabase $db
      */
     public function __construct(\XoopsDatabase $db = null)
     {

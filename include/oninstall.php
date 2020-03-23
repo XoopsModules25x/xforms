@@ -18,10 +18,11 @@
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\Utility;
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
@@ -64,7 +65,7 @@ function xoops_module_install_xforms(\XoopsModule $module)
     $success = true;
 
     /* @var \XoopsModules\Xforms\Helper $helper */
-    $helper       = xHelper::getInstance();
+    $helper       = Helper::getInstance();
     $utility      = new Utility();
     $configurator = new \XoopsModules\Xforms\Common\Configurator();
 
@@ -78,7 +79,7 @@ function xoops_module_install_xforms(\XoopsModule $module)
     $uploadPathObj = new \SplFileInfo($configurator->paths['uploadPath']);
     if ((false === $uploadPathObj->isDir()) && (false === mkdir($configurator->paths['uploadPath'], 0755, true))) {
         $success = false;
-        $xoopsModule->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_UPLOAD_PATH, $configurator->paths['uploadPath']));
+        $module->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_UPLOAD_PATH, $configurator->paths['uploadPath']));
     } else {
         // Create index file in new directories
         $newFile  = $configurator->paths['uploadPath'] . '/index.html';
@@ -88,7 +89,7 @@ function xoops_module_install_xforms(\XoopsModule $module)
         $fileObj  = null; // destroy SplFileObject so it closes file
         if (null === $success) {
             $success = false;
-            $xoopsModule->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_INDEX, $newFile));
+            $module->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_INDEX, $newFile));
             //break;
         }
         $fileInfo = null; // destroy this splFileInfo object

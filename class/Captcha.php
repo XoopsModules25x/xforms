@@ -21,10 +21,11 @@ namespace XoopsModules\Xforms;
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
+ * @link      https://github.com/XoopsModules25x/xforms
  */
-
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Helper as Helper;
 
 xoops_load('xoopscaptcha');
 
@@ -50,24 +51,24 @@ class Captcha extends \XoopsCaptcha
 
         // instantiate module helper
         /* @var \XoopsModules\Xforms\Helper $helper */
-        $helper = xHelper::getInstance();
+        $helper = Helper::getInstance();
 
         // get this module's Preferences for captcha
         $xformsCaptchaConfig = $helper->getConfig('captcha');
         unset($helper);
-        /*
-                if (!interface_exists('\XoopsModules\Xforms\Constants')) {
-                    require_once __DIR__ . '/constants.php';
-        //            xoops_load('constants', $this->dirname);
-                }
-        */
-        switch ($xformsCaptchaConfig) {
+/*
+        if (!interface_exists('\XoopsModules\Xforms\Constants')) {
+            require_once __DIR__ . '/constants.php';
+//            xoops_load('constants', $this->dirname);
+        }
+*/
+        switch($xformsCaptchaConfig) {
             case Constants::CAPTCHA_INHERIT:
             default:
                 //don't need to do anything, will use settings from XOOPS
                 break;
             case Constants::CAPTCHA_ANON_ONLY:
-                $this->active = (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) ? false : true;
+                $this->active = (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) ? false: true;
                 $this->setConfigs(['skipmember' => true, 'disabled' => false]);
                 break;
             case Constants::CAPTCHA_EVERYONE:
@@ -89,20 +90,19 @@ class Captcha extends \XoopsCaptcha
      * Temp patch method because core uses __CLASS__ instead of get_called_class()
      * in XOOPS < 2.5.9
      *
-     * @param null|mixed $filename
      * @return Captcha
      */
-    /*
-        public static function getInstance()
-        {
-            static $instance;
-            if (!isset($instance)) {
-                $class    = get_called_class();
-                $instance = new $class();
-            }
-            return $instance;
+/*
+    public static function getInstance()
+    {
+        static $instance;
+        if (!isset($instance)) {
+            $class    = get_called_class();
+            $instance = new $class();
         }
-    */
+        return $instance;
+    }
+*/
 
     /**
      * \XoopsModules\Xforms\Captcha::loadConfig()
@@ -124,24 +124,24 @@ class Captcha extends \XoopsCaptcha
         //init config arrays
         $coreCfg = $basicCfg = $pluginCfg = [];
 
-        if (file_exists($file = $this->path_basic . '/config.php')) {
-            $coreCfg = include $file;
-        }
-        $filename = (isset($filename) && ('' !== trim($filename))) ? $filename : false;
-        if (false === $filename) {
-            if (file_exists($file = $this->path_basic . '/config.' . $filename . '.php')) {
-                $basicCfg = include $file;
-            }
-            if (file_exists($file = $this->path_plugin . '/config.' . $filename . '.php')) {
-                $pluginCfg = include $file;
-            }
-        }
-        $fileConfigs = array_merge($coreCfg, $basicCfg, $pluginCfg);
+         if (file_exists($file = $this->path_basic . '/config.php')) {
+             $coreCfg = include $file;
+         }
+         $filename = (isset($filename) && ('' !== trim($filename))) ? $filename : false;
+         if (false === $filename) {
+             if (file_exists($file = $this->path_basic . '/config.' . $filename . '.php')) {
+                 $basicCfg = include $file;
+             }
+             if (file_exists($file = $this->path_plugin . '/config.' . $filename . '.php')) {
+                 $pluginCfg = include $file;
+             }
+         }
+         $fileConfigs = array_merge($coreCfg, $basicCfg, $pluginCfg);
         $config      = [];
-        foreach ($fileConfigs as $key => $val) {
-            $config[$key] = $val;
-        }
+         foreach ($fileConfigs as $key => $val) {
+             $config[$key] = $val;
+         }
 
-        return $config;
-    }
-}
+         return $config;
+     }
+ }

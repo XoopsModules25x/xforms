@@ -12,7 +12,7 @@ namespace XoopsModules\Xforms;
  WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-/**
+ /**
  * Module: xForms
  *
  * @package   \XoopsModules\Xforms\class
@@ -67,10 +67,13 @@ class Issues
         $this->curl_response = '';
         $this->hdrSize       = 0;
         $this->dirname       = basename(dirname(__DIR__));
-        //$this->serviceUrl    = 'https://api.github.com/repos/xoops/xoopscore25/issues?state=open';
-        $this->serviceUrl = 'https://github.com/XoopsModules25x/' . $this->dirname . '/issues?state=open';
+        $this->baseUrl       = 'https://api.github.com/repos/zyspec/' . $this->dirname;
+        $this->issueUrl      = 'https://github.com/zyspec/xforms/issues/';
+        //$this->baseUrl       = 'https://api.github.com/repos/XoopsModules25x/';
+        //$this->issueUrl      = 'https://github.com/repos/XoopsModules25x/xforms/issues/';
+        $this->serviceUrl    = $this->baseUrl . '/issues?state:open';
         $this->setSessPrefix($this->dirname);
-        $this->err = '';
+        $this->err           = '';
     }
 
     /**
@@ -92,7 +95,8 @@ class Issues
      * Function to get a header from the header array
      *
      * @param string $hdr
-     * @param bool   $asArray
+     * @param array $hdrArray
+     * @param bool $asArray
      *
      * @return array|false array($hdr => value) or false if not found
      */
@@ -251,16 +255,16 @@ class Issues
             $curl,
             [
                 CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_HEADER         => true,
-                CURLOPT_VERBOSE        => true,
-                CURLOPT_TIMEOUT        => 5,
-                CURLOPT_HTTPGET        => true,
-                CURLOPT_USERAGENT      => 'XOOPS-' . $this->dirname,
+                                               CURLOPT_HEADER => true,
+                                              CURLOPT_VERBOSE => true,
+                                              CURLOPT_TIMEOUT => 5,
+                                              CURLOPT_HTTPGET => true,
+                                            CURLOPT_USERAGENT => 'XOOPS-' . mb_strtoupper($this->dirname),
                 CURLOPT_HTTPHEADER     => [
                     'Content-type:application/json',
                     'If-None-Match: ' . $this->getCachedEtag(),
                 ],
-                CURLINFO_HEADER_OUT    => true,
+                                          CURLINFO_HEADER_OUT => true,
                 CURLOPT_HEADERFUNCTION => [$this, 'handleHeaderLine'],
             ]
         );

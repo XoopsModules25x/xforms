@@ -21,9 +21,12 @@ namespace XoopsModules\Xforms;
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
+ * @link      https://github.com/XoopsModules25x/xforms
  */
-
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Helper;
+use XoopsModules\Xforms\FormCaptcha;
+use XoopsModules\Xforms\ElementRenderer;
 
 /**
  * Class \XoopsForms\Xforms\Forms
@@ -105,13 +108,13 @@ class Forms extends \XoopsObject
         $editLink = '';
         // Instantiate
         /* @var \XoopsModules\Xforms\Helper $helper */
-        $helper = xHelper::getInstance();     // module helper
+        $helper = Helper::getInstance();     // module helper
         if (isset($GLOBALS['xoopsUser']) && $helper->isUserAdmin()) {
             $editLink = [
                 'location'      => $helper->url('admin/main.php') . '?op=edit&form_id=' . $this->getVar('form_id'),
-                'target'        => '_self',
-                'icon_location' => \Xmf\Module\Admin::iconUrl('edit.png', '16'),
-                'icon_title'    => _AM_XFORMS_ACTION_EDITFORM,
+                              'target'        => '_self',
+                              'icon_location' => \Xmf\Module\Admin::iconUrl('edit.png', '16'),
+                              'icon_title'    => _AM_XFORMS_ACTION_EDITFORM,
                 'icon_alt'      => _AM_XFORMS_ACTION_EDITFORM,
             ];
         }
@@ -122,15 +125,15 @@ class Forms extends \XoopsObject
     /**
      * Render the Form
      *
-     * @return bool|array false on error|array containing variables for template
      * @since v2.00 ALPHA 2
+     * @return boolean|array false on error|array containing variables for template
      */
     public function render()
     {
         // Instantiate
         /* @var \XoopsModules\Xforms\Helper $helper */
-        $helper = xHelper::getInstance();     // module helper
-        $myts   = \MyTextSanitizer::getInstance();
+        $helper = Helper::getInstance();     // module helper
+        $myts = \MyTextSanitizer::getInstance();
 
         if ((Constants::FORM_HIDDEN == $this->getVar('form_order'))
             && (!(isset($GLOBALS['xoopsUser']) || !$helper->isUserAdmin()))) {
@@ -153,7 +156,7 @@ class Forms extends \XoopsObject
         $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY));
         $criteria->setSort('ele_order');
         $criteria->oOrder = 'ASC';
-        $eleObjects       = $xformsEleHandler->getObjects($criteria, true);
+        $eleObjects = $xformsEleHandler->getObjects($criteria, true);
 
         if (empty($eleObjects)) { // this form doesn't have any elements
             $this->setErrors(sprintf(_MD_XFORMS_ELE_ERR, $this->getVar('form_title'), 's'));
@@ -162,8 +165,8 @@ class Forms extends \XoopsObject
         }
 
         $formOutput = new \XoopsThemeForm($this->getVar('form_title'), 'xforms_' . $this->getVar('form_id'), $helper->url('index.php'), 'post', true);
-        $eleCount   = 1;
-        $multipart  = false;
+        $eleCount = 1;
+        $multipart = false;
         foreach ($eleObjects as $elementObj) {
             $eleRenderer = new ElementRenderer($elementObj);
             $formEle     = $eleRenderer->constructElement(false, $this->getVar('form_delimiter'));
@@ -195,17 +198,17 @@ class Forms extends \XoopsObject
 
         $eles = [];
         foreach ($formOutput->getElements() as $currElement) {
-            $id      = $req = $name = $ele_type = false;
+            $id = $req = $name = $ele_type = false;
             $name    = $currElement->getName();
             $caption = $currElement->getCaption();
             if (!empty($name)) {
                 $id = str_replace('ele_', '', $currElement->getName());
             } elseif (method_exists($currElement, 'getElements')) {
-                //            } elseif (method_exists($currElement, 'getElements') && is_callable('getElements')) {
+//            } elseif (method_exists($currElement, 'getElements') && is_callable('getElements')) {
                 $obj = $currElement->getElements();
                 if (count($obj) > 0) {
-                    $id = str_replace('ele_', '', $obj[0]->getName());
-                    $id = str_replace('[]', '', $id);
+                    $id  = str_replace('ele_', '', $obj[0]->getName());
+                    $id  = str_replace('[]', '', $id);
                 }
             }
             $req         = false;
@@ -218,11 +221,11 @@ class Forms extends \XoopsObject
 
             $eles[] = [
                 'caption'     => $caption,
-                'name'        => $name,
-                'body'        => $currElement->render(),
-                'hidden'      => $currElement->isHidden(),
-                'required'    => $req,
-                'display_row' => $display_row,
+                               'name' => $name,
+                               'body' => $currElement->render(),
+                             'hidden' => $currElement->isHidden(),
+                           'required' => $req,
+                        'display_row' => $display_row,
                 'ele_type'    => $ele_type,
             ];
         }
@@ -233,19 +236,19 @@ class Forms extends \XoopsObject
         $assignArray = [
             'form_output'      => [
                 'title'      => $formOutput->getTitle(),
-                'name'       => $formOutput->getName(),
-                'action'     => $formOutput->getAction(),
-                'method'     => $formOutput->getMethod(),
-                'extra'      => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
-                'javascript' => $js,
+                                                     'name' => $formOutput->getName(),
+                                                   'action' => $formOutput->getAction(),
+                                                   'method' => $formOutput->getMethod(),
+                                                    'extra' => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
+                                               'javascript' => $js,
                 'elements'   => $eles,
             ],
-            'form_req_prefix'  => $helper->getConfig('prefix'),
-            'form_req_suffix'  => $helper->getConfig('suffix'),
-            'form_intro'       => $this->getVar('form_intro'),
-            'form_text_global' => $myts->displayTarea($helper->getConfig('global')),
-            'form_is_hidden'   => $isHiddenTxt,
-            'xoops_pagetitle'  => $this->getVar('form_title'),
+                                          'form_req_prefix' => $helper->getConfig('prefix'),
+                                          'form_req_suffix' => $helper->getConfig('suffix'),
+                                               'form_intro' => $this->getVar('form_intro'),
+                                         'form_text_global' => $myts->displayTarea($helper->getConfig('global')),
+                                           'form_is_hidden' => $isHiddenTxt,
+                                          'xoops_pagetitle' => $this->getVar('form_title'),
             'form_edit_link'   => $this->getEditLinkInfo(),
         ];
 

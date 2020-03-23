@@ -18,10 +18,11 @@
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 
+use XoopsModules\Xforms\Helper;
 use Xmf\Module\Helper\Session;
-use XoopsModules\Xforms\Helper as xHelper;
 
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
@@ -31,7 +32,7 @@ $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
 // Instantiate Module Helper
-$helper = xHelper::getInstance();
+$helper = Helper::getInstance();
 
 if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
     define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));
@@ -52,8 +53,8 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
 //define('XFORMS_ROOT_PATH', $helper->path());
 
 $mypathIcon16 = $helper->url('assets/images/icons/16');
-$pathIcon16   = Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32   = Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16 = Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32 = Xmf\Module\Admin::iconUrl('', 32);
 
 //$uploadDir = $helper->getConfig('uploaddir');
 //$uploadDir = ('/' === substr($uploadDir, -1, 1)) ? $uploadDir : $uploadDir . '/';

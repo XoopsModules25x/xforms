@@ -10,7 +10,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-/**
+ /**
  * Module: xForms
  *
  * @package   \XoopsModules\Xforms\include
@@ -19,19 +19,25 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-
 use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper;
 
 $GLOBALS['xoopsOption']['nocommon'] = true;
-include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+//include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+include_once dirname(dirname(dirname(__DIR__))) . '/cpheader.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 
-if (isset($GLOBALS['xoopsConfig']['language']) && file_exists(dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php')) {
+if (isset($GLOBALS['xoopsConfig']['language'])
+    && file_exists(dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php')
+    && file_exists(dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php'))
+{
     include_once dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
+    include_once dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php';
 } else {
     include_once dirname(__DIR__) . '/language/english/admin.php'; // messages will be in english
+    include_once dirname(__DIR__) . '/language/english/modinfo.php'; // messages will be in english
 }
 //session_start();
 
@@ -92,76 +98,71 @@ $rspSize    = mb_strlen($curl_response) - $hdrSize;
 $response   = mb_substr($curl_response, -$rspSize);
 $issuesObjs = json_decode($response); //get as objects
 
+$homeIcon = '../../Frameworks/moduleclasses/icons/32/home.png';
+// header
+//@todo move hard coded language strings to language file
+echo '<h1 class="head">Help:'
+    . '<a class="ui-corner-all tooltip" href="' . '/modules/' . $moduleDirName . '/admin/index.php' .'"'
+        . ' title="Back to the administration of ' .  _MI_XFORMS_NAME . '"> ' . _MI_XFORMS_NAME . ' <img src="' . $homeIcon . '"'
+            . ' alt="Back to the Administration of ' .  _MI_XFORMS_NAME . '">'
+   . "</a></h1>\n"
+   . "<!-- -----Help Content ---------- -->\n"
+   . "<h4 class=\"odd\">Report Issues</h4>\n"
+   . '<p class="even">'
+   . 'To report an issue with the module please go to <a href="' . $modIssues->issueUrl . '" target="_blank">' . $modIssues->issueUrl . '</a>'
+   . "</p>\n";
+
+// isue table
 echo '<br>'
-     . '<h4 class="odd">'
-     . _AM_XFORMS_ISSUES_OPEN
-     . '</h4>'
-     . '<p class="even">'
-     . '<table>'
-     . '  <thead>'
-     . '  <tr>'
-     . '    <th class="center width10">'
-     . _AM_XFORMS_HELP_ISSUE
-     . '</th>'
-     . '    <th class="center width10">'
-     . _AM_XFORMS_HELP_DATE
-     . '</th>'
-     . '    <th class="center">'
-     . _AM_XFORMS_HELP_TITLE
-     . '</th>'
-     . '    <th class="center width10">'
-     . _AM_XFORMS_HELP_SUBMITTER
-     . '</th>'
-     . '  </tr>'
-     . '  </thead>'
-     . '  <tbody>';
+   . '<h4 class="odd">' . _AM_XFORMS_ISSUES_OPEN . '</h4>'
+   . '<p class="even">'
+   . '<table>'
+   . '  <thead>'
+   . '  <tr>'
+   . '    <th class="center width10">' . _AM_XFORMS_HELP_ISSUE . '</th>'
+   . '    <th class="center width10">' . _AM_XFORMS_HELP_DATE . '</th>'
+   . '    <th class="center">' . _AM_XFORMS_HELP_TITLE . '</th>'
+   . '    <th class="center">' . _AM_XFORMS_HELP_DESC . '</th>'
+   . '    <th class="center width10">' . _AM_XFORMS_HELP_SUBMITTER . '</th>'
+   . '  </tr>'
+   . '  </thead>'
+   . '  <tbody>';
 
 $pullReqFound = false;
 $suffix       = '';
 $cssClass     = 'odd';
-$i            = 0;
+$i = 0;
 if (!empty($issuesObjs)) {
     foreach ($issuesObjs as $issue) {
         $suffix = '';
         if (isset($issue->pull_request)) {
-            /** @internal {uncomment the following line if you don't want to see pull requests as issues}}} */
-            //            continue; // github counts pull requests as open issues so ignore these
+            /** @internal {uncomment the following line if you don't want to see pull requests as issues}}}*/
+//            continue; // github counts pull requests as open issues so ignore these
 
-            $suffix       = '*';
+            $suffix = '*';
             $pullReqFound = true;
         }
 
         $dateTimeObj = \DateTime::createFromFormat(\DateTime::ISO8601, $issue->created_at);
         $dispDate    = $dateTimeObj->format('Y-m-d');
-        ++$i; // issue count
 
+        $labelDesc = '';
+        if (!empty($issue->labels)) {
+            foreach ($issue->labels as $desc) {
+                if (!empty($labelDesc)) {
+                    $labelDesc .= ', ';
+                }
+                $labelDesc .= $desc->description;
+            }
+        }
+        ++$i; // issue count
         echo '  <tr>'
-             . '    <td class="'
-             . $cssClass
-             . ' center"><a href="'
-             . $issue->html_url
-             . '" target="_blank">'
-             . (int)$issue->number
-             . $suffix
-             . '</a></td>'
-             . '    <td class="'
-             . $cssClass
-             . ' center">'
-             . $dispDate
-             . '</td>'
-             . '    <td class="'
-             . $cssClass
-             . ' left" style="padding-left: 2em;">'
-             . htmlspecialchars($issue->title)
-             . '</td>'
-             . '    <td class="'
-             . $cssClass
-             . ' center"><a href="'
-             . htmlspecialchars($issue->user->html_url)
-             . '" target="_blank">'
-             . htmlspecialchars($issue->user->login)
-             . '</a></td>'
-             . '  </tr>';
+           . '    <td class="' . $cssClass . ' center"><a href="' . $issue->html_url . '" target="_blank">' . (int)$issue->number . $suffix . '</a></td>'
+           . '    <td class="' . $cssClass . ' center">' . $dispDate . '</td>'
+           . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . htmlspecialchars($issue->title) . '</td>'
+           . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . $labelDesc . '</td>'
+           . '    <td class="' . $cssClass . ' center"><a href="' . htmlspecialchars($issue->user->html_url) . '" target="_blank">' . htmlspecialchars($issue->user->login) . '</a></td>'
+           . '  </tr>';
         $cssClass = ('odd' === $cssClass) ? 'even' : 'odd';
     }
 }
@@ -173,6 +174,8 @@ if (!empty($modIssues->getError())) {
 }
 
 if ($pullReqFound) {
-    echo '    <tfoot>' . '      <tr><td colspan="4" class="left italic marg3 foot">' . _AM_XFORMS_ISSUES_NOTE . '</td></tr>' . '    </tfoot>';
+    echo '    <tfoot>'
+       . '      <tr><td colspan="4" class="left italic marg3 foot">' . _AM_XFORMS_ISSUES_NOTE . '</td></tr>'
+       . '    </tfoot>';
 }
 echo '    </tbody></table></p>';

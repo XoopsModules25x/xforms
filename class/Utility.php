@@ -18,20 +18,20 @@ namespace XoopsModules\Xforms;
  *
  * @package   \XoopsModules\Xforms\class
  * @author    XOOPS Module Development Team
- * @author    Mamba
+ * @author    Mamba <mambax7@gmail.com>
  * @author    ZySpec <zyspec@yahoo.com>
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Common;
-use XoopsModules\Xforms\Constants;
 
-/**
- * Class Utility
- */
+ /**
+  * \XoopsModules\Xforms\Utility
+  *
+  * Static utility class to provide common functionality
+  *
+  */
 class Utility extends Common\SysUtility
 {
     //--------------- Custom module methods -----------------------------
@@ -42,53 +42,53 @@ class Utility extends Common\SysUtility
     /**
      * Copies files from one directory to another, does not alter source directory files
      *
-     * @param mixed $key
-     * @param mixed $id
-     * @param mixed $caption
-     *
-     * @return bool
      * @deprecated
+     * @param string $fromDir copy from directory
+     * @param string $toDir copy to directory
+     * @param array $exceptions don't copy these files
+     * @param bool $okNotExist true if source (from) directory doesn't exist | false if source must exist
+     *
+     * @return boolean
      */
-    /**
-     * function copyFiles($fromDir, $toDir, $exceptions = array(), $okNotExist = false) {
-     * $xformsHelper = \Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
-     *
-     * $toUploadDir = ('/' === substr($toDir, -1, 1)) ? substr($toDir, 0, -1) : $toDir;
-     * $toDirInfo = new \SplFileInfo($toDir);
-     * $fromUploadDir = ('/' === substr($fromDir, -1, 1)) ? substr($fromDir, 0, -1) : $fromDir;
-     * $fromDirInfo = new \SplFileInfo($fromUploadDir);
-     *
-     * $success = true;
-     * // validate they are valid directories
-     * if ($toDirInfo->isDir() && $fromDirInfo->isDir()) {
-     * $exceptions = (array) $exceptions;
-     * $exceptArray = array_merge(array('..', '.'), $exceptions);
-     * $fileList = array_diff(scandir($fromUploadDir), $exceptArray);
-     *
-     * //now copy the file(s) to the (to) directory
-     * foreach ($fileList as $fileName) {
-     * if (($fileInfo = new \SplFileInfo($eformsUploadDir . $fileName))
-     * && ($currFileInfo = new \SplFileinfo($eformsUploadDir . $fileName)))
-     * {
-     * $fileSuccess = copy($eformsUploadDir . $fileName, $eformsUploadDir . $fileName);
-     * $success &= $fileSuccess;
-     * }
-     * }
-     * } else {
-     * // Input directory(ies) not valid
-     * $success = $okNotExist ? true : false;
-     * }
-     * return $success;
-     * }
-     */
+/**
+    function copyFiles($fromDir, $toDir, $exceptions = array(), $okNotExist = false) {
+        $xformsHelper = \Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
 
+        $toUploadDir = ('/' === substr($toDir, -1, 1)) ? substr($toDir, 0, -1) : $toDir;
+        $toDirInfo = new \SplFileInfo($toDir);
+        $fromUploadDir = ('/' === substr($fromDir, -1, 1)) ? substr($fromDir, 0, -1) : $fromDir;
+        $fromDirInfo = new \SplFileInfo($fromUploadDir);
+
+        $success = true;
+        // validate they are valid directories
+        if ($toDirInfo->isDir() && $fromDirInfo->isDir()) {
+            $exceptions = (array) $exceptions;
+            $exceptArray = array_merge(array('..', '.'), $exceptions);
+            $fileList = array_diff(scandir($fromUploadDir), $exceptArray);
+
+            //now copy the file(s) to the (to) directory
+            foreach ($fileList as $fileName) {
+                if (($fileInfo = new \SplFileInfo($eformsUploadDir . $fileName))
+                    && ($currFileInfo = new \SplFileinfo($eformsUploadDir . $fileName)))
+                {
+                    $fileSuccess = copy($eformsUploadDir . $fileName, $eformsUploadDir . $fileName);
+                    $success &= $fileSuccess;
+                }
+            }
+        } else {
+            // Input directory(ies) not valid
+            $success = $okNotExist ? true : false;
+        }
+        return $success;
+    }
+*/
     /**
      * Check Other element setting
      *
      * Checks to see if there's anything in the 'Other' setting
      *
      * @param string $key
-     * @param int    $id
+     * @param int $id
      * @param string|bool returns 'Other' string or false if nothing set or on error
      *
      * @return bool|string false on error | string for 'other' element
@@ -101,14 +101,14 @@ class Utility extends Common\SysUtility
         if (!preg_match('/\{OTHER\|+[0-9]+\}/', $key)) {
             return false;
         }
-        /* @var \MyTextSanitizer $myts */
-        $myts = \MyTextSanitizer::getInstance();
-        if (!empty($_POST['other']['ele_' . $id])) {
-            return _MD_XFORMS_OPT_OTHER . $myts->htmlSpecialChars($_POST['other']['ele_' . $id]);
-        }
-        self::setErrors(sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption)), true);
-        //global $err;
-        //$err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
+            /* @var \MyTextSanitizer $myts */
+            $myts = \MyTextSanitizer::getInstance();
+            if (!empty($_POST['other']['ele_' . $id])) {
+                return _MD_XFORMS_OPT_OTHER . $myts->htmlSpecialChars($_POST['other']['ele_' . $id]);
+            } else {
+                static::setErrors(sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption)), true);
+                //global $err;
+                //$err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
 
         return false;
     }
@@ -122,8 +122,7 @@ class Utility extends Common\SysUtility
      *
      * @return string filtered to decode HTML entities
      */
-    public static function undoHtmlEntities($tpl_output)
-    {
+    public static function undoHtmlEntities($tpl_output) {
         return html_entity_decode($tpl_output);
     }
 
@@ -134,7 +133,7 @@ class Utility extends Common\SysUtility
      *
      * @param string|int $item
      *
-     * @return void
+     * @return int
      */
     public static function intArray(&$item)
     {
@@ -144,26 +143,24 @@ class Utility extends Common\SysUtility
     /**
      * Set errors for the Utility class
      *
-     * @param mixed $item
-     * @param mixed $replace
+     * @param string|array item
+     * @param bool replace true to replace errors, false to add item to list of errors
      *
      * @return int
      */
-    public static function setErrors($item, $replace = true)
-    {
+    public static function setErrors($item, $replace = true) {
         if (!empty($item)) {
             $item = (array)$item;
             if ($replace) {
-                $this->errs = $item;
+                static::$errs = $item;
             } else {
-                $this->errs = array_merge($this->errs, $item);
-                $this->errs = array_unique($this->errs);
+                static::$errs = array_merge(static::$errs, $item);
+                static::$errs = array_unique(static::$errs);
             }
         } else {
-            $this->errs = []; // clears the array if $item is empty
+            static::$errs = []; // clears the array if $item is empty
         }
-
-        return $this->errs;
+        return static::errs;
     }
 
     /**
@@ -171,8 +168,8 @@ class Utility extends Common\SysUtility
      *
      * @return array
      */
-    public static function getErrors()
-    {
-        return $this->errs;
+    public static function getErrors() {
+
+        return static::$errs;
     }
 }

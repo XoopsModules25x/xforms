@@ -20,10 +20,11 @@
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\Utility;
 
 /**
@@ -91,7 +92,7 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
 
     $success = true;
     /* @var \XoopsModules\Xforms\Helper $helper */
-    $helper = xHelper::getInstance();
+    $helper = Helper::getInstance();
     $helper->loadLanguage('modinfo');
 
     require_once $helper->path('include/common.php');

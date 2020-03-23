@@ -310,4 +310,5 @@ define('_AM_XFORMS_ISSUES_OPEN', 'Open Issues');
 define('_AM_XFORMS_HELP_ISSUE', 'Issue #');
 define('_AM_XFORMS_HELP_DATE', 'Date');
 define('_AM_XFORMS_HELP_TITLE', 'Title');
+define('_AM_XFORMS_HELP_DESC', 'Description');
 define('_AM_XFORMS_HELP_SUBMITTER', 'Submitter');

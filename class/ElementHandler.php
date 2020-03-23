@@ -23,7 +23,7 @@ namespace XoopsModules\Xforms;
  */
 
 //use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper as xHelper;
+use XoopsModules\Xforms\Helper;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
@@ -90,8 +90,9 @@ class ElementHandler extends \XoopsPersistableObjectHandler
      */
     public function insertDefaults($form_id)
     {
-        $dFile = xHelper::getInstance()->path('admin/default_elements.php');
+        $dFile = Helper::getInstance()->path('admin/default_elements.php');
         include $dFile;
+        /** @var array $defaults */
         if (count($defaults) > 0) {
             $error = '';
             foreach ($defaults as $d) {

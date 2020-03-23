@@ -29,7 +29,7 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 class EfFormHandler extends \XoopsPersistableObjectHandler
 {
     /**
-     * @var XoopsDatabase
+     * @var \XoopsDatabase
      */
     public $db;
     /**

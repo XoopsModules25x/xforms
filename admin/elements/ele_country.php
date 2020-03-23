@@ -17,14 +17,12 @@
  * @author    XOOPS Module Development Team
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since     2.00
+ * @link      https://github.com/XoopsModules/xforms
  */
-
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\FormInput;
-use XoopsModules\Xforms\Helper as xHelper;
-
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
@@ -36,17 +34,17 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  */
 
 /* @var XoopsModules\Xforms\Helper $helper */
-$helper = xHelper::getInstance();
+$helper = Helper::getInstance();
 
 if (!empty($eleId)) {
-    //if (empty($addOpt) && !empty($eleId)) {
+//if (empty($addOpt) && !empty($eleId)) {
     $eleValue = $element->getVar('ele_value');
 }
 $eleSize   = !empty($eleValue[0]) ? (int)$eleValue[0] : 1;
 $eleMulti  = !empty($eleValue[1]) ? Constants::ALLOW_MULTI : Constants::DISALLOW_MULTI;
 $countries = !empty($eleValue[2]) ? $eleValue[2] : $helper->getConfig('mycountry');
 
-$size = new FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, $eleSize, null, 'number');
+$size      = new FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, $eleSize, null, 'number');
 $size->setAttribute('min', 0);
 $size->setExtra('style="width: 5em;"');
 
