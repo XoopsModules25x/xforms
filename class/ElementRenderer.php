@@ -190,8 +190,8 @@ class ElementRenderer
                     .    "  .datepicker({\n"
                     .    "  // Consistent format with the HTML5 picker\n"
                     .    "  dateFormat: 'yy-mm-dd',\n";
-                $rawScript .= !empty($dateMin) ? "  minDate: '{$dateMin}',\n" : "";
-                $rawScript .= !empty($dateMax) ? "  maxDate: '{$dateMax}'\n" : "";
+                $rawScript .= !empty($dateMin) ? "  minDate: '{$dateMin}',\n" : '';
+                $rawScript .= !empty($dateMax) ? "  maxDate: '{$dateMax}'\n" : '';
                 $rawScript .= "  });\n"
                             . "}\n"
                             . "</script>\n";
