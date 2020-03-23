@@ -42,7 +42,6 @@ if (empty($file)) {
         ob_end_clean();
         exit();
     }
-    /* @var \XoopsModules\Xforms\Helper $helper */
     $helper       = Helper::getInstance();
     $uDataHandler = $helper::getInstance()->getHandler('UserData');
     //$uDataHandler = $helper->getHandler('userdata');

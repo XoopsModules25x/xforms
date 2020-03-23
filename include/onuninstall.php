@@ -58,13 +58,11 @@ function xoops_module_pre_uninstall_xforms(\XoopsModule $module)
  */
 function xoops_module_uninstall_xforms(\XoopsModule $module)
 {
-    /* @var \XoopsModules\Xforms\Helper $helper */
     $helper = Helper::getInstance();
     $helper->loadLanguage('modinfo');
 
     // Remove uploads directory (and all files in the directory)
 
-    /* @var \XoopsModules\Xforms\Utility $utility */
     $utility = new Utility();
 
     // Get uploads directory name from Preferences setting

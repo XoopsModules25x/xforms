@@ -107,7 +107,6 @@ class Forms extends \XoopsObject
     {
         $editLink = '';
         // Instantiate
-        /* @var \XoopsModules\Xforms\Helper $helper */
         $helper = Helper::getInstance();     // module helper
         if (isset($GLOBALS['xoopsUser']) && $helper->isUserAdmin()) {
             $editLink = [
@@ -131,7 +130,6 @@ class Forms extends \XoopsObject
     public function render()
     {
         // Instantiate
-        /* @var \XoopsModules\Xforms\Helper $helper */
         $helper = Helper::getInstance();     // module helper
         $myts = \MyTextSanitizer::getInstance();
 

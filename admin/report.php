@@ -51,7 +51,6 @@ switch ($op) {
 /*****************************************/
         // Get the UserData to see if there's any reports
         if ((!$form = $formsHandler->get($formId)) || $form->isNew()) {
-            /* @var \XoopsModules\Xforms\Helper $helper */
             $helper->redirect('admin/' . $thisFileName,
                                     Constants::REDIRECT_DELAY_MEDIUM,
                                     _AM_XFORMS_FORM_NOTEXISTS

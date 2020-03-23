@@ -25,7 +25,6 @@ use XoopsModules\Xforms\Helper;
 include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 // Instantiate module helper
-/* @var \XoopsModules\Xforms\Helper $helper */
 $helper = Helper::getInstance();
 require_once $helper->path('include/common.php');
 
@@ -44,7 +43,6 @@ $helper->loadLanguage('main');
 function b_xforms_list_show($options)
 {
     // Instantiate module helper
-    /* @var \XoopsModules\Xforms\Helper $helper */
     $helper = Helper::getInstance();
 
     $block = [];

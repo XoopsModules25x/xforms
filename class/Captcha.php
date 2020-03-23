@@ -50,7 +50,6 @@ class Captcha extends \XoopsCaptcha
         $this->dirname        = basename(dirname(__DIR__));
 
         // instantiate module helper
-        /* @var \XoopsModules\Xforms\Helper $helper */
         $helper = Helper::getInstance();
 
         // get this module's Preferences for captcha

@@ -29,7 +29,6 @@ use XoopsModules\Xforms\Helper;
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 // Instantiate classes
-/* @var \XoopsModules\Xforms\Helper $helper */
 $helper   = Helper::getInstance();     // module helper
 $defaults = [
     0 => [

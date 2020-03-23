@@ -26,7 +26,6 @@ use XoopsModules\Xforms\FormInput;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-/* @var \XoopsModules\Xforms\Helper $helper */
 $helper = Helper::getInstance();
 
 /**

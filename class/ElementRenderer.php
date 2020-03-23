@@ -82,7 +82,6 @@ class ElementRenderer
     public function constructElement($admin = false, $delimiter = ' ')
     {
         // Instantiate
-        /* @var \XoopsModules\Xforms\Helper $helper */
         $helper     = Helper::getInstance(); // module helper
         $myts       = \MyTextSanitizer::getInstance();
         $eleCaption = $myts->displayTarea($this->ele->getVar('ele_caption'), Constants::ALLOW_HTML);
@@ -570,7 +569,6 @@ class ElementRenderer
         if (!preg_match('/\{OTHER\|+[0-9]+\}/', $s)) {
             return false;
         }
-        /* @var \XoopsModules\Xforms\Helper $helper */
         $helper = Helper::getInstance();
 
         $s   = explode('|', preg_replace('/[\{\}]/', '', $s));

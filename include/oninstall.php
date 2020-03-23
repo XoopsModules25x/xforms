@@ -46,7 +46,6 @@ if ((!defined('XOOPS_ROOT_PATH'))
  */
 function xoops_module_pre_install_xforms(\XoopsModule $module)
 {
-    /* @var \XoopsModules\Xforms\Utility $utility */
     $utility      = new Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPhp($module);
@@ -64,7 +63,6 @@ function xoops_module_install_xforms(\XoopsModule $module)
 {
     $success = true;
 
-    /* @var \XoopsModules\Xforms\Helper $helper */
     $helper       = Helper::getInstance();
     $utility      = new Utility();
     $configurator = new \XoopsModules\Xforms\Common\Configurator();

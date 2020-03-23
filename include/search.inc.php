@@ -45,7 +45,6 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
 {
     $ret = [];
     if (0 == (int)$uid) {
-        /** @var \XoopsModules\Xforms\Helper $helper */
         $helper       = Helper::getInstance();
         $formsHandler = $helper::getInstance()->getHandler('Forms');
 
