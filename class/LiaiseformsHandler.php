@@ -39,6 +39,10 @@ class LiaiseformsHandler extends \XoopsPersistableObjectHandler
     public $perm_name = 'liaise_form_access';
     public $obj_class = Liaiseforms::class;
 
+    /**
+     * LiaiseformsHandler constructor.
+     * @param \XoopsDatabase|null $db
+     */
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db       = $db;

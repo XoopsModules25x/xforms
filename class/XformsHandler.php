@@ -34,6 +34,10 @@ class XformsHandler extends \XoopsPersistableObjectHandler
     public $perm_name = 'eforms_form_access';
     public $obj_class = Xforms::class;
 
+    /**
+     * XformsHandler constructor.
+     * @param \XoopsDatabase|null $db
+     */
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db       = $db;

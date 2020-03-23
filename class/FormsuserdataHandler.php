@@ -35,6 +35,10 @@ class FormsuserdataHandler extends \XoopsPersistableObjectHandler
     public $db_table;
     public $obj_class = 'Formsuserdata';
 
+    /**
+     * FormsuserdataHandler constructor.
+     * @param \XoopsDatabase|null $db
+     */
     public function __construct(\XoopsDatabase $db = null)
     {
         $this->db       = $db;

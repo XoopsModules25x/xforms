@@ -29,6 +29,10 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  */
 class FormselementHandler extends \XoopsPersistableObjectHandler
 {
+    /**
+     * FormselementHandler constructor.
+     * @param \XoopsDatabase|null $db
+     */
     public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'eforms_element', 'Formselement', 'ele_id', 'ele_type');

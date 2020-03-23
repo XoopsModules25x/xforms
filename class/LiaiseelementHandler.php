@@ -32,6 +32,10 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  */
 class LiaiseElementHandler extends \XoopsPersistableObjectHandler
 {
+    /**
+     * LiaiseElementHandler constructor.
+     * @param \XoopsDatabase|null $db
+     */
     public function __construct(\XoopsDatabase $db = null)
     {
         parent::__construct($db, 'liaise_formelements', LiaiseElement::class, 'ele_id', 'ele_type');
