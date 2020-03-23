@@ -58,7 +58,7 @@ class FormRaw extends \XoopsFormElement
     /**
      * Set initial text value
      *
-     * @param  $value string
+     * @param string $value
      *
      * @return void
      */
