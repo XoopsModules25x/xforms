@@ -69,7 +69,7 @@ switch ($op) {
                 redirect_header($thisFile, Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
             }
 
-            $eformsHelper = $helper->getHelper('eforms');
+            $eformsHelper = $helper::getHelper('eforms');
             if (false !== $eformsHelper) {
                 // make sure the eforms database tables exist
                 $success   = false;
