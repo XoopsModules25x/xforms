@@ -28,6 +28,7 @@
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\FormInput;
+use Xmf\Request;
 use Xmf\Module\Helper;
 
 require_once __DIR__ . '/admin_header.php';

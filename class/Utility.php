@@ -109,7 +109,7 @@ class Utility extends Common\SysUtility
                 static::setErrors(sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption)), true);
                 //global $err;
                 //$err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
-
+            }
         return false;
     }
 
