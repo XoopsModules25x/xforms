@@ -14,8 +14,9 @@
  *
  * @package   \XoopsModules\Xforms\admin
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @link      https://github.com/XoopsModules25x/xforms
  * @since     1.30
  */
 use Xmf\Request;
@@ -23,6 +24,16 @@ use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Utility;
 
 require_once __DIR__ . '/admin_header.php';
+
+/**
+ * Vars defined by including ./admin_header.php
+ *
+ * @var \XoopsModules\Xforms\Helper $helper
+ * @var \XoopsModules\Xforms\FormsHandler $formsHandler
+ * @var \Xmf\Module\Admin $adminObject
+ * @var string $moduleDirName
+ */
+
 $thisFile = basename(__FILE__);
 
 $op = Request::getCmd('op', '');
@@ -74,8 +85,8 @@ switch ($op) {
 
     case 'eforms':
         if ($ok) {
-            if (!$xoopsSecurity->check()) {
-                redirect_header($thisFile, Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header($thisFile, Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
             }
 
             $eformsHelper = $helper->getHelper('eforms');
@@ -151,9 +162,9 @@ switch ($op) {
                         $uDataAttribs = $eformsUdataObj->getValues();
                         $uDataAttribs['form_id'] = $formMap[$eformsUdataObj->getVar('form_id')];
                         $uDataAttribs['ele_id']  = $eleMap[$eformsUdataObj->getVar('ele_id')];
-                        $xformUdataObj->setVars($uDataAttribs);
+                        $xformsUdataObj->setVars($uDataAttribs);
                         $xformsUdataId = $xformsUserdataHandler->insert($xformsUdataObj);
-                        if (!$xformUdataId) {
+                        if (!$xformsUdataId) {
                             throw new \Exception(sprintf(_AM_XFORMS_ERR_EFORMS_CREATE_USERDATA, 'eForms', $eformsUdataObj->getVar('udata_id')));
                         }
                     }
@@ -195,8 +206,8 @@ switch ($op) {
 
     case 'liaise':
         if ($ok) {
-            if (!$xoopsSecurity->check()) {
-                redirect_header($thisFile, Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+            if (!$GLOBALS['xoopsSecurity']->check()) {
+                redirect_header($thisFile, Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
             }
 
             // make sure the liaise database tables exist
@@ -270,7 +281,7 @@ switch ($op) {
                 $liaisePermHelper = new \Xmf\Module\Helper\Permission('liaise');
                 $xformsPermHelper = new \Xmf\Module\Helper\Permission($moduleDirName);
                 if ($liaisePermHelper && $xformsPermHelper) {
-                    $liaisePermName = $liaiseFormsHandler->perm_name;
+                    $liaisePermName = $liaiseFormHandler->perm_name;
                     $xformsPermName = $formsHandler->perm_name;
                     foreach ($formMap as $lId => $xId) {
                         $groups = $liaisePermHelper->getGroupsForItem($liaisePermName, $lId);
