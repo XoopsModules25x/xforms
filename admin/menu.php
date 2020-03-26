@@ -31,7 +31,7 @@ $adminmenu = array(
     array('title' => _MI_XFORMS_ADMENU1,
           'link'  => 'admin/main.php',
           'desc'  => _MI_XFORMS_ADMENU1_DESC,
-          'icon'  => \Xmf\Module\Admin::menuIconPath('manage.png')
+          'icon'  => \Xmf\Module\Admin::menuIconPath('folder_txt.png')
     ),
     array('title' => _MI_XFORMS_ADMENU2,
           'link'  => 'admin/main.php?op=edit',
