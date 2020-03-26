@@ -12,9 +12,10 @@
  * Module: xForms
  *
  * @package   \XoopsModules\Xforms\include
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @author    XOOPS Development Team
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 function getConfig()
 {
@@ -55,12 +56,33 @@ function getConfig()
             '/templates/blocks/',
         ],
         'oldFiles'        => [
-            '/class/request.php',
-            '/class/registry.php',
-            '/class/utilities.php',
-            '/class/util.php',
-            // '/include/constants.php',
+            '/admin/ele_check.php',
+            '/admin/ele_date.php',
+            '/admin/ele_html.php',
+            '/admin/ele_radio.php',
+            '/admin/ele_select_ctry.php',
+            '/admin/ele_select.php',
+            '/admin/ele_tarea.php',
+            '/admin/ele_text.php',
+            '/admin/ele_upload.php',
+            '/admin/ele_uploadimg.php',
+            '/admin/ele_yn.php',
+            '/admin/upgrade.php',
+            '/class/constants.php',
+            '/class/dbupdater.php',
+            '/class/elementrenderer.php',
+            '/class/elements.php',
+            '/class/forms.php',
+            '/class/helper.php',
+            '/class/session.php',
+            '/class/uploader.php',
+            '/class/userdata.php',
+            '/class/xforms.php',
+            '/include/directorychecker.php',
+            '/include/filechecker.php',
+            '/include/form_execute.php',
             '/include/functions.php',
+            '/include/module.php',
             '/ajaxrating.txt',
         ],
         'oldFolders'      => [
@@ -69,6 +91,7 @@ function getConfig()
             '/js',
             '/tcpdf',
             '/images',
+            '/xforms'
         ],
         'renameTables'    => [//         'XX_archive'     => 'ZZZZ_archive',
         ],
