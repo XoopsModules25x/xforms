@@ -22,21 +22,29 @@ namespace XoopsModules\Xforms;
  * @since     1.30
  * @link      https://github.com/XoopsModules25x/xforms
 */
-use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper;
-use Xmf\Module;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 /**
  * Class \XoopsModules\Xforms\UserDataHandler
  *
- * @see \XoopsPersistableObjectHandler
  */
 class UserDataHandler extends \XoopsPersistableObjectHandler
 {
+    /**
+     *
+     * @var \XoopsDatabase
+     */
     public $db;
+    /**
+     *
+     * @var string
+     */
     public $db_table;
+    /**
+     *
+     * @var string
+     */
     public $obj_class = 'XformsUserdata';
 
     /**
@@ -78,11 +86,11 @@ class UserDataHandler extends \XoopsPersistableObjectHandler
              *  - get all elements for this form from elements table sorted by weight
              *  - reorder elements in 'array' by weight
              */
-            $uFields = array('uid', 'form_id', 'ele_id', 'udata_time', 'udata_ip', 'udata_value');
+            $uFields  = array('uid', 'form_id', 'ele_id', 'udata_time', 'udata_ip', 'udata_value');
             $criteria = new \CriteriaCompo(new \Criteria('form_id', (int)$formId));
             $criteria->setSort('uid ASC, udata_time ASC, udata_ip');
             $criteria->order = 'ASC';
-            $userDataArray = $this->getAll($criteria, $uFields, true, false);
+            $userDataArray   = $this->getAll($criteria, $uFields, true, false);
 
             $ret = array();
             if (!empty($userDataArray)) {
@@ -96,10 +104,16 @@ class UserDataHandler extends \XoopsPersistableObjectHandler
                 $uIdArray        = array_unique($uIdArray);
                 $userHandler     = xoops_getHandler('user');
                 $uDataUsersArray = $userHandler->getAll(new \Criteria('uid', '(' . implode(',', $uIdArray) . ')', 'IN'), array('uname', 'name'), false);
-                if (array_key_exists(0, $uDataUsersArray)) { // means anon voter - getAll should have created new object for Anon user
+                if (array_key_exists(0, $uIdArray)) { // means anon voter - create an entry for Anon user(s)
                     //update anon user name (uname) in array
-                    $systemHelper      = \Xmf\Module\Helper::getHelper('system');
-                    $uDataUsersArray[0]['uname'] = $systemHelper->getConfig('anonymous');
+                    $guestUser    = new \XoopsGuestUser();
+                    $xname        = $guestUser->getUnameFromId(0);
+                    $uDataUsersArray[0] = [
+                        'uid'   => 0,
+                        'name'  => $xname,
+                        'uname' => $xname
+                    ];
+                    unset($guestUser);
                 }
 
                 // get element info from dB
