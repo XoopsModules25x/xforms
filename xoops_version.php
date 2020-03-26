@@ -63,7 +63,7 @@ $modversion['helpsection'] = array(array('name' => _MI_XFORMS_HELP_OVERVIEW,
 $modversion['module_website_url']  = 'https://xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.6';
-$modversion['min_xoops']           = '2.5.9';
+$modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = array('mysql' => '5.5', 'mysqli' => '5.5');
 
@@ -233,18 +233,6 @@ $modversion['config'] = array(array('name' => 't_width',
                                 'formtype' => 'textbox',
                                'valuetype' => 'text',
                                  'default' => XOOPS_UPLOAD_PATH . '/' . $moduleDirName),
-
-                              array('name' => 'captcha',
-                                   'title' => '_MI_XFORMS_CAPTCHA',
-                             'description' => '_MI_XFORMS_CAPTCHA_DESC',
-                                'formtype' => 'select',
-                               'valuetype' => 'int',
-                                 'options' => array(_MI_XFORMS_CAPTCHA_INHERIT => Constants::CAPTCHA_INHERIT,
-                                                  _MI_XFORMS_CAPTCHA_ANON_ONLY => Constants::CAPTCHA_ANON_ONLY,
-                                                   _MI_XFORMS_CAPTCHA_EVERYONE => Constants::CAPTCHA_EVERYONE,
-                                                       _MI_XFORMS_CAPTCHA_NONE => Constants::CAPTCHA_NONE
-                                              ),
-                             'default'     => Constants::CAPTCHA_INHERIT),
 
                               array('name' => 'showforms',
                                    'title' => '_MI_XFORMS_SHOWFORMS',

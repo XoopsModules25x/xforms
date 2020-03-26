@@ -24,7 +24,7 @@ namespace XoopsModules\Xforms;
  */
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper;
-use XoopsModules\Xforms\FormCaptcha;
+//use XoopsModules\Xforms\FormCaptcha;
 use XoopsModules\Xforms\ElementRenderer;
 
 /**
@@ -133,7 +133,7 @@ class Forms extends \XoopsObject
         // Instantiate
         /* @var \XoopsModules\Xforms\Helper $helper */
         $helper = Helper::getInstance();     // module helper
-        $myts = \MyTextSanitizer::getInstance();
+        $myts   = \MyTextSanitizer::getInstance();
 
         if ((Constants::FORM_HIDDEN == $this->getVar('form_order'))
             && (!(isset($GLOBALS['xoopsUser']) || !$helper->isUserAdmin()))) {
@@ -142,9 +142,7 @@ class Forms extends \XoopsObject
         }
 
         xoops_load('xoopsformloader');
-        //require_once $helper->path('class/ElementRenderer.php');
-        $xformsEleHandler = $helper::getInstance()->getHandler('Element');
-        //$xformsEleHandler = $helper->getHandler('Element');
+        $xformsEleHandler = $helper->getHandler('Element');
 
         $helper->loadLanguage('admin');
         $helper->loadLanguage('main');
@@ -184,11 +182,7 @@ class Forms extends \XoopsObject
             $formOutput->setExtra('enctype="multipart/form-data"');
         }
         $formOutput->addElement(new \XoopsFormHidden('form_id', $this->getVar('form_id')));
-
-        // Load captcha
-        xoops_load('formCaptcha', $this->dirname);
-        $xfFormCaptcha = new FormCaptcha();
-        $formOutput->addElement($xfFormCaptcha);
+        $formOutput->addElement(new \XoopsFormCaptcha());
 
         $subButton = new \XoopsFormButton('', 'submit', $this->getVar('form_submit_text'), 'submit');
         $subButton->setExtra('tabindex="' . $eleCount++ . '"'); // allow tabbing to the Submit button too

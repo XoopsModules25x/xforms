@@ -19,9 +19,7 @@
  * @since     1.30
  */
 use Xmf\Request;
-use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Captcha;
 use XoopsModules\Xforms\Utility;
 use XoopsModules\Xforms\MediaUploader;
 use Xmf\FilterInput;
@@ -136,9 +134,8 @@ if (!$form->isActive()) {
 //$msg = $err = $attachments = array();
 $msg = $err = array();
 
-// Check captcha
-xoops_load('captcha', $moduleDirName);
-$xfCaptchaObj = Captcha::getInstance();
+include (dirname(dirname(__DIR__))) . '/class/captcha/xoopscaptcha.php';
+$xfCaptchaObj = \XoopsCaptcha::getInstance();
 if (!$xfCaptchaObj->verify()) {
     $err[] = $xfCaptchaObj->getMessage();
 }

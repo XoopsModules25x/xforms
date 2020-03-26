@@ -262,22 +262,6 @@ interface Constants
      */
     const REDIRECT_DELAY_LONG = 7;
     /**
-     * use captcha settings inherited from XOOPS
-     */
-    const CAPTCHA_INHERIT = 0;
-    /**
-     * use captcha for ANON users only
-     */
-    const CAPTCHA_ANON_ONLY = 1;
-    /**
-     * use captcha for everyone
-     */
-    const CAPTCHA_EVERYONE = 2;
-    /**
-     * don't use captcha
-     */
-    const CAPTCHA_NONE = 3;
-    /**
      * linefeed delimiter
      */
     const DELIMITER_BR = 'b';

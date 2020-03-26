@@ -21,7 +21,6 @@
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\ElementRenderer;
-use XoopsModules\Xforms\FormCaptcha;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
@@ -99,11 +98,7 @@ if ($multipart) { // set multipart attribute for form
     $formOutput->setExtra('enctype="multipart/form-data"');
 }
 $formOutput->addElement(new \XoopsFormHidden('form_id', $form->getVar('form_id')));
-
-// load captcha
-xoops_load('formCaptcha', $moduleDirName);
-$xfFormCaptcha = new FormCaptcha();
-$formOutput->addElement($xfFormCaptcha);
+$formOutput->addElement(new \XoopsFormCaptcha());
 
 $subButton = new \XoopsFormButton('', 'submit', $form->getVar('form_submit_text'), 'submit');
 $subButton->setExtra('tabindex="' . $count++ . '"'); // allow tabbing to the Submit button too
