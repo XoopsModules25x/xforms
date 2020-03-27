@@ -94,8 +94,8 @@ class ElementRenderer
         $formEleId  = $admin ? 'ele_value[' . $this->ele->getVar('ele_id') . ']' : 'ele_' . $this->ele->getVar('ele_id');
         switch ($eleType) {
             case 'checkbox':
-                $selected = array();
-                $options  = array();
+                $selected = [];
+                $options  = [];
                 $oCount   = 1;
                 foreach ($eleValue as $key => $i) {
                     $options[$oCount] = $key;
@@ -105,17 +105,14 @@ class ElementRenderer
                     ++$oCount;
                 }
                 $formElement = new \XoopsFormElementTray($eleCaption, Constants::DELIMITER_BR == $delimiter ? '<br>' : ' ');
+                $ckBox = new \XoopsFormCheckBox('', $formEleId, $selected);
+                $optArray = [];
                 foreach ($options as $key => $opt ) {
-                //while ($opt = each($options)) {
-                    $ckBox = new \XoopsFormCheckBox('', $formEleId . '[]', $selected);
                     $other = $this->optOther($opt, $formEleId);
-                    if ($other !== false && !$admin) {
-                        $ckBox->addOption($key, _MD_XFORMS_OPT_OTHER . $other);
-                    } else {
-                        $ckBox->addOption($key, $opt);
-                    }
-                    $formElement->addElement($ckBox);
+                    $optArray[$key] = ($other !== false && !$admin) ? _MD_XFORMS_OPT_OTHER . $other : $opt;
                 }
+                $ckBox->addOptionArray($optArray);
+                $formElement->addElement($ckBox);
                 break;
 
             case 'color':
@@ -231,14 +228,14 @@ class ElementRenderer
                         );
                 } else {
                     $sysHelper = sHelper::getHelper('system');
-                    $formHtmlConfigs = array('editor' => $sysHelper->getConfig('general_editor'),
+                    $formHtmlConfigs = ['editor' => $sysHelper->getConfig('general_editor'),
                                                'rows' => 8,
                                                'cols' => 90,
                                               'width' => '100%',
                                              'height' => '260px',
                                                'name' => $formEleId,
                                               'value' => $myts->htmlSpecialChars($eleValue[0]) // default value
-                    );
+                    ];
                     $formElement = new \XoopsFormEditor($eleCaption, $formEleId, $formHtmlConfigs);
                     $renderer = $formElement->editor->renderer;
                     if (property_exists($renderer, 'skipPreview')) {
@@ -279,7 +276,7 @@ class ElementRenderer
 
             case 'radio':
                 $selected = '';
-                $options  = array();
+                $options  = [];
                 $oCount   = 1;
 
                 foreach ($eleValue as $key => $i) {
@@ -340,7 +337,7 @@ class ElementRenderer
                     $rangeEle->setExtra('disabled');
                 }
                 $stepSize = isset($eleValue[4]) ? $eleValue[4] : Constants::ELE_DEFAULT_STEP;
-                $rangeEle->setAttributes(array('min' => $eleValue[2], 'max' => $eleValue[3], 'step' => (float)$stepSize));
+                $rangeEle->setAttributes(['min' => $eleValue[2], 'max' => $eleValue[3], 'step' => (float)$stepSize]);
                 $rangeEle->setExtra('onchange="document.getElementById(\'range_label_' . $formEleId . '\').innerHTML = this.value;"');
                 $default = (null === $default) ? floor((($eleValue[3] - $eleValue[2])/$stepSize)/2) : $default;
                 $rangeLbl = new FormRaw('<label class="bold" id="range_label_' . $formEleId . '" for="' . $formEleId . '">' . $default . '</label>');
@@ -352,8 +349,8 @@ class ElementRenderer
                 break;
 
             case 'select':
-                $selected = array();
-                $options  = array();
+                $selected = [];
+                $options  = [];
                 $oCount   = 1;
                 foreach ($eleValue[2] as $key => $i) {
                 //while ($i = each($eleValue[2])) {
@@ -431,7 +428,7 @@ class ElementRenderer
                 $formElement = new \XoopsFormElementTray($eleCaption, null, $formEleId . '_tray');
                 $inpEle      = new FormInput('', $formEleId, 8, 10, $defNum, null, 'time');
 
-                $inpEleDesc = array();
+                $inpEleDesc = [];
                 if (!empty($eleValue[4])) { // do we want to set a min value?
                     $dispMin = preg_replace('/[^0-9:]/', '', $eleValue[0]);
                     $inpEle->setAttribute('min',$dispMin);
@@ -521,9 +518,9 @@ class ElementRenderer
 
             case 'yn':
                 $selected = '';
-                $options  = array();
+                $options  = [];
                 $oCount   = 1;
-                foreach ($eleValue as $key=>$i) {
+                foreach ($eleValue as $key => $i) {
                 //while ($i = each($eleValue)) {
                     $options[$oCount] = constant($key);
                     if ($i > 0) {
@@ -537,7 +534,7 @@ class ElementRenderer
                 switch ($delimiter) {
                     case Constants::DELIMITER_BR:
                         $formElement = new \XoopsFormElementTray($eleCaption, '<br>');
-                        foreach ($options as $key=>$o) {
+                        foreach ($options as $key => $o) {
                         //while ($o = each($options)) {
                             $t     = new \XoopsFormRadio('', $formEleId, $selected);
                             $other = $this->optOther($o, $formEleId);
