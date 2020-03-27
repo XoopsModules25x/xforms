@@ -89,7 +89,7 @@ trait VersionChecks
         $update             = '';
         $repository         = 'XoopsModules25x/' . $moduleDirName;
         /** @internal Developer Note: set repository to development github site for testing
-         * uncomment out following line to test development repository
+         * uncomment out following line and change to developer's github repository to test development
          $repository         = 'zyspec/xforms'; //developer site
          */
 

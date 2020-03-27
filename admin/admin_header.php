@@ -15,8 +15,8 @@
  *
  * @package   \XoopsModules\Xforms\admin
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @link      https://github.com/XoopsModules25x/xforms
  *
  * @see \Xmf\Module\Helper
@@ -34,8 +34,8 @@ $moduleDirName = basename(dirname(__DIR__));
  * @var \XoopsModules\Xforms\Helper $helper
  * @var \XoopsModules\Xforms\FormsHandler $formsHandler
  */
-$adminObject = \Xmf\Module\Admin::getInstance();
-$helper = \XoopsModules\Xforms\Helper::getInstance();
+$adminObject  = \Xmf\Module\Admin::getInstance();
+$helper       = \XoopsModules\Xforms\Helper::getInstance();
 $formsHandler = $helper->getHandler('Forms');
 
 // Load language files

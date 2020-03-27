@@ -16,13 +16,11 @@
  * @author    XOOPS Module Development Team
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since     1.30
  * @link      https://github.com/XoopsModules25x/xforms
+ * @since     1.30
  */
 use Xmf\Request;
-use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Helper;
 
 ob_start(); //To prevent problems in file send
 require __DIR__ . '/header.php';
@@ -40,10 +38,11 @@ if (empty($file)) {
         ob_end_clean();
         exit();
     }
-    /* @var \XoopsModules\Xforms\Helper $helper */
-    $helper       = Helper::getInstance();
-    $uDataHandler = $helper::getInstance()->getHandler('UserData');
-    //$uDataHandler = $helper->getHandler('userdata');
+    /**
+     * @var \XoopsModules\Xforms\Helper $helper
+     * @var \XoopsModules\Xforms\UserDataHandler $uDataHandler
+     */
+    $uDataHandler = $helper->getHandler('Userdata');
     if (!($uData  = $uDataHandler->get($udid))
         || ((int)$uData->getVar('form_id') !== $form)
         || ((int)$uData->getVar('ele_id') !== $elem))

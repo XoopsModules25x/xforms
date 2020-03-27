@@ -14,8 +14,9 @@
  *
  * @package   \XoopsModules\Xforms\frontside
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @link      https://github.com/XoopsModules25x/xforms
  * @since     1.30
  */
 use Xmf\Request;
@@ -27,8 +28,11 @@ use Xmf\FilterInput;
 require __DIR__ . '/header.php';
 $myts   = \MyTextSanitizer::getInstance();
 
-/* @var string $moduleDirName  */
-/* @var \XoopsModules\Xforms\Helper $helper */
+/**
+ * @var string $moduleDirName
+ * @var \XoopsModules\Xforms\Helper $helper
+ * @var \XoopsModules\Xforms\FormsHandler $formsHandler
+ */
 $helper->loadLanguage('admin');
 
 $submit = Request::getCmd('submit', '', 'POST');
@@ -39,7 +43,6 @@ if (empty($submit)) {
             // Don't show the forms available if no parameter set
             redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_NOFORM_SELECTED);
         }
-        /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
         $forms = $formsHandler->getPermittedForms();
         if ((false !== $forms) && (1 == count($forms))) {
             $form = $formsHandler->get($forms[0]->getVar('form_id'));
@@ -65,10 +68,10 @@ if (empty($submit)) {
             require_once $GLOBALS['xoops']->path('/header.php');
             if ((false !== $forms) && (count($forms) > 0)) {
                 foreach ($forms as $form) {
-                    $GLOBALS['xoopsTpl']->append('forms', array('title' => $form->getVar('form_title'),
-                                                                 'desc' => $form->getVar('form_desc'),
-                                                                   'id' => $form->getVar('form_id'),
-                                                       'form_edit_link' => $form->getEditLinkInfo())
+                    $GLOBALS['xoopsTpl']->append('forms', ['title'          => $form->getVar('form_title'),
+                                                           'desc'           => $form->getVar('form_desc'),
+                                                           'id'             => $form->getVar('form_id'),
+                                                           'form_edit_link' => $form->getEditLinkInfo()]
                     );
                 }
                 $GLOBALS['xoopsTpl']->assign('forms_intro', $myts->displayTarea($helper->getConfig('intro'), 1));
@@ -131,8 +134,7 @@ if (!$form->isActive()) {
     $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
 }
 
-//$msg = $err = $attachments = array();
-$msg = $err = array();
+$msg = $err = [];
 
 include (dirname(dirname(__DIR__))) . '/class/captcha/xoopscaptcha.php';
 $xfCaptchaObj = \XoopsCaptcha::getInstance();
@@ -158,7 +160,7 @@ foreach ($_POST as $k => $v) {
     }
 }
 
-$xoopsUploadFile = Request::getArray('xoops_upload_file', array(), 'POST');
+$xoopsUploadFile = Request::getArray('xoops_upload_file', [], 'POST');
 if (!empty($xoopsUploadFile)) {
     foreach ($xoopsUploadFile as $k => $v) {
         $n          = explode('_', $v);
@@ -169,17 +171,17 @@ if (!empty($xoopsUploadFile)) {
 /** {@internal $ele values are not sanitized here}} */
 
 // Generate the extra info
-$genInfo = array('UID' => '0',
-               'UNAME' => '',
-                  'IP' => '',
-               'AGENT' => ''
-);
+$genInfo = ['UID'   => '0',
+            'UNAME' => '',
+            'IP'    => '',
+            'AGENT' => ''
+];
 
 /*
  * Loops through the elements of the form to save or send e-mail
  */
 $uDataHandler = $helper->getHandler('UserData');
-$udatas       = array();
+$udatas       = [];
 $userMailText = ''; // Capturing email for user if have textbox in the form
 $saveToDB     = (Constants::SAVE_IN_DB == $form->getVar('form_save_db')) ? true : false;
 
@@ -207,7 +209,7 @@ if (0 == count($err)) {
 
     $timeData = time();
     foreach ($eleObjArray as $eleObj) {
-        $eleArray   = $eleObj->getValues(array('ele_id', 'form_id', 'ele_type', 'ele_value', 'ele_req', 'ele_caption'));
+        $eleArray   = $eleObj->getValues(['ele_id', 'form_id', 'ele_type', 'ele_value', 'ele_req', 'ele_caption']);
         $eleId      = (int)$eleArray['ele_id'];
         $eleType    = FilterInput::clean($eleArray['ele_type'], 'ALPHANUM');
         $eleValue   = $eleArray['ele_value'];
@@ -220,17 +222,17 @@ if (0 == count($err)) {
         }
 
         $udata      = null;
-        $uDataValue = array();
+        $uDataValue = [];
         $ufid       = -1;
 
         if ($saveToDB) {
             $udata = $uDataHandler->create();
-            $udata->setVars(array('uid' => (int)$genInfo['UID'],
-                              'form_id' => (int)$formId,
-                           'udata_time' => (int)$timeData,
-                             'udata_ip' => $genInfo['IP'],
-                          'udata_agent' => $genInfo['AGENT'],
-                               'ele_id' => $eleId)
+            $udata->setVars(['uid'         => (int)$genInfo['UID'],
+                             'form_id'     => (int)$formId,
+                             'udata_time'  => (int)$timeData,
+                             'udata_ip'    => $genInfo['IP'],
+                             'udata_agent' => $genInfo['AGENT'],
+                             'ele_id'      => $eleId]
             );
         }
 
@@ -277,8 +279,8 @@ if (0 == count($err)) {
 
                 case 'checkbox':
                     $opt_count = 1;
-                    $ch        = array();
-                    foreach ($eleValue as $key=>$v) {
+                    $ch        = [];
+                    foreach ($eleValue as $key => $v) {
                     //while ($v = each($eleValue)) {
                         if (is_array($ele[$eleId])) {
                             if (in_array($opt_count, $ele[$eleId])) {
@@ -310,7 +312,7 @@ if (0 == count($err)) {
 
                 case 'radio':
                     $opt_count = 1;
-                    foreach ($eleValue as $key=>$v) {
+                    foreach ($eleValue as $key => $v) {
                     //while ($v = each($eleValue)) {
                         if ($opt_count == $ele[$eleId]) {
                             $other = Utility::checkOther($key, $eleId, $eleCaption);
@@ -330,9 +332,9 @@ if (0 == count($err)) {
 
                 case 'select':
                     $opt_count = 1;
-                    $ch        = array();
+                    $ch        = [];
                     if (is_array($ele[$eleId])) {
-                        foreach ($eleValue[2] as $key=>$v) {
+                        foreach ($eleValue[2] as $key => $v) {
                         //while ($v = each($eleValue[2])) {
                             if (in_array($opt_count, $ele[$eleId])) {
                                 $ch[] = $key;
@@ -340,7 +342,7 @@ if (0 == count($err)) {
                             ++$opt_count;
                         }
                     } else {
-                        foreach ($eleValue[2] as $key=>$j) {
+                        foreach ($eleValue[2] as $key => $j) {
                         //while ($j = each($eleValue[2])) {
                             if ($opt_count == $ele[$eleId]) {
                                 $ch[] = $key;
@@ -429,14 +431,14 @@ if (0 == count($err)) {
                                 $err = array_merge($err, $uploader[$eleId]->getErrors(false));
                             } else {
                                 $saved      = $uploader[$eleId]->savedFileName;
-                                $uploaded[] = array('id' => $eleId,
-                                                  'file' => $saved,
-                                                  'name' => $_FILES['ele_' . $eleId]['name'],
-                                                'saveto' => $eleValue[3]
-                                );
-                                $uDataValue = array('file' => $saved,
-                                                    'name' => $_FILES['ele_' . $eleId]['name']
-                                );
+                                $uploaded[] = ['id'     => $eleId,
+                                               'file'   => $saved,
+                                               'name'   => $_FILES['ele_' . $eleId]['name'],
+                                               'saveto' => $eleValue[3]
+                                ];
+                                $uDataValue = ['file' => $saved,
+                                               'name' => $_FILES['ele_' . $eleId]['name']
+                                ];
                                 $ufid       = count($uploaded) - 1;
                             }
                         } else {
@@ -490,11 +492,11 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
     /*
      * Add extra general info
     */
-    $interMail->assign(array('UNAME' => '',
-                             'ULINK' => '',
-                                'IP' => '',
-                             'AGENT' => '',
-                           'FORMURL' => '')
+    $interMail->assign(['UNAME'   => '',
+                        'ULINK'   => '',
+                        'IP'      => '',
+                        'AGENT'   => '',
+                        'FORMURL' => '']
     );
 
     $xformsMoreInfoConfig = $helper->getConfig('moreinfo');
@@ -595,7 +597,9 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
     $send_group = (int)$form->getVar('form_send_to_group');
     $group      = false;
     if (-1 !== $send_group) {
-        $group = $member_handler->getGroup($send_group);
+        /** @var \XoopsMemberHandler $member_handler */
+        $member_handler = xoops_getHandler('member');
+        $group          = $member_handler->getGroup($send_group);
     }
     if (Constants::SEND_METHOD_PM == $form->getVar('form_send_method') && (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) && (false !== $group)) {
         /* Send by private message */
@@ -673,7 +677,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
         $err = array_merge($err, $interMail->getErrors(false)); // get mail errors as an array
     }
     if ($sendCopy && (0 == count($err))) {
-        $emailstoCopy = array();
+        $emailstoCopy = [];
         if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
             $emailstoCopy[] = $GLOBALS['xoopsUser']->getVar('email');
         } elseif ($uMailText = checkEmail(trim($userMailText))) {
@@ -703,11 +707,11 @@ if (0 < count($err)) {
     }
     $GLOBALS['xoopsOption']['template_main'] = 'xforms_error.tpl';
     include_once $GLOBALS['xoops']->path('header.php');
-    $GLOBALS['xoopsTpl']->assign(array('error_heading' => _MD_XFORMS_ERR_HEADING,
-                                              'errors' => $err,
-                                             'go_back' => _BACK,
-                                          'xforms_url' => $helper->url('index.php?form_id=' . $formId),
-                                     'xoops_pagetitle' => _MD_XFORMS_ERR_HEADING)
+    $GLOBALS['xoopsTpl']->assign(['error_heading'   => _MD_XFORMS_ERR_HEADING,
+                                  'errors'          => $err,
+                                  'go_back'         => _BACK,
+                                  'xforms_url'      => $helper->url('index.php?form_id=' . $formId),
+                                  'xoops_pagetitle' => _MD_XFORMS_ERR_HEADING]
     );
     include $GLOBALS['xoops']->path('/footer.php');
     exit();

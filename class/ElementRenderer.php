@@ -84,7 +84,7 @@ class ElementRenderer
     public function constructElement($admin = false, $delimiter = ' ')
     {
         // Instantiate
-        /* @var \XoopsModules\Xforms\Helper $helper */
+        /** @var \XoopsModules\Xforms\Helper $helper */
         $helper     = Helper::getInstance(); // module helper
         $myts       = \MyTextSanitizer::getInstance();
         $eleCaption = $myts->displayTarea($this->ele->getVar('ele_caption'), Constants::ALLOW_HTML);
@@ -97,16 +97,15 @@ class ElementRenderer
                 $selected = array();
                 $options  = array();
                 $oCount   = 1;
-                foreach ($eleValue as $key=>$i) {
-                //while ($i = each($eleValue)) {
+                foreach ($eleValue as $key => $i) {
                     $options[$oCount] = $key;
-                    if ($i > 0) {
+                    if (0 < $i) {
                         $selected[] = $oCount;
                     }
                     ++$oCount;
                 }
                 $formElement = new \XoopsFormElementTray($eleCaption, Constants::DELIMITER_BR == $delimiter ? '<br>' : ' ');
-                foreach ($options as $key=>$opt ) {
+                foreach ($options as $key => $opt ) {
                 //while ($opt = each($options)) {
                     $ckBox = new \XoopsFormCheckBox('', $formEleId . '[]', $selected);
                     $other = $this->optOther($opt, $formEleId);
@@ -283,7 +282,7 @@ class ElementRenderer
                 $options  = array();
                 $oCount   = 1;
 
-                foreach ($eleValue as $key=>$i) {
+                foreach ($eleValue as $key => $i) {
                 //while ($i = each($eleValue)) {
                     $options[$oCount] = $key;
                     if ($i > 0) {
@@ -297,7 +296,7 @@ class ElementRenderer
                 switch ($delimiter) {
                     case Constants::DELIMITER_BR:
                         $formElement = new \XoopsFormElementTray($eleCaption, '<br>');
-                        foreach ($options as $key=>$o) {
+                        foreach ($options as $key => $o) {
                         //while ($o = each($options)) {
                             $t     = new \XoopsFormRadio('', $formEleId, $selected);
                             $other = $this->optOther($o, $formEleId);
@@ -313,7 +312,7 @@ class ElementRenderer
                     case Constants::DELIMITER_SPACE:
                     default:
                         $formElement = new \XoopsFormRadio($eleCaption, $formEleId, $selected);
-                        foreach ($options as $key=>$o) {
+                        foreach ($options as $key => $o) {
                         //while ($o = each($options)) {
                             $other = $this->optOther($o, $formEleId);
                             if ($other !== false && !$admin) {
@@ -356,7 +355,7 @@ class ElementRenderer
                 $selected = array();
                 $options  = array();
                 $oCount   = 1;
-                foreach ($eleValue[2] as $key=>$i) {
+                foreach ($eleValue[2] as $key => $i) {
                 //while ($i = each($eleValue[2])) {
                     $options[$oCount] = $key;
                     if ($i > 0) {
@@ -589,11 +588,11 @@ class ElementRenderer
         if (!preg_match('/\{OTHER\|+[0-9]+\}/', $s)) {
             return false;
         }
-        /* @var \XoopsModules\Xforms\Helper $helper */
+        /** @var \XoopsModules\Xforms\Helper $helper */
         $helper = Helper::getInstance();
 
         $s   = explode('|', preg_replace('/[\{\}]/', '', $s));
-//        $len = !empty($s[1]) ? $s[1] : $GLOBALS['xoopsModuleConfig']['t_width'];
+        //$len = !empty($s[1]) ? $s[1] : $GLOBALS['xoopsModuleConfig']['t_width'];
         $len = !empty($s[1]) ? $s[1] : $helper->getConfig('t_width');
         $box = new \XoopsFormText('', 'other[' . $id . ']', (int)$len, 255);
         $box->setExtra('onclick="var self=this; window.setTimeout(function () { self.focus(); }, 100);"');

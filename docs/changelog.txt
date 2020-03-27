@@ -1,4 +1,4 @@
-2.00 Alpha 2 [Not Released]
+2.00 Alpha 3 [NOT RELEASED]  Dev: Xoops 2.5.11-Beta1, PHP 7.2
 =================================
 - added namespace support (\XoopsModules\Xforms)
 - added ./preloads to support namespace & autoloader support
@@ -23,7 +23,6 @@
 - added block to display a single form (permissions aware)
 - added search - finds term in form Title, Description or Intro text (permissions aware)
 - added color, date, email, number, obfuscated, pattern, range, time, and url element types
-- added module specific CAPTCHA settings in Preferences
 - added PAYPAL donate button in Admin About (links to XOOPS Foundation)
 - added ability to purge reports by date
 - added ability to export CSV horizontal and vertical reports
@@ -39,7 +38,7 @@
 - changed calls to \MyTextSanitizer::makeTboxData4PreviewInForm (deprecated) to htmlSpecialChars
 - changed to use Xmf\Request for var validation/filtering
 - changed to use Xmf for language loading functions
-- changed to require XOOPS 2.5.9+ - required to work around core CAPTCHA instance bug
+- changed to require XOOPS 2.5.10+
 - changed unnecessary double-quote to single-quote in English language files
 - changed 'AM_XFORMS_FORM_NOTEXISTS' in english folder to english
 - changed undefined _LIASE_ERR_INVALIDMAIL to _MD_XFORMS_ERR_INVALIDMAIL in ./include/form_execute.php
@@ -70,7 +69,8 @@
 - fixed bug where Select element box size wasn't being rendered correctly
 - fixed pass-by-reference usage for non-vars
 - moved admin ele_* files to ./admin/elements folder
-- removed Excel exporting - was actually exporting HTML reports (replaced with CSV reports)- removed '/' from HTML void tags (&lt;br&gt;, &lt;img&gt;, etc)
+- removed Excel exporting - was actually exporting HTML reports (replaced with CSV reports)
+- removed '/' from HTML void tags (&lt;br&gt;, &lt;img&gt;, etc)
 - removed instances of PHP 'extract' for security improvement
 - removed dbupdater.php (XformsTable and XformsDbupdater classes), was not being used
 - removed get_magic_quotes_gpc, was removed from starting with PHP 5.4
