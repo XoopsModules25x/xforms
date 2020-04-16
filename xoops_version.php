@@ -34,7 +34,7 @@ $moduleDirName                = basename(__DIR__);
 /*  @var array $modversion */
 $modversion['version']        = '2.00';
 $modversion['module_status']  = 'Alpha 3';
-$modversion['release_date']   = '2020/03/27';
+$modversion['release_date']   = '2020/04/16';
 $modversion['name']           = _MI_XFORMS_NAME;
 $modversion['description']    = _MI_XFORMS_DESC;
 $modversion['author']         = 'Brandycoke Productions, Dylian Melgert, Juan Garcés';
