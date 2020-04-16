@@ -23,8 +23,6 @@ namespace XoopsModules\Xforms;
  */
 use XoopsModules\Xforms;
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access');
-
 if (!class_exists('\XoopsMediaUploader')) {
     xoops_load('xoopsmediauploader');
 }

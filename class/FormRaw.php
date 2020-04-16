@@ -24,8 +24,6 @@ namespace XoopsModules\Xforms;
  * @since     2.00
  */
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access');
-
 /**
  * Raw - raw form element
  *

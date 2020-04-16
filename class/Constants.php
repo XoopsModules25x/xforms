@@ -22,8 +22,6 @@ namespace XoopsModules\Xforms;
  * @since     1.30
  */
 
-//defined('XOOPS_ROOT_PATH') || exit('Restricted access');
-
 /**
  * Interface \XoopsModules\Xforms\Constants
  */
