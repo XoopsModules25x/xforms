@@ -72,7 +72,7 @@ if (empty($elements)) { // this form doesn't have any elements
     xoops_footer();
     exit();
 }
-$formOutput   = new \XoopsThemeForm($form->getVar('form_title'), 'xforms_' . $form->getVar('form_id'), $helper->url('index.php'), 'post', true);
+$formOutput   = new \XoopsThemeForm($form->getVar('form_title', 's'), 'xforms_' . $form->getVar('form_id'), $helper->url('index.php'), 'post', true);
 $firstElement = true;
 $count        = 1;
 $multipart    = false;

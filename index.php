@@ -45,6 +45,7 @@ if (empty($submit)) {
         }
         $forms = $formsHandler->getPermittedForms();
         if ((false !== $forms) && (1 == count($forms))) {
+            /** @var \XoopsModules\Xforms\Forms $form */
             $form = $formsHandler->get($forms[0]->getVar('form_id'));
             if (!$assignedArray = $form->render()) {
                 redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_LONG, $form->getHtmlErrors());
@@ -69,7 +70,7 @@ if (empty($submit)) {
             if ((false !== $forms) && (count($forms) > 0)) {
                 foreach ($forms as $form) {
                     $GLOBALS['xoopsTpl']->append('forms', ['title'          => $form->getVar('form_title'),
-                                                           'desc'           => $form->getVar('form_desc'),
+                                                           'desc'           => $form->getVar('form_desc', 's'),
                                                            'id'             => $form->getVar('form_id'),
                                                            'form_edit_link' => $form->getEditLinkInfo()]
                     );
@@ -80,7 +81,10 @@ if (empty($submit)) {
             }
         }
     } else {
-        /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
+        /**
+         * @var \XoopsModules\Xforms\FormsHandler $formsHandler
+         * @var \XoopsModules\Xforms\Forms $form
+         */
         if (($form = $formsHandler->get($formId))
             && (false !== $formsHandler->getSingleFormPermission($formId)))
         {
@@ -117,9 +121,9 @@ if (empty($submit)) {
 //-------------------------------
 // Now execute the form
 //-------------------------------
-/* @var \XoopsSecurity $xoopsSecurity */
-if (!$xoopsSecurity->check()) {
-    $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+/** @var \XoopsSecurity $GLOBALS['xoopsSecurity'] */
+if (!$GLOBALS['xoopsSecurity']->check()) {
+    $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
 }
 
 $formId = Request::getInt('form_id', 0, 'POST');
@@ -127,8 +131,7 @@ if (empty($formId)
     || !($form = $formsHandler->get($formId))
     || (false === $formsHandler->getSingleFormPermission($formId)))
 {
-    header('Location: ' . $GLOBALS['xoops']->url('www'));
-    exit();
+    redirect_header(XOOPS_URL, Constants::REDIRECT_DELAY_MEDIUM, _NO_PERM);
 }
 if (!$form->isActive()) {
     $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
@@ -152,7 +155,7 @@ $criteria->setSort('ele_order');
 $criteria->order = 'ASC';
 $eleObjArray = $xformsEleHandler->getObjects($criteria, true);
 
-/* @var array $ele */
+/** @var array $ele */
 foreach ($_POST as $k => $v) {
     if (preg_match('/^ele_[0-9]+$/', $k)) {
         $n          = explode('_', $k);

@@ -23,7 +23,6 @@ use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\FormInput;
-use Xmf\Module\Helper;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
