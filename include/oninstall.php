@@ -32,7 +32,7 @@ require_once dirname(__DIR__) . '/preloads/autoloader.php';
  * @internal {Make sure you PROTECT THIS FILE}
  */
 if ((!defined('XOOPS_ROOT_PATH'))
-   || !($GLOBALS['xoopsUser'] instanceof XoopsUser)
+   || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
    || !($GLOBALS['xoopsUser']->isAdmin()))
 {
      exit("Restricted access" . PHP_EOL);
@@ -50,6 +50,7 @@ function xoops_module_pre_install_xforms(\XoopsModule $module)
     $utility      = new Utility();
     $xoopsSuccess = $utility::checkVerXoops($module);
     $phpSuccess   = $utility::checkVerPHP($module);
+
     return $xoopsSuccess && $phpSuccess;
 }
 
