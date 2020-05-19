@@ -22,6 +22,18 @@
  *
  * @see       \Xmf\Module\Admin
  */
+
+include dirname(__DIR__) . '/preloads/autoloader.php';
+
+$moduleDirName = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$pathIcon32 = \Xmf\Module\Admin::menuIconPath('');
+
+/** @var \XoopsModules\Xforms\Helper $helper */
+$helper = \XoopsModules\Xforms\Helper::getInstance();
+$helper->loadLanguage('common');
+$helper->loadLanguage('feedback');
+
 $adminmenu = [
     [
         'title' => _MI_XFORMS_ADMENU0,
@@ -59,10 +71,28 @@ $adminmenu = [
         'desc'  => _MI_XFORMS_ADMENU6_DESC,
         'icon'  => \Xmf\Module\Admin::menuIconPath('exec.png'),
     ],
-    [
+
+
+// Blocks Admin
+[
+        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS'),
+        'link' => 'admin/blocksadmin.php',
+        'icon' => \Xmf\Module\Admin::menuIconPath('block.png'),
+    ],
+];
+
+if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
+    $adminmenu[] = [
+        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
+        'link' => 'admin/migrate.php',
+        'icon' => $pathIcon32 . '/database_go.png',
+    ];
+}
+
+$adminmenu[] = [
         'title' => _MI_XFORMS_ADMENU5,
         'link'  => 'admin/about.php',
         'desc'  => _MI_XFORMS_ADMENU5_DESC,
         'icon'  => \Xmf\Module\Admin::menuIconPath('about.png'),
-    ],
-];
+    ];
+

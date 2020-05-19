@@ -9,5 +9,5 @@ Liaise module by Brandycoke Productions (http://www.brandycoke.com)
 eForms was a fork of xForms developed by Juan Garcés
 (http://www.educacioninformatica.com/).
 
-Since eForms is no longer being maintained, the XOOPS Module Development Team
-has merged the code back into xForms.
+Since eForms is no longer being maintained, the XOOPS Module
+Development Team has merged the code back into xForms.

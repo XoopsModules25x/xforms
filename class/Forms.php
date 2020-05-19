@@ -153,7 +153,7 @@ class Forms extends \XoopsObject
         $criteria->add(new \Criteria('form_id', $this->getVar('form_id')));
         $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY));
         $criteria->setSort('ele_order');
-        $criteria->oOrder = 'ASC';
+        $criteria->order = 'ASC';
         $eleObjects = $xformsEleHandler->getObjects($criteria, true);
 
         if (empty($eleObjects)) { // this form doesn't have any elements
@@ -162,7 +162,7 @@ class Forms extends \XoopsObject
             return false;
         }
 
-        $formOutput = new \XoopsThemeForm($this->getVar('form_title'), 'xforms_' . $this->getVar('form_id'), $helper->url('index.php'), 'post', true);
+        $formOutput = new \XoopsThemeForm($this->getVar('form_title', 's'), 'xforms_' . $this->getVar('form_id'), $helper->url('index.php'), 'post', true);
         $eleCount = 1;
         $multipart = false;
         foreach ($eleObjects as $elementObj) {
@@ -184,11 +184,7 @@ class Forms extends \XoopsObject
             $formOutput->setExtra('enctype="multipart/form-data"');
         }
         $formOutput->addElement(new \XoopsFormHidden('form_id', $this->getVar('form_id')));
-
-        // Load captcha
-        xoops_load('formCaptcha', $this->dirname);
-        $xfFormCaptcha = new FormCaptcha();
-        $formOutput->addElement($xfFormCaptcha);
+        $formOutput->addElement(new \XoopsFormCaptcha());
 
         $subButton = new \XoopsFormButton('', 'submit', $this->getVar('form_submit_text'), 'submit');
         $subButton->setExtra('tabindex="' . $eleCount++ . '"'); // allow tabbing to the Submit button too

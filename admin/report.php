@@ -51,6 +51,7 @@ switch ($op) {
 /*****************************************/
         // Get the UserData to see if there's any reports
         if ((!$form = $formsHandler->get($formId)) || $form->isNew()) {
+            /* @var \XoopsModules\Xforms\Helper $helper */
             $helper->redirect('admin/' . $thisFileName,
                                     Constants::REDIRECT_DELAY_MEDIUM,
                                     _AM_XFORMS_FORM_NOTEXISTS
@@ -272,7 +273,7 @@ switch ($op) {
         error_reporting(0);
         $GLOBALS['xoopsLogger']->activated = false;
 
-        include_once XOOPS_ROOT_PATH . '/class/template.php';
+        require_once XOOPS_ROOT_PATH . '/class/template.php';
         $xformsTpl = new \XoopsTpl();
 
         $xformsTpl->assign('form_title', $form->getVar('form_title'));
@@ -402,7 +403,7 @@ switch ($op) {
         error_reporting(0);
         $GLOBALS['xoopsLogger']->activated = false;
 
-        include_once XOOPS_ROOT_PATH . '/class/template.php';
+        require_once XOOPS_ROOT_PATH . '/class/template.php';
         $xformsTpl = new \XoopsTpl();
         $xformsTpl->assign('form_title', $form->getVar('form_title'));
         $xformsTpl->assign('delim', ','); //force delimiter for now
@@ -765,5 +766,5 @@ switch ($op) {
         }
         break;
 }
-include __DIR__ . '/admin_footer.php';
+require __DIR__ . '/admin_footer.php';
 xoops_cp_footer();

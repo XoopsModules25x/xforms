@@ -1,5 +1,4 @@
 <?php
-
 define('_AM_XFORMS_SAVE', 'Save');
 define('_AM_XFORMS_COPIED', '%s copy');
 define('_AM_XFORMS_DBUPDATED', 'Database Updated Successfully!');
@@ -134,9 +133,9 @@ define('_AM_XFORMS_EMAIL_HEADER', 'Email header text');
 define('_AM_XFORMS_EMAIL_HEADER_DESC', 'Text to be inserted at the beginning of the emails prior to the data entered by users.');
 define('_AM_XFORMS_EMAIL_FOOTER', 'Email footer text');
 define('_AM_XFORMS_EMAIL_FOOTER_DESC', 'Text to be inserted at the end of emails sent.');
-define('_AM_XFORMS_EMAIL_UHEADER', 'Email header text copy');
+define('_AM_XFORMS_EMAIL_UHEADER', 'Email header text - User copy');
 define('_AM_XFORMS_EMAIL_UHEADER_DESC', 'Text to be inserted at the beginning of the email copy for user, prior to the data entered by users. (Only if option \'Send copy to user\' is selected)');
-define('_AM_XFORMS_EMAIL_UFOOTER', 'Email footer text copy');
+define('_AM_XFORMS_EMAIL_UFOOTER', 'Email footer text - User copy');
 define('_AM_XFORMS_EMAIL_UFOOTER_DESC', 'Text to be inserted at the end of email copy for user. (Only if option \'Send copy to user\' is selected)');
 define('_AM_XFORMS_DELIMETER', 'Delimiter for check boxes and radio buttons');
 define('_AM_XFORMS_DELIMETER_SPACE', 'White space');
@@ -256,7 +255,7 @@ define('_AM_XFORMS_RENAME_TBL_ELEMENTS', 'Rename form elements table...');
 define('_AM_XFORMS_TBL_COL_ADD', 'Add %s to %s table...');
 define('_AM_XFORMS_TBL_COL_CHANGE', 'Change default value of %s in %s table...');
 define('_AM_XFORMS_TBL_CREATE', 'Create %s table...');
-define('_AM_XFORMS_TBL_INSERT_DEFAULT', 'INSERT default DATA INTO %s TABLE.');
+define('_AM_XFORMS_TBL_INSERT_DEFAULT', 'Insert default data into %s table.');
 define('_AM_XFORMS_DONE', 'done.');
 define('_AM_XFORMS_FAILED', 'failed.');
 define('_AM_XFORMS_SET_PERMS', 'Setting up default permissions...');
@@ -272,6 +271,7 @@ define('_AM_XFORMS_ERROR_BAD_XOOPS', 'This module requires XOOPS %s+ (%s install
 define('_AM_XFORMS_ERROR_BAD_PHP', 'This module requires PHP version %s+ (%s installed)');
 define('_AM_XFORMS_ERROR_BAD_UPLOAD_PATH', 'Could not create %s directory');
 define('_AM_XFORMS_ERROR_BAD_INDEX', 'Could not create %s file');
+
 
 define('_AM_XFORMS_ERR_COPY_UPLOADS', 'Could not copy uploaded files from %s');
 define('_AM_XFORMS_ERR_CREATE_FORM', 'Could not create form object (%s form Id = %s)');

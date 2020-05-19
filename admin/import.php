@@ -17,6 +17,7 @@
  * @author    XOOPS Module Development Team
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @link      https://github.com/XoopsModules25x/xforms
  * @since     1.30
  */
 
@@ -25,6 +26,16 @@ use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Utility;
 
 require_once __DIR__ . '/admin_header.php';
+
+/**
+ * Vars defined by including ./admin_header.php
+ *
+ * @var \XoopsModules\Xforms\Helper $helper
+ * @var \XoopsModules\Xforms\FormsHandler $formsHandler
+ * @var \Xmf\Module\Admin $adminObject
+ * @var string $moduleDirName
+ */
+
 $thisFile = basename(__FILE__);
 
 $op = Request::getCmd('op', '');
@@ -257,7 +268,7 @@ switch ($op) {
                 $liaisePermHelper = new \Xmf\Module\Helper\Permission('liaise');
                 $xformsPermHelper = new \Xmf\Module\Helper\Permission($moduleDirName);
                 if ($liaisePermHelper && $xformsPermHelper) {
-                    $liaisePermName = $liaiseFormsHandler->perm_name;
+                    $liaisePermName = $liaiseFormHandler->perm_name;
                     $xformsPermName = $formsHandler->perm_name;
                     foreach ($formMap as $lId => $xId) {
                         $groups = $liaisePermHelper->getGroupsForItem($liaisePermName, $lId);
@@ -287,4 +298,4 @@ switch ($op) {
         }
         break;
 }
-include __DIR__ . '/admin_footer.php';
+require __DIR__ . '/admin_footer.php';

@@ -133,7 +133,7 @@ class Utility extends Common\SysUtility
          *
          * @param string|int $item
          *
-         * @return void
+     * @return int
          */
     public static function intArray(&$item)
     {

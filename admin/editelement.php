@@ -62,7 +62,7 @@ switch ($op) {
         $GLOBALS['xoTheme']->addStylesheet($GLOBALS['xoops']->url('browse.php?modules/' . $moduleDirName . '/assets/css/style.css'));
 /*
         if (!class_exists('XformsFormInput')) {
-            include_once $helper->path('class/FormInput.php');
+            require_once $helper->path('class/FormInput.php');
         }
 */
         if (Constants::ELE_NOT_VALID !== (int)$eleId) {
@@ -141,7 +141,7 @@ switch ($op) {
         $validKeys = array_keys($validElements);
         if (in_array($eleType, $validKeys)) {
             $elementName = constant('_AM_XFORMS_ELE_' . mb_strtoupper($eleType));
-            include $helper->path('admin/elements/ele_' . $eleType . '.php');
+            require $helper->path('admin/elements/ele_' . $eleType . '.php');
         } else {
             $helper->redirect(
                 'admin/index.php',
@@ -592,5 +592,5 @@ switch ($op) {
            . '  </table>';
         break;
 }
-include __DIR__ . '/admin_footer.php';
+require __DIR__ . '/admin_footer.php';
 xoops_cp_footer();

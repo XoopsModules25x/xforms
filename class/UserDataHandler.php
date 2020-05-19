@@ -36,8 +36,20 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  */
 class UserDataHandler extends \XoopsPersistableObjectHandler
 {
+    /**
+     *
+     * @var \XoopsDatabase
+     */
     public $db;
+    /**
+     *
+     * @var string
+     */
     public $db_table;
+    /**
+     *
+     * @var string
+     */
     public $obj_class = 'XformsUserdata';
 
     /**
@@ -96,11 +108,17 @@ class UserDataHandler extends \XoopsPersistableObjectHandler
                 // get user info from dB
                 $uIdArray        = array_unique($uIdArray);
                 $userHandler     = xoops_getHandler('user');
-                $uDataUsersArray = $userHandler->getAll(new \Criteria('uid', '(' . implode(',', $uIdArray) . ')', 'IN'), ['uname', 'name'], false);
-                if (array_key_exists(0, $uDataUsersArray)) { // means anon voter - getAll should have created new object for Anon user
+                $uDataUsersArray = $userHandler->getAll(new \Criteria('uid', '(' . implode(',', $uIdArray) . ')', 'IN'), array('uname', 'name'), false);
+                if (array_key_exists(0, $uIdArray)) { // means anon voter - create an entry for Anon user(s)
                     //update anon user name (uname) in array
-                    $systemHelper      = \Xmf\Module\Helper::getHelper('system');
-                    $uDataUsersArray[0]['uname'] = $systemHelper->getConfig('anonymous');
+                    $guestUser    = new \XoopsGuestUser();
+                    $xname        = $guestUser->getUnameFromId(0);
+                    $uDataUsersArray[0] = [
+                        'uid'   => 0,
+                        'name'  => $xname,
+                        'uname' => $xname
+                    ];
+                    unset($guestUser);
                 }
 
                 // get element info from dB
@@ -144,7 +162,7 @@ class UserDataHandler extends \XoopsPersistableObjectHandler
                     ORDER BY D.uid ASC, D.udata_time ASC, D.udata_ip ASC, E.ele_order ASC";
             $result = $this->db->query($sql);
             if ($result) {
-                while ($myrow = $this->db->fetchArray($result)) {
+                while (false !== ($myrow = $this->db->fetchArray($result))) {
                     $ret[] = $myrow;
                 }
             }

@@ -31,4 +31,4 @@ require __DIR__ . '/include/common.php';
 $helper       = Helper::getInstance();
 $formsHandler = $helper->getHandler('Forms');
 
-include_once $GLOBALS['xoops']->path('www/class/xoopsform/tableform.php');
+require_once $GLOBALS['xoops']->path('www/class/xoopsform/tableform.php');

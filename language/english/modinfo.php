@@ -1,5 +1,4 @@
 <?php
-
 // The name of this module
 define('_MI_XFORMS_NAME', 'xForms');
 
@@ -58,12 +57,6 @@ define('_MI_XFORMS_INTRO_DEFAULT', 'Feel free to contact us via the following me
 define('_MI_XFORMS_GLOBAL_DEFAULT', '[b]* Required[/b]');
 define('_MI_XFORMS_UPLOADDIR', 'Physical path for storing uploaded files WITHOUT trailing slash');
 define('_MI_XFORMS_UPLOADDIR_DESC', 'All upload files will be stored here when a form is sent via private message');
-define('_MI_XFORMS_CAPTCHA', 'Use captcha when submitting forms?');
-define('_MI_XFORMS_CAPTCHA_INHERIT', 'Inherit settings from XOOPS');
-define('_MI_XFORMS_CAPTCHA_ANON_ONLY', 'Captcha for anonymous users');
-define('_MI_XFORMS_CAPTCHA_EVERYONE', 'Captcha for All users');
-define('_MI_XFORMS_CAPTCHA_NONE', 'Do not use captcha');
-define('_MI_XFORMS_CAPTCHA_DESC', 'Select users who will use captcha when submitting forms.<br>Default: <em>\'' . _MI_XFORMS_CAPTCHA_INHERIT . '\'</em>');
 define('_MI_XFORMS_NOFORM', 'Text shown when there are no forms visible to the current user');
 define('_MI_XFORMS_NOFORM_DEFAULT', 'Sorry, there are currently no forms (visible for you).');
 define('_MI_XFORMS_SHOWFORMS', 'Show ' . _MI_XFORMS_NAME . ' index page?');

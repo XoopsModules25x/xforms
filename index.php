@@ -23,7 +23,6 @@
 use Xmf\FilterInput;
 use Xmf\Request;
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Captcha;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\MediaUploader;
 use XoopsModules\Xforms\Utility;
@@ -31,8 +30,11 @@ use XoopsModules\Xforms\Utility;
 require __DIR__ . '/header.php';
 $myts = \MyTextSanitizer::getInstance();
 
-/* @var string $moduleDirName */
-/* @var \XoopsModules\Xforms\Helper $helper */
+/**
+ * @var string $moduleDirName
+ * @var \XoopsModules\Xforms\Helper $helper
+ * @var \XoopsModules\Xforms\FormsHandler $formsHandler
+ */
 $helper->loadLanguage('admin');
 
 $submit = Request::getCmd('submit', '', 'POST');
@@ -43,9 +45,9 @@ if (empty($submit)) {
             // Don't show the forms available if no parameter set
             redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_NOFORM_SELECTED);
         }
-        /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
         $forms = $formsHandler->getPermittedForms();
         if ((false !== $forms) && (1 == count($forms))) {
+            /** @var \XoopsModules\Xforms\Forms $form */
             $form = $formsHandler->get($forms[0]->getVar('form_id'));
             if (!$assignedArray = $form->render()) {
                 redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_LONG, $form->getHtmlErrors());
@@ -85,9 +87,13 @@ if (empty($submit)) {
             }
         }
     } else {
-        /* @var \XoopsModules\Xforms\FormsHandler $formsHandler */
+        /**
+         * @var \XoopsModules\Xforms\FormsHandler $formsHandler
+         * @var \XoopsModules\Xforms\Forms $form
+         */
         if (($form = $formsHandler->get($formId))
-            && (false !== $formsHandler->getSingleFormPermission($formId))) {
+            && (false !== $formsHandler->getSingleFormPermission($formId)))
+        {
             if (!$form->isActive()) {
                 redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
             }
@@ -121,28 +127,26 @@ if (empty($submit)) {
 //-------------------------------
 // Now execute the form
 //-------------------------------
-/* @var \XoopsSecurity $xoopsSecurity */
-if (!$xoopsSecurity->check()) {
-    $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $xoopsSecurity->getErrors()));
+/** @var \XoopsSecurity $GLOBALS['xoopsSecurity'] */
+if (!$GLOBALS['xoopsSecurity']->check()) {
+    $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
 }
 
 $formId = Request::getInt('form_id', 0, 'POST');
 if (empty($formId)
     || !($form = $formsHandler->get($formId))
-    || (false === $formsHandler->getSingleFormPermission($formId))) {
-    header('Location: ' . $GLOBALS['xoops']->url('www'));
-    exit();
+    || (false === $formsHandler->getSingleFormPermission($formId)))
+{
+    redirect_header(XOOPS_URL, Constants::REDIRECT_DELAY_MEDIUM, _NO_PERM);
 }
 if (!$form->isActive()) {
     $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
 }
 
-//$msg = $err = $attachments = array();
 $msg = $err = [];
 
-// Check captcha
-xoops_load('captcha', $moduleDirName);
-$xfCaptchaObj = Captcha::getInstance();
+include (dirname(dirname(__DIR__))) . '/class/captcha/xoopscaptcha.php';
+$xfCaptchaObj = \XoopsCaptcha::getInstance();
 if (!$xfCaptchaObj->verify()) {
     $err[] = $xfCaptchaObj->getMessage();
 }
@@ -157,7 +161,7 @@ $criteria->setSort('ele_order');
 $criteria->order = 'ASC';
 $eleObjArray     = $xformsEleHandler->getObjects($criteria, true);
 
-/* @var array $ele */
+/** @var array $ele */
 foreach ($_POST as $k => $v) {
     if (preg_match('/^ele_[0-9]+$/', $k)) {
         $n          = explode('_', $k);
@@ -614,7 +618,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
     $send_group = (int)$form->getVar('form_send_to_group');
     $group      = false;
     if (-1 !== $send_group) {
-        $group = $member_handler->getGroup($send_group);
+        $group = $memberHandler->getGroup($send_group);
     }
     if (Constants::SEND_METHOD_PM == $form->getVar('form_send_method') && (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) && (false !== $group)) {
         /* Send by private message */
@@ -721,7 +725,7 @@ if (0 < count($err)) {
         }
     }
     $GLOBALS['xoopsOption']['template_main'] = 'xforms_error.tpl';
-    include_once $GLOBALS['xoops']->path('header.php');
+    require_once $GLOBALS['xoops']->path('header.php');
     $GLOBALS['xoopsTpl']->assign(
         [
             'error_heading'   => _MD_XFORMS_ERR_HEADING,
@@ -731,7 +735,7 @@ if (0 < count($err)) {
             'xoops_pagetitle' => _MD_XFORMS_ERR_HEADING,
         ]
     );
-    include $GLOBALS['xoops']->path('/footer.php');
+    require $GLOBALS['xoops']->path('/footer.php');
     exit();
 }
 

@@ -22,9 +22,7 @@
  */
 
 use Xmf\Request;
-use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
-use XoopsModules\Xforms\Helper;
 
 ob_start(); //To prevent problems in file send
 require __DIR__ . '/header.php';
@@ -42,12 +40,15 @@ if (empty($file)) {
         ob_end_clean();
         exit();
     }
-    $helper       = Helper::getInstance();
-    $uDataHandler = $helper::getInstance()->getHandler('UserData');
-    //$uDataHandler = $helper->getHandler('userdata');
-    if (!($uData = $uDataHandler->get($udid))
+    /**
+     * @var \XoopsModules\Xforms\Helper $helper
+     * @var \XoopsModules\Xforms\UserDataHandler $uDataHandler
+     */
+    $uDataHandler = $helper->getHandler('Userdata');
+    if (!($uData  = $uDataHandler->get($udid))
         || ((int)$uData->getVar('form_id') !== $form)
-        || ((int)$uData->getVar('ele_id') !== $elem)) {
+        || ((int)$uData->getVar('ele_id') !== $elem))
+    {
         //@todo - test ob_end_clean here - added in v2.00 ALPHA 2
         ob_end_clean();
         exit();
@@ -87,7 +88,7 @@ if (class_exists('finfo')) { // should exist for >= PHP 5.3
     //$mimeFile = $finfo->file($filename);
     $mimeFile = $finfo->file($fname);
 } else {
-    $mimeTypes = include_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
+    $mimeTypes = require_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
     //$extArray  = explode('.', $filename);
     $extArray = explode('.', $fname);
     $ext      = mb_strtolower(array_pop($extArray));

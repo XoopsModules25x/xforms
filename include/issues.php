@@ -23,22 +23,14 @@ use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper;
 
 $GLOBALS['xoopsOption']['nocommon'] = true;
-//include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-include_once dirname(dirname(dirname(__DIR__))) . '/cpheader.php';
+//require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/cpheader.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
 
-if (isset($GLOBALS['xoopsConfig']['language'])
-    && file_exists(dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php')
-    && file_exists(dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php'))
-{
-    include_once dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/admin.php';
-    include_once dirname(__DIR__) . '/language/' . $GLOBALS['xoopsConfig']['language'] . '/modinfo.php';
-} else {
-    include_once dirname(__DIR__) . '/language/english/admin.php'; // messages will be in english
-    include_once dirname(__DIR__) . '/language/english/modinfo.php'; // messages will be in english
-}
+xoops_loadLanguage('admin', $moduleDirName);
+xoops_loadLanguage('modinfo', $moduleDirName);
 //session_start();
 
 $issuesClass = '\XoopsModules\\' . ucfirst(mb_strtolower($moduleDirName)) . '\Issues';

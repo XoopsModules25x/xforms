@@ -7,14 +7,15 @@ TODO:
   - range
   - time (for Firefox - use http://trentrichardson.com/examples/timepicker/)
 - create renderValidationJS or use pattern for HTML5 types since many browsers don't actually validate data
+- modify update/upgrade script in ./install to include previous upgrade functionality from ./admin/upgrade.php
 
 ENHANCEMENTS TO BE ADDED:
 =================================
-- create/test xBootstrap templates
+- create xBootstrap templates
 - Add option to date element to set 'Today' as the min/max/default date where 'Today' is dynamically calculated to   set minimum as 'Today' (not 'Current Date' which is fixed at time form is created).
 - In admin - allow selecting multiple 'default' values in select boxes (select, country, etc) if select box is set to 'allow multiple selections'.
 - add Elements:
-  - rating | use https://github.com/antennaio/jquery-bar-rating
+  - rating | use https://github.com/antennaio/jquery-bar-rating or similar
   - payment use xPayment plugin to create payment element
 - add Xmf\Metagen support to dynamically create meta data for front side pages/forms
 

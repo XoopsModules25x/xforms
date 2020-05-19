@@ -91,6 +91,7 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
     */
 
     $success = true;
+    /* @var \XoopsModules\Xforms\Helper $helper */
     $helper = Helper::getInstance();
     $helper->loadLanguage('modinfo');
 

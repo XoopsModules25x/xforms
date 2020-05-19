@@ -22,7 +22,7 @@ namespace XoopsModules\Xforms;
  * @since     1.30
  */
 
-//defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+
 
 /**
  * Interface \XoopsModules\Xforms\Constants
@@ -110,6 +110,18 @@ interface Constants
      */
     const ELE_YES = 1;
     /**
+     * element - scheme both http & ftp
+     */
+    const SCHEME_BOTH = 0;
+    /**
+     * element - scheme both http & ftp
+     */
+    const SCHEME_HTTP = 1;
+    /**
+     * element - scheme both http & ftp
+     */
+    const SCHEME_FTP = 2;
+    /**
      * element - use current date
      */
     const ELE_CURR = 1;
@@ -117,6 +129,18 @@ interface Constants
      * element - use other date
      */
     const ELE_OTHER = 2;
+    /**
+     * element - set date
+     */
+    const DATE_NONE = 0;
+    /**
+     * element - set to current date
+     */
+    const DATE_CURRENT = 1;
+    /**
+     * element - set specific date
+     */
+    const DATE_SPECIFIC = 2;
     /**
      * range default step size
      */

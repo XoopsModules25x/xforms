@@ -271,52 +271,55 @@ switch ($op) {
 
         // set same configs for all editors on this page
         $sysHelper     = \Xmf\Module\Helper::getHelper('system');
-        $editorConfigs = [
-            'editor' => $sysHelper->getConfig('general_editor'),
+        $editorConfigs = ['editor' => $sysHelper->getConfig('general_editor'),
                                  'rows' => 5,
                                  'cols' => 90,
                                 'width' => '100%',
-            'height' => '200px',
+                               'height' => '200px'
         ];
 
         $editorConfigs        = array_merge($editorConfigs, ['name' => 'form_email_header', 'value' => $form->getVar('form_email_header', 'e')]);
-        $tareaFormEmailHeader = new \XoopsFormEditor(_AM_XFORMS_EMAIL_HEADER, 'form_email_header', $editorConfigs);
+        $tareaFormEmailHeader = new \XoopsFormEditor(_AM_XFORMS_EMAIL_HEADER, 'form_email_header', $editorConfigs, false, 'dhtmltextarea');
         $tareaFormEmailHeader->setDescription(_AM_XFORMS_EMAIL_HEADER_DESC);
-//        $tareaFormEmailHeader = new \XoopsFormDhtmlTextArea(_AM_XFORMS_EMAIL_HEADER, 'form_email_header', $form->getVar('form_email_header', 'e'), 5, 90);
-//        $tareaFormEmailHeader->skipPreview = true;
+
+        if (property_exists($tareaFormEmailHeader->editor, 'renderer')) {
         $renderer = $tareaFormEmailHeader->editor->renderer;
         if (property_exists($renderer, 'skipPreview')) {
             $tareaFormEmailHeader->editor->renderer->skipPreview = true;
         }
+        }
 
         $editorConfigs        = array_merge($editorConfigs, ['name' => 'form_email_footer', 'value' => $form->getVar('form_email_footer', 'e')]);
-        $tareaFormEmailFooter = new \XoopsFormEditor(_AM_XFORMS_EMAIL_FOOTER, 'form_email_footer', $editorConfigs);
+        $tareaFormEmailFooter = new \XoopsFormEditor(_AM_XFORMS_EMAIL_FOOTER, 'form_email_footer', $editorConfigs, false, 'dhtmltexteditor');
         $tareaFormEmailFooter->setDescription(_AM_XFORMS_EMAIL_FOOTER_DESC);
-//        $tareaFormEmailFooter = new \XoopsFormDhtmlTextArea(_AM_XFORMS_EMAIL_FOOTER, 'form_email_footer', $form->getVar('form_email_footer', 'e'), 5, 90);
-//        $tareaFormEmailFooter->skipPreview = true;
+
+        if (property_exists($tareaFormEmailFooter->editor, 'renderer')) {
         $renderer = $tareaFormEmailFooter->editor->renderer;
         if (property_exists($renderer, 'skipPreview')) {
             $tareaFormEmailFooter->editor->renderer->skipPreview = true;
         }
+        }
 
         $editorConfigs         = array_merge($editorConfigs, ['name' => 'form_email_uheader', 'value' => $form->getVar('form_email_uheader', 'e')]);
-        $tareaFormEmailUheader = new \XoopsFormEditor(_AM_XFORMS_EMAIL_UHEADER, 'form_email_uheader', $editorConfigs);
+        $tareaFormEmailUheader = new \XoopsFormEditor(_AM_XFORMS_EMAIL_UHEADER, 'form_email_uheader', $editorConfigs, false, 'dhtmltexteditor');
         $tareaFormEmailUheader->setDescription(_AM_XFORMS_EMAIL_UHEADER_DESC);
-//        $tareaFormEmailUheader = new \XoopsFormDhtmlTextArea(_AM_XFORMS_EMAIL_UHEADER, 'form_email_uheader', $form->getVar('form_email_uheader', 'e'), 5, 90);
-//        $tareaFormEmailUheader->skipPreview = true;
+
+        if (property_exists($tareaFormEmailUheader->editor, 'renderer')) {
         $renderer = $tareaFormEmailUheader->editor->renderer;
         if (property_exists($renderer, 'skipPreview')) {
             $tareaFormEmailUheader->editor->renderer->skipPreview = true;
         }
+        }
 
         $editorConfigs         = array_merge($editorConfigs, ['name' => 'form_email_ufooter', 'value' => $form->getVar('form_email_ufooter', 'e')]);
-        $tareaFormEmailUfooter = new \XoopsFormEditor(_AM_XFORMS_EMAIL_UFOOTER, 'form_email_ufooter', $editorConfigs);
+        $tareaFormEmailUfooter = new \XoopsFormEditor(_AM_XFORMS_EMAIL_UFOOTER, 'form_email_ufooter', $editorConfigs, false, 'dhtmltexteditor');
         $tareaFormEmailUfooter->setDescription(_AM_XFORMS_EMAIL_UFOOTER_DESC);
-//        $tareaFormEmailUfooter = new \XoopsFormDhtmlTextArea(_AM_XFORMS_EMAIL_UFOOTER, 'form_email_ufooter', $form->getVar('form_email_ufooter', 'e'), 5, 90);
-//        $tareaFormEmailUfooter->skipPreview = true;
+
+        if (property_exists($tareaFormEmailUfooter->editor, 'renderer')) {
         $renderer = $tareaFormEmailUfooter->editor->renderer;
         if (property_exists($renderer, 'skipPreview')) {
             $tareaFormEmailUfooter->editor->renderer->skipPreview = true;
+        }
         }
 
         $selectFormDelimiter = new \XoopsFormSelect(_AM_XFORMS_DELIMETER, 'form_delimiter', $form->getVar('form_delimiter'));
@@ -332,23 +335,25 @@ switch ($op) {
         $submitFormSubmitText = new \XoopsFormText(_AM_XFORMS_SUBMIT_TEXT, 'form_submit_text', 50, 50, empty($submitText) ? _SUBMIT : $submitText);
 
         $editorConfigs = array_merge($editorConfigs, ['name' => 'form_desc', 'value' => $form->getVar('form_desc', 'e')]);
-        $tareaFormDesc = new \XoopsFormEditor(_AM_XFORMS_DESC, 'form_desc', $editorConfigs);
+        $tareaFormDesc = new \XoopsFormEditor(_AM_XFORMS_DESC, 'form_desc', $editorConfigs, false, 'dhtmltexteditor');
         $tareaFormDesc->setDescription(_AM_XFORMS_DESC_DESC);
-//        $tareaFormDesc = new \XoopsFormDhtmlTextArea(_AM_XFORMS_DESC, 'form_desc', $form->getVar('form_desc', 'e'), 5, 90);
-//        $tareaFormDesc->skipPreview = true;
+
+        if (property_exists($tareaFormDesc->editor, 'renderer')) {
         $renderer = $tareaFormDesc->editor->renderer;
         if (property_exists($renderer, 'skipPreview')) {
             $tareaFormDesc->editor->renderer->skipPreview = true;
         }
+        }
 
         $editorConfigs  = array_merge($editorConfigs, ['name' => 'form_intro', 'value' => $form->getVar('form_intro', 'e')]);
-        $tareaFormIntro = new \XoopsFormEditor(_AM_XFORMS_INTRO, 'form_intro', $editorConfigs);
+        $tareaFormIntro = new \XoopsFormEditor(_AM_XFORMS_INTRO, 'form_intro', $editorConfigs, false, 'dhtmltexteditor');
         $tareaFormIntro->setDescription(_AM_XFORMS_INTRO_DESC);
-//        $tareaFormIntro = new \XoopsFormDhtmlTextArea(_AM_XFORMS_INTRO, 'form_intro', $form->getVar('form_intro', 'e'), 5, 90);
-//        $tareaFormIntro->skipPreview = true;
+
+        if (property_exists($tareaFormIntro->editor, 'renderer')) {
         $renderer = $tareaFormIntro->editor->renderer;
         if (property_exists($renderer, 'skipPreview')) {
             $tareaFormIntro->editor->renderer->skipPreview = true;
+        }
         }
 
         $textFormContactLabel = new \XoopsFormLabel('<span style="font-weight: bold; font-size: larger;">' . _AM_FORMS_CONTACT_INFO . '</span>', '', 'contact_label');
@@ -596,7 +601,7 @@ switch ($op) {
         $formActive       = Request::getInt('form_active', 0, 'POST');
 
         //validate list of other email addresses
-        $sToO = (!empty($FormSendToOther)) ? explode(';', $formSendToOther) : [];
+        $sToO = (!empty($formSendToOther)) ? explode(';', $formSendToOther) : [];
         $valArray = [];
         foreach ($sToO as $oEmail) {
             if ($valEmail = filter_var($oEmail, FILTER_VALIDATE_EMAIL)) {
@@ -605,9 +610,7 @@ switch ($op) {
         }
         $formSendToOther = (!empty($valArray)) ? implode(';', $valArray) : '';
 
-        $form->setVars(
-            [
-                'form_send_to_group' => $formSendToGroup,
+        $form->setVars(['form_send_to_group' => $formSendToGroup,
                              'form_send_to_other' => $formSendToOther,
                                  'form_send_copy' => $formSendCopy,
                                'form_send_method' => $formSendMethod,
@@ -625,8 +628,7 @@ switch ($op) {
                                    'form_whereto' => $formWhereTo,
                              'form_display_style' => $formDisplayStyle,
                                      'form_begin' => 0,
-                'form_active'        => $formActive,
-            ]
+                                    'form_active' => $formActive]
         );
 
         if (0 !== (int)$defineFormBegin) {
@@ -688,5 +690,5 @@ switch ($op) {
         break;
 }
 
-include __DIR__ . '/admin_footer.php';
+require __DIR__ . '/admin_footer.php';
 xoops_cp_footer();

@@ -22,7 +22,7 @@
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper;
 
-include_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
 
 // Instantiate module helper
 $helper = Helper::getInstance();

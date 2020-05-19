@@ -25,7 +25,7 @@ namespace XoopsModules\Xforms;
 
 use XoopsModules\Xforms;
 
-defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+
 
 if (!class_exists('\XoopsMediaUploader')) {
     xoops_load('xoopsmediauploader');
@@ -60,7 +60,7 @@ class MediaUploader extends \XoopsMediaUploader
         if (!empty($allowedExtensions)) {
             $this->allowedExtensions = $allowedExtensions;
         } else {
-            $mimeArray               = include $GLOBALS['xoops']->path('include/mimetypes.inc.php');
+            $mimeArray               = require $GLOBALS['xoops']->path('include/mimetypes.inc.php');
             $this->allowedExtensions = array_keys($mimeArray);
         }
     }

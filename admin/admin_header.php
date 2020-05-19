@@ -25,6 +25,7 @@
  */
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
+require $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 require_once dirname(__DIR__) . '/include/common.php';
 
 $moduleDirName = basename(dirname(__DIR__));
@@ -45,4 +46,4 @@ $helper->loadLanguage('main');
 $helper->loadLanguage('common');
 
 // Load/Instantiate form classes
-xoops_load('xoopsformloader');
+//xoops_load('xoopsformloader');

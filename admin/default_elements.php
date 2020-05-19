@@ -12,11 +12,12 @@
 
 /**
  * Module: xForms
- * Default settings for elements
+ *
+ * Settings for default form elements
  *
  * @package   \XoopsModules\Xforms\admin
  * @author    XOOPS Module Development Team
- * @copyright Copyright (c) 2001-2019 {@link http://xoops.org XOOPS Project}
+ * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
  * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @link      https://github.com/XoopsModules25x/xforms
  *

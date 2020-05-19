@@ -24,7 +24,7 @@
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper;
 
-//defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+
 
 /**
  * xforms_search()
@@ -45,6 +45,7 @@ function xforms_search($queryArray, $andor, $limit, $offset, $uid)
 {
     $ret = [];
     if (0 == (int)$uid) {
+        /** @var \XoopsModules\Xforms\Helper $helper */
         $helper       = Helper::getInstance();
         $formsHandler = $helper::getInstance()->getHandler('Forms');
 

@@ -22,7 +22,6 @@
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\ElementRenderer;
-use XoopsModules\Xforms\FormCaptcha;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
@@ -50,7 +49,7 @@ if (Constants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
 } else {
     $GLOBALS['xoopsOption']['template_main'] = 'xforms_form_poll.tpl';
 }
-include_once $GLOBALS['xoops']->path('/header.php');
+require_once $GLOBALS['xoops']->path('/header.php');
 $GLOBALS['xoTheme']->addStylesheet('browse.php?modules/' . $moduleDirName . '/assets/css/style.css');
 
 /*
@@ -74,7 +73,7 @@ if (empty($elements)) { // this form doesn't have any elements
     xoops_footer();
     exit();
 }
-$formOutput   = new \XoopsThemeForm($form->getVar('form_title'), 'xforms_' . $form->getVar('form_id'), $helper->url('index.php'), 'post', true);
+$formOutput   = new \XoopsThemeForm($form->getVar('form_title', 's'), 'xforms_' . $form->getVar('form_id'), $helper->url('index.php'), 'post', true);
 $firstElement = true;
 $count        = 1;
 $multipart    = false;
@@ -100,11 +99,7 @@ if ($multipart) { // set multipart attribute for form
     $formOutput->setExtra('enctype="multipart/form-data"');
 }
 $formOutput->addElement(new \XoopsFormHidden('form_id', $form->getVar('form_id')));
-
-// load captcha
-xoops_load('formCaptcha', $moduleDirName);
-$xfFormCaptcha = new FormCaptcha();
-$formOutput->addElement($xfFormCaptcha);
+$formOutput->addElement(new \XoopsFormCaptcha());
 
 $subButton = new \XoopsFormButton('', 'submit', $form->getVar('form_submit_text'), 'submit');
 $subButton->setExtra('tabindex="' . $count++ . '"'); // allow tabbing to the Submit button too

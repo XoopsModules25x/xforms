@@ -91,7 +91,7 @@ class ElementHandler extends \XoopsPersistableObjectHandler
     public function insertDefaults($form_id)
     {
         $dFile = Helper::getInstance()->path('admin/default_elements.php');
-        include $dFile;
+        require $dFile;
         /** @var array $defaults */
         if (count($defaults) > 0) {
             $error = '';

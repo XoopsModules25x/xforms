@@ -7,8 +7,8 @@
  WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
  FITNESS FOR A PARTICULAR PURPOSE.
 */
-
 /**
+ *
  * @copyright https://xoops.org XOOPS Project
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @author    XOOPS Project <www.xoops.org> <www.xoops.ir>
@@ -21,7 +21,6 @@ defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 class XformsCorePreload extends \XoopsPreloadItem
 {
     // to add PSR-4 autoloader
-
     /**
      * @param $args
      */

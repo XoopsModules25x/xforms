@@ -82,6 +82,7 @@ class ElementRenderer
     public function constructElement($admin = false, $delimiter = ' ')
     {
         // Instantiate
+        /** @var \XoopsModules\Xforms\Helper $helper */
         $helper     = Helper::getInstance(); // module helper
         $myts       = \MyTextSanitizer::getInstance();
         $eleCaption = $myts->displayTarea($this->ele->getVar('ele_caption'), Constants::ALLOW_HTML);
@@ -102,18 +103,17 @@ class ElementRenderer
                     }
                     ++$oCount;
                 }
-                $formElement = new \XoopsFormElementTray($eleCaption, Constants::DELIMITER_BR == $delimiter ? '<br>' : ' ');
+                //$formElement = new \XoopsFormElementTray($eleCaption, Constants::DELIMITER_BR == $delimiter ? '<br>' : ' ');
+                //$ckBox = new \XoopsFormCheckBox('', $formEleId, $selected);
+                $formElement = new \XoopsFormCheckBox($eleCaption, $formEleId, $selected, Constants::DELIMITER_BR == $delimiter ? '<br>' : ' ');
+                $optArray = [];
                 foreach ($options as $key=>$opt ) {
-                //while ($opt = each($options)) {
-                    $ckBox = new \XoopsFormCheckBox('', $formEleId . '[]', $selected);
                     $other = $this->optOther($opt, $formEleId);
-                    if (false !== $other && !$admin) {
-                        $ckBox->addOption($key, _MD_XFORMS_OPT_OTHER . $other);
-                    } else {
-                        $ckBox->addOption($key, $opt);
-                    }
-                    $formElement->addElement($ckBox);
+                    $optArray[$key] = ($other !== false && !$admin) ? _MD_XFORMS_OPT_OTHER . $other : $opt;
                 }
+                //$ckBox->addOptionArray($optArray);
+                //$formElement->addElement($ckBox);
+                $formElement->addOptionArray($optArray);
                 break;
             case 'color':
                 $formElement = new \XoopsFormElementTray($eleCaption);
@@ -122,13 +122,9 @@ class ElementRenderer
                 $colorLbl    = new \XoopsFormLabel('', '<label class="middle" id="color_' . $formEleId . '" for="' . $formEleId . '">' . $eleValue[0] . '</label>');
                 $formElement->addElement($colorInp);
                 $formElement->addElement($colorLbl);
-//                $formElement = new \XformsFormInput($eleCaption, $formEleId, $eleValue[1], 255, $eleValue[0], null, 'color');
                 break;
             case 'date':
                 xoops_load('xoopslocal');
-                //if (!class_exists(\XoopsModules\Xforms\FormRaw)) {
-                //    xoops_load('FormRaw', $this->dirname);
-                //}
                 $formElement = new \XoopsFormElementTray($eleCaption);
                 // set default date
                 switch ((int)$eleValue[1]) {
@@ -136,7 +132,8 @@ class ElementRenderer
                     default:
                         $dateDef = date('Y-m-d');
                         break;
-                    case 2: // to specific date
+
+                    case Constants::ELE_OTHER: // to specific date
                         $dateDef = $eleValue[0];
                         break;
                 }
@@ -144,16 +141,16 @@ class ElementRenderer
 
                 // set start (min) date
                 switch ((int)$eleValue[3]) {
-                    case 0: // no
+                    case Constants::DATE_NONE: // no
                     default:
                         $inpEleDesc = '';
                         break;
-                    case 1: // to current date
+                    case Constants::DATE_CURRENT: // to current date
                         $dateMin = date('Y-m-d');
                         $inpEle->setAttribute('min', $dateMin);
                         $inpEleDesc = sprintf(_AM_XFORMS_ELE_DATE_MIN_LBL, date(_SHORTDATESTRING));
                         break;
-                    case 2: // to specific date
+                    case Constants::DATE_SPECIFIC: // to specific date
                         $dateMin = $eleValue[2];
                         $inpEle->setAttribute('min', $dateMin);
                         $inpEleDesc = sprintf(_AM_XFORMS_ELE_DATE_MIN_LBL, \XoopsLocal::formatTimestamp(strtotime($eleValue[2]), 's'));
@@ -161,15 +158,15 @@ class ElementRenderer
                 }
                 // set start (max) date
                 switch ((int)$eleValue[5]) {
-                    case 0: //no
+                    case Constants::DATE_NONE: //no
                     default:
                         break;
-                    case 1: // to current date
+                    case Constants::DATE_CURRENT: // to current date
                         $dateMax = date('Y-m-d');
                         $inpEle->setAttribute('max', $dateMax);
                         $inpEleDesc .= sprintf(_AM_XFORMS_ELE_DATE_MAX_LBL, date(_SHORTDATESTRING));
                         break;
-                    case 2: // to specific date
+                    case Constants::DATE_SPECIFIC: // to specific date
                         $dateMax = $eleValue[4];
                         $inpEle->setAttribute('max', $dateMax);
                         $inpEleDesc .= sprintf(_AM_XFORMS_ELE_DATE_MAX_LBL, \XoopsLocal::formatTimestamp(strtotime($eleValue[4]), 's'));
@@ -211,7 +208,7 @@ class ElementRenderer
                 if ($admin) {
                     $formElement->setExtra('disabled');
                 }
-                /* add javascript email validation - HTML5 validation isn't very good
+                /* add javascript email validation - HTML5 validation isn't great
                  * filter inserted from emailregx.com on 25 Jul 2016
                  */
                 $formElement->customValidationCode[] =
@@ -248,10 +245,10 @@ class ElementRenderer
                 if (!empty($eleValue[4])) { // do we want to set a min value?
                     $formElement->setAttribute('min', (int)$eleValue[0]);
                 }
-                if (!empty($eleValue[5])) {
+                if (!empty($eleValue[5])) { // do we want to set a max value?
                     $formElement->setAttribute('max', (int)$eleValue[1]);
                 }
-                if (!empty($eleValue[7])) {
+                if (!empty($eleValue[7])) { // do we want to set a step value?
                     $formElement->setAttribute('step', (int)$eleValue[7]);
                 }
                 break;
@@ -461,14 +458,14 @@ class ElementRenderer
                  */
                 $formElement = new FormInput($eleCaption, $formEleId, $eleValue[0], $eleValue[1], '', $eleValue[2], 'url');
                 switch ((int)$eleValue[3]) {
-                    case 0: // both http[s] & ftp[s]
+                    case Constants::SCHEME_BOTH: // both http[s] & ftp[s]
                         $formElement->setExtra('pattern="(http|ftp)s?://.+"');
                         break;
-                    case 1: // http[s] only
+                    case Constants::SCHEME_HTTP: // http[s] only
                     default:
                         $formElement->setExtra('pattern="https?://.+"');
                         break;
-                    case 2: // ftp[s] only
+                    case Constants::SCHEME_FTP: // ftp[s] only
                         $formElement->setExtra('pattern="ftps?://.+"');
                         break;
                 }
@@ -569,6 +566,7 @@ class ElementRenderer
         if (!preg_match('/\{OTHER\|+[0-9]+\}/', $s)) {
             return false;
         }
+        /** @var \XoopsModules\Xforms\Helper $helper */
         $helper = Helper::getInstance();
 
         $s   = explode('|', preg_replace('/[\{\}]/', '', $s));

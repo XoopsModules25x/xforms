@@ -22,6 +22,7 @@
 use XoopsModules\Xforms\Helper;
 
 // instantiate module helper
+/* @var \XoopsModules\Xforms\Helper $helper */
 $helper = Helper::getInstance();     // module helper
 require_once $helper->path('include/common.php');
 

@@ -20,6 +20,7 @@
  * @author    XOOPS Module Development Team
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @link      https://github.com/XoopsModules25x/xforms
  * @since     1.00
  */
 
@@ -29,12 +30,13 @@ defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
 require_once __DIR__ . '/preloads/autoloader.php';
 
-$moduleDirName = basename(__DIR__);
+$moduleDirName      = basename(__DIR__);
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 /*  @var array $modversion */
-$modversion['version']       = '2.00.0';
-$modversion['module_status'] = 'Alpha 2';
-$modversion['release_date']  = '2019/12/22';
+$modversion['version']       = '2.00';
+$modversion['module_status'] = 'Alpha 3';
+$modversion['release_date']  = '2020/04/16';
 $modversion['name']          = _MI_XFORMS_NAME;
 $modversion['description']   = _MI_XFORMS_DESC;
 $modversion['author']        = 'Brandycoke Productions, Dylian Melgert, Juan Garcés';
@@ -72,9 +74,9 @@ $modversion['helpsection'] = [
 $modversion['module_website_url']  = 'https://xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '7.1';
-$modversion['min_xoops']           = '2.5.9';
+$modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
-$modversion['min_db']              = ['mysql' => '5.5', 'mysqli' => '5.5'];
+$modversion['min_db']              = ['mysql' => '5.5'];
 
 // Install, update, unistall
 $modversion['onInstall']   = 'include/oninstall.php';
@@ -293,21 +295,6 @@ $modversion['config'] = [
     ],
 
     [
-        'name'        => 'captcha',
-        'title'       => '_MI_XFORMS_CAPTCHA',
-        'description' => '_MI_XFORMS_CAPTCHA_DESC',
-        'formtype'    => 'select',
-        'valuetype'   => 'int',
-        'options'     => [
-            _MI_XFORMS_CAPTCHA_INHERIT   => Constants::CAPTCHA_INHERIT,
-            _MI_XFORMS_CAPTCHA_ANON_ONLY => Constants::CAPTCHA_ANON_ONLY,
-            _MI_XFORMS_CAPTCHA_EVERYONE  => Constants::CAPTCHA_EVERYONE,
-            _MI_XFORMS_CAPTCHA_NONE      => Constants::CAPTCHA_NONE,
-        ],
-        'default'     => Constants::CAPTCHA_INHERIT,
-    ],
-
-    [
         'name'        => 'showforms',
         'title'       => '_MI_XFORMS_SHOWFORMS',
         'description' => '_MI_XFORMS_SHOWFORMS_DESC',
@@ -323,5 +310,29 @@ $modversion['config'] = [
         'formtype'    => 'textbox',
         'valuetype'   => 'int',
         'default'     => Constants::FORMS_PER_PAGE_DEFAULT,
+    ],
+
+    /**
+     * Make Sample button visible?
+     */
+    [
+        'name'        => 'displaySampleButton',
+        'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON',
+        'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC',
+        'formtype'    => 'yesno',
+        'valuetype'   => 'int',
+        'default'     => 1,
+    ],
+
+    /**
+     * Show Developer Tools?
+     */
+    [
+        'name'        => 'displayDeveloperTools',
+        'title'       => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS',
+        'description' => 'CO_' . $moduleDirNameUpper . '_' . 'SHOW_DEV_TOOLS_DESC',
+        'formtype'    => 'yesno',
+        'valuetype'   => 'int',
+        'default'     => 0,
     ],
 ];

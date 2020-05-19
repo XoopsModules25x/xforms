@@ -45,7 +45,7 @@ $size->setAttribute('min', 0);
 $size->setAttribute('step', 512);
 $size->setExtra('style="width: 10em;"');
 
-$mimeArray   = include_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
+$mimeArray   = require_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
 $mimeTypes   = implode('|', $mimeArray);
 $mimeTypesJS = implode('\|', $mimeArray);
 $mimeTypesIn = empty($eleId) ? $mimeTypes : $myts->htmlSpecialChars($value[2]);

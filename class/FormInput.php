@@ -23,7 +23,7 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-defined('XOOPS_ROOT_PATH') || exit('Restricted access');
+
 
 /**
  * HTML5 Input class for forms
@@ -562,7 +562,10 @@ class FormInput extends \XoopsFormElement
     {
         $access = $this->getAccessKey();
         if (!empty($access) && (false !== ($pos = mb_strpos($str, $access)))) {
-            return htmlspecialchars(mb_substr($str, 0, $pos), ENT_QUOTES) . '<span style="text-decoration: underline;">' . htmlspecialchars(mb_substr($str, $pos, 1), ENT_QUOTES) . '</span>' . htmlspecialchars(mb_substr($str, $pos + 1), ENT_QUOTES);
+            return htmlspecialchars(mb_substr($str, 0, $pos), ENT_QUOTES) 
+            . '<span style="text-decoration: underline;">' 
+            . htmlspecialchars(mb_substr($str, $pos, 1), ENT_QUOTES) . '</span>' 
+            . htmlspecialchars(mb_substr($str, $pos + 1), ENT_QUOTES);
         }
 
         return htmlspecialchars($str, ENT_QUOTES);

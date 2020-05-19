@@ -7,7 +7,7 @@
         <table class="outer bspacing1">
             <{foreach item=element from=$form_output.elements}>
                 <{if 'html' != $element.ele_type}>
-                    <{if true != $element.hidden}>
+                    <{if true !== $element.hidden}>
                         <{if 1 == $element.display_row}>
                             <tr>
                                 <td class="width33">
@@ -43,7 +43,7 @@
             <{/foreach}>
         </table>
         <{foreach item=element from=$form_output.elements}>
-            <{if true == $element.hidden}><{$element.body}><{/if}>
+            <{if true === $element.hidden}><{$element.body}><{/if}>
         <{/foreach}>
         <{if '' != $form_text_global}>
             <div><{$form_text_global}></div><{/if}>
