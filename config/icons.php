@@ -1,11 +1,13 @@
 <?php
 
+use Xmf\Module\Admin;
+
 /**
  * @return object
  */
 function getIcons()
 {
-    $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+    $pathIcon16 = Admin::iconUrl('', 16);
 
     return (object)[
         'name'  => $moduleDirNameUpper . ' Module Configurator',

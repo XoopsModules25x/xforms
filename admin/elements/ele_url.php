@@ -20,10 +20,11 @@
  * @link      https://github.com/XoopsModules25x/xforms
  * @since     2.00
  *
- * @see \XoopsModules\Xforms\Helper
+ * @see       \XoopsModules\Xforms\Helper
  */
+
 use XoopsModules\Xforms;
-use XoopsModules\Xforms\Helper ;
+use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\FormInput;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
@@ -47,7 +48,7 @@ $sizeInput = new FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, (string)$s
 $sizeInput->setAttribute('min', 0);
 $sizeInput->setExtra('style="width: 5em;"');
 
-$maxInput  = new FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 5, 5, (string)$max, null, 'number');
+$maxInput = new FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 5, 5, (string)$max, null, 'number');
 $maxInput->setAttribute('min', 1);
 $maxInput->setExtra('style="width: 5em;"');
 $maxInput->setExtra('onchange="document.getElementById(\'ele_value[2]\').setAttribute(\'maxlength\', this.value);"');
@@ -58,10 +59,10 @@ $radio = new \XoopsFormRadio('', 'ele_value[3]', $allowed);
 $radio->addOptionArray([0 => 'both', 1 => 'http[s]', 2 => 'ftp[s]']);
 $allowUrls->addElement($radio);
 
-$phText     = isset($value[2]) ? $myts->htmlSpecialChars($value[2]) : '';
-$placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[2]', (string) $size, (string)$max, $phText);
+$phText      = isset($value[2]) ? htmlspecialchars($value[2]) : '';
+$placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[2]', (string)$size, (string)$max, $phText);
 
-//$defVal     = isset($value[3]) ? $myts->htmlSpecialChars($value[3]) : '';
+//$defVal     = isset($value[3]) ? htmlspecialchars($value[3]) : '';
 //$default    = new FormInput(_AM_XFORMS_ELE_DEFAULT, 'ele_value[3]', $size, $max, $defVal);
 //$default->setDescription('You must enter http[s]://');
 //$default->setExtra('pattern="https?://.+"');

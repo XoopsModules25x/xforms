@@ -1,4 +1,5 @@
 <?php
+
 define('_AM_XFORMS_SAVE', 'Save');
 define('_AM_XFORMS_COPIED', '%s copy');
 define('_AM_XFORMS_DBUPDATED', 'Database Updated Successfully!');
@@ -271,7 +272,6 @@ define('_AM_XFORMS_ERROR_BAD_XOOPS', 'This module requires XOOPS %s+ (%s install
 define('_AM_XFORMS_ERROR_BAD_PHP', 'This module requires PHP version %s+ (%s installed)');
 define('_AM_XFORMS_ERROR_BAD_UPLOAD_PATH', 'Could not create %s directory');
 define('_AM_XFORMS_ERROR_BAD_INDEX', 'Could not create %s file');
-
 
 define('_AM_XFORMS_ERR_COPY_UPLOADS', 'Could not copy uploaded files from %s');
 define('_AM_XFORMS_ERR_CREATE_FORM', 'Could not create form object (%s form Id = %s)');

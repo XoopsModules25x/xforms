@@ -19,13 +19,15 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
+
 use XoopsModules\Xforms\Constants;
+use XoopsModules\Xforms\Forms;
 use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\ElementRenderer;
 
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
-if (empty($form) || (!$form instanceof \XoopsModules\Xforms\Forms)) {
+if (empty($form) || (!$form instanceof Forms)) {
     header('Location: index.php');
     exit();
 }
@@ -37,10 +39,10 @@ $moduleDirName = basename(dirname(__DIR__));
 
 // Instantiate Element handler
 /**
- * @var \XoopsModules\Xforms\Helper $helper
+ * @var \XoopsModules\Xforms\Helper         $helper
  * @var \XoopsModules\Xforms\ElementHandler $xformsEleHandler
  */
-$helper = Helper::getInstance();
+$helper           = Helper::getInstance();
 $xformsEleHandler = $helper->getHandler('Element');
 require_once $helper->path('class/elementrenderer.php');
 
@@ -60,7 +62,7 @@ $criteria->add(new \Criteria('form_id', $form->getVar('form_id')));
 $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY));
 $criteria->setSort('ele_order');
 $criteria->order = 'ASC';
-$elements = $xformsEleHandler->getObjects($criteria, true);
+$elements        = $xformsEleHandler->getObjects($criteria, true);
 
 $helper->loadLanguage('admin');
 $helper->loadLanguage('main');
@@ -126,11 +128,11 @@ foreach ($formOutput->getElements() as $e) {
     }
     $eles[] = [
         'caption'     => $caption,
-                       'name' => $name,
-                       'body' => $e->render(),
-                     'hidden' => $e->isHidden(),
-                   'required' => $req,
-                'display_row' => $display_row,
+        'name'        => $name,
+        'body'        => $e->render(),
+        'hidden'      => $e->isHidden(),
+        'required'    => $req,
+        'display_row' => $display_row,
         'ele_type'    => $ele_type,
     ];
 }
@@ -139,16 +141,16 @@ $GLOBALS['xoopsTpl']->assign(
     'form_output',
     [
         'title'            => $formOutput->getTitle(),
-                                                   'name' => $formOutput->getName(),
-                                                 'action' => $formOutput->getAction(),
-                                                 'method' => $formOutput->getMethod(),
-                                                  'extra' => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
-                                             'javascript' => $js,
-                                               'elements' => $eles,
-                                        'form_req_prefix' => $helper->getConfig('prefix'),
-                                        'form_req_suffix' => $helper->getConfig('suffix'),
-                                             'form_intro' => $form->getVar('form_intro'),
-                                       'form_text_global' => $myts->displayTarea($helper->getConfig('global')),
+        'name'             => $formOutput->getName(),
+        'action'           => $formOutput->getAction(),
+        'method'           => $formOutput->getMethod(),
+        'extra'            => 'onsubmit="return xoopsFormValidate_' . $formOutput->getName() . '();"' . $formOutput->getExtra(),
+        'javascript'       => $js,
+        'elements'         => $eles,
+        'form_req_prefix'  => $helper->getConfig('prefix'),
+        'form_req_suffix'  => $helper->getConfig('suffix'),
+        'form_intro'       => $form->getVar('form_intro'),
+        'form_text_global' => $myts->displayTarea($helper->getConfig('global')),
         'xoops_pagetitle'  => $form->getVar('form_title'),
     ]
 );

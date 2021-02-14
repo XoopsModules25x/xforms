@@ -4,11 +4,11 @@ define('_MD_XFORMS_MSG_SUBJECT', '%s - %s');
 define('_MD_XFORMS_MSG_SENT', 'Your form has been sent. Thank you.');
 define('_MD_XFORMS_MSG_SUBJECT_COPY', 'Copy of: %s');
 
-//	'Other' option for check boxes/radio buttons/selections
+//    'Other' option for check boxes/radio buttons/selections
 define('_MD_XFORMS_OPT_OTHER', 'Other: ');
 define('_MD_XFORMS_PROXY', ' (Proxy: %s)');
 
-//	error messages
+//    error messages
 define('_MD_XFORMS_ERR_HEADING', 'Wait a minute...');
 define('_MD_XFORMS_ERR_INVALIDMAIL', 'Invalid email address.');
 define('_MD_XFORMS_ERR_REQ', 'Please enter the required field \'%s\'');

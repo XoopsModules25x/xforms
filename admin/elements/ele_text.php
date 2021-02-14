@@ -16,10 +16,11 @@
  * @package   \XoopsModules\Xforms\admin\elements
  * @author    XOOPS Module Development Team
  * @copyright Copyright (c) 2001-2019 {@link https://xoops.org XOOPS Project}
- * @license   http://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  * @link      https://github.com/XoopsModules25x/xforms
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper;
@@ -47,21 +48,22 @@ $size     = new FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, (string)$si
 $size->setAttribute('min', 0);
 $size->setExtra('style="width: 5em;"');
 
-$max        = new FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 5, 5, (string)$maxAttr, null, 'number');
+$max = new FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 5, 5, (string)$maxAttr, null, 'number');
 $max->setAttribute('min', 1);
 $max->setExtra('style="width: 5em;"');
-$defVal     = isset($value[2]) ?$myts->htmlSpecialChars($value[2]) : '';
+$defVal     = isset($value[2]) ? htmlspecialchars($value[2]) : '';
 $default    = new \XoopsFormText('', 'ele_value[2]', 50, 255, $defVal);
 $selDefault = new \XoopsFormSelect(_AM_XFORMS_ELE_TEXT_ADD_DEFAULT, 'ele_value_2_add');
 $selDefault->addOption('', _AM_XFORMS_ELE_TEXT_ADD_DEFAULT_SEL);
 
-$memberHelper  = xoops_getHandler('member');
+/** @var \XoopsMemberHandler $memberHandler */
+$memberHandler = xoops_getHandler('member');
 $oUser         = $memberHelper->createUser();
 $uVars         = $oUser->vars;
 foreach ($uVars as $uk => $uv) {
-    if ('pass' !== $uk && (XOBJ_DTYPE_TXTBOX == $uv['data_type']
-        || XOBJ_DTYPE_UNICODE_TXTBOX == $uv['data_type']))
-    {
+    if ('pass' !== $uk
+        && (XOBJ_DTYPE_TXTBOX == $uv['data_type']
+            || XOBJ_DTYPE_UNICODE_TXTBOX == $uv['data_type'])) {
         $selDefault->addOption('{U_' . $uk . '}', 'User: ' . $uk);
     }
 }
@@ -70,13 +72,13 @@ foreach ($uVars as $uk => $uv) {
 $profileHelper = Helper::getHelper('profile');
 if (false !== $profileHelper) {
     $profileHandler = $profileHelper->getHandler('profile');
-    $oProfile = $profileHandler->create();
-    $pVars    = $oProfile->vars;
+    $oProfile       = $profileHandler->create();
+    $pVars          = $oProfile->vars;
 
     foreach ($pVars as $pk => $pv) {
-        if (!isset($uVars[$pk]) && (XOBJ_DTYPE_TXTBOX == $pv['data_type']
-            || XOBJ_DTYPE_UNICODE_TXTBOX == $pv['data_type']))
-        {
+        if (!isset($uVars[$pk])
+            && (XOBJ_DTYPE_TXTBOX == $pv['data_type']
+                || XOBJ_DTYPE_UNICODE_TXTBOX == $pv['data_type'])) {
             $selDefault->addOption('{P_' . $pk . '}', 'Profile: ' . $pk);
         }
     }
@@ -89,11 +91,11 @@ $defaultTray->addElement($default);
 $defaultTray->addElement($selDefault);
 $defaultTray->setDescription(_AM_XFORMS_ELE_TEXT_DESC);
 
-$contEmail = (isset($value[3]) && ((int)$value[3] > Constants::FIELD_IS_NOT_EMAIL)) ? Constants::FIELD_IS_EMAIL : Constants::FIELD_IS_NOT_EMAIL;
+$contEmail      = (isset($value[3]) && ((int)$value[3] > Constants::FIELD_IS_NOT_EMAIL)) ? Constants::FIELD_IS_EMAIL : Constants::FIELD_IS_NOT_EMAIL;
 $emailIndicator = new \XoopsFormRadioYN(_AM_XFORMS_ELE_CONTAINS_EMAIL, 'ele_value[3]', $contEmail, _YES, _NO);
 $emailIndicator->setDescription(_AM_XFORMS_ELE_CONTAINS_EMAIL_DESC);
 
-$plAttrib = isset($value[4]) ? $myts->htmlSpecialChars($value[4]) : '';
+$plAttrib    = isset($value[4]) ? htmlspecialchars($value[4]) : '';
 $placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[4]', $sizeAttr, $maxAttr, $plAttrib);
 
 $output->addElement($size, 1);

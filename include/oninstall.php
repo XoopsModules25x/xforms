@@ -22,6 +22,7 @@
  */
 
 use XoopsModules\Xforms;
+use XoopsModules\Xforms\Common\Configurator;
 use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\Utility;
 
@@ -65,7 +66,7 @@ function xoops_module_install_xforms(\XoopsModule $module)
 
     $helper       = Helper::getInstance();
     $utility      = new Utility();
-    $configurator = new \XoopsModules\Xforms\Common\Configurator();
+    $configurator = new Configurator();
 
     $helper->loadLanguage('admin');
 

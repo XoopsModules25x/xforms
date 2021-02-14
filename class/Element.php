@@ -21,7 +21,7 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  */
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+
 
 /**
  * Class \XoopsModules\Xforms\Element
@@ -34,15 +34,15 @@ class Element extends \XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('ele_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('form_id', XOBJ_DTYPE_INT, 0, true);
-        $this->initVar('ele_type', XOBJ_DTYPE_TXTBOX, 'text', true, 10);
-        $this->initVar('ele_caption', XOBJ_DTYPE_TXTAREA, '');
-        $this->initVar('ele_order', XOBJ_DTYPE_INT, 0);
-        $this->initVar('ele_req', XOBJ_DTYPE_INT, Constants::ELEMENT_NOT_REQD);
-        $this->initVar('ele_display_row', XOBJ_DTYPE_INT, Constants::DISPLAY_SINGLE_ROW);
-        $this->initVar('ele_value', XOBJ_DTYPE_OTHER, '');
-        $this->initVar('ele_display', XOBJ_DTYPE_INT, Constants::ELEMENT_DISPLAY);
+        $this->initVar('ele_id', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('form_id', \XOBJ_DTYPE_INT, 0, true);
+        $this->initVar('ele_type', \XOBJ_DTYPE_TXTBOX, 'text', true, 10);
+        $this->initVar('ele_caption', \XOBJ_DTYPE_TXTAREA, '');
+        $this->initVar('ele_order', \XOBJ_DTYPE_INT, 0);
+        $this->initVar('ele_req', \XOBJ_DTYPE_INT, Constants::ELEMENT_NOT_REQD);
+        $this->initVar('ele_display_row', \XOBJ_DTYPE_INT, Constants::DISPLAY_SINGLE_ROW);
+        $this->initVar('ele_value', \XOBJ_DTYPE_OTHER, '');
+        $this->initVar('ele_display', \XOBJ_DTYPE_INT, Constants::ELEMENT_DISPLAY);
     }
 
     /**
@@ -52,13 +52,13 @@ class Element extends \XoopsObject
     public function getVar($key, $format = 's')
     {
         $myVar = parent::getVar($key, $format);
-        if (('ele_value' === $key) && !empty($myVar) && !is_array($myVar)) {
-            $myVar = unserialize($myVar);
-            if (!empty($myVar) && is_array($myVar)) {
-                $keys  = array_keys($myVar);
-                $vals  = array_values($myVar);
-                $keys  = array_map('base64_decode', $keys);
-                $myVar = array_combine($keys, $vals);
+        if (('ele_value' === $key) && !empty($myVar) && !\is_array($myVar)) {
+            $myVar = \unserialize($myVar);
+            if (!empty($myVar) && \is_array($myVar)) {
+                $keys  = \array_keys($myVar);
+                $vals  = \array_values($myVar);
+                $keys  = \array_map('\base64_decode', $keys);
+                $myVar = \array_combine($keys, $vals);
             } else {
                 $myVar = '';
             }
@@ -73,7 +73,7 @@ class Element extends \XoopsObject
      */
     public function &getVars()
     {
-        foreach (array_keys($this->vars) as $key) {
+        foreach (\array_keys($this->vars) as $key) {
             $this->getVar($key);
         }
 
@@ -86,12 +86,12 @@ class Element extends \XoopsObject
      */
     public function setVar($key, $val, $not_gpc = false)
     {
-        if (('ele_value' === $key) && is_array($val)) {
-            $keys = array_keys($val);
-            $vals = array_values($val);
-            $keys = array_map('base64_encode', $keys);
-            $val  = array_combine($keys, $vals);
-            $val  = serialize($val);
+        if (('ele_value' === $key) && \is_array($val)) {
+            $keys = \array_keys($val);
+            $vals = \array_values($val);
+            $keys = \array_map('\base64_encode', $keys);
+            $val  = \array_combine($keys, $vals);
+            $val  = \serialize($val);
         }
         parent::setVar($key, $val, $not_gpc);
     }
@@ -102,12 +102,12 @@ class Element extends \XoopsObject
      */
     public function assignVar($key, $val)
     {
-        if (('ele_value' === $key) && is_array($val)) {
-            $keys = array_keys($val);
-            $vals = array_values($val);
-            $keys = array_map('base64_encode', $keys);
-            $val  = array_combine($keys, $vals);
-            $val  = serialize($val);
+        if (('ele_value' === $key) && \is_array($val)) {
+            $keys = \array_keys($val);
+            $vals = \array_values($val);
+            $keys = \array_map('\base64_encode', $keys);
+            $val  = \array_combine($keys, $vals);
+            $val  = \serialize($val);
         }
         $this->vars[$key]['value'] = $val;
     }

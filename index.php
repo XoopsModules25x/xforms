@@ -31,8 +31,8 @@ require __DIR__ . '/header.php';
 $myts = \MyTextSanitizer::getInstance();
 
 /**
- * @var string $moduleDirName
- * @var \XoopsModules\Xforms\Helper $helper
+ * @var string                            $moduleDirName
+ * @var \XoopsModules\Xforms\Helper       $helper
  * @var \XoopsModules\Xforms\FormsHandler $formsHandler
  */
 $helper->loadLanguage('admin');
@@ -89,11 +89,10 @@ if (empty($submit)) {
     } else {
         /**
          * @var \XoopsModules\Xforms\FormsHandler $formsHandler
-         * @var \XoopsModules\Xforms\Forms $form
+         * @var \XoopsModules\Xforms\Forms        $form
          */
         if (($form = $formsHandler->get($formId))
-            && (false !== $formsHandler->getSingleFormPermission($formId)))
-        {
+            && (false !== $formsHandler->getSingleFormPermission($formId))) {
             if (!$form->isActive()) {
                 redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
             }
@@ -127,7 +126,7 @@ if (empty($submit)) {
 //-------------------------------
 // Now execute the form
 //-------------------------------
-/** @var \XoopsSecurity $GLOBALS['xoopsSecurity'] */
+/** @var \XoopsSecurity $GLOBALS ['xoopsSecurity'] */
 if (!$GLOBALS['xoopsSecurity']->check()) {
     $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
 }
@@ -135,8 +134,7 @@ if (!$GLOBALS['xoopsSecurity']->check()) {
 $formId = Request::getInt('form_id', 0, 'POST');
 if (empty($formId)
     || !($form = $formsHandler->get($formId))
-    || (false === $formsHandler->getSingleFormPermission($formId)))
-{
+    || (false === $formsHandler->getSingleFormPermission($formId))) {
     redirect_header(XOOPS_URL, Constants::REDIRECT_DELAY_MEDIUM, _NO_PERM);
 }
 if (!$form->isActive()) {
@@ -196,7 +194,7 @@ $userMailText = ''; // Capturing email for user if have textbox in the form
 $saveToDB     = (Constants::SAVE_IN_DB == $form->getVar('form_save_db')) ? true : false;
 
 if (0 == count($err)) {
-    if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+    if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
         $genInfo['UID']   = $GLOBALS['xoopsUser']->getVar('uid'); /*Set the user id*/
         $genInfo['UNAME'] = $GLOBALS['xoopsUser']->getVar('uname'); /*Set the user name*/
     }
@@ -510,7 +508,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
 
     $xformsMoreInfoConfig = $helper->getConfig('moreinfo');
     if (in_array('user', $xformsMoreInfoConfig)) {
-        if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+        if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
             $interMail->assign(
                 'UNAME',
                 sprintf(
@@ -618,9 +616,11 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
     $send_group = (int)$form->getVar('form_send_to_group');
     $group      = false;
     if (-1 !== $send_group) {
+        /** @var \XoopsMemberHandler $memberHandler */
+        $memberHandler = xoops_getHandler('member');
         $group = $memberHandler->getGroup($send_group);
     }
-    if (Constants::SEND_METHOD_PM == $form->getVar('form_send_method') && (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) && (false !== $group)) {
+    if (Constants::SEND_METHOD_PM == $form->getVar('form_send_method') && (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) && (false !== $group)) {
         /* Send by private message */
         $interMail->setTemplate('xforms_pm.tpl');
         $interMail->usePM();
@@ -697,7 +697,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
     }
     if ($sendCopy && (0 == count($err))) {
         $emailstoCopy = [];
-        if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof XoopsUser)) {
+        if (isset($GLOBALS['xoopsUser']) && ($GLOBALS['xoopsUser'] instanceof \XoopsUser)) {
             $emailstoCopy[] = $GLOBALS['xoopsUser']->getVar('email');
         } elseif ($uMailText = checkEmail(trim($userMailText))) {
             $emailstoCopy[] = $uMailText;

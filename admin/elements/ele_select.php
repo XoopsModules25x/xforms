@@ -61,7 +61,7 @@ foreach ($keyArray as $k => $v) {
     $checkEle = new \XoopsFormCheckBox('', 'checked[' . $k . ']', $checkVal);
     $checkEle->addOption($k, ' ');
     $eleTray->addElement($checkEle);
-    $optVal     = $myts->htmlSpecialChars($keyArray[$k]);
+    $optVal     = htmlspecialchars($keyArray[$k]);
     $formEleObj = new \XoopsFormText('', 'ele_value[2][' . $k . ']', 40, 255, $optVal);
     $formEleObj->setExtra('placeholder = "' . _AM_XFORMS_ELE_OPT_PLACEHOLDER . '"');
     $eleTray->addElement($formEleObj);

@@ -20,6 +20,7 @@
  * @since     2.00
  * @link      https://github.com/XoopsModules25x/xforms
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\FormInput;
@@ -42,7 +43,7 @@ $sizeInput = new FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 3, 3, $size, nul
 $sizeInput->setAttribute('min', 1);
 $sizeInput->setExtra('style="width: 5em;"');
 
-$maxInput  = new FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 3, 3, $max, null, 'number');
+$maxInput = new FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 3, 3, $max, null, 'number');
 $maxInput->setAttribute('min', 1);
 $maxInput->setExtra('style="width: 5em;"');
 

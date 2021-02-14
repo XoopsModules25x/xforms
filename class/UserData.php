@@ -58,7 +58,7 @@ class UserData extends \XoopsObject
             if (!empty($myVar) && is_array($myVar)) {
                 $keys  = array_keys($myVar);
                 $vals  = array_values($myVar);
-                $vals  = array_map('base64_decode', $vals);
+                $vals  = array_map('\base64_decode', $vals);
                 $myVar = array_combine($keys, $vals);
             } else {
                 $myVar = '';
@@ -77,7 +77,7 @@ class UserData extends \XoopsObject
         if (('udata_value' === $key) && !is_scalar($val)) {
             $keys = array_keys($val);
             $vals = array_values($val);
-            $vals = array_map('base64_encode', $vals);
+            $vals = array_map('\base64_encode', $vals);
             $val  = array_combine($keys, $vals);
             $val  = serialize($val);
         }

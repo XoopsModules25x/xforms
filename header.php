@@ -26,6 +26,7 @@ use XoopsModules\Xforms\Helper;
 $moduleDirName = basename(__DIR__);
 
 require dirname(dirname(__DIR__)) . '/mainfile.php';
+require __DIR__ . '/preloads/autoloader.php';
 require __DIR__ . '/include/common.php';
 
 $helper       = Helper::getInstance();

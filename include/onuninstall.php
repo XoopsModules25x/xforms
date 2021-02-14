@@ -31,8 +31,7 @@ use XoopsModules\Xforms\Utility;
 
 if ((!defined('XOOPS_ROOT_PATH'))
     || !($GLOBALS['xoopsUser'] instanceof \XoopsUser)
-    || !($GLOBALS['xoopsUser']->isAdmin()))
-{
+    || !($GLOBALS['xoopsUser']->isAdmin())) {
     exit('Restricted access' . PHP_EOL);
 }
 
@@ -76,7 +75,7 @@ function xoops_module_uninstall_xforms(\XoopsModule $module)
     } else {
         // Try and delete uploads/xforms directory (default)
         $moduleUploadPath = XOOPS_UPLOAD_PATH . '/' . $module->dirname();
-        $uploadPathObj = new \SplFileInfo($moduleUploadPath);
+        $uploadPathObj    = new \SplFileInfo($moduleUploadPath);
         if (false !== $uploadPathObj->isDir()) {
             // directory exists so try and delete it
             $success = $utility::deleteDirectory($moduleUploadPath);

@@ -50,7 +50,7 @@ for ($i = 0; $i < $keyCount; ++$i) {
     $radioEle = new \XoopsFormRadio('', 'checked', $radioVal);
     $radioEle->addOption($i, ' ');
     $eleTray->addElement($radioEle);
-    $optVal     = $myts->htmlSpecialChars($keys[$i]);
+    $optVal     = htmlspecialchars($keys[$i]);
     $formEleObj = new \XoopsFormText('', 'ele_value[' . $i . ']', 40, 255, $optVal);
     $formEleObj->setExtra('placeholder = "' . _AM_XFORMS_ELE_OPT_PLACEHOLDER . '"');
     $eleTray->addElement($formEleObj);

@@ -21,7 +21,7 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+
 
 /**
  * Class \XoopsModules\Xforms\LiaiseElement
@@ -34,13 +34,13 @@ class LiaiseElement extends \XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('ele_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('form_id', XOBJ_DTYPE_INT, 0, true);
-        $this->initVar('ele_type', XOBJ_DTYPE_TXTBOX, 'text', true, 10);
-        $this->initVar('ele_caption', XOBJ_DTYPE_TXTAREA);
-        $this->initVar('ele_order', XOBJ_DTYPE_INT, 0);
-        $this->initVar('ele_req', XOBJ_DTYPE_INT, Constants::ELEMENT_NOT_REQD);
-        $this->initVar('ele_value', XOBJ_DTYPE_ARRAY, []);
-        $this->initVar('ele_display', XOBJ_DTYPE_INT, Constants::ELEMENT_DISPLAY);
+        $this->initVar('ele_id', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('form_id', \XOBJ_DTYPE_INT, 0, true);
+        $this->initVar('ele_type', \XOBJ_DTYPE_TXTBOX, 'text', true, 10);
+        $this->initVar('ele_caption', \XOBJ_DTYPE_TXTAREA);
+        $this->initVar('ele_order', \XOBJ_DTYPE_INT, 0);
+        $this->initVar('ele_req', \XOBJ_DTYPE_INT, Constants::ELEMENT_NOT_REQD);
+        $this->initVar('ele_value', \XOBJ_DTYPE_ARRAY, []);
+        $this->initVar('ele_display', \XOBJ_DTYPE_INT, Constants::ELEMENT_DISPLAY);
     }
 }

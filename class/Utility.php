@@ -24,33 +24,32 @@ namespace XoopsModules\Xforms;
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
 
- /**
-  * \XoopsModules\Xforms\Utility
-  *
-  * Static utility class to provide common functionality
-  *
-  */
+/**
+ * \XoopsModules\Xforms\Utility
+ *
+ * Static utility class to provide common functionality
+ *
+ */
 class Utility extends Common\SysUtility
 {
     //--------------- Custom module methods -----------------------------
-
     /** @var array errs list of errors */
     public static $errs = [];
-
     /**
      * Copies files from one directory to another, does not alter source directory files
      *
-     * @deprecated
-     * @param string $fromDir copy from directory
-     * @param string $toDir copy to directory
-     * @param array $exceptions don't copy these files
-     * @param bool $okNotExist true if source (from) directory doesn't exist | false if source must exist
+     * @param string $fromDir    copy from directory
+     * @param string $toDir      copy to directory
+     * @param array  $exceptions don't copy these files
+     * @param bool   $okNotExist true if source (from) directory doesn't exist | false if source must exist
      *
      * @return bool
+     * @deprecated
      */
-/**
+    /*
     function copyFiles($fromDir, $toDir, $exceptions = array(), $okNotExist = false) {
         $xformsHelper = \Xmf\Module\Helper::getHelper(basename(dirname(__DIR__)));
 
@@ -81,14 +80,14 @@ class Utility extends Common\SysUtility
         }
         return $success;
     }
-*/
+     */
     /**
      * Check Other element setting
      *
      * Checks to see if there's anything in the 'Other' setting
      *
      * @param string $key
-     * @param int $id
+     * @param int    $id
      * @param string|bool returns 'Other' string or false if nothing set or on error
      *
      * @return bool|string false on error | string for 'other' element
@@ -98,18 +97,18 @@ class Utility extends Common\SysUtility
     public static function checkOther($key, $id, $caption)
     {
         $id = (int)$id;
-        if (!preg_match('/\{OTHER\|+[0-9]+\}/', $key)) {
+        if (!\preg_match('/\{OTHER\|+[0-9]+\}/', $key)) {
             return false;
         }
-            /* @var \MyTextSanitizer $myts */
-            $myts = \MyTextSanitizer::getInstance();
-            if (!empty($_POST['other']['ele_' . $id])) {
-                return _MD_XFORMS_OPT_OTHER . $myts->htmlSpecialChars($_POST['other']['ele_' . $id]);
-            } else {
-                static::setErrors(sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption)), true);
-                //global $err;
-                //$err[] = sprintf(_MD_XFORMS_ERR_REQ, $myts->htmlSpecialChars($caption));
-            }
+        /* @var \MyTextSanitizer $myts */
+        $myts = \MyTextSanitizer::getInstance();
+        if (!empty($_POST['other']['ele_' . $id])) {
+            return _MD_XFORMS_OPT_OTHER . htmlspecialchars($_POST['other']['ele_' . $id]);
+        } else {
+            static::setErrors(\sprintf(_MD_XFORMS_ERR_REQ, htmlspecialchars($caption)), true);
+            //global $err;
+            //$err[] = sprintf(_MD_XFORMS_ERR_REQ, htmlspecialchars($caption));
+        }
         return false;
     }
 
@@ -122,19 +121,20 @@ class Utility extends Common\SysUtility
      *
      * @return string filtered to decode HTML entities
      */
-    public static function undoHtmlEntities($tpl_output) {
-        return html_entity_decode($tpl_output);
+    public static function undoHtmlEntities($tpl_output)
+    {
+        return \html_entity_decode($tpl_output);
     }
 
-        /**
-         * Callback function to convert item to integer
-         *
-         * Allows use of PHP array_walk to also preserve keys
-         *
-         * @param string|int $item
-         *
+    /**
+     * Callback function to convert item to integer
+     *
+     * Allows use of PHP array_walk to also preserve keys
+     *
+     * @param string|int $item
+     *
      * @return int
-         */
+     */
     public static function intArray(&$item)
     {
         $item = (int)$item;
@@ -148,14 +148,15 @@ class Utility extends Common\SysUtility
      *
      * @return int
      */
-    public static function setErrors($item, $replace = true) {
+    public static function setErrors($item, $replace = true)
+    {
         if (!empty($item)) {
             $item = (array)$item;
             if ($replace) {
                 static::$errs = $item;
             } else {
-                static::$errs = array_merge(static::$errs, $item);
-                static::$errs = array_unique(static::$errs);
+                static::$errs = \array_merge(static::$errs, $item);
+                static::$errs = \array_unique(static::$errs);
             }
         } else {
             static::$errs = []; // clears the array if $item is empty
@@ -168,8 +169,8 @@ class Utility extends Common\SysUtility
      *
      * @return array
      */
-    public static function getErrors() {
-
+    public static function getErrors()
+    {
         return static::$errs;
     }
 }

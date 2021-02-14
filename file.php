@@ -41,14 +41,13 @@ if (empty($file)) {
         exit();
     }
     /**
-     * @var \XoopsModules\Xforms\Helper $helper
+     * @var \XoopsModules\Xforms\Helper          $helper
      * @var \XoopsModules\Xforms\UserDataHandler $uDataHandler
      */
     $uDataHandler = $helper->getHandler('Userdata');
-    if (!($uData  = $uDataHandler->get($udid))
+    if (!($uData = $uDataHandler->get($udid))
         || ((int)$uData->getVar('form_id') !== $form)
-        || ((int)$uData->getVar('ele_id') !== $elem))
-    {
+        || ((int)$uData->getVar('ele_id') !== $elem)) {
         //@todo - test ob_end_clean here - added in v2.00 ALPHA 2
         ob_end_clean();
         exit();

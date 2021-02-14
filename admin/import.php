@@ -21,6 +21,9 @@
  * @since     1.30
  */
 
+use Xmf\Database\Tables;
+use Xmf\Module\Helper;
+use Xmf\Module\Helper\Permission;
 use Xmf\Request;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Utility;
@@ -30,10 +33,10 @@ require_once __DIR__ . '/admin_header.php';
 /**
  * Vars defined by including ./admin_header.php
  *
- * @var \XoopsModules\Xforms\Helper $helper
+ * @var \XoopsModules\Xforms\Helper       $helper
  * @var \XoopsModules\Xforms\FormsHandler $formsHandler
- * @var \Xmf\Module\Admin $adminObject
- * @var string $moduleDirName
+ * @var \Xmf\Module\Admin                 $adminObject
+ * @var string                            $moduleDirName
  */
 
 $thisFile = basename(__FILE__);
@@ -85,7 +88,7 @@ switch ($op) {
                 // make sure the eforms database tables exist
                 $success   = false;
                 $efTables  = $eformsHelper->getModule()->getInfo('tables');
-                $tablesObj = new \Xmf\Database\Tables();
+                $tablesObj = new Tables();
                 foreach ($efTables as $efTable) {
                     $tableExists = $tablesObj->useTable($efTable);
                     if (!$tableExists) {
@@ -161,8 +164,8 @@ switch ($op) {
                 }
 
                 // get/set form permissions
-                $eformsPermHelper = new \Xmf\Module\Helper\Permission('eforms');
-                $xformsPermHelper = new \Xmf\Module\Helper\Permission($moduleDirName);
+                $eformsPermHelper = new Permission('eforms');
+                $xformsPermHelper = new Permission($moduleDirName);
                 if ($eformsPermHelper && $xformsPermHelper) {
                     $eformsPermName = $eformsFormsHandler->perm_name;
                     $xformsPermName = $formsHandler->perm_name;
@@ -199,11 +202,11 @@ switch ($op) {
             }
 
             // make sure the liaise database tables exist
-            $liaiseHelper = \Xmf\Module\Helper::getHelper('liaise');
+            $liaiseHelper = Helper::getHelper('liaise');
             if (false !== $liaiseHelper) {
                 $success      = false;
                 $liaiseTables = $liaiseHelper->getModule()->getInfo('tables');
-                $tablesObj    = new \Xmf\Database\Tables();
+                $tablesObj    = new Tables();
                 foreach ($liaiseTables as $liaiseTable) {
                     $tableExists = $tablesObj->useTable($liaiseTable);
                     if (!$tableExists) {
@@ -265,8 +268,8 @@ switch ($op) {
                 }
 
                 // get/set form permissions
-                $liaisePermHelper = new \Xmf\Module\Helper\Permission('liaise');
-                $xformsPermHelper = new \Xmf\Module\Helper\Permission($moduleDirName);
+                $liaisePermHelper = new Permission('liaise');
+                $xformsPermHelper = new Permission($moduleDirName);
                 if ($liaisePermHelper && $xformsPermHelper) {
                     $liaisePermName = $liaiseFormHandler->perm_name;
                     $xformsPermName = $formsHandler->perm_name;

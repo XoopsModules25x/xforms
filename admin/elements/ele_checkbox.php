@@ -50,7 +50,7 @@ for ($i = 0; $i < $keyCount; ++$i) {
     $checkboxEle = new \XoopsFormCheckbox('', 'ckbox', $checkboxVal);
     $checkboxEle->addOption($i, ' ');
     $eleTray->addElement($checkboxEle);
-    $optVal     = $myts->htmlSpecialChars($keys[$i]);
+    $optVal     = htmlspecialchars($keys[$i]);
     $formEleObj = new \XoopsFormText('', 'ele_value[' . $i . ']', 40, 255, $optVal);
     $formEleObj->setExtra('placeholder = "' . _AM_XFORMS_ELE_OPT_PLACEHOLDER . '"');
     $eleTray->addElement($formEleObj);
@@ -67,7 +67,8 @@ $output->addElement($optTray);
  * more places than just here. It could then be loaded using 'standard' .js
  * include methods for a cleaner implementation}}}
  */
-$funcScript = new FormRaw("<script>function addToCboxTray() {
+$funcScript = new FormRaw(
+    "<script>function addToCboxTray() {
 //first time through set id (counter)
 if (typeof addToCboxTray.counter == \"undefined\") {
   //addToCboxTray.counter = $('[id^=\"ele_value[]\"').length;

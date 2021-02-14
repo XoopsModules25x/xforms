@@ -22,8 +22,6 @@ namespace XoopsModules\Xforms;
  * @since     1.30
  */
 
-
-
 /**
  * Interface \XoopsModules\Xforms\Constants
  */
@@ -34,32 +32,26 @@ interface Constants
      */
 
     const DISALLOW = 0;
-
     // CONFIG displayicons
     const DISPLAYICONS_ICON = 1;
     const DISPLAYICONS_TEXT = 2;
     const DISPLAYICONS_NO = 3;
-
     // CONFIG submissions
     const SUBMISSIONS_NONE = 1;
     const SUBMISSIONS_DOWNLOAD = 2;
     const SUBMISSIONS_MIRROR = 3;
     const SUBMISSIONS_BOTH = 4;
-
     // CONFIG anonpost
     const ANONPOST_NONE = 1;
     const ANONPOST_DOWNLOAD = 2;
     const ANONPOST_MIRROR = 3;
     const ANONPOST_BOTH = 4;
-
     // CONFIG autoapprove
     const AUTOAPPROVE_NONE = 1;
     const AUTOAPPROVE_DOWNLOAD = 2;
     const AUTOAPPROVE_MIRROR = 3;
     const AUTOAPPROVE_BOTH = 4;
-
     const DEFAULT_ELEMENT_SIZE = 1;
-
     /**
      * List Block Sort Keys - must be columns in the dB
      * must match the number of entities in define('_MB_XFORMS_LIST_BLOCK_SORT_OPTS

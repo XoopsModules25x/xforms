@@ -74,14 +74,14 @@ class Dbupdater
         $from = $xoopsDB->prefix($from);
         $to   = $xoopsDB->prefix($to);
 
-        $query = sprintf('ALTER TABLE %s RENAME %s', $from, $to);
+        $query = \sprintf('ALTER TABLE %s RENAME %s', $from, $to);
         $ret   = $xoopsDB->query($query);
         if (!$ret) {
-            echo "<li class='err'>" . sprintf(_AM_XFORMS_DB_MSG_RENAME_TABLE_ERR, $from) . '</li>';
+            echo "<li class='err'>" . \sprintf(_AM_XFORMS_DB_MSG_RENAME_TABLE_ERR, $from) . '</li>';
 
             return false;
         }
-        echo "<li class='ok'>" . sprintf(_AM_XFORMS_DB_MSG_RENAME_TABLE, $from, $to) . '</li>';
+        echo "<li class='ok'>" . \sprintf(_AM_XFORMS_DB_MSG_RENAME_TABLE, $from, $to) . '</li>';
 
         return true;
     }

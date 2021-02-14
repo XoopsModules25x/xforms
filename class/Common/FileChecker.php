@@ -25,8 +25,6 @@ namespace XoopsModules\Xforms\Common;
 use Xmf\Request;
 use XoopsModules\Xforms;
 
-
-
 require_once dirname(dirname(dirname(dirname(__DIR__)))) . '/mainfile.php';
 $moduleDirName      = basename(dirname(dirname(__DIR__)));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);

@@ -18,6 +18,7 @@ namespace XoopsModules\Xforms;
  * @since
  * @author       XOOPS Development Team
  */
+
 /**
  * Class Helper
  */
@@ -31,7 +32,7 @@ class Helper extends \Xmf\Module\Helper
     public function __construct($dirname = null)
     {
         if (null === $dirname) {
-            $dirname       = basename(dirname(__DIR__));
+            $dirname       = \basename(\dirname(__DIR__));
             $this->dirname = $dirname;
         }
         parent::__construct($dirname);
@@ -72,7 +73,7 @@ class Helper extends \Xmf\Module\Helper
         $ret = false;
 
         $class = __NAMESPACE__ . '\\' . $name . 'Handler';
-        if (!class_exists($class)) {
+        if (!\class_exists($class)) {
             throw new \RuntimeException("Class '$class' not found");
         }
         /** @var \XoopsMySQLDatabase $db */

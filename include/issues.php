@@ -10,7 +10,7 @@
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
- /**
+/**
  * Module: xForms
  *
  * @package   \XoopsModules\Xforms\include
@@ -19,12 +19,13 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     2.00
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper;
 
 $GLOBALS['xoopsOption']['nocommon'] = true;
-//require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
-require_once dirname(dirname(dirname(__DIR__))) . '/cpheader.php';
+require dirname(__DIR__, 3) . '/mainfile.php';
+require dirname(__DIR__, 3) . '/include/cp_header.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName = basename(dirname(__DIR__));
@@ -94,44 +95,72 @@ $homeIcon = '../../Frameworks/moduleclasses/icons/32/home.png';
 // header
 //@todo move hard coded language strings to language file
 echo '<h1 class="head">Help:'
-    . '<a class="ui-corner-all tooltip" href="' . '/modules/' . $moduleDirName . '/admin/index.php' .'"'
-        . ' title="Back to the administration of ' .  _MI_XFORMS_NAME . '"> ' . _MI_XFORMS_NAME . ' <img src="' . $homeIcon . '"'
-            . ' alt="Back to the Administration of ' .  _MI_XFORMS_NAME . '">'
-   . "</a></h1>\n"
-   . "<!-- -----Help Content ---------- -->\n"
-   . "<h4 class=\"odd\">Report Issues</h4>\n"
-   . '<p class="even">'
-   . 'To report an issue with the module please go to <a href="' . $modIssues->issueUrl . '" target="_blank">' . $modIssues->issueUrl . '</a>'
-   . "</p>\n";
+     . '<a class="ui-corner-all tooltip" href="'
+     . '/modules/'
+     . $moduleDirName
+     . '/admin/index.php'
+     . '"'
+     . ' title="Back to the administration of '
+     . _MI_XFORMS_NAME
+     . '"> '
+     . _MI_XFORMS_NAME
+     . ' <img src="'
+     . $homeIcon
+     . '"'
+     . ' alt="Back to the Administration of '
+     . _MI_XFORMS_NAME
+     . '">'
+     . "</a></h1>\n"
+     . "<!-- -----Help Content ---------- -->\n"
+     . "<h4 class=\"odd\">Report Issues</h4>\n"
+     . '<p class="even">'
+     . 'To report an issue with the module please go to <a href="'
+     . $modIssues->issueUrl
+     . '" target="_blank">'
+     . $modIssues->issueUrl
+     . '</a>'
+     . "</p>\n";
 
 // isue table
 echo '<br>'
-   . '<h4 class="odd">' . _AM_XFORMS_ISSUES_OPEN . '</h4>'
-   . '<p class="even">'
-   . '<table>'
-   . '  <thead>'
-   . '  <tr>'
-   . '    <th class="center width10">' . _AM_XFORMS_HELP_ISSUE . '</th>'
-   . '    <th class="center width10">' . _AM_XFORMS_HELP_DATE . '</th>'
-   . '    <th class="center">' . _AM_XFORMS_HELP_TITLE . '</th>'
-   . '    <th class="center">' . _AM_XFORMS_HELP_DESC . '</th>'
-   . '    <th class="center width10">' . _AM_XFORMS_HELP_SUBMITTER . '</th>'
-   . '  </tr>'
-   . '  </thead>'
-   . '  <tbody>';
+     . '<h4 class="odd">'
+     . _AM_XFORMS_ISSUES_OPEN
+     . '</h4>'
+     . '<p class="even">'
+     . '<table>'
+     . '  <thead>'
+     . '  <tr>'
+     . '    <th class="center width10">'
+     . _AM_XFORMS_HELP_ISSUE
+     . '</th>'
+     . '    <th class="center width10">'
+     . _AM_XFORMS_HELP_DATE
+     . '</th>'
+     . '    <th class="center">'
+     . _AM_XFORMS_HELP_TITLE
+     . '</th>'
+     . '    <th class="center">'
+     . _AM_XFORMS_HELP_DESC
+     . '</th>'
+     . '    <th class="center width10">'
+     . _AM_XFORMS_HELP_SUBMITTER
+     . '</th>'
+     . '  </tr>'
+     . '  </thead>'
+     . '  <tbody>';
 
 $pullReqFound = false;
 $suffix       = '';
 $cssClass     = 'odd';
-$i = 0;
+$i            = 0;
 if (!empty($issuesObjs)) {
     foreach ($issuesObjs as $issue) {
         $suffix = '';
         if (isset($issue->pull_request)) {
-            /** @internal {uncomment the following line if you don't want to see pull requests as issues}}}*/
-//            continue; // github counts pull requests as open issues so ignore these
+            /** @internal {uncomment the following line if you don't want to see pull requests as issues}}} */
+            //            continue; // github counts pull requests as open issues so ignore these
 
-            $suffix = '*';
+            $suffix       = '*';
             $pullReqFound = true;
         }
 
@@ -149,12 +178,37 @@ if (!empty($issuesObjs)) {
         }
         ++$i; // issue count
         echo '  <tr>'
-           . '    <td class="' . $cssClass . ' center"><a href="' . $issue->html_url . '" target="_blank">' . (int)$issue->number . $suffix . '</a></td>'
-           . '    <td class="' . $cssClass . ' center">' . $dispDate . '</td>'
-           . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . htmlspecialchars($issue->title, ENT_QUOTES | ENT_HTML5) . '</td>'
-           . '    <td class="' . $cssClass . ' left" style="padding-left: 2em;">' . $labelDesc . '</td>'
-           . '    <td class="' . $cssClass . ' center"><a href="' . htmlspecialchars($issue->user->html_url, ENT_QUOTES | ENT_HTML5) . '" target="_blank">' . htmlspecialchars($issue->user->login, ENT_QUOTES | ENT_HTML5) . '</a></td>'
-           . '  </tr>';
+             . '    <td class="'
+             . $cssClass
+             . ' center"><a href="'
+             . $issue->html_url
+             . '" target="_blank">'
+             . (int)$issue->number
+             . $suffix
+             . '</a></td>'
+             . '    <td class="'
+             . $cssClass
+             . ' center">'
+             . $dispDate
+             . '</td>'
+             . '    <td class="'
+             . $cssClass
+             . ' left" style="padding-left: 2em;">'
+             . htmlspecialchars($issue->title, ENT_QUOTES | ENT_HTML5)
+             . '</td>'
+             . '    <td class="'
+             . $cssClass
+             . ' left" style="padding-left: 2em;">'
+             . $labelDesc
+             . '</td>'
+             . '    <td class="'
+             . $cssClass
+             . ' center"><a href="'
+             . htmlspecialchars($issue->user->html_url, ENT_QUOTES | ENT_HTML5)
+             . '" target="_blank">'
+             . htmlspecialchars($issue->user->login, ENT_QUOTES | ENT_HTML5)
+             . '</a></td>'
+             . '  </tr>';
         $cssClass = ('odd' === $cssClass) ? 'even' : 'odd';
     }
 }
@@ -166,8 +220,6 @@ if (!empty($modIssues->getError())) {
 }
 
 if ($pullReqFound) {
-    echo '    <tfoot>'
-       . '      <tr><td colspan="4" class="left italic marg3 foot">' . _AM_XFORMS_ISSUES_NOTE . '</td></tr>'
-       . '    </tfoot>';
+    echo '    <tfoot>' . '      <tr><td colspan="4" class="left italic marg3 foot">' . _AM_XFORMS_ISSUES_NOTE . '</td></tr>' . '    </tfoot>';
 }
 echo '    </tbody></table></p>';

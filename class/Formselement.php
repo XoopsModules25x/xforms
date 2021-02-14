@@ -42,7 +42,6 @@ class Formselement extends \XoopsObject
         $this->initVar('ele_value', XOBJ_DTYPE_ARRAY, []);
         $this->initVar('ele_display', XOBJ_DTYPE_INT, 1);
     }
-
     /*
         public function getVar($key, $format = 's')
         {

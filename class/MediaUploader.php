@@ -25,8 +25,6 @@ namespace XoopsModules\Xforms;
 
 use XoopsModules\Xforms;
 
-
-
 if (!class_exists('\XoopsMediaUploader')) {
     xoops_load('xoopsmediauploader');
 }

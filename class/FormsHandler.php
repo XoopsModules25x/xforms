@@ -128,7 +128,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
         $permHelper = new Permission($this->dirname);
 
         $groupIds = (array)$groupIds; //make sure it's an array
-        $groupIds = array_map('intval', $groupIds); //make sure all array elements are integers
+        $groupIds = array_map('\intval', $groupIds); //make sure all array elements are integers
         $ret      = $permHelper->savePermissionForItem($this->perm_name, (int)$formId, $groupIds);
         /*
                 $ret = true;
@@ -184,7 +184,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
 
         return $permHelper->checkPermission($this->perm_name, (int)$formId);
         /*
-                $groups = (isset($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof XoopsUser) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
+                $groups = (isset($GLOBALS['xoopsUser']) && $GLOBALS['xoopsUser'] instanceof \XoopsUser) ? $GLOBALS['xoopsUser']->getGroups() : XOOPS_GROUP_ANONYMOUS;
                 if (false !== $GLOBALS['moduleperm_handler']->checkRight($this->perm_name, (int)$formId, $groups, $GLOBALS['xoopsModule']->getVar('mid'))) {
                     return true;
                 }

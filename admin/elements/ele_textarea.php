@@ -20,6 +20,7 @@
  * @since     2.00
  * @link      https://github.com/XoopsModules25x/xforms
  */
+
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\FormInput;
@@ -43,14 +44,14 @@ $rows      = new FormInput(_AM_XFORMS_ELE_ROWS, 'ele_value[1]', 3, 3, (string)((
 $rows->setAttribute('min', 0);
 $rows->setExtra('style="width: 5em;"');
 
-$cols    = new FormInput(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, (int)$colAttrib, null, 'number');
+$cols = new FormInput(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, (int)$colAttrib, null, 'number');
 $cols->setAttribute('min', 0);
 $cols->setExtra('style="width: 5em;"');
 
-$default = new \XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? $myts->htmlSpecialChars($value[0]) : '', 5, 35);
+$default = new \XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? htmlspecialchars($value[0]) : '', 5, 35);
 
 //placeholder
-$plAttrib = isset($value[3]) ? $myts->htmlSpecialChars($value[3]) : '';
+$plAttrib    = isset($value[3]) ? htmlspecialchars($value[3]) : '';
 $placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[3]', 35, 255, $plAttrib);
 
 $output->addElement($rows, 1);

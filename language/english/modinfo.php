@@ -1,4 +1,5 @@
 <?php
+
 // The name of this module
 define('_MI_XFORMS_NAME', 'xForms');
 

@@ -67,12 +67,12 @@ $size->setAttribute('step', 512);
 $size->setDescription(_AM_XFORMS_ELE_UPLOAD_MAXSIZE_DESC . '<br>' . _AM_XFORMS_ELE_UPLOAD_DESC_SIZE_NOLIMIT);
 
 /*
-$ext = new \XoopsFormText(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT, 'ele_value[1]', 50, 255, $myts->htmlSpecialChars($ext));
+$ext = new \XoopsFormText(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT, 'ele_value[1]', 50, 255, htmlspecialchars($ext));
 $ext->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT_DESC . '<br><br>' . _AM_XFORMS_ELE_UPLOAD_DESC_NOLIMIT);
 */
 $extTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT, '<br>');
 $extTray->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT_DESC . '<br><br>' . _AM_XFORMS_ELE_UPLOAD_DESC_NOLIMIT);
-$ext = new \XoopsFormText('', 'ele_value[1]', 50, 255, $myts->htmlSpecialChars($mimeExtIn));
+$ext = new \XoopsFormText('', 'ele_value[1]', 50, 255, htmlspecialchars($mimeExtIn));
 
 $setExtButton = new \XoopsFormButton('', 'setext', _ADD . ' ' . _AM_XFORMS_ELE_DEFAULT, 'button');
 $setExtButton->setExtra('onclick="document.getElementById(\'ele_value[1]\').value += \'\|' . $mimeExtJS . '\';"');
@@ -80,12 +80,12 @@ $extTray->addElement($ext);
 $extTray->addElement($setExtButton);
 
 /*
-$mime = new \XoopsFormTextArea(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME, 'ele_value[2]', $myts->htmlSpecialChars($mime), 5, 50);
+$mime = new \XoopsFormTextArea(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME, 'ele_value[2]', htmlspecialchars($mime), 5, 50);
 $mime->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME_DESC . '<br><br>' . _AM_XFORMS_ELE_UPLOAD_DESC_NOLIMIT);
 */
 $mimeTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME, '<br>');
 $mimeTray->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME_DESC . '<br><br>' . _AM_XFORMS_ELE_UPLOAD_DESC_NOLIMIT);
-$mime          = new \XoopsFormTextArea('', 'ele_value[2]', $myts->htmlSpecialChars($mimeTypesIn), 5, 50);
+$mime          = new \XoopsFormTextArea('', 'ele_value[2]', htmlspecialchars($mimeTypesIn), 5, 50);
 $setMimeButton = new \XoopsFormButton('', 'setmime', _ADD . ' ' . _AM_XFORMS_ELE_DEFAULT, 'button');
 $setMimeButton->setExtra('onclick="document.getElementById(\'ele_value[2]\').value += \'\|' . $mimeTypesJS . '\';"');
 $mimeTray->addElement($mime);

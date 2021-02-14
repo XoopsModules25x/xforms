@@ -25,7 +25,7 @@ namespace XoopsModules\Xforms;
 //use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper;
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+
 
 /**
  * Class \XoopsModules\Xforms\ElementHandler
@@ -70,7 +70,7 @@ class ElementHandler extends \XoopsPersistableObjectHandler
         //        $this->db       = $db;
         //        $this->db_table = $this->db->prefix('xforms_element');
         parent::__construct($db, 'xforms_element', Element::class, 'ele_id', 'ele_type');
-        natcasesort($this->_validElementTypes); // put items in a logical order for display
+        \natcasesort($this->_validElementTypes); // put items in a logical order for display
     }
 
     /**
@@ -93,7 +93,7 @@ class ElementHandler extends \XoopsPersistableObjectHandler
         $dFile = Helper::getInstance()->path('admin/default_elements.php');
         require $dFile;
         /** @var array $defaults */
-        if (count($defaults) > 0) {
+        if (\count($defaults) > 0) {
             $error = '';
             foreach ($defaults as $d) {
                 $ele = $this->create();

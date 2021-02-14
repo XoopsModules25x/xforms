@@ -23,6 +23,7 @@
  * @link      https://github.com/XoopsModules25x/xforms
  */
 
+use Xmf\Database\Tables;
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper;
 use XoopsModules\Xforms\Utility;
@@ -98,7 +99,7 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
     require_once $helper->path('include/common.php');
 
     if ($prev_version < 200) {
-        $migrate = new \Xmf\Database\Tables();
+        $migrate = new Tables();
 
         //-------------------------------
         //   Forms table modifications
@@ -276,7 +277,7 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
     $dirInfo = new \SplFileInfo($directory);
     // Validate is a directory
     if ($dirInfo->isDir()) {
-        $fileList = array_diff(scandir($directory), ['..', '.', 'index.html']);
+        $fileList = array_diff(scandir($directory, SCANDIR_SORT_NONE), ['..', '.', 'index.html']);
         foreach ($fileList as $k => $v) {
             if (!preg_match('/.tpl+$/i', $v)) {
                 $fileInfo = new \SplFileInfo($directory . $v);
@@ -307,7 +308,7 @@ function xoops_module_update_xforms(\XoopsModule $module, $prev_version)
         $dirInfo   = new \SplFileInfo($directory);
         // Validate directory exists
         if ($dirInfo->isDir()) {
-            $fileList = array_diff(scandir($directory), ['..', '.', 'index.html']);
+            $fileList = array_diff(scandir($directory, SCANDIR_SORT_NONE), ['..', '.', 'index.html']);
             foreach ($fileList as $k => $v) {
                 if (preg_match('/^(ele_).*(\.php)$/i', $v)) {
                     $fileInfo = new \SplFileInfo($directory . $v);
