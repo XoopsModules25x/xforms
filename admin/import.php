@@ -250,7 +250,7 @@ switch ($op) {
                         $eleAttribs['form_id'] = (int)$xId; // set new form Id
                         // need to convert {EMAIL}, {NAME}, or {UNAME} to {U_email}, {U_name} and {U_uname}
                         if ('text' === $eleAttribs['ele_type']) {
-                            $patternArray = ["/\{UNAME\}/", "/\{EMAIL\}/", "/\{NAME\}/"];
+                            $patternArray = ['/\{UNAME\}/', '/\{EMAIL\}/', '/\{NAME\}/'];
                             $replaceArray = ['{U_uname}', '{U_email}', '{U_name}'];
                             if (!is_array($eleAttribs['ele_value'])) {
                                 $eleAttribs['ele_value'] = base64_decode($eleAttribs['ele_value']);
