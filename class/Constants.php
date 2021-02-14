@@ -32,21 +32,21 @@ interface Constants
      */
 
     public const DISALLOW = 0;
-    // CONFIG displayicons
+// CONFIG displayicons
     public const DISPLAYICONS_ICON = 1;
     public const DISPLAYICONS_TEXT = 2;
     public const DISPLAYICONS_NO = 3;
-    // CONFIG submissions
+// CONFIG submissions
     public const SUBMISSIONS_NONE     = 1;
     public const SUBMISSIONS_DOWNLOAD = 2;
     public const SUBMISSIONS_MIRROR = 3;
     public const SUBMISSIONS_BOTH = 4;
-    // CONFIG anonpost
+// CONFIG anonpost
     public const ANONPOST_NONE     = 1;
     public const ANONPOST_DOWNLOAD = 2;
     public const ANONPOST_MIRROR = 3;
     public const ANONPOST_BOTH = 4;
-    // CONFIG autoapprove
+// CONFIG autoapprove
     public const AUTOAPPROVE_NONE     = 1;
     public const AUTOAPPROVE_DOWNLOAD = 2;
     public const AUTOAPPROVE_MIRROR = 3;
@@ -114,6 +114,18 @@ interface Constants
      */
     public const SCHEME_FTP = 2;
     /**
+     * element - scheme both http & ftp
+     */
+    const SCHEME_BOTH = 0;
+    /**
+     * element - scheme both http & ftp
+     */
+    const SCHEME_HTTP = 1;
+    /**
+     * element - scheme both http & ftp
+     */
+    const SCHEME_FTP = 2;
+    /**
      * element - use current date
      */
     public const ELE_CURR = 1;
@@ -133,6 +145,18 @@ interface Constants
      * element - set specific date
      */
     public const DATE_SPECIFIC = 2;
+    /**
+     * element - set date
+     */
+    const DATE_NONE = 0;
+    /**
+     * element - set to current date
+     */
+    const DATE_CURRENT = 1;
+    /**
+     * element - set specific date
+     */
+    const DATE_SPECIFIC = 2;
     /**
      * range default step size
      */
@@ -276,23 +300,7 @@ interface Constants
     /**
      * long XOOPS redirect delay (in seconds)
      */
-    public const REDIRECT_DELAY_LONG = 7;
-    /**
-     * use captcha settings inherited from XOOPS
-     */
-    public const CAPTCHA_INHERIT = 0;
-    /**
-     * use captcha for ANON users only
-     */
-    public const CAPTCHA_ANON_ONLY = 1;
-    /**
-     * use captcha for everyone
-     */
-    public const CAPTCHA_EVERYONE = 2;
-    /**
-     * don't use captcha
-     */
-    public const CAPTCHA_NONE = 3;
+    const REDIRECT_DELAY_LONG = 7;
     /**
      * linefeed delimiter
      */

@@ -23,7 +23,7 @@ trait VersionChecks
      * @static
      * @param \XoopsModule|null $module
      *
-     * @param null|string       $requiredVer
+     * @param null|string  $requiredVer
      * @return bool true if meets requirements, false if not
      */
     public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
@@ -66,7 +66,7 @@ trait VersionChecks
         // check for minimum PHP version
         $success = true;
         $verNum  = \PHP_VERSION;
-        $reqVer  = &$module->getInfo('min_php');
+        $reqVer = &$module->getInfo('min_php');
         if (false !== $reqVer && '' !== $reqVer) {
             if (\version_compare($verNum, $reqVer, '<')) {
                 $module->setErrors(\sprintf(\constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_PHP'), $reqVer, $verNum));
@@ -93,8 +93,8 @@ trait VersionChecks
         $update             = '';
         $repository         = 'XoopsModules25x/' . $moduleDirName;
         /** @internal Developer Note: set repository to development github site for testing
-         * uncomment out following line and change to developer's github repository to test development
-         * $repository         = 'zyspec/xforms'; //developer site
+         * uncomment out following line to test development repository
+         $repository         = 'zyspec/xforms'; //developer site
          */
 
         $ret             = '';
@@ -111,7 +111,7 @@ trait VersionChecks
                 } elseif (false !== mb_strpos($curlReturn, 'Not Found')) {
                     \trigger_error(\constant('CO_' . $moduleDirNameUpper . '_' . 'REPO_NOT_FOUND') . $infoReleasesUrl);
                 } else {
-                    $file = json_decode($curlReturn, false);
+                    $file              = json_decode($curlReturn, false);
                     if (empty($file)) {
                         \trigger_error(\constant('CO_' . $moduleDirNameUpper . '_' . 'NO_REL_FOUND') . $infoReleasesUrl);
                     } else {

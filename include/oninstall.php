@@ -39,12 +39,12 @@ if ((!defined('XOOPS_ROOT_PATH'))
     exit('Restricted access' . PHP_EOL);
 }
 
-/**
+ /**
  * Prepares system prior to attempting to install module
  * @param \XoopsModule $module {@link XoopsModule}
  *
  * @return bool true if ready to install, false if not
- */
+*/
 function xoops_module_pre_install_xforms(\XoopsModule $module)
 {
     $utility      = new Utility();
@@ -81,11 +81,11 @@ function xoops_module_install_xforms(\XoopsModule $module)
         $module->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_UPLOAD_PATH, $configurator->paths['uploadPath']));
     } else {
         // Create index file in new directories
-        $newFile  = $configurator->paths['uploadPath'] . '/index.html';
+        $newFile = $configurator->paths['uploadPath']. '/index.html';
         $fileInfo = new \SplFileInfo($newFile);
-        $fileObj  = $fileInfo->openFile('w');
-        $success  = $fileObj->fwrite('<script>history.go(-1);</script>');
-        $fileObj  = null; // destroy SplFileObject so it closes file
+        $fileObj = $fileInfo->openFile('w');
+        $success = $fileObj->fwrite('<script>history.go(-1);</script>');
+        $fileObj = null; // destroy SplFileObject so it closes file
         if (null === $success) {
             $success = false;
             $module->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_INDEX, $newFile));

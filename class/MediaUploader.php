@@ -33,7 +33,7 @@ if (!\class_exists('\XoopsMediaUploader')) {
  * Class \XoopsModules\Xforms\MediaUploader
  *
  * @see \XoopsMediaUploader
- */
+*/
 class MediaUploader extends \XoopsMediaUploader
 {
     /**
@@ -54,7 +54,7 @@ class MediaUploader extends \XoopsMediaUploader
      */
     public function __construct($uploadDir = null, $maxFileSize = 0, $allowedExtensions = null, $allowedMimeTypes = null, $maxWidth = null, $maxHeight = null, $randomFilename = false)
     {
-        parent::__construct($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight, $randomFilename);
+        parent::__construct ($uploadDir, $allowedMimeTypes, $maxFileSize, $maxWidth, $maxHeight, $randomFilename);
         if (!empty($allowedExtensions)) {
             $this->allowedExtensions = $allowedExtensions;
         } else {

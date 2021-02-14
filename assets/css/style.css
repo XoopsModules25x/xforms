@@ -18,13 +18,13 @@ input[type=number],input[type=color],input[type=checkbox],input[type=date],input
 }
 
 #xforms-form-list {
-    /* element with the id=xforms-form-list
-     * used in xforms_form.tpl to display form list
-     */
+	/* element with the id=xforms-form-list
+	 * used in xforms_form.tpl to display form list
+	 */
 }
 
 form[name~=xforms_] {
-    /* all forms containing xforms_ */
+	/* all forms containing xforms_ */
 }
 
 h1.xforms,h2.xforms,h3.xforms,h4.xforms {

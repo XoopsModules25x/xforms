@@ -17,8 +17,8 @@
  * @author    XOOPS Module Development Team
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
- * @since     1.30
  * @link      https://github.com/XoopsModules25x/xforms
+ * @since     1.30
  */
 
 use Xmf\Request;
@@ -41,11 +41,11 @@ if (empty($file)) {
         exit();
     }
     /**
-     * @var \XoopsModules\Xforms\Helper          $helper
+     * @var \XoopsModules\Xforms\Helper $helper
      * @var \XoopsModules\Xforms\UserDataHandler $uDataHandler
      */
     $uDataHandler = $helper->getHandler('Userdata');
-    if (!($uData = $uDataHandler->get($udid))
+    if (!($uData  = $uDataHandler->get($udid))
         || ((int)$uData->getVar('form_id') !== $form)
         || ((int)$uData->getVar('ele_id') !== $elem)) {
         //@todo - test ob_end_clean here - added in v2.00 ALPHA 2
@@ -60,9 +60,9 @@ if (empty($file)) {
     }
     $file  = $uDataValue['file'];
     $fname = $uDataValue['name'];
-    //}
+//}
 
-    //if (empty($file)) {
+//if (empty($file)) {
     //@todo - shouldn't this be an ob_end_clean here instead of ob_end_flush?
     ob_end_flush();
     redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);
@@ -83,13 +83,13 @@ ob_end_clean(); /*Clear all contents sending to browser to prevent corruptions i
 $mimeFile = 'application/octet-stream';
 
 if (class_exists('finfo')) { // should exist for >= PHP 5.3
-    $finfo = new \finfo(FILEINFO_MIME);
+    $finfo    = new \finfo(FILEINFO_MIME);
     //$mimeFile = $finfo->file($filename);
     $mimeFile = $finfo->file($fname);
 } else {
     $mimeTypes = require_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
     //$extArray  = explode('.', $filename);
-    $extArray = explode('.', $fname);
+    $extArray  = explode('.', $fname);
     $ext      = mb_strtolower(array_pop($extArray));
     if (array_key_exists($ext, $mimeTypes)) {
         $mimeFile = $mimeTypes[$ext];

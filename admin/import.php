@@ -33,10 +33,10 @@ require_once __DIR__ . '/admin_header.php';
 /**
  * Vars defined by including ./admin_header.php
  *
- * @var \XoopsModules\Xforms\Helper       $helper
+ * @var \XoopsModules\Xforms\Helper $helper
  * @var \XoopsModules\Xforms\FormsHandler $formsHandler
- * @var \Xmf\Module\Admin                 $adminObject
- * @var string                            $moduleDirName
+ * @var \Xmf\Module\Admin $adminObject
+ * @var string $moduleDirName
  */
 
 $thisFile = basename(__FILE__);
@@ -132,13 +132,13 @@ switch ($op) {
                     $eformsElementObjects = $eformsElementHandler->getAll(new \Criteria('form_id', $eId));
                     if (!empty($eformsElementObjects)) {
                         foreach ($eformsElementObjects as $eformsElementObj) {
-                            $eleAttribs            = $eformsElementObj->getValues();
-                            $eleVars               = $eformsElementObj->getVars();
+                            $eleAttribs = $eformsElementObj->getValues();
+                            $eleVars    = $eformsElementObj->getVars();
                             $eleAttribs['form_id'] = $xId;
                             unset($eleAttribs['ele_id']);
                             $xformsElementObj = $xformsElementHandler->create();
                             $xformsElementObj->setVars($eleAttribs);
-                            $xformsElementId = $xformsElementHandler->insert($xformsElementObj);
+                            $xformsElementId  = $xformsElementHandler->insert($xformsElementObj);
                             if (!$xformsElementId) {
                                 throw new \Exception(sprintf(_AM_XFORMS_ERR_CREATE_ELEMENT, 'eForms', $eformsElementObj->getVar('ele_id')));
                             }
@@ -151,8 +151,8 @@ switch ($op) {
                 $eformsUdataObjs       = $eformsUserDataHandler->getAll();
                 if (!empty($eformsUdataObjs)) {
                     foreach ($eformsUdataObjs as $eformsUdataObj) {
-                        $xformsUdataObj          = $xformsUserdataHandler->create();
-                        $uDataAttribs            = $eformsUdataObj->getValues();
+                        $xformsUdataObj = $xformsUserdataHandler->create();
+                        $uDataAttribs = $eformsUdataObj->getValues();
                         $uDataAttribs['form_id'] = $formMap[$eformsUdataObj->getVar('form_id')];
                         $uDataAttribs['ele_id']  = $eleMap[$eformsUdataObj->getVar('ele_id')];
                         $xformUdataObj->setVars($uDataAttribs);
@@ -179,7 +179,7 @@ switch ($op) {
                 $utility         = new Utility();
                 $xformsUploadDir = $helper->getConfig('uploaddir');
                 $eformsUploadDir = $eformsHelper->getConfig('uploaddir');
-                $success         = $utility::rcopy($eformsUploadDir, $xformsUploadDir);
+                $success = $utility::rcopy($eformsUploadDir, $xformsUploadDir);
                 if (!$success) {
                     throw new \Exception(sprintf(_AM_XFORMS_ERR_COPY_UPLOADS, 'eForms'));
                 }
@@ -229,11 +229,11 @@ switch ($op) {
                 $formMap           = [];
                 foreach ($liaiseFormObjects as $liaiseFormObj) {
                     $formAttribs = $liaiseFormObj->getValues();
-                    $liaiseId    = $formAttribs['form_id'];
+                    $liaiseId = $formAttribs['form_id'];
                     unset($formAttribs['form_id']); // will force new xForm Id
                     $xformsObj = $formsHandler->create();
                     $xformsObj->setVars($formAttribs);
-                    $xformsId = $formsHandler->insert($xformsObj);
+                    $xformsId  = $formsHandler->insert($xformsObj);
                     if (!$xformsId) {
                         throw new \Exception(sprintf(_AM_XFORMS_ERR_CREATE_FORM, 'liaise', $liaiseId));
                     }
@@ -260,7 +260,7 @@ switch ($op) {
 
                         $xformsElementObj = $xformsElementHandler->create();
                         $xformsElementObj->setVars($eleAttribs);
-                        $xformsElementId = $xformsElementHandler->insert($xformsElementObj);
+                        $xformsElementId  = $xformsElementHandler->insert($xformsElementObj);
                         if (!$xformsElementId) {
                             throw new \Exception(sprintf(_AM_XFORMS_ERR_CREATE_ELEMENT, 'liaise', $liaiseElementObj->getVar('ele_id')));
                         }
@@ -283,8 +283,8 @@ switch ($op) {
                 $utility         = new Utility();
                 $xformsUploadDir = $helper->getConfig('uploaddir');
                 $liaiseUploadDir = $liaiseHelper->getConfig('uploaddir');
-                $success         = $utility::rcopy($liaiseUploadDir, $xformsUploadDir);
-                //            $success = $utility::copyFiles($liaiseUploadDir, $xformsUploadDir, array('index.html'), true);
+                $success = $utility::rcopy($liaiseUploadDir, $xformsUploadDir);
+    //            $success = $utility::copyFiles($liaiseUploadDir, $xformsUploadDir, array('index.html'), true);
                 if (!$success) {
                     throw new \Exception(sprintf(_AM_XFORMS_ERR_COPY_UPLOADS, 'Liaise'));
                 }

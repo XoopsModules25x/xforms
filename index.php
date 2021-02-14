@@ -17,6 +17,7 @@
  * @author    XOOPS Module Development Team
  * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @link      https://github.com/XoopsModules25x/xforms
  * @since     1.30
  */
 
@@ -28,11 +29,11 @@ use XoopsModules\Xforms\MediaUploader;
 use XoopsModules\Xforms\Utility;
 
 require __DIR__ . '/header.php';
-$myts = \MyTextSanitizer::getInstance();
+$myts   = \MyTextSanitizer::getInstance();
 
 /**
- * @var string                            $moduleDirName
- * @var \XoopsModules\Xforms\Helper       $helper
+ * @var string $moduleDirName
+ * @var \XoopsModules\Xforms\Helper $helper
  * @var \XoopsModules\Xforms\FormsHandler $formsHandler
  */
 $helper->loadLanguage('admin');
@@ -76,7 +77,7 @@ if (empty($submit)) {
                         [
                             'title'          => $form->getVar('form_title'),
                             'desc'           => $form->getVar('form_desc'),
-                            'id'             => $form->getVar('form_id'),
+                                                                   'id' => $form->getVar('form_id'),
                             'form_edit_link' => $form->getEditLinkInfo(),
                         ]
                     );
@@ -89,7 +90,7 @@ if (empty($submit)) {
     } else {
         /**
          * @var \XoopsModules\Xforms\FormsHandler $formsHandler
-         * @var \XoopsModules\Xforms\Forms        $form
+         * @var \XoopsModules\Xforms\Forms $form
          */
         if (($form = $formsHandler->get($formId))
             && (false !== $formsHandler->getSingleFormPermission($formId))) {
@@ -97,7 +98,7 @@ if (empty($submit)) {
                 redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
             }
             if (!$assignedArray = $form->render()) {
-                redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_LONG, $form->getHtmlErrors());
+                 redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_LONG, $form->getHtmlErrors());
             }
             if (Constants::FORM_DISPLAY_STYLE_FORM == $form->getVar('form_display_style')) {
                 $GLOBALS['xoopsOption']['template_main'] = 'xforms_form.tpl';
@@ -126,7 +127,7 @@ if (empty($submit)) {
 //-------------------------------
 // Now execute the form
 //-------------------------------
-/** @var \XoopsSecurity $GLOBALS ['xoopsSecurity'] */
+/** @var \XoopsSecurity $GLOBALS['xoopsSecurity'] */
 if (!$GLOBALS['xoopsSecurity']->check()) {
     $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, implode('<br>', $GLOBALS['xoopsSecurity']->getErrors()));
 }
@@ -152,12 +153,12 @@ if (!$xfCaptchaObj->verify()) {
 require_once $helper->path('include/common.php');
 
 $xformsEleHandler = $helper->getHandler('Element');
-$criteria         = new \CriteriaCompo();
+$criteria = new \CriteriaCompo();
 $criteria->add(new \Criteria('form_id', $form->getVar('form_id')), 'AND');
 $criteria->add(new \Criteria('ele_display', Constants::ELEMENT_DISPLAY), 'AND');
 $criteria->setSort('ele_order');
 $criteria->order = 'ASC';
-$eleObjArray     = $xformsEleHandler->getObjects($criteria, true);
+$eleObjArray = $xformsEleHandler->getObjects($criteria, true);
 
 /** @var array $ele */
 foreach ($_POST as $k => $v) {
@@ -180,8 +181,8 @@ if (!empty($xoopsUploadFile)) {
 // Generate the extra info
 $genInfo = [
     'UID'   => '0',
-    'UNAME' => '',
-    'IP'    => '',
+               'UNAME' => '',
+                  'IP' => '',
     'AGENT' => '',
 ];
 
@@ -238,16 +239,16 @@ if (0 == count($err)) {
             $udata->setVars(
                 [
                     'uid'         => (int)$genInfo['UID'],
-                    'form_id'     => (int)$formId,
-                    'udata_time'  => (int)$timeData,
-                    'udata_ip'    => $genInfo['IP'],
-                    'udata_agent' => $genInfo['AGENT'],
+                              'form_id' => (int)$formId,
+                           'udata_time' => (int)$timeData,
+                             'udata_ip' => $genInfo['IP'],
+                          'udata_agent' => $genInfo['AGENT'],
                     'ele_id'      => $eleId,
                 ]
             );
         }
 
-        $ele[$eleId] = is_scalar($ele[$eleId]) ? trim($ele[$eleId]) : $ele[$eleId];
+        $ele[$eleId] = is_scalar($ele[$eleId]) ? trim($ele[$eleId]): $ele[$eleId];
         if (!empty($ele[$eleId])) {
             if ('' !== $eleCaption) {
                 $msg[$eleId] = '<br>- ' . $myts->displayTarea($eleCaption, Constants::ALLOW_HTML) . '<br>';
@@ -256,42 +257,42 @@ if (0 == count($err)) {
             switch ($eleType) {
                 case 'pattern':
                 case 'textarea':
-                    $msg[$eleId]   .= FilterInput::clean($ele[$eleId], 'STRING'); // @test this value filter
+                    $msg[$eleId]  .= FilterInput::clean($ele[$eleId], 'STRING'); // @test this value filter
                     $uDataValue[0] = FilterInput::clean($ele[$eleId], 'STRING');
                     break;
                 case 'color':
-                    $msg[$eleId]   .= preg_replace('/[^0-9a-f#]/', '', $ele[$eleId]);
+                    $msg[$eleId]  .= preg_replace('/[^0-9a-f#]/', '', $ele[$eleId]);
                     $uDataValue[0] = preg_replace('/[^0-9a-f#]/', '', $ele[$eleId]);
                     break;
                 case 'date':
-                    $msg[$eleId]   .= preg_replace('/[^0-9\-]/', '', $ele[$eleId]);
+                    $msg[$eleId]  .= preg_replace('/[^0-9\-]/', '', $ele[$eleId]);
                     $uDataValue[0] = preg_replace('/[^0-9\-]/', '', $ele[$eleId]);
                     break;
                 case 'email':
-                    $msg[$eleId]   .= FilterInput::clean($ele[$eleId], 'EMAIL'); // @test this value filter
+                    $msg[$eleId]  .= FilterInput::clean($ele[$eleId], 'EMAIL'); // @test this value filter
                     $uDataValue[0] = FilterInput::clean($ele[$eleId], 'EMAIL');
                     break;
                 case 'number':
-                    $msg[$eleId]   .= FilterInput::clean($ele[$eleId], 'INT'); // @test this value filter
+                    $msg[$eleId]  .= FilterInput::clean($ele[$eleId], 'INT'); // @test this value filter
                     $uDataValue[0] = FilterInput::clean($ele[$eleId], 'INT');
                     break;
                 case 'range':
-                    $msg[$eleId]   .= FilterInput::clean($ele[$eleId], 'FLOAT'); // @test this value filter
+                    $msg[$eleId]  .= FilterInput::clean($ele[$eleId], 'FLOAT'); // @test this value filter
                     $uDataValue[0] = FilterInput::clean($ele[$eleId], 'FLOAT');
                     break;
                 case 'time':
-                    $msg[$eleId] .= preg_replace('/[^0-9:]/', '', $ele[$eleId]);
-                    $msg[$eleId] .= preg_replace('/[^0-9:]/', '', $ele[$eleId]);
+                    $msg[$eleId]  .= preg_replace('/[^0-9:]/', '', $ele[$eleId]);
+                    $msg[$eleId]  .= preg_replace('/[^0-9:]/', '', $ele[$eleId]);
                     break;
                 case 'url':
-                    $msg[$eleId]   .= FilterInput::clean($ele[$eleId], 'WEBURL'); // @test this value filter
+                    $msg[$eleId]  .= FilterInput::clean($ele[$eleId], 'WEBURL'); // @test this value filter
                     $uDataValue[0] = FilterInput::clean($ele[$eleId], 'WEBURL');
                     break;
                 case 'checkbox':
                     $opt_count = 1;
                     $ch        = [];
-                    foreach ($eleValue as $key => $v) {
-                        //while ($v = each($eleValue)) {
+                    foreach ($eleValue as $key=>$v) {
+                    //while ($v = each($eleValue)) {
                         if (is_array($ele[$eleId])) {
                             if (in_array($opt_count, $ele[$eleId])) {
                                 $other = Utility::checkOther($key, $eleId, $eleCaption);
@@ -304,10 +305,10 @@ if (0 == count($err)) {
                             ++$opt_count;
                         } elseif (!empty($ele[$eleId])) {
                                 $ch[] = $v['key'];
+                            }
                         }
-                    }
                     $msg[$eleId] .= !empty($ch) ? implode('<br>', $ch) : '';
-                    $uDataValue  = $ch;
+                    $uDataValue   = $ch;
                     break;
                 case 'obfuscated':
                     /** {@internal set msg to '***** - not transmitted in email'}}} */
@@ -318,17 +319,17 @@ if (0 == count($err)) {
                     break;
                 case 'radio':
                     $opt_count = 1;
-                    foreach ($eleValue as $key => $v) {
-                        //while ($v = each($eleValue)) {
+                    foreach ($eleValue as $key=>$v) {
+                    //while ($v = each($eleValue)) {
                         if ($opt_count == $ele[$eleId]) {
                             $other = Utility::checkOther($key, $eleId, $eleCaption);
                             if (false !== $other) {
-                                $msg[$eleId]  .= FilterInput::clean($other, 'STRING');
+                                $msg[$eleId] .= FilterInput::clean($other, 'STRING');
                                 $uDataValue[] = FilterInput::clean($other, 'STRING');
                                 //$msg[$eleId] .= $other;
                                 //$uDataValue[] = $other;
                             } else {
-                                $msg[$eleId]  .= $key;
+                                $msg[$eleId] .= $key;
                                 $uDataValue[] = $key;
                             }
                         }
@@ -339,16 +340,16 @@ if (0 == count($err)) {
                     $opt_count = 1;
                     $ch        = [];
                     if (is_array($ele[$eleId])) {
-                        foreach ($eleValue[2] as $key => $v) {
-                            //while ($v = each($eleValue[2])) {
+                        foreach ($eleValue[2] as $key=>$v) {
+                        //while ($v = each($eleValue[2])) {
                             if (in_array($opt_count, $ele[$eleId])) {
                                 $ch[] = $key;
                             }
                             ++$opt_count;
                         }
                     } else {
-                        foreach ($eleValue[2] as $key => $j) {
-                            //while ($j = each($eleValue[2])) {
+                        foreach ($eleValue[2] as $key=>$j) {
+                        //while ($j = each($eleValue[2])) {
                             if ($opt_count == $ele[$eleId]) {
                                 $ch[] = $key;
                             }
@@ -356,7 +357,7 @@ if (0 == count($err)) {
                         }
                     }
                     $msg[$eleId] .= !empty($ch) ? implode('<br>', $ch) : '';
-                    $uDataValue  = $ch;
+                    $uDataValue   = $ch;
                     break;
                 case 'select2': //left for backward compatibility w/ v2.00 ALPHA 1
                 case 'country':
@@ -369,10 +370,10 @@ if (0 == count($err)) {
                             }
                             $cntryList .= array_key_exists($thisVal, $countries) ? $countries[$thisVal] : '';
                         }
-                        $msg[$eleId]   .= $cntryList;
+                        $msg[$eleId]  .= $cntryList;
                         $uDataValue[0] = $cntryList;
                     } else {
-                        $msg[$eleId]   .= $countries[$ele[$eleId]];
+                        $msg[$eleId]  .= $countries[$ele[$eleId]];
                         $uDataValue[0] = $countries[$ele[$eleId]];
                     }
                     break;
@@ -387,7 +388,7 @@ if (0 == count($err)) {
                     if (preg_match('/\{UNAME\}/', $eleValue[2])) {
                         $reply_name = $ele[$eleId];  // @FIXME: this $ele[] needs to be filtered
                     }
-                    $msg[$eleId]   .= $ele[$eleId]; // @FIXME: this $ele[] needs to be filtered
+                    $msg[$eleId]  .= $ele[$eleId]; // @FIXME: this $ele[] needs to be filtered
                     $uDataValue[0] = $ele[$eleId];
 
                     /* Obtain the user email from the form */
@@ -400,8 +401,8 @@ if (0 == count($err)) {
                     }
                     break;
                 case 'yn':
-                    $v             = (2 == $ele[$eleId]) ? _NO : _YES;
-                    $msg[$eleId]   .= $v;
+                    $v = (2 == $ele[$eleId]) ? _NO : _YES;
+                    $msg[$eleId]  .= $v;
                     $uDataValue[0] = $v;
                     break;
                 case 'upload':
@@ -412,17 +413,17 @@ if (0 == count($err)) {
                             xoops_load('MediaUploader', $moduleDirName);
                         }
                         */
-                        $maxSize   = empty($eleValue[0]) ? 0 : (int)$eleValue[0];
+                        $maxSize   = empty($eleValue[0]) ?    0 : (int)$eleValue[0];
                         $ext       = empty($eleValue[1]) ? null : explode('|', $eleValue[1]);
                         $mime      = empty($eleValue[2]) ? null : explode('|', $eleValue[2]);
                         $maxWidth  = empty($eleValue[4]) ? null : (int)$eleValue[4];
                         $maxHeight = empty($eleValue[5]) ? null : (int)$eleValue[5];
 
-                        //                        if ('uploadimg' === $eleType) {
-                        $uploader[$eleId] = new MediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime, $maxWidth, $maxHeight);
-                        //                        } else {
-                        //                            $uploader[$eleId] = new \MediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime);
-                        //                        }
+//                        if ('uploadimg' === $eleType) {
+                            $uploader[$eleId] = new MediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime, $maxWidth, $maxHeight);
+//                        } else {
+//                            $uploader[$eleId] = new \MediaUploader(XFORMS_UPLOAD_PATH, $maxSize, $ext, $mime);
+//                        }
                         if (0 == $eleValue[0]) {
                             $uploader[$eleId]->setNoAdminSizeCheck(true);
                         }
@@ -434,8 +435,8 @@ if (0 == count($err)) {
                                 $saved      = $uploader[$eleId]->savedFileName;
                                 $uploaded[] = [
                                     'id'     => $eleId,
-                                    'file'   => $saved,
-                                    'name'   => $_FILES['ele_' . $eleId]['name'],
+                                                  'file' => $saved,
+                                                  'name' => $_FILES['ele_' . $eleId]['name'],
                                     'saveto' => $eleValue[3],
                                 ];
                                 $uDataValue = [
@@ -446,8 +447,8 @@ if (0 == count($err)) {
                             }
                         } elseif (count($uploader[$eleId]->errors) > 0) {
                                 $err = array_merge($err, $uploader[$eleId]->getErrors(false));
+                            }
                         }
-                    }
                     break;
                 default:
                     break;
@@ -458,7 +459,7 @@ if (0 == count($err)) {
         if ($saveToDB) {
             $udata->setVar('udata_value', $uDataValue);
             $udatas[] = $udata;
-            $newKey   = $uDataHandler->insert($udata);
+            $newKey = $uDataHandler->insert($udata);
             if (false === $newKey) {
                 $err = array_merge($err, $udata->getErrors());
             }
@@ -495,9 +496,9 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
     $interMail->assign(
         [
             'UNAME'   => '',
-            'ULINK'   => '',
-            'IP'      => '',
-            'AGENT'   => '',
+                             'ULINK' => '',
+                                'IP' => '',
+                             'AGENT' => '',
             'FORMURL' => '',
         ]
     );
@@ -508,14 +509,14 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
             $interMail->assign(
                 'UNAME',
                 sprintf(
-                    _MD_XFORMS_MSG_UNAME,
+                _MD_XFORMS_MSG_UNAME,
                     $GLOBALS['xoopsUser']->getVar('uname')
                 )
             );
             $interMail->assign(
                 'ULINK',
                 sprintf(
-                    _MD_XFORMS_MSG_UINFO,
+                _MD_XFORMS_MSG_UINFO,
                     $GLOBALS['xoops']->url('userinfo.php?uid=' . $GLOBALS['xoopsUser']->getVar('uid'))
                 )
             );
@@ -523,7 +524,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
             $interMail->assign(
                 'UNAME',
                 sprintf(
-                    _MD_XFORMS_MSG_UNAME,
+                _MD_XFORMS_MSG_UNAME,
                     $GLOBALS['xoopsConfig']['anonymous']
                 )
             );
@@ -553,7 +554,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
         $interMail->assign(
             'FORMURL',
             sprintf(
-                _MD_XFORMS_MSG_FORMURL,
+            _MD_XFORMS_MSG_FORMURL,
                 $helper->url('index.php?form_id=' . $formId)
             )
         );
@@ -586,8 +587,8 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
         $copyMail->setTemplateDir($templateDir);
         $copyMail->setTemplate('xforms_copy.tpl');
         $copyMail->setSubject(sprintf(_MD_XFORMS_MSG_SUBJECT_COPY, $form->getVar('form_title')));
-        $mailCharset       = $helper->getConfig('mail_charset');
-        $charset           = !empty($mailCharset) ? $mailCharset : _CHARSET;
+        $mailCharset = $helper->getConfig('mail_charset');
+        $charset = !empty($mailCharset) ? $mailCharset : _CHARSET;
         $copyMail->charSet = $charset;
 
         /* Set header and footer of email */
@@ -646,8 +647,8 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
             } else {
                 /* Setting the admin e-mail */
                 $interMail->setToEmails($GLOBALS['xoopsConfig']['adminmail']);
+            }
         }
-    }
 
     /*
      * Attaching the uploaded files (images and files)
@@ -666,8 +667,8 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
                 }
             }
             elseif ($interMail->multimailer->addAttachment(XFORMS_UPLOAD_PATH . "/{$a['file']}", $a['name'])) {
-                $msg[$a['id']] .= sprintf(_MD_XFORMS_ATTACHED_FILE, $a['name']);
-            }
+                    $msg[$a['id']] .= sprintf(_MD_XFORMS_ATTACHED_FILE, $a['name']);
+                }
             else {
                 $err[] = $interMail->multimailer->ErrorInfo;
             }
@@ -682,7 +683,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
     if (Constants::SEND_METHOD_PM == $form->getVar('form_send_method')) {
         $msg = implode("\n\n", $msg);
         $msg = preg_replace('/<br>/', "\n", $msg);
-        //        $msg = strip_tags(htmlspecialchars_decode($msg), '<href>');
+//        $msg = strip_tags(htmlspecialchars_decode($msg), '<href>');
         $interMail->assign('MSG', $msg);
     } else {
         $interMail->assign('MSG', implode('<br><br>', $msg));
@@ -724,9 +725,9 @@ if (0 < count($err)) {
     $GLOBALS['xoopsTpl']->assign(
         [
             'error_heading'   => _MD_XFORMS_ERR_HEADING,
-            'errors'          => $err,
-            'go_back'         => _BACK,
-            'xforms_url'      => $helper->url('index.php?form_id=' . $formId),
+                                              'errors' => $err,
+                                             'go_back' => _BACK,
+                                          'xforms_url' => $helper->url('index.php?form_id=' . $formId),
             'xoops_pagetitle' => _MD_XFORMS_ERR_HEADING,
         ]
     );

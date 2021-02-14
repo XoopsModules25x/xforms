@@ -20,7 +20,7 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since     1.30
  *
- * @see       \Xmf\Module\Admin
+ * @see \Xmf\Module\Admin
  */
 
 use Xmf\Module\Admin;
@@ -39,38 +39,37 @@ $helper->loadLanguage('feedback');
 $adminmenu = [
     [
         'title' => _MI_XFORMS_ADMENU0,
-        'link'  => 'admin/index.php',
-        'desc'  => _MI_XFORMS_ADMENU0_DESC,
+          'link'  => 'admin/index.php',
+          'desc'  => _MI_XFORMS_ADMENU0_DESC,
         'icon'  => Admin::menuIconPath('home.png'),
     ],
     [
         'title' => _MI_XFORMS_ADMENU1,
-        'link'  => 'admin/main.php',
-        'desc'  => _MI_XFORMS_ADMENU1_DESC,
-        'icon'  => Admin::menuIconPath('manage.png'),
-    ],
-    [
-        'title' => _MI_XFORMS_ADMENU2,
-        'link'  => 'admin/main.php?op=edit',
-        'desc'  => _MI_XFORMS_ADMENU2_DESC,
+          'link'  => 'admin/main.php',
+          'desc'  => _MI_XFORMS_ADMENU1_DESC,
+          'icon'  => \Xmf\Module\Admin::menuIconPath('manage.png')
+    ),
+    array('title' => _MI_XFORMS_ADMENU2,
+          'link'  => 'admin/main.php?op=edit',
+          'desc'  => _MI_XFORMS_ADMENU2_DESC,
         'icon'  => Admin::menuIconPath('add.png'),
     ],
     [
         'title' => _MI_XFORMS_ADMENU3,
-        'link'  => 'admin/editelement.php',
-        'desc'  => _MI_XFORMS_ADMENU3_DESC,
+          'link'  => 'admin/editelement.php',
+          'desc'  => _MI_XFORMS_ADMENU3_DESC,
         'icon'  => Admin::menuIconPath('insert_table_row.png'),
     ],
     [
         'title' => _MI_XFORMS_ADMENU4,
-        'link'  => 'admin/report.php',
-        'desc'  => _MI_XFORMS_ADMENU4_DESC,
+          'link'  => 'admin/report.php',
+          'desc'  => _MI_XFORMS_ADMENU4_DESC,
         'icon'  => Admin::menuIconPath('content.png'),
     ],
     [
         'title' => _MI_XFORMS_ADMENU6,
-        'link'  => 'admin/import.php',
-        'desc'  => _MI_XFORMS_ADMENU6_DESC,
+          'link'  => 'admin/import.php',
+          'desc'  => _MI_XFORMS_ADMENU6_DESC,
         'icon'  => Admin::menuIconPath('exec.png'),
     ],
 
@@ -92,8 +91,8 @@ if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools
 
 $adminmenu[] = [
     'title' => _MI_XFORMS_ADMENU5,
-    'link'  => 'admin/about.php',
-    'desc'  => _MI_XFORMS_ADMENU5_DESC,
+          'link'  => 'admin/about.php',
+          'desc'  => _MI_XFORMS_ADMENU5_DESC,
     'icon'  => Admin::menuIconPath('about.png'),
 ];
 

@@ -215,7 +215,7 @@ switch ($op) {
         }
 
         $element->setVar('form_id', $formId);
-        $element->setVar('ele_caption', $eleCaption);
+        $element->setVar('ele_caption', strip_tags($eleCaption));
         $eleReq = (Constants::ELEMENT_NOT_REQD !== $eleReq) ? Constants::ELEMENT_REQD : Constants::ELEMENT_NOT_REQD;
         $element->setVar('ele_req', $eleReq);
         if ('html' !== $eleType) {

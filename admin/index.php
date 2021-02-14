@@ -29,6 +29,7 @@ use XoopsModules\Xforms\{Common,
     Common\TestdataButtons,
     Constants,
     Forms,
+    FormsHandler,
     Helper,
     Utility
 };
@@ -36,23 +37,24 @@ use XoopsModules\Xforms\{Common,
 /** @var Admin $adminObject */
 /** @var Helper $helper */
 /** @var Utility $utility */
+/** @var FormsHandler $formsHandler */
 
 require_once __DIR__ . '/admin_header.php';
 
 /**
- * @var \Xmf\Module\Admin                 $adminObject
- * @var \XoopsModules\Xforms\Helper       $helper
+ * @var \Xmf\Module\Admin $adminObject
+ * @var \XoopsModules\Xforms\Helper $helper
  * @var \XoopsModules\Xforms\FormsHandler $formsHandler
  *
- * @var string                            $moduleDirName
+ * @var string $moduleDirName
  */
 
 xoops_cp_header();
-$criteria = new \Criteria('');
+$criteria           = new \CriteriaCompo();
 $criteria->setGroupBy('form_active');
-$formCount          = $formsHandler->getCount($criteria);
-$totalForms         = array_sum($formCount);
-$totalActiveForms   = $formCount[1] ?? 0;
+$criteria->add(new \Criteria('form_active', Constants::FORM_ACTIVE, '='));
+$totalForms         = $formsHandler->getCount();
+$totalActiveForms   = $formsHandler->getCount($criteria);
 $totalInactiveForms = $totalForms - $totalActiveForms;
 
 $adminObject->addInfoBox(_MD_XFORMS_DASHBOARD);
@@ -61,7 +63,8 @@ $adminObject->addInfoBoxLine(sprintf('<span class="infolabel">' . _MD_XFORMS_TOT
 $adminObject->addInfoBoxLine(sprintf('<span class="infolabel">' . _MD_XFORMS_TOTAL_FORMS . '</span>', '<span class="infotext bold">' . $totalForms . '</span>'));
 
 // Check for profile module
-$profileHelper = Helper::getHelper('profile');
+/* @var XoopsModules\Profile\Helper $profileHelper */
+$profileHelper = \Xmf\Module\Helper::getHelper('profile');
 if (false === $profileHelper) {
     $adminObject->addConfigWarning(sprintf(_MD_XFORMS_PROFILE_NOT_FOUND, $moduleDirName));
 } else {
