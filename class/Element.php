@@ -84,31 +84,31 @@ class Element extends \XoopsObject
      * {@inheritDoc}
      * @see \XoopsObject::setVar()
      */
-    public function setVar($key, $val, $not_gpc = false)
+    public function setVar($key, $value, $not_gpc = false)
     {
-        if (('ele_value' === $key) && \is_array($val)) {
-            $keys = \array_keys($val);
-            $vals = \array_values($val);
+        if (('ele_value' === $key) && \is_array($value)) {
+            $keys = \array_keys($value);
+            $values = \array_values($value);
             $keys = \array_map('\base64_encode', $keys);
-            $val  = \array_combine($keys, $vals);
-            $val  = \serialize($val);
+            $value  = \array_combine($keys, $values);
+            $value  = \serialize($value);
         }
-        parent::setVar($key, $val, $not_gpc);
+        parent::setVar($key, $value, $not_gpc);
     }
 
     /**
      * {@inheritDoc}
      * @see \XoopsObject::assignVar()
      */
-    public function assignVar($key, $val)
+    public function assignVar($key, $value)
     {
-        if (('ele_value' === $key) && \is_array($val)) {
-            $keys = \array_keys($val);
-            $vals = \array_values($val);
+        if (('ele_value' === $key) && \is_array($value)) {
+            $keys = \array_keys($value);
+            $values = \array_values($value);
             $keys = \array_map('\base64_encode', $keys);
-            $val  = \array_combine($keys, $vals);
-            $val  = \serialize($val);
+            $value  = \array_combine($keys, $values);
+            $value  = \serialize($value);
         }
-        $this->vars[$key]['value'] = $val;
+        $this->vars[$key]['value'] = $value;
     }
 }
