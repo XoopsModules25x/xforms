@@ -33,7 +33,7 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  */
 $defVal   = !empty($value[0]) ? $value[0] : 0; // default
 $size     = !empty($value[1]) ? (int)$value[1] : 10; // input box size
-$lblSuff  = rand();
+$lblSuff  = mt_rand();
 $defInput = new FormInput('', 'ele_value[0]', 7, 255, $defVal, null, 'color');
 $defInput->setExtra('onchange="document.getElementById(\'default_label_' . $lblSuff . '\').innerHTML = this.value;"');
 $defLbl = new \XoopsFormLabel('', '<label class="middle" id="default_label_' . $lblSuff . '" for="ele_value[0]">' . $defVal . '</label>');
