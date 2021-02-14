@@ -657,7 +657,7 @@
             </tr>
             <tr>
                 <td>Pattern</td>
-                <td>The regular expression pattern to validate the user input against. For example to require 4 numbers enter '[0-9]{4}'</td>
+                <td>The regular expression pattern to validate the user input against. For example to require 4 numbers enter '\d{4}'</td>
             </tr>
             <tr>
                 <td>Pattern Description</td>

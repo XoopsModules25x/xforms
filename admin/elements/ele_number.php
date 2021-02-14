@@ -67,13 +67,13 @@ $maxTray->addElement($maxInput);
 $stepInput = new FormInput(_AM_XFORMS_ELE_NUMBER_STEP, 'ele_value[7]', 7, 255, $step, null, 'number');
 $stepInput->setAttribute('size', 7);
 $stepInput->setAttribute('min', 1);
-$stepInput->setAttribute('pattern', '[0-9].');
+$stepInput->setAttribute('pattern', '\d.');
 
 $defTray  = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, '<br>', 'defTray');
 $setDef   = new \XoopsFormRadioYN(sprintf(_AM_XFORMS_ELE_NUMBER_SET, _AM_XFORMS_ELE_NUMBER_SET_DEFAULT), 'ele_value[6]', $setDefVal);
 $defInput = new FormInput(_AM_XFORMS_ELE_DEFAULT, 'ele_value[2]', 7, 255, $defVal, null, 'number');
 $defInput->setAttribute('size', 7);
-$defInput->setAttribute('pattern', '[0-9].');
+$defInput->setAttribute('pattern', '\d.');
 $defTray->addElement($setDef);
 $defTray->addElement($defInput);
 

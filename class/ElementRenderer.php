@@ -109,7 +109,7 @@ class ElementRenderer
                 $optArray    = [];
                 foreach ($options as $key => $opt) {
                     $other          = $this->optOther($opt, $formEleId);
-                    $optArray[$key] = (false !== $other && !$admin) ? _MD_XFORMS_OPT_OTHER . $other : $opt;
+                    $optArray[$key] = (false !== $other && !$admin) ? \_MD_XFORMS_OPT_OTHER . $other : $opt;
                 }
                 //$ckBox->addOptionArray($optArray);
                 //$formElement->addElement($ckBox);
@@ -148,12 +148,12 @@ class ElementRenderer
                     case Constants::DATE_CURRENT: // to current date
                         $dateMin = \date('Y-m-d');
                         $inpEle->setAttribute('min', $dateMin);
-                        $inpEleDesc = \sprintf(_AM_XFORMS_ELE_DATE_MIN_LBL, \date(_SHORTDATESTRING));
+                        $inpEleDesc = \sprintf(\_AM_XFORMS_ELE_DATE_MIN_LBL, \date(_SHORTDATESTRING));
                         break;
                     case Constants::DATE_SPECIFIC: // to specific date
                         $dateMin = $eleValue[2];
                         $inpEle->setAttribute('min', $dateMin);
-                        $inpEleDesc = \sprintf(_AM_XFORMS_ELE_DATE_MIN_LBL, \XoopsLocal::formatTimestamp(\strtotime($eleValue[2]), 's'));
+                        $inpEleDesc = \sprintf(\_AM_XFORMS_ELE_DATE_MIN_LBL, \XoopsLocal::formatTimestamp(\strtotime($eleValue[2]), 's'));
                         break;
                 }
                 // set start (max) date
@@ -164,12 +164,12 @@ class ElementRenderer
                     case Constants::DATE_CURRENT: // to current date
                         $dateMax = \date('Y-m-d');
                         $inpEle->setAttribute('max', $dateMax);
-                        $inpEleDesc .= \sprintf(_AM_XFORMS_ELE_DATE_MAX_LBL, \date(_SHORTDATESTRING));
+                        $inpEleDesc .= \sprintf(\_AM_XFORMS_ELE_DATE_MAX_LBL, \date(_SHORTDATESTRING));
                         break;
                     case Constants::DATE_SPECIFIC: // to specific date
                         $dateMax = $eleValue[4];
                         $inpEle->setAttribute('max', $dateMax);
-                        $inpEleDesc .= \sprintf(_AM_XFORMS_ELE_DATE_MAX_LBL, \XoopsLocal::formatTimestamp(\strtotime($eleValue[4]), 's'));
+                        $inpEleDesc .= \sprintf(\_AM_XFORMS_ELE_DATE_MAX_LBL, \XoopsLocal::formatTimestamp(\strtotime($eleValue[4]), 's'));
                         break;
                 }
                 if (!empty($inpEleDesc)) {
@@ -196,14 +196,14 @@ class ElementRenderer
                 }
 
                 //$formElement = new FormInput($eleCaption, $formEleId, $eleValue[0], $eleValue[1], '', null, 'email');
-                $formElement = new FormInput($eleCaption, $formEleId, (int)$eleValue[0], (int)$eleValue[1], htmlspecialchars($eleValue[2]), null, 'email');
+                $formElement = new FormInput($eleCaption, $formEleId, (int)$eleValue[0], (int)$eleValue[1], \htmlspecialchars($eleValue[2]), null, 'email');
                 if ($admin) {
                     $formElement->setExtra('disabled');
                 }
                 /* add javascript email validation - HTML5 validation isn't great
                  * filter inserted from emailregx.com on 25 Jul 2016
                  */
-                $formElement->customValidationCode[] = "var filter = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}))(:[0-9]{1,5})?$/i"
+                $formElement->customValidationCode[] = "var filter = /^[-a-z0-9~!$%^&*_=+}{\'?]+(\.[-a-z0-9~!$%^&*_=+}{\'?]+)*@([a-z0-9_][-a-z0-9_]*(\.[-a-z0-9_]+)*\.(aero|arpa|biz|com|coop|edu|gov|info|int|mil|museum|name|net|org|pro|travel|mobi|[a-z][a-z])|(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}))(:\d{1,5})?$/i"
                                                        . "if (filter.test({$formEleId})) {return true;} else {return false;}";
                 break;
 
@@ -221,7 +221,7 @@ class ElementRenderer
                         'width'  => '100%',
                         'height' => '260px',
                         'name'   => $formEleId,
-                        'value'  => htmlspecialchars($eleValue[0]), // default value
+                        'value'  => \htmlspecialchars($eleValue[0]), // default value
                     ];
                     $formElement     = new \XoopsFormEditor($eleCaption, $formEleId, $formHtmlConfigs);
                     $renderer        = $formElement->editor->renderer;
@@ -281,7 +281,7 @@ class ElementRenderer
                             $t     = new \XoopsFormRadio('', $formEleId, $selected);
                             $other = $this->optOther($o, $formEleId);
                             if ((false !== $other) && !$admin) {
-                                $t->addOption($key, _MD_XFORMS_OPT_OTHER . $other);
+                                $t->addOption($key, \_MD_XFORMS_OPT_OTHER . $other);
                             } else {
                                 $t->addOption($key, $o);
                             }
@@ -295,7 +295,7 @@ class ElementRenderer
                             //while ($o = each($options)) {
                             $other = $this->optOther($o, $formEleId);
                             if (false !== $other && !$admin) {
-                                $formElement->addOption($key, _MD_XFORMS_OPT_OTHER . $other);
+                                $formElement->addOption($key, \_MD_XFORMS_OPT_OTHER . $other);
                             } else {
                                 $formElement->addOption($key, $o);
                             }
@@ -355,7 +355,7 @@ class ElementRenderer
             case 'select2': // left for backward compatibility
             case 'country':
                 $formElement            = new \XoopsFormSelectCountry(
-                    $eleCaption, $formEleId, htmlspecialchars($eleValue[2]), //default
+                    $eleCaption, $formEleId, \htmlspecialchars($eleValue[2]), //default
                     (isset($eleValue[0]) && ((int)$eleValue[0] > 0)) ? (int)$eleValue[0] : 1 // size
                 );
                 $formElement->_multiple = (bool)$eleValue[1];
@@ -385,7 +385,7 @@ class ElementRenderer
                 $formElement = new \XoopsFormText(
                     $eleCaption, $formEleId, $eleValue[0], // box width
                     $eleValue[1], // maxlength
-                    htmlspecialchars($eleValue[2]) // default value
+                    \htmlspecialchars($eleValue[2]) // default value
                 );
                 if (isset($eleValue[4])) { // not set if form was imported
                     $formElement->setExtra('placeholder="' . $eleValue[4] . '"');
@@ -394,7 +394,7 @@ class ElementRenderer
 
             case 'textarea':
                 $formElement = new \XoopsFormTextArea(
-                    $eleCaption, $formEleId, htmlspecialchars($eleValue[0]), // default value
+                    $eleCaption, $formEleId, \htmlspecialchars($eleValue[0]), // default value
                     $eleValue[1], // rows
                     $eleValue[2]  // cols
                 );
@@ -418,7 +418,7 @@ class ElementRenderer
                         $suffix = 'PM';
                     }
                     $descMin      = $hrs . ':' . $mins . $suffix;
-                    $inpEleDesc[] = \sprintf(_AM_XFORMS_ELE_DATE_MIN_LBL, $descMin);
+                    $inpEleDesc[] = \sprintf(\_AM_XFORMS_ELE_DATE_MIN_LBL, $descMin);
                 }
                 if (!empty($eleValue[5])) {
                     $dispMax = \preg_replace('/[^0-9:]/', '', $eleValue[1]);
@@ -430,7 +430,7 @@ class ElementRenderer
                         $suffix = 'PM';
                     }
                     $descMax      = $hrs . ':' . $mins . $suffix;
-                    $inpEleDesc[] = \sprintf(_AM_XFORMS_ELE_DATE_MAX_LBL, $descMax);
+                    $inpEleDesc[] = \sprintf(\_AM_XFORMS_ELE_DATE_MAX_LBL, $descMax);
                 }
                 if (!empty($eleValue[3])) {
                     $inpEle->setAttribute('step', (float)$eleValue[3]);
@@ -467,7 +467,7 @@ class ElementRenderer
             case 'upload':
                 if ($admin) {
                     $formElement = new \XoopsFormElementTray('', '<br>');
-                    $maxsize     = new FormInput(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, "{$formEleId}[0]", 10, 20, (string)$eleValue[0], null, 'number');
+                    $maxsize     = new FormInput(\_AM_XFORMS_ELE_UPLOAD_MAXSIZE, "{$formEleId}[0]", 10, 20, (string)$eleValue[0], null, 'number');
                     $maxsize->setAttribute('min', 0);
                     $maxsize->setAttribute('step', 512);
                     $formElement->addElement($maxsize);
@@ -478,12 +478,12 @@ class ElementRenderer
             case 'uploadimg':
                 if ($admin) {
                     $formElement = new \XoopsFormElementTray('', '<br>');
-                    $maxsize     = new FormInput(_AM_XFORMS_ELE_UPLOAD_MAXSIZE, $formEleId . '[0]', 10, 20, (string)$eleValue[0], null, 'number');
+                    $maxsize     = new FormInput(\_AM_XFORMS_ELE_UPLOAD_MAXSIZE, $formEleId . '[0]', 10, 20, (string)$eleValue[0], null, 'number');
                     $maxsize->setAttribute('min', 0);
                     $maxsize->setAttribute('step', 512);
-                    $maxwidth = new FormInput(_AM_XFORMS_ELE_UPLOADIMG_MAXWIDTH, $formEleId . '[4]', 10, 20, (string)$eleValue[4], null, 'number');
+                    $maxwidth = new FormInput(\_AM_XFORMS_ELE_UPLOADIMG_MAXWIDTH, $formEleId . '[4]', 10, 20, (string)$eleValue[4], null, 'number');
                     $maxwidth->setAttribute('min', 0);
-                    $maxheight = new FormInput(_AM_XFORMS_ELE_UPLOADIMG_MAXHEIGHT, $formEleId . '[5]', 10, 20, (string)$eleValue[5], null, 'number');
+                    $maxheight = new FormInput(\_AM_XFORMS_ELE_UPLOADIMG_MAXHEIGHT, $formEleId . '[5]', 10, 20, (string)$eleValue[5], null, 'number');
                     $maxheight->setAttribute('min', 0);
                     $formElement->addElement($maxsize);
                     $formElement->addElement($maxwidth);
@@ -515,7 +515,7 @@ class ElementRenderer
                             $t     = new \XoopsFormRadio('', $formEleId, $selected);
                             $other = $this->optOther($o, $formEleId);
                             if ((false !== $other) && !$admin) {
-                                $t->addOption($key, _MD_XFORMS_OPT_OTHER . $other);
+                                $t->addOption($key, \_MD_XFORMS_OPT_OTHER . $other);
                             } else {
                                 $t->addOption($key, $o);
                             }
@@ -529,7 +529,7 @@ class ElementRenderer
                             //while ($o = each($options)) {
                             $other = $this->optOther($o, $formEleId);
                             if (false !== $other && !$admin) {
-                                $formElement->addOption($key, _MD_XFORMS_OPT_OTHER . $other);
+                                $formElement->addOption($key, \_MD_XFORMS_OPT_OTHER . $other);
                             } else {
                                 $formElement->addOption($key, $o);
                             }
@@ -557,7 +557,7 @@ class ElementRenderer
      */
     public function optOther($s = '', $id)
     {
-        if (!\preg_match('/\{OTHER\|+[0-9]+\}/', $s)) {
+        if (!\preg_match('/\{OTHER\|+\d+\}/', $s)) {
             return false;
         }
         $helper = Helper::getInstance();

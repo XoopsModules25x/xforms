@@ -72,7 +72,7 @@ if (empty($fname)) {
 }
 
 $path = XFORMS_UPLOAD_PATH . "/{$file}";
-if (!preg_match('/^[0-9]+_{1}[0-9a-z]+\.[0-9a-z]+$/', $file) || !file_exists($path)) {
+if (!preg_match('/^\d+_{1}[0-9a-z]+\.[0-9a-z]+$/', $file) || !file_exists($path)) {
     //@todo - shouldn't this be an ob_end_clean here instead of ob_end_flush?
     ob_end_flush();
     redirect_header($GLOBALS['xoops']->url('www'), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_NOTHING_SELECTED);

@@ -161,7 +161,7 @@ $eleObjArray     = $xformsEleHandler->getObjects($criteria, true);
 
 /** @var array $ele */
 foreach ($_POST as $k => $v) {
-    if (preg_match('/^ele_[0-9]+$/', $k)) {
+    if (preg_match('/^ele_\d+$/', $k)) {
         $n          = explode('_', $k);
         $ele[$n[1]] = $v;
     }

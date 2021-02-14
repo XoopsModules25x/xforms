@@ -97,15 +97,15 @@ class Utility extends Common\SysUtility
     public static function checkOther($key, $id, $caption)
     {
         $id = (int)$id;
-        if (!\preg_match('/\{OTHER\|+[0-9]+\}/', $key)) {
+        if (!\preg_match('/\{OTHER\|+\d+\}/', $key)) {
             return false;
         }
         /* @var \MyTextSanitizer $myts */
         $myts = \MyTextSanitizer::getInstance();
         if (!empty($_POST['other']['ele_' . $id])) {
-            return _MD_XFORMS_OPT_OTHER . htmlspecialchars($_POST['other']['ele_' . $id]);
+            return \_MD_XFORMS_OPT_OTHER . \htmlspecialchars($_POST['other']['ele_' . $id]);
         } else {
-            static::setErrors(\sprintf(_MD_XFORMS_ERR_REQ, htmlspecialchars($caption)), true);
+            static::setErrors(\sprintf(\_MD_XFORMS_ERR_REQ, \htmlspecialchars($caption)), true);
             //global $err;
             //$err[] = sprintf(_MD_XFORMS_ERR_REQ, htmlspecialchars($caption));
         }

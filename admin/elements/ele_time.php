@@ -71,7 +71,7 @@ $maxTray->addElement($maxInput);
 $stepInput = new FormInput(_AM_XFORMS_ELE_NUMBER_STEP, 'ele_value[3]', 8, 10, $step, null, 'number');
 $stepInput->setDescription(_AM_XFORMS_ELE_NUMBER_STEP_DESC);
 $stepInput->setExtra('style="width: 8em;"');
-$stepInput->setAttribute('pattern', '[0-9].');
+$stepInput->setAttribute('pattern', '\d.');
 $stepInput->setAttribute('min', 1);
 
 $defTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_DEFAULT, null, 'defTray');
