@@ -312,3 +312,7 @@ define('_AM_XFORMS_HELP_DATE', 'Date');
 define('_AM_XFORMS_HELP_TITLE', 'Title');
 define('_AM_XFORMS_HELP_DESC', 'Description');
 define('_AM_XFORMS_HELP_SUBMITTER', 'Submitter');
+
+define('_AM_XFORMS_ISSUES_STATUS_UNKNOWN', 'Unknown status');
+define('_AM_XFORMS_ERR_EFORMS_CREATE_USERDATA', 'Error creating Eform userdata');
+define('_AM_XFORMS_NO_PERM', 'You do not have the permission for this action');
