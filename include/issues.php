@@ -22,9 +22,10 @@
 
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper;
+use XoopsModules\Xforms\Issues;
+/** @var Issues $modIssues */
 
 $GLOBALS['xoopsOption']['nocommon'] = true;
-require dirname(__DIR__, 3) . '/mainfile.php';
 require dirname(__DIR__, 3) . '/include/cp_header.php';
 require dirname(__DIR__) . '/preloads/autoloader.php';
 
@@ -34,12 +35,7 @@ xoops_loadLanguage('admin', $moduleDirName);
 xoops_loadLanguage('modinfo', $moduleDirName);
 //session_start();
 
-$issuesClass = '\XoopsModules\\' . ucfirst(mb_strtolower($moduleDirName)) . '\Issues';
-if (!class_exists($issuesClass)) {
-    xoops_load('Issues', $moduleDirName);
-}
-
-$modIssues = new $issuesClass();
+$modIssues = new Issues();
 if ($modIssues->getCachedEtag()) {
     // Found the session var so check to see if anything's changed since last time we checked
     $hdrSize       = $modIssues->execCurl();
@@ -53,7 +49,7 @@ if ($modIssues->getCachedEtag()) {
     } elseif (preg_match('/^200 OK/', $status)) {
         // Ok, request new info
         unset($modIssues);
-        $modIssues     = new $issuesClass();
+        $modIssues = new Issues();
         $hdrSize       = $modIssues->execCurl();
         $curl_response = $modIssues->getCurlResponse();
     } elseif (preg_match('/^403 Forbidden/', $status)) {
