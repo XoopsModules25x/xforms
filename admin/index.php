@@ -52,7 +52,7 @@ $criteria = new \Criteria('');
 $criteria->setGroupBy('form_active');
 $formCount          = $formsHandler->getCount($criteria);
 $totalForms         = array_sum($formCount);
-$totalActiveForms   = isset($formCount[1]) ? $formCount[1] : 0;
+$totalActiveForms   = $formCount[1] ?? 0;
 $totalInactiveForms = $totalForms - $totalActiveForms;
 
 $adminObject->addInfoBox(_MD_XFORMS_DASHBOARD);

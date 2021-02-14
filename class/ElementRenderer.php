@@ -318,10 +318,10 @@ class ElementRenderer
                 if ($admin && empty($eleValue[1])) {
                     $rangeEle->setExtra('disabled');
                 }
-                $stepSize = isset($eleValue[4]) ? $eleValue[4] : Constants::ELE_DEFAULT_STEP;
+                $stepSize = $eleValue[4] ?? Constants::ELE_DEFAULT_STEP;
                 $rangeEle->setAttributes(['min' => $eleValue[2], 'max' => $eleValue[3], 'step' => (float)$stepSize]);
                 $rangeEle->setExtra('onchange="document.getElementById(\'range_label_' . $formEleId . '\').innerHTML = this.value;"');
-                $default  = (null === $default) ? \floor((($eleValue[3] - $eleValue[2]) / $stepSize) / 2) : $default;
+                $default  = $default ?? \floor((($eleValue[3] - $eleValue[2]) / $stepSize) / 2);
                 $rangeLbl = new FormRaw('<label class="bold" id="range_label_' . $formEleId . '" for="' . $formEleId . '">' . $default . '</label>');
                 //                $rangeLbl = new \XoopsFormLabel('', '<label class="middle center bold" id="range_label" for="' . $formEleId . '">' . $default . '</label>');
                 $formElement->addElement(new FormRaw('<div class="middle">'));

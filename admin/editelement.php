@@ -280,11 +280,11 @@ switch ($op) {
              */
             case 'date':
                 $currEleValues = $element->getVar('ele_value'); // get current values
-                $value[0]      = isset($eleValue[0]) ? $eleValue[0] : $currEleValues[0]; // default date
+                $value[0]      = $eleValue[0] ?? $currEleValues[0]; // default date
                 $value[1]      = isset($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // default date option (0 = none, 1 = current, 2 = min date)
-                $value[2]      = isset($eleValue[2]) ? $eleValue[2] : $currEleValues[2]; // min date
+                $value[2]      = $eleValue[2] ?? $currEleValues[2]; // min date
                 $value[3]      = isset($eleValue[3]) ? (int)$eleValue[3] : $currEleValues[3]; // min date option (0 = none, 1 = current, 2 = min date)
-                $value[4]      = isset($eleValue[4]) ? $eleValue[4] : $currEleValues[4]; // max date
+                $value[4]      = $eleValue[4] ?? $currEleValues[4]; // max date
                 $value[5]      = isset($eleValue[5]) ? (int)$eleValue[5] : $currEleValues[5]; // max date option (0 = none, 1 = current, 2 = max date)
                 break;
 
@@ -360,7 +360,7 @@ switch ($op) {
                 $value[0] = !empty($eleValue[0]) ? (int)$eleValue[0] : $helper->getConfig('t_width');
                 $value[1] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('t_max');
                 $value[2] = isset($eleValue[2]) ? htmlspecialchars($eleValue[2]) : '';
-                $value[3] = isset($eleValue[3]) ? $eleValue[3] : '';
+                $value[3] = $eleValue[3] ?? '';
                 $value[4] = isset($eleValue[4]) ? htmlspecialchars($eleValue[4]) : '';
                 break;
 

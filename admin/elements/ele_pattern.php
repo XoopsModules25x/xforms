@@ -40,7 +40,7 @@ $helper = Helper::getInstance();
 $size = !empty($value[0]) ? (int)$value[0] : $helper->getConfig('t_width');
 $max  = !empty($value[1]) ? (int)$value[1] : $helper->getConfig('t_max');
 //$max       = ($size > $max) ? $size : $max;  // won't let max be smaller than size
-$pattern   = isset($value[3]) ? $value[3] : '';
+$pattern   = $value[3] ?? '';
 $sizeInput = new FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, (string)$size, null, 'number');
 $sizeInput->setAttribute('min', 0);
 $sizeInput->setExtra('style="width: 5em;"');
