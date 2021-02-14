@@ -1,9 +1,9 @@
 xforms_form:
-    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8mb4'
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
     columns:
         -
             name: form_id
-            attributes: ' smallint(5)  NOT NULL auto_increment'
+            attributes: ' smallint  NOT NULL auto_increment'
         -
             name: form_save_db
             attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
@@ -12,7 +12,7 @@ xforms_form:
             attributes: ' char(1)  NOT NULL  DEFAULT ''e'' '
         -
             name: form_send_to_group
-            attributes: ' smallint(3)  NOT NULL  DEFAULT ''0'' '
+            attributes: ' smallint  NOT NULL  DEFAULT ''0'' '
         -
             name: form_send_to_other
             attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
@@ -21,7 +21,7 @@ xforms_form:
             attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
         -
             name: form_order
-            attributes: ' smallint(3)  NOT NULL  DEFAULT ''0'' '
+            attributes: ' smallint  NOT NULL  DEFAULT ''0'' '
         -
             name: form_delimiter
             attributes: ' char(1)  NOT NULL  DEFAULT ''s'' '
@@ -57,10 +57,10 @@ xforms_form:
             attributes: ' varchar(1)  NOT NULL  DEFAULT ''f'' '
         -
             name: form_begin
-            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+            attributes: ' int unsigned  NOT NULL  DEFAULT ''0'' '
         -
             name: form_end
-            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+            attributes: ' int unsigned  NOT NULL  DEFAULT ''0'' '
         -
             name: form_active
             attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
@@ -72,14 +72,14 @@ xforms_form:
             columns: form_id
             unique: true
 xforms_element:
-    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8mb4'
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
     columns:
         -
             name: ele_id
-            attributes: ' mediumint(8)  NOT NULL auto_increment'
+            attributes: ' mediumint  NOT NULL auto_increment'
         -
             name: form_id
-            attributes: ' smallint(5)  NOT NULL  DEFAULT ''0'' '
+            attributes: ' smallint  NOT NULL  DEFAULT ''0'' '
         -
             name: ele_type
             attributes: ' varchar(10)  NOT NULL  DEFAULT '''' '
@@ -88,7 +88,7 @@ xforms_element:
             attributes: ' text  NOT NULL '
         -
             name: ele_order
-            attributes: ' smallint(2)  NOT NULL  DEFAULT ''0'' '
+            attributes: ' smallint  NOT NULL  DEFAULT ''0'' '
         -
             name: ele_req
             attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
@@ -115,23 +115,23 @@ xforms_element:
             columns: ele_id
             unique: true
 xforms_userdata:
-    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8mb4'
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
     columns:
         -
             name: udata_id
-            attributes: ' int(11) unsigned  NOT NULL auto_increment'
+            attributes: ' int unsigned  NOT NULL auto_increment'
         -
             name: uid
-            attributes: ' mediumint(8) unsigned  NOT NULL  DEFAULT ''0'' '
+            attributes: ' mediumint unsigned  NOT NULL  DEFAULT ''0'' '
         -
             name: form_id
-            attributes: ' smallint(5)  NOT NULL '
+            attributes: ' smallint  NOT NULL '
         -
             name: ele_id
-            attributes: ' mediumint(8)  NOT NULL '
+            attributes: ' mediumint  NOT NULL '
         -
             name: udata_time
-            attributes: ' int(10) unsigned  NOT NULL  DEFAULT ''0'' '
+            attributes: ' int unsigned  NOT NULL  DEFAULT ''0'' '
         -
             name: udata_ip
             attributes: ' varchar(100)  NOT NULL  DEFAULT ''0.0.0.0'' '
