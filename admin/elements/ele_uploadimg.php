@@ -72,7 +72,7 @@ $ext->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT_DESC . '<br><br>' . _AM_X
 */
 $extTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT, '<br>');
 $extTray->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT_DESC . '<br><br>' . _AM_XFORMS_ELE_UPLOAD_DESC_NOLIMIT);
-$ext = new \XoopsFormText('', 'ele_value[1]', 50, 255, htmlspecialchars($mimeExtIn));
+$ext = new \XoopsFormText('', 'ele_value[1]', 50, 255, htmlspecialchars($mimeExtIn, ENT_QUOTES | ENT_HTML5));
 
 $setExtButton = new \XoopsFormButton('', 'setext', _ADD . ' ' . _AM_XFORMS_ELE_DEFAULT, 'button');
 $setExtButton->setExtra('onclick="document.getElementById(\'ele_value[1]\').value += \'\|' . $mimeExtJS . '\';"');
@@ -85,7 +85,7 @@ $mime->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME_DESC . '<br><br>' . _AM
 */
 $mimeTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME, '<br>');
 $mimeTray->setDescription(_AM_XFORMS_ELE_UPLOAD_ALLOWED_MIME_DESC . '<br><br>' . _AM_XFORMS_ELE_UPLOAD_DESC_NOLIMIT);
-$mime          = new \XoopsFormTextArea('', 'ele_value[2]', htmlspecialchars($mimeTypesIn), 5, 50);
+$mime          = new \XoopsFormTextArea('', 'ele_value[2]', htmlspecialchars($mimeTypesIn, ENT_QUOTES | ENT_HTML5), 5, 50);
 $setMimeButton = new \XoopsFormButton('', 'setmime', _ADD . ' ' . _AM_XFORMS_ELE_DEFAULT, 'button');
 $setMimeButton->setExtra('onclick="document.getElementById(\'ele_value[2]\').value += \'\|' . $mimeTypesJS . '\';"');
 $mimeTray->addElement($mime);

@@ -51,7 +51,7 @@ $size->setExtra('style="width: 5em;"');
 $max = new FormInput(_AM_XFORMS_ELE_MAX_LENGTH, 'ele_value[1]', 5, 5, (string)$maxAttr, null, 'number');
 $max->setAttribute('min', 1);
 $max->setExtra('style="width: 5em;"');
-$defVal     = isset($value[2]) ? htmlspecialchars($value[2]) : '';
+$defVal     = isset($value[2]) ? htmlspecialchars($value[2], ENT_QUOTES | ENT_HTML5) : '';
 $default    = new \XoopsFormText('', 'ele_value[2]', 50, 255, $defVal);
 $selDefault = new \XoopsFormSelect(_AM_XFORMS_ELE_TEXT_ADD_DEFAULT, 'ele_value_2_add');
 $selDefault->addOption('', _AM_XFORMS_ELE_TEXT_ADD_DEFAULT_SEL);
@@ -95,7 +95,7 @@ $contEmail      = (isset($value[3]) && ((int)$value[3] > Constants::FIELD_IS_NOT
 $emailIndicator = new \XoopsFormRadioYN(_AM_XFORMS_ELE_CONTAINS_EMAIL, 'ele_value[3]', $contEmail, _YES, _NO);
 $emailIndicator->setDescription(_AM_XFORMS_ELE_CONTAINS_EMAIL_DESC);
 
-$plAttrib    = isset($value[4]) ? htmlspecialchars($value[4]) : '';
+$plAttrib    = isset($value[4]) ? htmlspecialchars($value[4], ENT_QUOTES | ENT_HTML5) : '';
 $placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[4]', $sizeAttr, $maxAttr, $plAttrib);
 
 $output->addElement($size, 1);

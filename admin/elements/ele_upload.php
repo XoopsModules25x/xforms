@@ -48,12 +48,12 @@ $size->setExtra('style="width: 10em;"');
 $mimeArray   = require_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
 $mimeTypes   = implode('|', $mimeArray);
 $mimeTypesJS = implode('\|', $mimeArray);
-$mimeTypesIn = empty($eleId) ? $mimeTypes : htmlspecialchars($value[2]);
+$mimeTypesIn = empty($eleId) ? $mimeTypes : htmlspecialchars($value[2], ENT_QUOTES | ENT_HTML5);
 
 $mimeExtArray = array_keys($mimeArray);
 $mimeExt      = implode('|', $mimeExtArray);
 $mimeExtJS    = implode('\|', $mimeExtArray);
-$mimeExtIn    = empty($eleId) ? $mimeExt : htmlspecialchars($value[1]);
+$mimeExtIn    = empty($eleId) ? $mimeExt : htmlspecialchars($value[1], ENT_QUOTES | ENT_HTML5);
 unset($mimeArray, $mimeExtArray);
 
 $extTray = new \XoopsFormElementTray(_AM_XFORMS_ELE_UPLOAD_ALLOWED_EXT, '<br>');

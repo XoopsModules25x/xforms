@@ -103,9 +103,9 @@ class Utility extends Common\SysUtility
         /* @var \MyTextSanitizer $myts */
         $myts = \MyTextSanitizer::getInstance();
         if (!empty($_POST['other']['ele_' . $id])) {
-            return \_MD_XFORMS_OPT_OTHER . \htmlspecialchars($_POST['other']['ele_' . $id]);
+            return \_MD_XFORMS_OPT_OTHER . htmlspecialchars($_POST['other']['ele_' . $id], ENT_QUOTES | ENT_HTML5);
         } else {
-            static::setErrors(\sprintf(\_MD_XFORMS_ERR_REQ, \htmlspecialchars($caption)), true);
+            static::setErrors(\sprintf(\_MD_XFORMS_ERR_REQ, htmlspecialchars($caption, ENT_QUOTES | ENT_HTML5)), true);
             //global $err;
             //$err[] = sprintf(_MD_XFORMS_ERR_REQ, htmlspecialchars($caption));
         }

@@ -39,7 +39,7 @@ $helper = Helper::getInstance();
  */
 $size    = !empty($value[0]) ? (int)$value[0] : $helper->getConfig('t_width');
 $maxAttr = !empty($value[1]) ? (int)$value[1] : 254;
-$defVal  = isset($value[2]) ? htmlspecialchars($value[2]) : '';
+$defVal  = isset($value[2]) ? htmlspecialchars($value[2], ENT_QUOTES | ENT_HTML5) : '';
 
 $sizeInput = new FormInput(_AM_XFORMS_ELE_SIZE, 'ele_value[0]', 5, 5, $size, null, 'number');
 $sizeInput->setAttribute('min', 1);

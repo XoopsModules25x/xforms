@@ -59,7 +59,7 @@ $radio = new \XoopsFormRadio('', 'ele_value[3]', $allowed);
 $radio->addOptionArray([0 => 'both', 1 => 'http[s]', 2 => 'ftp[s]']);
 $allowUrls->addElement($radio);
 
-$phText      = isset($value[2]) ? htmlspecialchars($value[2]) : '';
+$phText      = isset($value[2]) ? htmlspecialchars($value[2], ENT_QUOTES | ENT_HTML5) : '';
 $placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[2]', (string)$size, (string)$max, $phText);
 
 //$defVal     = isset($value[3]) ? htmlspecialchars($value[3]) : '';

@@ -47,10 +47,10 @@ $cols = new FormInput(_AM_XFORMS_ELE_COLS, 'ele_value[2]', 3, 3, (int)$colAttrib
 $cols->setAttribute('min', 0);
 $cols->setExtra('style="width: 5em;"');
 
-$default = new \XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? htmlspecialchars($value[0]) : '', 5, 35);
+$default = new \XoopsFormTextArea(_AM_XFORMS_ELE_DEFAULT, 'ele_value[0]', isset($value[0]) ? htmlspecialchars($value[0], ENT_QUOTES | ENT_HTML5) : '', 5, 35);
 
 //placeholder
-$plAttrib    = isset($value[3]) ? htmlspecialchars($value[3]) : '';
+$plAttrib    = isset($value[3]) ? htmlspecialchars($value[3], ENT_QUOTES | ENT_HTML5) : '';
 $placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[3]', 35, 255, $plAttrib);
 
 $output->addElement($rows, 1);

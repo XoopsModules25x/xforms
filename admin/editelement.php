@@ -264,7 +264,7 @@ switch ($op) {
              */
             case 'color':
                 $currEleValues = $element->getVar('ele_value'); // get current values
-                $value[0]      = !empty($eleValue[0]) ? htmlspecialchars($eleValue[0]) : $currEleValues[0]; // default
+                $value[0]      = !empty($eleValue[0]) ? htmlspecialchars($eleValue[0], ENT_QUOTES | ENT_HTML5) : $currEleValues[0]; // default
                 $value[1]      = !empty($eleValue[1]) ? (int)$eleValue[1] : $currEleValues[1]; // input box size
                 break;
 
@@ -299,7 +299,7 @@ switch ($op) {
             case 'email':
                 $value[0] = !empty($eleValue[0]) ? (int)$eleValue[0] : $helper->getConfig('t_width');
                 $value[1] = !empty($eleValue[1]) ? (int)$eleValue[1] : 254;
-                $value[2] = !empty($eleValue[2]) ? htmlspecialchars($eleValue[2]) : '';
+                $value[2] = !empty($eleValue[2]) ? htmlspecialchars($eleValue[2], ENT_QUOTES | ENT_HTML5) : '';
                 break;
 
             /**
@@ -359,9 +359,9 @@ switch ($op) {
             case 'pattern':
                 $value[0] = !empty($eleValue[0]) ? (int)$eleValue[0] : $helper->getConfig('t_width');
                 $value[1] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('t_max');
-                $value[2] = isset($eleValue[2]) ? htmlspecialchars($eleValue[2]) : '';
+                $value[2] = isset($eleValue[2]) ? htmlspecialchars($eleValue[2], ENT_QUOTES | ENT_HTML5) : '';
                 $value[3] = $eleValue[3] ?? '';
-                $value[4] = isset($eleValue[4]) ? htmlspecialchars($eleValue[4]) : '';
+                $value[4] = isset($eleValue[4]) ? htmlspecialchars($eleValue[4], ENT_QUOTES | ENT_HTML5) : '';
                 break;
 
             case 'radio':
@@ -371,7 +371,7 @@ switch ($op) {
                     if ('' == $v) { // remove 'empty' options
                         unset($eleValue[$key]);
                     } else {
-                        $newVal         = htmlspecialchars($myts->addSlashes($v));
+                        $newVal         = htmlspecialchars($myts->addSlashes($v), ENT_QUOTES | ENT_HTML5);
                         $value[$newVal] = ($checked == $key) ? Constants::ELE_CHECKED : Constants::ELE_NOT_CHECKED;
                     }
                 }
@@ -450,7 +450,7 @@ switch ($op) {
                 $value[1] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('t_max');
                 $value[2] = !empty($eleValue[2]) ? $eleValue[2] : '';
                 $value[3] = !empty($eleValue[3]) ? (int)$eleValue[3] : Constants::FIELD_IS_NOT_EMAIL;
-                $value[4] = isset($eleValue[4]) ? strip_tags(htmlspecialchars($eleValue[4])) : '';
+                $value[4] = isset($eleValue[4]) ? strip_tags(htmlspecialchars($eleValue[4], ENT_QUOTES | ENT_HTML5)) : '';
                 break;
 
             /**
@@ -465,7 +465,7 @@ switch ($op) {
                 $value[0] = $eleValue[0];
                 $value[1] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('ta_rows');
                 $value[2] = !empty($eleValue[2]) ? (int)$eleValue[2] : $helper->getConfig('ta_cols');
-                $value[3] = isset($eleValue[3]) ? strip_tags(htmlspecialchars($eleValue[3])) : '';
+                $value[3] = isset($eleValue[3]) ? strip_tags(htmlspecialchars($eleValue[3], ENT_QUOTES | ENT_HTML5)) : '';
                 break;
 
             /**
@@ -538,7 +538,7 @@ switch ($op) {
             case 'url':
                 $value[] = !empty($eleValue[0]) ? (int)$eleValue[0] : $helper->getConfig('t_width');
                 $value[] = !empty($eleValue[1]) ? (int)$eleValue[1] : $helper->getConfig('t_max');
-                $value[] = isset($eleValue[2]) ? htmlspecialchars($eleValue[2]) : '';
+                $value[] = isset($eleValue[2]) ? htmlspecialchars($eleValue[2], ENT_QUOTES | ENT_HTML5) : '';
                 $value[] = isset($eleValue[3]) ? (int)$eleValue[3] : 0;
                 break;
 

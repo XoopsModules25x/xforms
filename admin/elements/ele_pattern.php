@@ -50,7 +50,7 @@ $maxInput->setAttribute('min', 1);
 $maxInput->setExtra('style="width: 5em;"');
 $maxInput->setExtra('onchange="document.getElementById(\'ele_value[2]\').setAttribute(\'maxlength\', this.value);"');
 
-$phText      = isset($value[2]) ? htmlspecialchars($value[2]) : '';
+$phText      = isset($value[2]) ? htmlspecialchars($value[2], ENT_QUOTES | ENT_HTML5) : '';
 $placeholder = new \XoopsFormText(_AM_XFORMS_ELE_PLACEHOLDER, 'ele_value[2]', (string)$size, (string)$max, $phText);
 
 $ptnInput = new FormInput(_AM_XFORMS_ELE_PATTERN_INP, 'ele_value[3]', 25, 50, $pattern, null, 'text');

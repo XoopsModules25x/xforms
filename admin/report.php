@@ -121,7 +121,7 @@ switch ($op) {
                 ++$countu;
                 $ucount = $countu;
                 $uid    = $data['uid'];
-                $uname  = htmlspecialchars($data['uname']);
+                $uname  = htmlspecialchars($data['uname'], ENT_QUOTES | ENT_HTML5);
                 $datet  = \XoopsLocal::formatTimestamp($dtime, 'l');
                 $uip    = $data['udata_ip'];
             } else {
