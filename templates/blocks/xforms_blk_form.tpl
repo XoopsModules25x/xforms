@@ -3,7 +3,7 @@
 <{if '' != $block.form_is_hidden}><p><b><{$block.form_is_hidden}></b></p><{/if}>
 <{if '' != $block.form_intro}><p><{$block.form_intro}></p><{/if}>
 <{$block.form_output.javascript}>
-<form name="<{$block.$form_output.name}>" id="<{$block.form_output.name}>" action="<{$block.form_output.action}>" method="<{$block.form_output.method}>" class="xforms" <{$block.form_output.extra}>>
+<form name="<{$block.$form_output.name|default:''}>" id="<{$block.form_output.name}>" action="<{$block.form_output.action}>" method="<{$block.form_output.method}>" class="xforms" <{$block.form_output.extra}>>
 <table class="outer bspacing1">
 <{foreach item=element from=$block.form_output.elements}>
     <{if 'html' != $element.ele_type}>
@@ -11,18 +11,18 @@
             <{if 1 == $element.display_row}>
                 <tr><td class="head width33">
                 <{if '' == $element.caption}>&nbsp;<{/if}>
-                <{if 1 == $element.required}><{$form_req_prefix}><{/if}>
+                <{if 1 == $element.required}><{$form_req_prefix|default:''}><{/if}>
                 <{$element.caption}>
-                <{if 1 == $element.required}><{$form_req_suffix}><{/if}>
+                <{if 1 == $element.required}><{$form_req_suffix|default:''}><{/if}>
                 </td>
                 <td class="<{cycle values="even,odd"}> width66"><{$element.body}></td>
                 </tr>
             <{else}>
                 <tr><td class="head" colspan="2">
                 <{if '' == $element.caption}>&nbsp;<{/if}>
-                <{if 1 == $element.required}><{$form_req_prefix}><{/if}>
+                <{if 1 == $element.required}><{$form_req_prefix|default:''}><{/if}>
                 <{$element.caption}>
-                <{if 1 == $element.required}><{$form_req_suffix}><{/if}>
+                <{if 1 == $element.required}><{$form_req_suffix|default:''}><{/if}>
                 </td></tr>
                 <tr><td class="<{cycle values="even,odd"}>" colspan="2"><{$element.body}></td></tr>
             <{/if}>
