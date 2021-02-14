@@ -26,7 +26,7 @@
         <p>
             No special measures necessary, follow the standard installation process to extract the /xforms folder into the
             ../modules directory. Install the module through Admin -> System Module -> Modules. <br><br>
-            Detailed instructions on installing modules are available in the <a href="https://www.gitbook.com/book/xoops/xoops-operations-guide/" target="_blank">XOOPS Operations
+            Detailed instructions on installing modules are available in the <a href="https://app.gitbook.com/@xoops/s/xoops-operations-guide/" target="_blank">XOOPS Operations
                 Manual</a></p></div>
 
     <h4 class="odd">OPERATING INSTRUCTIONS</h4>
@@ -36,15 +36,15 @@
             ii) Add desired elements to the form and save it.<br><br>
             iii) Check that you have given your user groups the necessary module and block access rights to use this module.
             Group permissions are set through the Administration Menu -> System -> Groups. <br><br>Detailed instructions on
-            configuring the access rights for user groups are available in the <a href="https://www.gitbook.com/book/xoops/xoops-operations-guide/" target="_blank">XOOPS Operations
+            configuring the access rights for user groups are available in the <a href="https://app.gitbook.com/@xoops/s/xoops-operations-guide/" target="_blank">XOOPS Operations
                 Manual</a>
         </p></div>
 
     <h4 class="odd">TUTORIAL</h4>
     <div class="even marg10 boxshadow1"><p>
-            Tutorial has been started, but we need your help! Please check it out the status of the tutorial <a href="https://www.gitbook.com/book/xoops/xforms-tutorial/" target="_blank">here </a>.
+            Tutorial has been started, but we need your help! Please check it out the status of the tutorial <a href="https://app.gitbook.com/@xoops/s/xforms-tutorial/" target="_blank">here </a>.
             <br><br>To contribute to this Tutorial, <a href="https://github.com/XoopsDocs/xforms-tutorial/" target="_blank">please fork it on GitHub</a>.
-            <br> This document describes our <a href="https://www.gitbook.com/book/xoops/xoops-documentation-process/details/" target="_blank">Documentation Process</a> and it will help you to understand how to contribute.
+            <br> This document describes our <a href="https://app.gitbook.com/@xoops/s/xoops-documentation-process/details/" target="_blank">Documentation Process</a> and it will help you to understand how to contribute.
             <br><br>
             There are more XOOPS Tutorials, so check them out in our <a href="https://www.gitbook.com/@xoops/" target="_blank">XOOPS Tutorial Repository on GitBook</a>.
         </p></div>

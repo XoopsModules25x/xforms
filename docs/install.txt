@@ -7,4 +7,4 @@ Extract the /xforms folder into the ./modules folder. Install the module
 through Admin -> System Module -> Modules.
 
 Detailed instructions on installing modules are available in the
-XOOPS Operations Manual (https://www.gitbook.com/book/xoops/xoops-operations-guide/)
+XOOPS Operations Manual (https://app.gitbook.com/@xoops/s/xoops-operations-guide/)
