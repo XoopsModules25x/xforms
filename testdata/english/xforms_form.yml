@@ -1,0 +1,22 @@
+-
+    form_id: '1'
+    form_save_db: '1'
+    form_send_method: e
+    form_send_to_group: '1'
+    form_send_to_other: ''
+    form_send_copy: '0'
+    form_order: '1'
+    form_delimiter: s
+    form_title: Form1
+    form_submit_text: Submit
+    form_desc: 'Testing Form 1'
+    form_intro: ''
+    form_email_header: ''
+    form_email_footer: ''
+    form_email_uheader: ''
+    form_email_ufooter: ''
+    form_whereto: ''
+    form_display_style: f
+    form_begin: '0'
+    form_end: '0'
+    form_active: '1'

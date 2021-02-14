@@ -1,0 +1,50 @@
+-
+    ele_id: '1'
+    form_id: '1'
+    ele_type: text
+    ele_caption: 'Your name'
+    ele_order: '1'
+    ele_req: '1'
+    ele_display_row: '1'
+    ele_value: 'a:3:{s:4:"MA==";i:35;s:4:"MQ==";i:255;s:4:"Mg==";s:9:"{U_uname}";}'
+    ele_display: '1'
+-
+    ele_id: '2'
+    form_id: '1'
+    ele_type: email
+    ele_caption: 'Your email'
+    ele_order: '2'
+    ele_req: '1'
+    ele_display_row: '1'
+    ele_value: 'a:3:{s:4:"MA==";i:35;s:4:"MQ==";i:254;s:4:"Mg==";N;}'
+    ele_display: '1'
+-
+    ele_id: '3'
+    form_id: '1'
+    ele_type: textarea
+    ele_caption: 'Your comments'
+    ele_order: '3'
+    ele_req: '1'
+    ele_display_row: '1'
+    ele_value: 'a:3:{s:4:"MA==";s:0:"";s:4:"MQ==";i:5;s:4:"Mg==";i:35;}'
+    ele_display: '1'
+-
+    ele_id: '4'
+    form_id: '1'
+    ele_type: checkbox
+    ele_caption: Foo
+    ele_order: '4'
+    ele_req: '0'
+    ele_display_row: '2'
+    ele_value: 'a:1:{s:4:"YmFy";i:0;}'
+    ele_display: '1'
+-
+    ele_id: '5'
+    form_id: '1'
+    ele_type: checkbox
+    ele_caption: 'What are your hobbies?'
+    ele_order: '4'
+    ele_req: '0'
+    ele_display_row: '2'
+    ele_value: 'a:4:{s:8:"Q29kaW5n";i:0;s:8:"U2tpaW5n";i:0;s:12:"RGFuY2luZw==";i:0;s:12:"U3dpbW1pbmc=";i:0;}'
+    ele_display: '1'
