@@ -1,52 +1,99 @@
 <?php
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
- * xForms module
+ * Module: xForms
+ * Admin header file
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package         xforms
- * @since           1.30
- * @author          Xoops Development Team
+ * @package   \XoopsModules\Xforms\admin
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     1.30
+ *
+ * @see \Xmf\Module\Admin
  */
 
-// defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+use Xmf\Module\Admin;
+use XoopsModules\Xforms\Helper;
 
-$module_handler = xoops_gethandler('module');
-$module         = $module_handler->getByDirname(basename(dirname(__DIR__)));
-$pathIcon32     = $module->getInfo('icons32');
-xoops_loadLanguage('admin', $module->dirname());
+include dirname(__DIR__) . '/preloads/autoloader.php';
 
-$adminmenu              = array();
-$i                      = 1;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU0;
-$adminmenu[$i]['link']  = 'admin/index.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/home.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU1;
-$adminmenu[$i]['link']  = 'admin/main.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/manage.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU2;
-$adminmenu[$i]['link']  = 'admin/main.php?op=edit';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/add.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU3;
-$adminmenu[$i]['link']  = 'admin/editelement.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/insert_table_row.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU4;
-$adminmenu[$i]['link']  = 'admin/report.php';
-$adminmenu[$i]['icon']  = $pathIcon32 . '/content.png';
-++$i;
-$adminmenu[$i]['title'] = _MI_XFORMS_ADMENU5;
-$adminmenu[$i]['link']  = "admin/about.php";
-$adminmenu[$i]['icon']  = $pathIcon32 . '/about.png';
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$pathIcon32         = Admin::menuIconPath('');
+
+$helper = Helper::getInstance();
+$helper->loadLanguage('common');
+$helper->loadLanguage('feedback');
+
+$adminmenu = [
+    [
+        'title' => _MI_XFORMS_ADMENU0,
+          'link'  => 'admin/index.php',
+          'desc'  => _MI_XFORMS_ADMENU0_DESC,
+        'icon'  => Admin::menuIconPath('home.png'),
+    ],
+    [
+        'title' => _MI_XFORMS_ADMENU1,
+          'link'  => 'admin/main.php',
+          'desc'  => _MI_XFORMS_ADMENU1_DESC,
+          'icon'  => \Xmf\Module\Admin::menuIconPath('manage.png')
+    ],
+
+    ['title' => _MI_XFORMS_ADMENU2,
+          'link'  => 'admin/main.php?op=edit',
+          'desc'  => _MI_XFORMS_ADMENU2_DESC,
+        'icon'  => Admin::menuIconPath('add.png'),
+    ],
+    [
+        'title' => _MI_XFORMS_ADMENU3,
+          'link'  => 'admin/editelement.php',
+          'desc'  => _MI_XFORMS_ADMENU3_DESC,
+        'icon'  => Admin::menuIconPath('insert_table_row.png'),
+    ],
+    [
+        'title' => _MI_XFORMS_ADMENU4,
+          'link'  => 'admin/report.php',
+          'desc'  => _MI_XFORMS_ADMENU4_DESC,
+        'icon'  => Admin::menuIconPath('content.png'),
+    ],
+    [
+        'title' => _MI_XFORMS_ADMENU6,
+          'link'  => 'admin/import.php',
+          'desc'  => _MI_XFORMS_ADMENU6_DESC,
+        'icon'  => Admin::menuIconPath('exec.png'),
+    ],
+
+    // Blocks Admin
+    [
+        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'BLOCKS'),
+        'link'  => 'admin/blocksadmin.php',
+        'icon'  => Admin::menuIconPath('block.png'),
+    ],
+];
+
+if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools')) {
+    $adminmenu[] = [
+        'title' => constant('CO_' . $moduleDirNameUpper . '_' . 'ADMENU_MIGRATE'),
+        'link'  => 'admin/migrate.php',
+        'icon'  => $pathIcon32 . '/database_go.png',
+    ];
+}
+
+$adminmenu[] = [
+    'title' => _MI_XFORMS_ADMENU5,
+          'link'  => 'admin/about.php',
+          'desc'  => _MI_XFORMS_ADMENU5_DESC,
+    'icon'  => Admin::menuIconPath('about.png'),
+];
+

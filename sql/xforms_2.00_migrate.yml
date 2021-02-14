@@ -1,0 +1,147 @@
+xforms_form:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: form_id
+            attributes: ' smallint  NOT NULL auto_increment'
+        -
+            name: form_save_db
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: form_send_method
+            attributes: ' char(1)  NOT NULL  DEFAULT ''e'' '
+        -
+            name: form_send_to_group
+            attributes: ' smallint  NOT NULL  DEFAULT ''0'' '
+        -
+            name: form_send_to_other
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: form_send_copy
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: form_order
+            attributes: ' smallint  NOT NULL  DEFAULT ''0'' '
+        -
+            name: form_delimiter
+            attributes: ' char(1)  NOT NULL  DEFAULT ''s'' '
+        -
+            name: form_title
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: form_submit_text
+            attributes: ' varchar(50)  NOT NULL  DEFAULT '''' '
+        -
+            name: form_desc
+            attributes: ' text  NOT NULL '
+        -
+            name: form_intro
+            attributes: ' text  NOT NULL '
+        -
+            name: form_email_header
+            attributes: ' text  NOT NULL '
+        -
+            name: form_email_footer
+            attributes: ' text  NOT NULL '
+        -
+            name: form_email_uheader
+            attributes: ' text  NOT NULL '
+        -
+            name: form_email_ufooter
+            attributes: ' text  NOT NULL '
+        -
+            name: form_whereto
+            attributes: ' varchar(255)  NOT NULL  DEFAULT '''' '
+        -
+            name: form_display_style
+            attributes: ' varchar(1)  NOT NULL  DEFAULT ''f'' '
+        -
+            name: form_begin
+            attributes: ' int unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: form_end
+            attributes: ' int unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: form_active
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+    keys:
+        form_order:
+            columns: form_order
+            unique: false
+        PRIMARY:
+            columns: form_id
+            unique: true
+xforms_element:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: ele_id
+            attributes: ' mediumint  NOT NULL auto_increment'
+        -
+            name: form_id
+            attributes: ' smallint  NOT NULL  DEFAULT ''0'' '
+        -
+            name: ele_type
+            attributes: ' varchar(10)  NOT NULL  DEFAULT '''' '
+        -
+            name: ele_caption
+            attributes: ' text  NOT NULL '
+        -
+            name: ele_order
+            attributes: ' smallint  NOT NULL  DEFAULT ''0'' '
+        -
+            name: ele_req
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: ele_display_row
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+        -
+            name: ele_value
+            attributes: ' text  NOT NULL '
+        -
+            name: ele_display
+            attributes: ' tinyint(1)  NOT NULL  DEFAULT ''1'' '
+    keys:
+        disp_ele_by_form:
+            columns: 'form_id, ele_display'
+            unique: false
+        ele_display:
+            columns: ele_display
+            unique: false
+        ele_order:
+            columns: ele_order
+            unique: false
+        PRIMARY:
+            columns: ele_id
+            unique: true
+xforms_userdata:
+    options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
+    columns:
+        -
+            name: udata_id
+            attributes: ' int unsigned  NOT NULL auto_increment'
+        -
+            name: uid
+            attributes: ' mediumint unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: form_id
+            attributes: ' smallint  NOT NULL '
+        -
+            name: ele_id
+            attributes: ' mediumint  NOT NULL '
+        -
+            name: udata_time
+            attributes: ' int unsigned  NOT NULL  DEFAULT ''0'' '
+        -
+            name: udata_ip
+            attributes: ' varchar(100)  NOT NULL  DEFAULT ''0.0.0.0'' '
+        -
+            name: udata_agent
+            attributes: ' varchar(500)  NOT NULL  DEFAULT '''' '
+        -
+            name: udata_value
+            attributes: ' text  NOT NULL '
+    keys:
+        PRIMARY:
+            columns: udata_id
+            unique: true

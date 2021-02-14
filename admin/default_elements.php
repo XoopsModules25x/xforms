@@ -1,60 +1,75 @@
 <?php
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
- * xForms module
+ * Module: xForms
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package         xforms
- * @since           1.30
- * @author          Xoops Development Team
+ * Settings for default form elements
+ *
+ * @package   \XoopsModules\Xforms\admin
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2021 {@link http://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @link      https://github.com/XoopsModules25x/xforms
+ *
+ * @see \XoopsModules\Xforms\Helper
  */
+use XoopsModules\Xforms;
+use XoopsModules\Xforms\Helper;
 
-if (!defined('XFORMS_ROOT_PATH')) {
-    exit();
-}
+defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
-$defaults                       = array();
-$defaults[0]['caption']         = _AM_XFORMS_DEFAULT_ELE_YOURNAME;
-$defaults[0]['req']             = true;
-$defaults[0]['ele_display_row'] = 1;
-$defaults[0]['order']           = 1;
-$defaults[0]['display']         = 1;
-$defaults[0]['type']            = 'text';
-$defaults[0]['value']           = array(
-    0 => $xoopsModuleConfig['t_width'],
-    1 => $xoopsModuleConfig['t_max'],
-    2 => '{U_uname}'
-);
+// Instantiate classes
+$helper   = Helper::getInstance();     // module helper
+$defaults = [
+    0 => [
+        'caption' => _AM_XFORMS_DEFAULT_ELE_YOURNAME,
+                                 'req' => true,
+                     'ele_display_row' => 1,
+                               'order' => 1,
+                             'display' => 1,
+                                'type' => 'text',
+        'value' => [
+            0 => $helper->getConfig('t_width'),
+                                                1 => $helper->getConfig('t_max'),
+            2 => '{U_uname}',
+        ],
+    ],
 
-$defaults[1]['caption']         = _AM_XFORMS_DEFAULT_ELE_YOUREMAIL;
-$defaults[1]['req']             = true;
-$defaults[1]['ele_display_row'] = 1;
-$defaults[1]['order']           = 2;
-$defaults[1]['display']         = 1;
-$defaults[1]['type']            = 'text';
-$defaults[1]['value']           = array(
-    0 => $xoopsModuleConfig['t_width'],
-    1 => $xoopsModuleConfig['t_max'],
-    2 => '{U_email}'
-);
+    1 => [
+        'caption'         => _AM_XFORMS_DEFAULT_ELE_YOUREMAIL,
+                                 'req' => true,
+                     'ele_display_row' => 1,
+                               'order' => 2,
+                             'display' => 1,
+                                'type' => 'email',
+        'value' => [
+            0 => $helper->getConfig('t_width'),
+                                                1 => 254,
+            2 => '{U_email}',
+        ],
+    ],
 
-$defaults[2]['caption']         = _AM_XFORMS_DEFAULT_ELE_COMMENTS;
-$defaults[2]['req']             = true;
-$defaults[2]['ele_display_row'] = 1;
-$defaults[2]['order']           = 3;
-$defaults[2]['display']         = 1;
-$defaults[2]['type']            = 'textarea';
-$defaults[2]['value']           = array(
-    0 => '',
-    1 => $xoopsModuleConfig['ta_rows'],
-    2 => $xoopsModuleConfig['ta_cols']
-);
+    2 => [
+        'caption'         => _AM_XFORMS_DEFAULT_ELE_COMMENTS,
+                                 'req' => true,
+                     'ele_display_row' => 1,
+                               'order' => 3,
+                             'display' => 1,
+                                'type' => 'textarea',
+        'value'           => [
+            0 => '',
+                                                1 => $helper->getConfig('ta_rows'),
+            2 => $helper->getConfig('ta_cols'),
+        ],
+    ],
+];

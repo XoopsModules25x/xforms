@@ -1,77 +1,94 @@
 <?php
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
- * xForms module
+ * Module: xForms
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package         xForms
- * @since           1.30
- * @author          Xoops Development Team (see credits.txt)
+ * @package   \XoopsModules\Xforms\include
+ * @author    XOOPS Module Development Team
+ * @copyright Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
+ * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
+ * @since     1.30
+ * @link      https://github.com/XoopsModules25x/xforms
  */
 
-// defined("XOOPS_ROOT_PATH") or die("XOOPS root path not defined");
+use XoopsModules\Xforms\Helper;
+use Xmf\Module\Helper\Session;
 
-//$module_handler =& xoops_gethandler('module');
-//$xoopsModule = & $module_handler->getByDirname(basename(dirname(__DIR__)));
+require dirname(__DIR__) . '/preloads/autoloader.php';
 
-// This must contain the name of the folder in which reside xForms
-define("XFORMS_DIRNAME", basename(dirname(__DIR__)));
-define("XFORMS_URL", XOOPS_URL . '/modules/' . XFORMS_DIRNAME);
-define("XFORMS_IMAGES_URL", XFORMS_URL . '/assets/images');
-//define("XFORMS_ADMIN_URL", XFORMS_URL . '/admin');
-//define('XFORMS_ADMIN_URL', XFORMS_URL . 'admin/main.php');
-define("XFORMS_ROOT_PATH", XOOPS_ROOT_PATH . '/modules/' . XFORMS_DIRNAME);
+$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
-//define("XFORMS_UPLOAD_PATH", $xoopsModuleConfig['uploaddir'] . '/');
-define('XFORMS_UPLOAD_PATH', XOOPS_ROOT_PATH . '/uploads/' . XFORMS_DIRNAME);
+// Instantiate Module Helper
+$helper = Helper::getInstance();
 
-xoops_loadLanguage('common', XFORMS_DIRNAME);
-
-include_once XFORMS_ROOT_PATH . '/include/functions.php';
-include_once XFORMS_ROOT_PATH . '/class/constants.php';
-include_once XFORMS_ROOT_PATH . '/class/session.php';
-include_once XFORMS_ROOT_PATH . '/class/xforms.php';
-//include_once XFORMS_ROOT_PATH . '/class/request.php';
-//include_once XFORMS_ROOT_PATH . '/class/breadcrumb.php';
-
-$debug  = false;
-$xforms = XformsXforms::getInstance($debug);
-
-//This is needed or it will not work in blocks.
-global $xforms_isAdmin;
-
-// Load only if module is installed
-if (is_object($xforms->getModule())) {
-    // Find if the user is admin of the module
-    $xforms_isAdmin = xforms_userIsAdmin();
+if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
+    define($moduleDirNameUpper . '_DIRNAME', basename(dirname(__DIR__)));
+    define($moduleDirNameUpper . '_ROOT_PATH', XOOPS_ROOT_PATH . '/modules/' . $moduleDirName . '/');
+    define($moduleDirNameUpper . '_URL', XOOPS_URL . '/modules/' . $moduleDirName . '/');
+    define($moduleDirNameUpper . '_IMAGE_URL', constant($moduleDirNameUpper . '_URL') . '/assets/images/');
+    define($moduleDirNameUpper . '_IMAGE_PATH', constant($moduleDirNameUpper . '_ROOT_PATH') . '/assets/images');
+    define($moduleDirNameUpper . '_ADMIN_URL', constant($moduleDirNameUpper . '_URL') . '/admin/');
+    define($moduleDirNameUpper . '_ADMIN_PATH', constant($moduleDirNameUpper . '_ROOT_PATH') . '/admin/');
+    define($moduleDirNameUpper . '_PATH', XOOPS_ROOT_PATH . '/modules/' . constant($moduleDirNameUpper . '_DIRNAME'));
+    define($moduleDirNameUpper . '_ADMIN', constant($moduleDirNameUpper . '_URL') . '/admin/index.php');
+    define($moduleDirNameUpper . '_AUTHOR_LOGOIMG', constant($moduleDirNameUpper . '_URL') . '/assets/images/logoModule.png');
+    define($moduleDirNameUpper . '_UPLOAD_URL', XOOPS_UPLOAD_URL . '/' . $moduleDirName); // WITHOUT Trailing slash
+    define($moduleDirNameUpper . '_UPLOAD_PATH', XOOPS_UPLOAD_PATH . '/' . $moduleDirName); // WITHOUT Trailing slash
+    define($moduleDirNameUpper . '_CONSTANTS_DEFINED', 1);
 }
 
-//if (!defined("XFORMS_CONSTANTS_DEFINED")) {
-//    define("XFORMS_URL", XOOPS_URL . '/modules/' . $xoopsModule->getVar('dirname') . '/');
-//    define("XFORMS_ROOT_PATH", XOOPS_ROOT_PATH . '/modules/' . $xoopsModule->getVar('dirname') . '/');
-//    define("XFORMS_UPLOAD_PATH", $xoopsModuleConfig['uploaddir'] . '/');
-//    define("XFORMS_CONSTANTS_DEFINED", true);
-//}
+//define('XFORMS_ROOT_PATH', $helper->path());
 
-$xforms_form_mgr = xoops_getmodulehandler('forms', XFORMS_DIRNAME);
+$mypathIcon16 = $helper->url('assets/images/icons/16');
+$pathIcon16   = Xmf\Module\Admin::iconUrl('', 16);
+$pathIcon32   = Xmf\Module\Admin::iconUrl('', 32);
 
-//set Upload directory, if doe
-if (false != XFORMS_UPLOAD_PATH) {
-    if (!is_dir(XFORMS_UPLOAD_PATH)) {
-        $oldumask = umask(0);
-        mkdir(XFORMS_UPLOAD_PATH, 0777);
-        umask($oldumask);
+//$uploadDir = $helper->getConfig('uploaddir');
+//$uploadDir = ('/' === substr($uploadDir, -1, 1)) ? $uploadDir : $uploadDir . '/';
+//define('XFORMS_UPLOAD_PATH', $uploadDir);
+
+// use Session to reduce disk access while checking directory/file existance
+$sessionHelper = new Session();
+$uploadChecked = $sessionHelper->get('uploadChecked', false);
+if (!$uploadChecked) {
+    $prevUploadPath = $sessionHelper->get('uploadPath', '');
+    $currUploadPath = base64_encode(XFORMS_UPLOAD_PATH);
+    if ($prevUploadPath !== $currUploadPath) {
+        $sessionHelper->set('uploadPath', $currUploadPath);
+        //create Upload directory, if it does not exist
+        if (!is_dir(XFORMS_UPLOAD_PATH)) {
+            $oldumask = umask(0);
+            if (!mkdir($concurrentDirectory = XFORMS_UPLOAD_PATH) && !is_dir($concurrentDirectory)) {
+                throw new \RuntimeException(sprintf('Directory "%s" was not created', $concurrentDirectory));
+            }
+            umask($oldumask);
+        }
+        if (is_dir(XFORMS_UPLOAD_PATH) && !is_writable(XFORMS_UPLOAD_PATH)) {
+            chmod(XFORMS_UPLOAD_PATH, 0777);
+        }
+        // make sure there's a index.html file to "prevent" browsing
+        $fileInfo = new \SplFileInfo(XFORMS_UPLOAD_PATH . '/index.html');
+        if (!$fileInfo->isFile()) {
+            // index file doesn't exist so create it
+            $fhandle = fopen(XFORMS_UPLOAD_PATH . '/index.html', 'wb');
+            if (false !== $fhandle) {
+                // write out file
+                $string = '<script>history.go(-1);</script>';
+                fwrite($fhandle, $string);
+                fclose($fhandle);
+            }
+        }
     }
-    if (is_dir(XFORMS_UPLOAD_PATH) && !is_writable(XFORMS_UPLOAD_PATH)) {
-        chmod(XFORMS_UPLOAD_PATH, 0777);
-    }
+    $sessionHelper->set('uploadChecked', true);
 }

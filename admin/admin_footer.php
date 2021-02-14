@@ -1,31 +1,30 @@
 <?php
 /*
- You may not change or alter any portion of this comment or credits
- of supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit authors.
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
 
- This program is distributed in the hope that it will be useful,
- but WITHOUT ANY WARRANTY; without even the implied warranty of
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
+
 /**
- * xForms module
+ * Module: xForms
+ * Admin footer file
  *
- * @copyright       The XOOPS Project http://sourceforge.net/projects/xoops/
- * @license         GNU GPL 2 or later (http://www.gnu.org/licenses/gpl-2.0.html)
- * @package         xforms
+ * @package         \XoopsModules\Xforms\admin
+ * @author          XOOPS Module Development Team
+ * @copyright       Copyright (c) 2001-2020 {@link https://xoops.org XOOPS Project}
+ * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since           1.30
- * @author          Xoops Development Team
+ *
+ * @see             \Xmf\Module\Admin
  */
 
-global $xoopsModule;
-$pathIcon32      = '../' . $xoopsModule->getInfo('icons32');
+use Xmf\Module\Admin;
 
-echo "<div class='adminfooter'>\n"
-    ."  <div style='text-align: center;'>\n"
-    ."    <a href='http://www.xoops.org' rel='external'><img src='{$pathIcon32}/xoopsmicrobutton.gif' alt='XOOPS' title='XOOPS'></a>\n"
-    ."  </div>\n"
-    ."  " . _AM_MODULEADMIN_ADMIN_FOOTER . "\n"
-    ."</div>";
+echo '<div class="adminfooter">' . '<div class="center">' . '  <a href="https://xoops.org" rel="noopener external" target="_blank"><img src="' . Admin::iconUrl('xoopsmicrobutton.gif') . '" ' . 'alt="XOOPS" title="XOOPS"></a>' . '</div>' . _AM_MODULEADMIN_ADMIN_FOOTER . '</div>';
 
 xoops_cp_footer();
