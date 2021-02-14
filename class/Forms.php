@@ -115,8 +115,8 @@ class Forms extends \XoopsObject
                 'location'      => $helper->url('admin/main.php') . '?op=edit&form_id=' . $this->getVar('form_id'),
                 'target'        => '_self',
                 'icon_location' => Admin::iconUrl('edit.png', '16'),
-                'icon_title'    => _AM_XFORMS_ACTION_EDITFORM,
-                'icon_alt'      => _AM_XFORMS_ACTION_EDITFORM,
+                'icon_title'    => \_AM_XFORMS_ACTION_EDITFORM,
+                'icon_alt'      => \_AM_XFORMS_ACTION_EDITFORM,
             ];
         }
 
@@ -159,7 +159,7 @@ class Forms extends \XoopsObject
         $eleObjects      = $xformsEleHandler->getObjects($criteria, true);
 
         if (empty($eleObjects)) { // this form doesn't have any elements
-            $this->setErrors(\sprintf(_MD_XFORMS_ELE_ERR, $this->getVar('form_title'), 's'));
+            $this->setErrors(\sprintf(\_MD_XFORMS_ELE_ERR, $this->getVar('form_title'), 's'));
 
             return false;
         }
@@ -227,7 +227,7 @@ class Forms extends \XoopsObject
         }
 
         $js          = $formOutput->renderValidationJS();
-        $isHiddenTxt = (Constants::FORM_HIDDEN == $this->getVar('form_order')) ? _MD_XFORMS_FORM_IS_HIDDEN : '';
+        $isHiddenTxt = (Constants::FORM_HIDDEN == $this->getVar('form_order')) ? \_MD_XFORMS_FORM_IS_HIDDEN : '';
 
         $assignArray = [
             'form_output'      => [

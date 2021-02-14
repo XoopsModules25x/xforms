@@ -25,8 +25,8 @@ namespace XoopsModules\Xforms;
 
 use XoopsModules\Xforms;
 
-if (!class_exists('\XoopsMediaUploader')) {
-    xoops_load('xoopsmediauploader');
+if (!\class_exists('\XoopsMediaUploader')) {
+    \xoops_load('xoopsmediauploader');
 }
 
 /**
@@ -59,7 +59,7 @@ class MediaUploader extends \XoopsMediaUploader
             $this->allowedExtensions = $allowedExtensions;
         } else {
             $mimeArray               = require $GLOBALS['xoops']->path('include/mimetypes.inc.php');
-            $this->allowedExtensions = array_keys($mimeArray);
+            $this->allowedExtensions = \array_keys($mimeArray);
         }
     }
 
@@ -100,7 +100,7 @@ class MediaUploader extends \XoopsMediaUploader
     {
         $ext    = mb_substr(mb_strrchr($this->mediaName, '.'), 1);
         $retVal = false;
-        if (!empty($this->allowedExtensions) && in_array(mb_strtolower($ext), $this->allowedExtensions)) {
+        if (!empty($this->allowedExtensions) && \in_array(mb_strtolower($ext), $this->allowedExtensions)) {
             $this->ext = $ext;
             $retVal    = true;
         }

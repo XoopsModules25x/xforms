@@ -50,17 +50,17 @@ class EfForm extends \XoopsObject
     {
         parent::__construct();
         //    key, data_type, value, req, max, opt
-        $this->initVar('form_id', XOBJ_DTYPE_INT);
-        $this->initVar('form_send_method', XOBJ_DTYPE_TXTBOX, Constants::SEND_METHOD_MAIL, true, 1);
-        $this->initVar('form_send_to_group', XOBJ_DTYPE_TXTBOX, '', false, 3);
-        $this->initVar('form_order', XOBJ_DTYPE_INT, 1, false, 3);
-        $this->initVar('form_delimiter', XOBJ_DTYPE_TXTBOX, Constants::DELIMITER_SPACE, true, 1);
-        $this->initVar('form_title', XOBJ_DTYPE_TXTBOX, '', true, 255);
-        $this->initVar('form_submit_text', XOBJ_DTYPE_TXTBOX, _SUBMIT, true, 50);
-        $this->initVar('form_desc', XOBJ_DTYPE_TXTAREA);
-        $this->initVar('form_intro', XOBJ_DTYPE_TXTAREA);
-        $this->initVar('form_whereto', XOBJ_DTYPE_TXTBOX);
+        $this->initVar('form_id', \XOBJ_DTYPE_INT);
+        $this->initVar('form_send_method', \XOBJ_DTYPE_TXTBOX, Constants::SEND_METHOD_MAIL, true, 1);
+        $this->initVar('form_send_to_group', \XOBJ_DTYPE_TXTBOX, '', false, 3);
+        $this->initVar('form_order', \XOBJ_DTYPE_INT, 1, false, 3);
+        $this->initVar('form_delimiter', \XOBJ_DTYPE_TXTBOX, Constants::DELIMITER_SPACE, true, 1);
+        $this->initVar('form_title', \XOBJ_DTYPE_TXTBOX, '', true, 255);
+        $this->initVar('form_submit_text', \XOBJ_DTYPE_TXTBOX, _SUBMIT, true, 50);
+        $this->initVar('form_desc', \XOBJ_DTYPE_TXTAREA);
+        $this->initVar('form_intro', \XOBJ_DTYPE_TXTAREA);
+        $this->initVar('form_whereto', \XOBJ_DTYPE_TXTBOX);
 
-        $this->dirname = basename(dirname(__DIR__));
+        $this->dirname = \basename(\dirname(__DIR__));
     }
 }

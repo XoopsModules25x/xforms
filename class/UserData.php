@@ -36,14 +36,14 @@ class UserData extends \XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('udata_id', XOBJ_DTYPE_INT);
-        $this->initVar('uid', XOBJ_DTYPE_INT);
-        $this->initVar('form_id', XOBJ_DTYPE_INT);
-        $this->initVar('ele_id', XOBJ_DTYPE_INT);
-        $this->initVar('udata_time', XOBJ_DTYPE_INT);
-        $this->initVar('udata_ip', XOBJ_DTYPE_TXTBOX, '', true, 100);
-        $this->initVar('udata_agent', XOBJ_DTYPE_TXTBOX, '', true, 500);
-        $this->initVar('udata_value', XOBJ_DTYPE_OTHER, '');
+        $this->initVar('udata_id', \XOBJ_DTYPE_INT);
+        $this->initVar('uid', \XOBJ_DTYPE_INT);
+        $this->initVar('form_id', \XOBJ_DTYPE_INT);
+        $this->initVar('ele_id', \XOBJ_DTYPE_INT);
+        $this->initVar('udata_time', \XOBJ_DTYPE_INT);
+        $this->initVar('udata_ip', \XOBJ_DTYPE_TXTBOX, '', true, 100);
+        $this->initVar('udata_agent', \XOBJ_DTYPE_TXTBOX, '', true, 500);
+        $this->initVar('udata_value', \XOBJ_DTYPE_OTHER, '');
     }
 
     /**
@@ -53,13 +53,13 @@ class UserData extends \XoopsObject
     public function getVar($key, $format = 's')
     {
         $myVar = parent::getVar($key, $format);
-        if (('udata_value' === $key) && !empty($myVar) && is_scalar($myVar)) {
-            $myVar = unserialize($myVar);
-            if (!empty($myVar) && is_array($myVar)) {
-                $keys  = array_keys($myVar);
-                $vals  = array_values($myVar);
-                $vals  = array_map('\base64_decode', $vals);
-                $myVar = array_combine($keys, $vals);
+        if (('udata_value' === $key) && !empty($myVar) && \is_scalar($myVar)) {
+            $myVar = \unserialize($myVar);
+            if (!empty($myVar) && \is_array($myVar)) {
+                $keys  = \array_keys($myVar);
+                $vals  = \array_values($myVar);
+                $vals  = \array_map('\base64_decode', $vals);
+                $myVar = \array_combine($keys, $vals);
             } else {
                 $myVar = '';
             }

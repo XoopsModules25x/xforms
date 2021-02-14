@@ -34,13 +34,13 @@ class Formsuserdata extends \XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('udata_id', XOBJ_DTYPE_INT);
-        $this->initVar('uid', XOBJ_DTYPE_INT);
-        $this->initVar('form_id', XOBJ_DTYPE_INT);
-        $this->initVar('ele_id', XOBJ_DTYPE_INT);
-        $this->initVar('udata_time', XOBJ_DTYPE_INT);
-        $this->initVar('udata_ip', XOBJ_DTYPE_TXTBOX, '', true, 100);
-        $this->initVar('udata_agent', XOBJ_DTYPE_TXTBOX, '', true, 500);
-        $this->initVar('udata_value', XOBJ_DTYPE_ARRAY, '');
+        $this->initVar('udata_id', \XOBJ_DTYPE_INT);
+        $this->initVar('uid', \XOBJ_DTYPE_INT);
+        $this->initVar('form_id', \XOBJ_DTYPE_INT);
+        $this->initVar('ele_id', \XOBJ_DTYPE_INT);
+        $this->initVar('udata_time', \XOBJ_DTYPE_INT);
+        $this->initVar('udata_ip', \XOBJ_DTYPE_TXTBOX, '', true, 100);
+        $this->initVar('udata_agent', \XOBJ_DTYPE_TXTBOX, '', true, 500);
+        $this->initVar('udata_value', \XOBJ_DTYPE_ARRAY, '');
     }
 }

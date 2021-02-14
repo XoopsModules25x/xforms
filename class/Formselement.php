@@ -32,15 +32,15 @@ class Formselement extends \XoopsObject
     public function __construct()
     {
         parent::__construct();
-        $this->initVar('ele_id', XOBJ_DTYPE_INT, null, false);
-        $this->initVar('form_id', XOBJ_DTYPE_INT);
-        $this->initVar('ele_type', XOBJ_DTYPE_TXTBOX, 'text', true, 10);
-        $this->initVar('ele_caption', XOBJ_DTYPE_TXTAREA);
-        $this->initVar('ele_order', XOBJ_DTYPE_INT, 0);
-        $this->initVar('ele_req', XOBJ_DTYPE_INT, 0);
-        $this->initVar('ele_display_row', XOBJ_DTYPE_INT);
-        $this->initVar('ele_value', XOBJ_DTYPE_ARRAY, []);
-        $this->initVar('ele_display', XOBJ_DTYPE_INT, 1);
+        $this->initVar('ele_id', \XOBJ_DTYPE_INT, null, false);
+        $this->initVar('form_id', \XOBJ_DTYPE_INT);
+        $this->initVar('ele_type', \XOBJ_DTYPE_TXTBOX, 'text', true, 10);
+        $this->initVar('ele_caption', \XOBJ_DTYPE_TXTAREA);
+        $this->initVar('ele_order', \XOBJ_DTYPE_INT, 0);
+        $this->initVar('ele_req', \XOBJ_DTYPE_INT, 0);
+        $this->initVar('ele_display_row', \XOBJ_DTYPE_INT);
+        $this->initVar('ele_value', \XOBJ_DTYPE_ARRAY, []);
+        $this->initVar('ele_display', \XOBJ_DTYPE_INT, 1);
     }
     /*
         public function getVar($key, $format = 's')

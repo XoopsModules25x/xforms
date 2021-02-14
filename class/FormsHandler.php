@@ -54,7 +54,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
     {
         $this->db       = $db;
         $this->db_table = $this->db->prefix('xforms_form');
-        $this->dirname  = basename(dirname(__DIR__));
+        $this->dirname  = \basename(\dirname(__DIR__));
         parent::__construct($db, 'xforms_form', Forms::class, 'form_id', 'form_title');
     }
 
@@ -72,7 +72,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
             $form->setVar('form_active', Constants::FORM_INACTIVE);
             $result = $this->insert($form, (bool)$force);
             if (!$result) {
-                $form->setErrors(sprintf(_MD_XFORMS_ERR_DB_INSERT, $this->db->error(), $this->db->errno()));
+                $form->setErrors(\sprintf(\_MD_XFORMS_ERR_DB_INSERT, $this->db->error(), $this->db->errno()));
                 $ret = false;
             }
         }
@@ -94,7 +94,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
             $form->setVar('form_active', Constants::FORM_ACTIVE);
             $result = $this->insert($form, (bool)$force);
             if (!$result) {
-                $form->setErrors(sprintf(_MD_XFORMS_ERR_DB_INSERT, $this->db->error(), $this->db->errno()));
+                $form->setErrors(\sprintf(\_MD_XFORMS_ERR_DB_INSERT, $this->db->error(), $this->db->errno()));
                 $ret = false;
             }
         }
@@ -126,7 +126,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
         $permHelper = new Permission($this->dirname);
 
         $groupIds = (array)$groupIds; //make sure it's an array
-        $groupIds = array_map('\intval', $groupIds); //make sure all array elements are integers
+        $groupIds = \array_map('\intval', $groupIds); //make sure all array elements are integers
         $ret      = $permHelper->savePermissionForItem($this->perm_name, (int)$formId, $groupIds);
         /*
                 $ret = true;
