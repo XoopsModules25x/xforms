@@ -266,8 +266,7 @@ switch ($op) {
                             $newVars[$key] = in_array($optCount, $eleValue[$id]) ? 1 : 0;
                             ++$optCount;
                         }
-                    } else {
-                        if (count($value) > 1) {
+                    } elseif (count($value) > 1) {
                             foreach ($value as $key => $j) {
                                 //while ($j = each($value)) {
                                 $newVars[$key] = 0;
@@ -277,7 +276,6 @@ switch ($op) {
                                 //while ($j = each($value)) {
                                 $newVars = !empty($eleValue[$id]) ? [$key => 1] : [$key => 0];
                             }
-                        }
                     }
                     $value = $newVars;
                     break;
@@ -333,8 +331,7 @@ switch ($op) {
                                 $newVars[$key] = in_array($optCount, $eleValue[$id]) ? 1 : 0;
                                 ++$optCount;
                             }
-                        } else {
-                            if (count($value[2]) > 1) {
+                        } elseif (count($value[2]) > 1) {
                                 foreach ($value[2] as $key => $j) {
                                     //while ($j = each($value[2])) {
                                     $newVars[$key] = ($optCount == $eleValue[$id]) ? 1 : 0;
@@ -345,7 +342,6 @@ switch ($op) {
                                     //while ($j = each($value[2])) {
                                     $newVars = empty($eleValue[$id]) ? [$key => 0] : [$key => 1];
                                 }
-                            }
                         }
                         $value[2] = $newVars;
                     } else {

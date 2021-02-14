@@ -693,12 +693,10 @@ switch ($op) {
                     $sendTo = $f->getVar('form_send_to_group');
                     if (-1 == (int)$sendTo) {
                         $sendTo = '<b>' . _AM_XFORMS_SENDTO_OTHER . ': </b>' . $f->getVar('form_send_to_other');
-                    } else {
-                        if ((false !== $sendTo) && ($group = $groupHandler->get($sendTo))) {
+                    } elseif ((false !== $sendTo) && ($group = $groupHandler->get($sendTo))) {
                             $sendTo = $group->getVar('name');
                         } else {
                             $sendTo = _AM_XFORMS_SENDTO_ADMIN;
-                        }
                     }
                     $fStatus = '<img src="' . $mypathIcon16 . '/active.gif" ' . 'title="' . _AM_XFORMS_STATUS_ACTIVE . '" ' . 'alt="' . _AM_XFORMS_STATUS_ACTIVE . '"' . '>' . '&nbsp;' . _AM_XFORMS_STATUS_ACTIVE;
                     if (!$f->isActive()) {

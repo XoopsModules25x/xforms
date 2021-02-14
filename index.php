@@ -302,10 +302,8 @@ if (0 == count($err)) {
                                 }
                             }
                             ++$opt_count;
-                        } else {
-                            if (!empty($ele[$eleId])) {
+                        } elseif (!empty($ele[$eleId])) {
                                 $ch[] = $v['key'];
-                            }
                         }
                     }
                     $msg[$eleId] .= !empty($ch) ? implode('<br>', $ch) : '';
@@ -446,10 +444,8 @@ if (0 == count($err)) {
                                 ];
                                 $ufid       = count($uploaded) - 1;
                             }
-                        } else {
-                            if (count($uploader[$eleId]->errors) > 0) {
+                        } elseif (count($uploader[$eleId]->errors) > 0) {
                                 $err = array_merge($err, $uploader[$eleId]->getErrors(false));
-                            }
                         }
                     }
                     break;
@@ -639,8 +635,7 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
         if ($send_group > 0) {
             /* Setting the selected groups */
             $interMail->setToGroups($group);
-        } else {
-            if (-1 == $send_group) {
+        } elseif (-1 == $send_group) {
                 /* Setting the emails specifics */
                 $emailsto = explode(';', $form->getVar('form_send_to_other'));
                 if (!empty($emailsto)) {
@@ -651,7 +646,6 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
             } else {
                 /* Setting the admin e-mail */
                 $interMail->setToEmails($GLOBALS['xoopsConfig']['adminmail']);
-            }
         }
     }
 
@@ -666,15 +660,16 @@ if ((0 == count($err)) && (Constants::SEND_METHOD_NONE !== $form->getVar('form_s
                         _MD_XFORMS_UPLOADED_FILE,
                         '<a href="' . $helper->url('file.php?ui=' . $a['udata_id'] . '&fm=' . $formId . '&el=' . $a['id']) . '">' . $a['name'] . '</a>'
                     );
-                } else {
+                }
+                else {
                     $msg[$a['id']] .= sprintf(_MD_XFORMS_UPLOADED_FILE, '<a href="' . $helper->url('file.php?f=' . $a['file'] . '&fn=' . $a['name']) . '">' . $a['name'] . '</a>');
                 }
-            } else {
-                if ($interMail->multimailer->addAttachment(XFORMS_UPLOAD_PATH . "/{$a['file']}", $a['name'])) {
-                    $msg[$a['id']] .= sprintf(_MD_XFORMS_ATTACHED_FILE, $a['name']);
-                } else {
-                    $err[] = $interMail->multimailer->ErrorInfo;
-                }
+            }
+            elseif ($interMail->multimailer->addAttachment(XFORMS_UPLOAD_PATH . "/{$a['file']}", $a['name'])) {
+                $msg[$a['id']] .= sprintf(_MD_XFORMS_ATTACHED_FILE, $a['name']);
+            }
+            else {
+                $err[] = $interMail->multimailer->ErrorInfo;
             }
             if ($sendCopy) {
                 $copyMsg[$a['id']] .= sprintf(_MD_XFORMS_UPLOADED_FILE, $a['name']);

@@ -62,8 +62,7 @@ class FileChecker
                 $path_status = "<img src='$pathIcon16/0.png' >";
                 $path_status .= "$file_path (" . constant('CO_' . $moduleDirNameUpper . '_' . 'FC_NOTAVAILABLE') . ') ';
             }
-        } else {
-            if (self::compareFiles($file_path, $original_file_path)) {
+        } elseif (self::compareFiles($file_path, $original_file_path)) {
                 $path_status = "<img src='$pathIcon16/1.png' >";
                 $path_status .= "$file_path (" . constant('CO_' . $moduleDirNameUpper . '_' . 'FC_AVAILABLE') . ') ';
             } else {
@@ -76,7 +75,6 @@ class FileChecker
                 $path_status .= "<input type='hidden' name='redirect' value='$redirectFile'>";
                 $path_status .= "<button class='submit' onClick='this.form.submit();'>" . constant('CO_' . $moduleDirNameUpper . '_' . 'FC_CREATETHEFILE') . '</button>';
                 $path_status .= '</form>';
-            }
         }
 
         return $path_status;

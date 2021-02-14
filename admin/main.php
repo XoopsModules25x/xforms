@@ -494,15 +494,15 @@ switch ($op) {
 
         if (empty($formId)) {
             $caption = _AM_XFORMS_NEW;
-        } else {
-            if ($clone) {
-                $caption       = sprintf(_AM_XFORMS_COPIED, $form->getVar('form_title'));
-                $cloneFormId   = new \XoopsFormHidden('clone_form_id', $formId);
-                $textFormTitle = new \XoopsFormText(_AM_XFORMS_TITLE, 'form_title', 50, 255, sprintf(_AM_XFORMS_COPIED, $form->getVar('form_title', 'e')));
-            } else {
-                $caption      = sprintf(_AM_XFORMS_EDIT, $form->getVar('form_title'));
-                $hiddenFormId = new \XoopsFormHidden('form_id', $formId);
-            }
+        }
+        elseif ($clone) {
+            $caption       = sprintf(_AM_XFORMS_COPIED, $form->getVar('form_title'));
+            $cloneFormId   = new \XoopsFormHidden('clone_form_id', $formId);
+            $textFormTitle = new \XoopsFormText(_AM_XFORMS_TITLE, 'form_title', 50, 255, sprintf(_AM_XFORMS_COPIED, $form->getVar('form_title', 'e')));
+        }
+        else {
+            $caption      = sprintf(_AM_XFORMS_EDIT, $form->getVar('form_title'));
+            $hiddenFormId = new \XoopsFormHidden('form_id', $formId);
         }
         $output = new \XoopsThemeForm($caption, 'editform', $_SERVER['SCRIPT_NAME'], 'post', true);
         $output->addElement($textFormTitle, true);
@@ -781,12 +781,12 @@ switch ($op) {
         if (!empty($error)) {
             xoops_cp_header();
             echo $error;
-        } else {
-            if (_AM_XFORMS_SAVE_THEN_ELEMENTS === $_POST['submit']) {
-                redirect_header($helper->url('admin/elements.php?form_id=' . $ret), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
-            } else {
-                redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
-            }
+        }
+        elseif (_AM_XFORMS_SAVE_THEN_ELEMENTS === $_POST['submit']) {
+            redirect_header($helper->url('admin/elements.php?form_id=' . $ret), Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
+        }
+        else {
+            redirect_header($_SERVER['SCRIPT_NAME'], Constants::REDIRECT_DELAY_NONE, _AM_XFORMS_DBUPDATED);
         }
         break;
 }
