@@ -27,7 +27,6 @@ namespace XoopsModules\Xforms;
 use Xmf\Module\Admin;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper;
-use XoopsModules\Xforms\FormCaptcha;
 use XoopsModules\Xforms\ElementRenderer;
 
 /**

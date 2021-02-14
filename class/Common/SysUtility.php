@@ -168,7 +168,7 @@ class SysUtility
         }
 
         if (null === $helper) {
-            $helper = Xforms\Helper::getInstance();
+            $helper = Helper::getInstance();
         }
 
         $isAdmin = $helper->isUserAdmin();
