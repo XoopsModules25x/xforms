@@ -32,7 +32,6 @@ $moduleDirName      = basename(dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 $pathIcon32         = Admin::menuIconPath('');
 
-/** @var \XoopsModules\Xforms\Helper $helper */
 $helper = Helper::getInstance();
 $helper->loadLanguage('common');
 $helper->loadLanguage('feedback');

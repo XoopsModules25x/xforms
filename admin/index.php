@@ -68,7 +68,6 @@ if (false === $profileHelper) {
     $adminObject->addConfigAccept(sprintf(_MD_XFORMS_PROFILE_FOUND, $moduleDirName));
 }
 
-/** @var \XoopsModules\Xforms\Utility $utility */
 $utility = new Utility();
 
 //check for latest release

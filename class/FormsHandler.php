@@ -48,7 +48,7 @@ class FormsHandler extends \XoopsPersistableObjectHandler
     protected $dirname;
 
     /**
-     * @param \XoopsDatabase $db to use for the form
+     * @param \XoopsDatabase|null $db to use for the form
      */
     public function __construct(\XoopsDatabase $db = null)
     {

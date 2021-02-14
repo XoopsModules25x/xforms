@@ -35,7 +35,6 @@ defined('XFORMS_ROOT_PATH') || exit('Restricted access');
  *          [2] = selected value(s)
  */
 
-/* @var XoopsModules\Xforms\Helper $helper */
 $helper = Helper::getInstance();
 
 if (!empty($eleId)) {
