@@ -22,7 +22,7 @@ namespace XoopsModules\Xforms;
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since           1.30
  */
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+
 
 /**
  * Class Formsuserdata

@@ -25,8 +25,6 @@ namespace XoopsModules\Xforms;
 
 use Xmf\Module\Helper\Permission;
 
-//defined('XFORMS_ROOT_PATH') || exit('Restricted access');
-
 /**
  * Class \XoopsModules\Xforms\FormsHandler
  */

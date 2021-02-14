@@ -25,7 +25,7 @@ namespace XoopsModules\Xforms;
 
 use XoopsModules\Xforms;
 
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+
 
 /**
  * Class \XoopsModules\Xforms\LiaiseElementHandler

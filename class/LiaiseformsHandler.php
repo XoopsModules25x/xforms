@@ -22,7 +22,7 @@ namespace XoopsModules\Xforms;
  * @license         https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @since           2.00
  */
-defined('XFORMS_ROOT_PATH') || exit('Restricted access');
+
 
 //if (!interface_exists('Xforms\Constants')) {
 //    require_once __DIR__ . '/constants.php';
