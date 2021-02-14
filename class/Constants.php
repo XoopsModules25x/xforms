@@ -114,18 +114,6 @@ interface Constants
      */
     public const SCHEME_FTP = 2;
     /**
-     * element - scheme both http & ftp
-     */
-    const SCHEME_BOTH = 0;
-    /**
-     * element - scheme both http & ftp
-     */
-    const SCHEME_HTTP = 1;
-    /**
-     * element - scheme both http & ftp
-     */
-    const SCHEME_FTP = 2;
-    /**
      * element - use current date
      */
     public const ELE_CURR = 1;
@@ -145,18 +133,6 @@ interface Constants
      * element - set specific date
      */
     public const DATE_SPECIFIC = 2;
-    /**
-     * element - set date
-     */
-    const DATE_NONE = 0;
-    /**
-     * element - set to current date
-     */
-    const DATE_CURRENT = 1;
-    /**
-     * element - set specific date
-     */
-    const DATE_SPECIFIC = 2;
     /**
      * range default step size
      */
@@ -300,7 +276,7 @@ interface Constants
     /**
      * long XOOPS redirect delay (in seconds)
      */
-    const REDIRECT_DELAY_LONG = 7;
+    public const REDIRECT_DELAY_LONG = 7;
     /**
      * linefeed delimiter
      */
