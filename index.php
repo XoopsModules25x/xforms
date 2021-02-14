@@ -143,7 +143,7 @@ if (!$form->isActive()) {
 
 $msg = $err = [];
 
-include (dirname(dirname(__DIR__))) . '/class/captcha/xoopscaptcha.php';
+include (dirname(__DIR__, 2)) . '/class/captcha/xoopscaptcha.php';
 $xfCaptchaObj = \XoopsCaptcha::getInstance();
 if (!$xfCaptchaObj->verify()) {
     $err[] = $xfCaptchaObj->getMessage();

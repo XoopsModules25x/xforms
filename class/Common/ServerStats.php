@@ -25,7 +25,7 @@ trait ServerStats
      */
     public static function getServerStats()
     {
-        $moduleDirName      = basename(dirname(dirname(__DIR__)));
+        $moduleDirName      = basename(dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         xoops_loadLanguage('common', $moduleDirName);
         $html  = "<fieldset><legend style='font-weight: bold; color: #900;'>" . constant('CO_' . $moduleDirNameUpper . '_IMAGEINFO') . "</legend>\n" . "<div style='padding: 8px;'>\n" . '<div>' . constant('CO_' . $moduleDirNameUpper . '_SPHPINI') . "</div>\n";

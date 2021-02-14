@@ -17,7 +17,7 @@
  * @since
  * @author       XOOPS Development Team
  */
-require dirname(dirname(__DIR__)) . '/mainfile.php';
+require dirname(__DIR__, 2) . '/mainfile.php';
 
 $moduleDirName = basename(__DIR__);
 

@@ -25,7 +25,7 @@ use Xmf\Module\Admin;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper;
 
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 
 $op      = Request::getCmd('op', '');
 $ok      = Request::getBool('ok', false, 'POST');
@@ -283,7 +283,7 @@ switch ($op) {
         break;
     case 'export-horiz':
         /*****************************************/
-        require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+        require_once dirname(__DIR__, 3) . '/include/cp_header.php';
         require_once dirname(__DIR__) . '/include/common.php';
         $myts = \MyTextSanitizer::getInstance();
 
@@ -412,7 +412,7 @@ switch ($op) {
         break;
     case 'export-vert':
         /*****************************************/
-        require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+        require_once dirname(__DIR__, 3) . '/include/cp_header.php';
         require_once dirname(__DIR__) . '/include/common.php';
         $myts = \MyTextSanitizer::getInstance();
 

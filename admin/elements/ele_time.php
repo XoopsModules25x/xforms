@@ -28,7 +28,7 @@ use XoopsModules\Xforms\FormRaw;
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 if (!class_exists('\XoopsModules\Xforms\FormRaw')) {
-    xoops_load('formraw', basename(dirname(dirname(__DIR__))));
+    xoops_load('formraw', basename(dirname(__DIR__, 2)));
 }
 
 /**

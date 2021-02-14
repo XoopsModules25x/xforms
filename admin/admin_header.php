@@ -27,7 +27,7 @@
 use Xmf\Module\Admin;
 use XoopsModules\Xforms\Helper;
 
-require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(__DIR__, 3) . '/include/cp_header.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 require $GLOBALS['xoops']->path('www/class/xoopsformloader.php');
 require_once dirname(__DIR__) . '/include/common.php';

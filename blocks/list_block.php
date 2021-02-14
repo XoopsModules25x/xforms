@@ -27,7 +27,7 @@ use XoopsModules\Xforms\{
 };
 /** @var Helper $helper */
 
-require_once dirname(dirname(dirname(__DIR__))) . '/mainfile.php';
+require_once dirname(__DIR__, 3) . '/mainfile.php';
 
 // Instantiate module helper
 $helper = Helper::getInstance();

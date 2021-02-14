@@ -26,7 +26,7 @@ use XoopsModules\Xforms\FormInput;
 defined('XFORMS_ROOT_PATH') || exit('Restricted access');
 
 if (!class_exists('\XoopsModules\Xforms\FormInput')) {
-    xoops_load('FormInput', basename(dirname(dirname(__DIR__))));
+    xoops_load('FormInput', basename(dirname(__DIR__, 2)));
 }
 
 /**
