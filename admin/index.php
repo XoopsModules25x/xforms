@@ -53,8 +53,8 @@ xoops_cp_header();
 $criteria           = new \CriteriaCompo();
 $criteria->setGroupBy('form_active');
 $criteria->add(new \Criteria('form_active', Constants::FORM_ACTIVE, '='));
-$totalForms         = $formsHandler->getCount();
-$totalActiveForms   = $formsHandler->getCount($criteria);
+$totalForms         = (int)$formsHandler->getCount();
+$totalActiveForms   = (int)$formsHandler->getCount($criteria);
 $totalInactiveForms = $totalForms - $totalActiveForms;
 
 $adminObject->addInfoBox(_MD_XFORMS_DASHBOARD);
