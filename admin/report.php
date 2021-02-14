@@ -705,7 +705,7 @@ switch ($op) {
                             $fStatus = '<img src="' . $mypathIcon16 . '/expired.gif" ' . 'title="' . _AM_XFORMS_STATUS_EXPIRED . '" ' . 'alt="' . _AM_XFORMS_STATUS_EXPIRED . '"' . '>' . '&nbsp;' . _AM_XFORMS_STATUS_EXPIRED;
                         }
                     }
-                    $cssClass = ('even' === $cssClass) ? 'odd' : even;
+                    $cssClass = ('even' === $cssClass) ? 'odd' : 'even';
                     echo '<tr>'
                          . '  <td class="'
                          . $cssClass
