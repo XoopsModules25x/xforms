@@ -135,7 +135,7 @@ $formId = Request::getInt('form_id', 0, 'POST');
 if (empty($formId)
     || !($form = $formsHandler->get($formId))
     || (false === $formsHandler->getSingleFormPermission($formId))) {
-    redirect_header(XOOPS_URL, Constants::REDIRECT_DELAY_MEDIUM, _NO_PERM);
+    redirect_header(XOOPS_URL, Constants::REDIRECT_DELAY_MEDIUM, _AM_XFORMS_NO_PERM);
 }
 if (!$form->isActive()) {
     $helper->redirect('index.php', Constants::REDIRECT_DELAY_MEDIUM, _MD_XFORMS_MSG_INACTIVE);
