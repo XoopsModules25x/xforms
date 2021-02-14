@@ -109,7 +109,7 @@ class ElementRenderer
                 $optArray    = [];
                 foreach ($options as $key => $opt) {
                     $other          = $this->optOther($opt, $formEleId);
-                    $optArray[$key] = ($other !== false && !$admin) ? _MD_XFORMS_OPT_OTHER . $other : $opt;
+                    $optArray[$key] = (false !== $other && !$admin) ? _MD_XFORMS_OPT_OTHER . $other : $opt;
                 }
                 //$ckBox->addOptionArray($optArray);
                 //$formElement->addElement($ckBox);
