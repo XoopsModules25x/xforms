@@ -56,7 +56,7 @@ $totalActiveForms   = isset($formCount[1]) ? $formCount[1] : 0;
 $totalInactiveForms = $totalForms - $totalActiveForms;
 
 $adminObject->addInfoBox(_MD_XFORMS_DASHBOARD);
-$adminObject->AddInfoBoxLine(sprintf('<span class="infolabel">' . _MD_XFORMS_TOTAL_ACTIVE . '</span>', '<span class="infotext green bold">' . $totalActiveForms . '</span>'));
+$adminObject->addInfoBoxLine(sprintf('<span class="infolabel">' . _MD_XFORMS_TOTAL_ACTIVE . '</span>', '<span class="infotext green bold">' . $totalActiveForms . '</span>'));
 $adminObject->addInfoBoxLine(sprintf('<span class="infolabel">' . _MD_XFORMS_TOTAL_INACTIVE . '</span>', '<span class="infotext red bold">' . $totalInactiveForms . '</span>'));
 $adminObject->addInfoBoxLine(sprintf('<span class="infolabel">' . _MD_XFORMS_TOTAL_FORMS . '</span>', '<span class="infotext bold">' . $totalForms . '</span>'));
 
