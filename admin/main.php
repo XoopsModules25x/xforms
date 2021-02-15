@@ -1,15 +1,14 @@
 <?php
 /*
- You may not change or alter any portion of this comment or credits of
- supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit
- authors.
+You may not change or alter any portion of this comment or credits of
+supporting developers from this source code or any supporting source code
+which is considered copyrighted (c) material of the original comment or credit
+authors.
 
- This program is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- */
-
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+*/
 /**
  * Module: xForms
  * Main administration page
@@ -20,7 +19,6 @@
  * @license   https://www.gnu.org/licenses/gpl-2.0.html GNU Public License
  * @link     https://github.com/XoopsModules25x/xforms
  */
-
 use Xmf\Module\Admin;
 use Xmf\Module\Helper;
 use Xmf\Module\Helper\Permission;
