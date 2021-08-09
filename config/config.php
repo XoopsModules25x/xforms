@@ -13,14 +13,14 @@
  * Module: xForms
  *
  * @package   \XoopsModules\Xforms\include
- * @copyright    XOOPS Project https://xoops.org/
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author       XOOPS Development Team
  */
 
 use Xmf\Module\Admin;
 
-$moduleDirName      = basename(dirname(__DIR__));
+$moduleDirName      = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 return (object)[
@@ -102,6 +102,8 @@ return (object)[
     ],
 
     'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
+    ],
+    'renameColumns' => [//        'extcal_event' => ['from' => 'event_etablissement', 'to' => 'event_location'],
     ],
     'moduleStats'  => [
         //            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),

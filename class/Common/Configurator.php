@@ -11,13 +11,14 @@ namespace XoopsModules\Xforms\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
+
+
 /**
  * Configurator Class
  *
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      XOOPS Development Team
- * @since       1.05
  */
 
 /**
@@ -52,6 +53,7 @@ class Configurator
         $this->oldFiles        = $config->oldFiles;
         $this->oldFolders      = $config->oldFolders;
         $this->renameTables    = $config->renameTables;
+        $this->renameColumns   = $config->renameColumns;
         $this->moduleStats     = $config->moduleStats;
         $this->modCopyright    = $config->modCopyright;
     }

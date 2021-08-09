@@ -1,6 +1,6 @@
 <?php
 
-$moduleDirName      = basename(dirname(__DIR__, 2));
+$moduleDirName      = \basename(\dirname(__DIR__, 2));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 //Latest Version Check
@@ -10,7 +10,7 @@ define('CO_' . $moduleDirNameUpper . '_' . 'REPO_NOT_FOUND', 'Repository Not Fou
 //Release not found
 define('CO_' . $moduleDirNameUpper . '_' . 'NO_REL_FOUND', 'Released Version Not Found: ');
 
-$moduleDirName      = basename(dirname(__DIR__, 2));
+$moduleDirName      = \basename(\dirname(__DIR__, 2));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 define('CO_' . $moduleDirNameUpper . '_GDLIBSTATUS', 'GD library support: ');
@@ -61,20 +61,23 @@ define('CO_' . $moduleDirNameUpper . '_LICENSE', 'License');
 define('CO_' . $moduleDirNameUpper . '_SUPPORT', 'Support');
 
 //Sample Data
-define('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA', 'Import Sample Data (will delete ALL current data)');
-define('CO_' . $moduleDirNameUpper . '_' . 'SAMPLEDATA_SUCCESS', 'Sample Date imported successfully');
-define('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA', 'Export Tables to YAML');
-define('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS', 'Export Tables to YAML successfully');
-define('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_ERROR', 'ERROR: Export of Tables to YAML failed');
-define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON', 'Show Sample Button?');
-define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC', 'If yes, the "Add Sample Data" button will be visible to the Admin. It is Yes as a default for first installation.');
-define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA', 'Export DB Schema to YAML');
-define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS', 'Export DB Schema to YAML was a success');
-define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR', 'ERROR: Export of DB Schema to YAML failed');
-define('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA_OK', 'Are you sure to Import Sample Data? (It will delete ALL current data)');
-define('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS', 'Hide the Import buttons)');
-define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLEDATA_BUTTONS', 'Show the Import buttons)');
-define('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM', 'Confirm');
+\define('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA', 'Import Sample Data (will delete ALL current data)');
+\define('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_CONFIRM', 'Are you sure to Import Sample Data? (It will delete ALL current data)');
+\define('CO_' . $moduleDirNameUpper . '_' . 'LOAD_SAMPLEDATA_SUCCESS', 'Sample Date imported  successfully');
+\define('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA', 'Export Tables to YAML');
+\define('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA_SUCCESS', 'Export Tables to YAML successfully');
+\define('CO_' . $moduleDirNameUpper . '_' . 'CLEAR_SAMPLEDATA', 'Clear Sample Data');
+\define('CO_' . $moduleDirNameUpper . '_' . 'CLEAR_SAMPLEDATA_OK', 'The Sample Data has been cleared');
+\define('CO_' . $moduleDirNameUpper . '_' . 'CLEAR_SAMPLEDATA_CONFIRM', 'Are you sure to Clear Sample Data? (It will delete ALL current data)');
+\define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA', 'Export DB Schema to YAML');
+\define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_SUCCESS', 'Export DB Schema to YAML was a success');
+\define('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA_ERROR', 'ERROR: Export of DB Schema to YAML failed');
+\define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON', 'Show Sample Button?');
+\define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLE_BUTTON_DESC', 'If yes, the "Add Sample Data" button will be visible to the Admin. It is Yes as a default for first installation.');
+\define('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS', 'Hide the Import buttons)');
+\define('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLEDATA_BUTTONS', 'Show the Import buttons)');
+
+\define('CO_' . $moduleDirNameUpper . '_' . 'CONFIRM', 'Confirm');
 
 //letter choice
 define('CO_' . $moduleDirNameUpper . '_' . 'BROWSETOTOPIC', "<span style='font-weight: bold;'>Browse items alphabetically</span>");
@@ -175,3 +178,5 @@ define('CO_' . $moduleDirNameUpper . '_' . 'TOTAL_OFFLINE', 'Offline');
 define('CO_' . $moduleDirNameUpper . '_' . 'TOTAL_PUBLISHED', 'Published');
 define('CO_' . $moduleDirNameUpper . '_' . 'TOTAL_REJECTED', 'Rejected');
 define('CO_' . $moduleDirNameUpper . '_' . 'TOTAL_SUBMITTED', 'Submitted');
+
+\define('CO_' . $moduleDirNameUpper . '_' . 'ERROR403', 'You are not allowed to view this page!');

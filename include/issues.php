@@ -26,10 +26,10 @@ use XoopsModules\Xforms\Issues;
 /** @var Issues $modIssues */
 
 $GLOBALS['xoopsOption']['nocommon'] = true;
-require dirname(__DIR__, 3) . '/include/cp_header.php';
-require dirname(__DIR__) . '/preloads/autoloader.php';
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName = \basename(\dirname(__DIR__));
 
 xoops_loadLanguage('admin', $moduleDirName);
 xoops_loadLanguage('modinfo', $moduleDirName);

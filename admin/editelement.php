@@ -586,5 +586,5 @@ switch ($op) {
         echo '  </tbody>' . '  </table>';
         break;
 }
-require __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
 xoops_cp_footer();

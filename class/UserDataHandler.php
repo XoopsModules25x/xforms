@@ -113,7 +113,7 @@ class UserDataHandler extends \XoopsPersistableObjectHandler
                 if (\array_key_exists(0, $uIdArray)) { // means anon voter - create an entry for Anon user(s)
                     //update anon user name (uname) in array
                     $guestUser          = new \XoopsGuestUser();
-                    $xname              = $guestUser::getUnameFromId(0);
+                    $xname              = $guestUser->getUnameFromId(0);
                     $uDataUsersArray[0] = [
                         'uid'   => 0,
                         'name'  => $xname,

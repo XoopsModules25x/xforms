@@ -57,7 +57,7 @@ $selDefault->addOption('', _AM_XFORMS_ELE_TEXT_ADD_DEFAULT_SEL);
 
 /** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
-$oUser         = $memberHelper->createUser();
+$oUser         = $memberHandler->createUser();
 $uVars         = $oUser->vars;
 foreach ($uVars as $uk => $uv) {
     if ('pass' !== $uk

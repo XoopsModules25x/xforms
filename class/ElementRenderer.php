@@ -197,7 +197,7 @@ class ElementRenderer
                 }
 
                 //$formElement = new FormInput($eleCaption, $formEleId, $eleValue[0], $eleValue[1], '', null, 'email');
-                $formElement = new FormInput($eleCaption, $formEleId, (int)$eleValue[0], (int)$eleValue[1], htmlspecialchars($eleValue[2], ENT_QUOTES | ENT_HTML5), null, 'email');
+                $formElement = new FormInput($eleCaption, $formEleId, (int)$eleValue[0], (int)$eleValue[1], \htmlspecialchars($eleValue[2], \ENT_QUOTES | \ENT_HTML5), null, 'email');
                 if ($admin) {
                     $formElement->setExtra('disabled');
                 }
@@ -217,12 +217,12 @@ class ElementRenderer
                     $sysHelper = sHelper::getHelper('system');
                     $formHtmlConfigs = [
                         'editor' => $sysHelper->getConfig('general_editor'),
-                                               'rows' => 8,
-                                               'cols' => 90,
-                                              'width' => '100%',
-                                             'height' => '260px',
-                                               'name' => $formEleId,
-                        'value'  => htmlspecialchars($eleValue[0], ENT_QUOTES | ENT_HTML5), // default value
+                        'rows' => 8,
+                        'cols' => 90,
+                        'width' => '100%',
+                        'height' => '260px',
+                        'name' => $formEleId,
+                        'value'  => \htmlspecialchars($eleValue[0], \ENT_QUOTES | \ENT_HTML5), // default value
                     ];
                     $formElement = new \XoopsFormEditor($eleCaption, $formEleId, $formHtmlConfigs);
                     $renderer = $formElement->editor->renderer;
@@ -356,7 +356,7 @@ class ElementRenderer
             case 'select2': // left for backward compatibility
             case 'country':
                 $formElement = new \XoopsFormSelectCountry(
-                    $eleCaption, $formEleId, htmlspecialchars($eleValue[2], ENT_QUOTES | ENT_HTML5), //default
+                    $eleCaption, $formEleId, \htmlspecialchars($eleValue[2], \ENT_QUOTES | \ENT_HTML5), //default
                     (isset($eleValue[0]) && ((int)$eleValue[0] > 0)) ? (int)$eleValue[0] : 1 // size
                 );
                 $formElement->_multiple = (bool)$eleValue[1];
@@ -386,7 +386,7 @@ class ElementRenderer
                 $formElement = new \XoopsFormText(
                     $eleCaption, $formEleId, $eleValue[0], // box width
                                                  $eleValue[1], // maxlength
-                    htmlspecialchars($eleValue[2], ENT_QUOTES | ENT_HTML5) // default value
+                    \htmlspecialchars($eleValue[2], \ENT_QUOTES | \ENT_HTML5) // default value
                 );
                 if (isset($eleValue[4])) { // not set if form was imported
                     $formElement->setExtra('placeholder="' . $eleValue[4] . '"');
@@ -395,7 +395,7 @@ class ElementRenderer
 
             case 'textarea':
                 $formElement = new \XoopsFormTextArea(
-                    $eleCaption, $formEleId, htmlspecialchars($eleValue[0], ENT_QUOTES | ENT_HTML5), // default value
+                    $eleCaption, $formEleId, \htmlspecialchars($eleValue[0], \ENT_QUOTES | \ENT_HTML5), // default value
                 $eleValue[1], // rows
                 $eleValue[2]  // cols
                 );

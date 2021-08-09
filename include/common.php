@@ -24,10 +24,10 @@
 use XoopsModules\Xforms\Helper;
 use Xmf\Module\Helper\Session;
 
-require dirname(__DIR__) . '/preloads/autoloader.php';
+require \dirname(__DIR__) . '/preloads/autoloader.php';
 
-$moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 // Instantiate Module Helper
 $helper = Helper::getInstance();

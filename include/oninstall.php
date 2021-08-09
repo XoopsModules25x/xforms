@@ -28,7 +28,7 @@ use XoopsModules\Xforms\Utility;
 
 defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 
-require_once dirname(__DIR__) . '/preloads/autoloader.php';
+require_once \dirname(__DIR__) . '/preloads/autoloader.php';
 
 /**
  * @internal {Make sure you PROTECT THIS FILE}
@@ -81,7 +81,7 @@ function xoops_module_install_xforms(\XoopsModule $module)
         $module->setErrors(sprintf(_AM_XFORMS_ERROR_BAD_UPLOAD_PATH, $configurator->paths['uploadPath']));
     } else {
         // Create index file in new directories
-        $newFile = $configurator->paths['uploadPath']. '/index.html';
+        $newFile = $configurator->paths['uploadPath']. '/index.php';
         $fileInfo = new \SplFileInfo($newFile);
         $fileObj = $fileInfo->openFile('w');
         $success = $fileObj->fwrite('<script>history.go(-1);</script>');

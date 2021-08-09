@@ -74,12 +74,12 @@ class UserData extends \XoopsObject
      */
     public function setVar($key, $value, $not_gpc = false)
     {
-        if (('udata_value' === $key) && !is_scalar($value)) {
-            $keys = array_keys($value);
-            $values = array_values($value);
-            $values = array_map('\base64_encode', $values);
-            $value  = array_combine($keys, $values);
-            $value  = serialize($value);
+        if (('udata_value' === $key) && !\is_scalar($value)) {
+            $keys = \array_keys($value);
+            $values = \array_values($value);
+            $values = \array_map('\base64_encode', $values);
+            $value  = \array_combine($keys, $values);
+            $value  = \serialize($value);
         }
         parent::setVar($key, $value, $not_gpc);
     }

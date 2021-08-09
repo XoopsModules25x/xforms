@@ -28,7 +28,7 @@ trait VersionChecks
      */
     public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
     {
-        $moduleDirName      = \basename(dirname(__DIR__, 2));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -57,7 +57,7 @@ trait VersionChecks
      */
     public static function checkVerPhp(\XoopsModule $module = null)
     {
-        $moduleDirName      = \basename(dirname(__DIR__, 2));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -66,7 +66,7 @@ trait VersionChecks
         // check for minimum PHP version
         $success = true;
         $verNum  = \PHP_VERSION;
-        $reqVer = &$module->getInfo('min_php');
+        $reqVer  = &$module->getInfo('min_php');
         if (false !== $reqVer && '' !== $reqVer) {
             if (\version_compare($verNum, $reqVer, '<')) {
                 $module->setErrors(\sprintf(\constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_PHP'), $reqVer, $verNum));
@@ -88,7 +88,7 @@ trait VersionChecks
      */
     public static function checkVerModule($helper, $source = 'github', $default = 'master')
     {
-        $moduleDirName      = \basename(dirname(__DIR__, 2));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         $update             = '';
         $repository         = 'XoopsModules25x/' . $moduleDirName;
@@ -111,7 +111,7 @@ trait VersionChecks
                 } elseif (false !== mb_strpos($curlReturn, 'Not Found')) {
                     \trigger_error(\constant('CO_' . $moduleDirNameUpper . '_' . 'REPO_NOT_FOUND') . $infoReleasesUrl);
                 } else {
-                    $file              = json_decode($curlReturn, false);
+                    $file = json_decode($curlReturn, false);
                     if (empty($file)) {
                         \trigger_error(\constant('CO_' . $moduleDirNameUpper . '_' . 'NO_REL_FOUND') . $infoReleasesUrl);
                     } else {

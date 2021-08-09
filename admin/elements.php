@@ -27,7 +27,7 @@ use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\ElementRenderer;
 use XoopsModules\Xforms\FormInput;
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
 /**
  * @var string                              $moduleDirName
@@ -407,4 +407,4 @@ switch ($op) {
         }
 }
 
-require __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

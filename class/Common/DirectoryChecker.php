@@ -25,8 +25,8 @@ use XoopsModules\Xforms;
  * @author          Xoops Development Team
  */
 
-require_once dirname(__DIR__, 4) . '/mainfile.php';
-$moduleDirName      = \basename(dirname(__DIR__, 2));
+require_once \dirname(__DIR__, 4) . '/mainfile.php';
+$moduleDirName      = \basename(\dirname(__DIR__, 2));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 \xoops_loadLanguage('directorychecker', $moduleDirName);
 
@@ -53,7 +53,7 @@ class DirectoryChecker
         if (null === $redirectFile) {
             $redirectFile = $_SERVER['SCRIPT_NAME'];
         }
-        $moduleDirName      = \basename(dirname(__DIR__, 2));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (!@\is_dir($path)) {
             $path_status = "<img src='$pathIcon16/0.png' >";

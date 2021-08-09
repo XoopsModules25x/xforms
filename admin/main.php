@@ -325,7 +325,7 @@ switch ($op) {
         $selectFormSendCopy->setDescription(_AM_XFORMS_SEND_COPY_DESC);
 
         // set same configs for all editors on this page
-        $sysHelper     = \Xmf\Module\Helper::getHelper('system');
+        $sysHelper     = Helper::getHelper('system');
         $editorConfigs = [
             'editor' => $sysHelper->getConfig('general_editor'),
             'rows'   => 5,
@@ -750,5 +750,5 @@ switch ($op) {
         break;
 }
 
-require __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
 xoops_cp_footer();

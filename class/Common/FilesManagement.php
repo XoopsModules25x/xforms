@@ -28,7 +28,7 @@ trait FilesManagement
         try {
             if (!\is_dir($folder)) {
                 if (!\is_dir($folder) && !\mkdir($folder) && !\is_dir($folder)) {
-                    throw new \RuntimeException(sprintf('Unable to create the %s directory', $folder));
+                    throw new \RuntimeException(\sprintf('Unable to create the %s directory', $folder));
                 }
                 file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
             }

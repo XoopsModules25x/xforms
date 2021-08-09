@@ -24,8 +24,9 @@ use Xmf\Request;
 use Xmf\Module\Admin;
 use XoopsModules\Xforms\Constants;
 use XoopsModules\Xforms\Helper;
+/* @var Helper $helper */
 
-require_once dirname(__DIR__, 3) . '/include/cp_header.php';
+require \dirname(__DIR__, 3) . '/include/cp_header.php';
 
 $op      = Request::getCmd('op', '');
 $ok      = Request::getBool('ok', false, 'POST');
@@ -45,7 +46,7 @@ if (empty($formId) && (!empty($_POST['op']) && !preg_match('/^purge(_do)*$/', $o
 switch ($op) {
     case 'show': /*Show the report in the page*/
         /*****************************************/
-        require __DIR__ . '/admin_header.php';
+        require_once __DIR__ . '/admin_header.php';
         $myts = \MyTextSanitizer::getInstance();
         xoops_load('XoopsLocal');
         /*****************************************/
@@ -231,7 +232,7 @@ switch ($op) {
 
     case 'purge':
         /*****************************************/
-        require __DIR__ . '/admin_header.php';
+        require_once __DIR__ . '/admin_header.php';
         /*****************************************/
         xoops_cp_header();
         $adminObject->displayNavigation($thisFileName);
@@ -248,7 +249,7 @@ switch ($op) {
         break;
     case 'purge_do':
         /*****************************************/
-        require __DIR__ . '/admin_header.php';
+        require_once __DIR__ . '/admin_header.php';
         /*****************************************/
         if ($ok) {
             // Security check to make sure came from a good location
@@ -283,8 +284,8 @@ switch ($op) {
         break;
     case 'export-horiz':
         /*****************************************/
-        require_once dirname(__DIR__, 3) . '/include/cp_header.php';
-        require_once dirname(__DIR__) . '/include/common.php';
+        require \dirname(__DIR__, 3) . '/include/cp_header.php';
+        require_once \dirname(__DIR__) . '/include/common.php';
         $myts = \MyTextSanitizer::getInstance();
 
         /*****************************************/
@@ -412,8 +413,8 @@ switch ($op) {
         break;
     case 'export-vert':
         /*****************************************/
-        require_once dirname(__DIR__, 3) . '/include/cp_header.php';
-        require_once dirname(__DIR__) . '/include/common.php';
+        require \dirname(__DIR__, 3) . '/include/cp_header.php';
+        require_once \dirname(__DIR__) . '/include/common.php';
         $myts = \MyTextSanitizer::getInstance();
 
         /*****************************************/
@@ -549,7 +550,7 @@ switch ($op) {
         exit();
         break;
     default: // Show list of forms with reports
-        require __DIR__ . '/admin_header.php';
+        require_once __DIR__ . '/admin_header.php';
         /**
          * @var string $moduleDirName // defined in ./include/common.php
          * @var string $mypathIcon16  // defined in ./include/common.php
@@ -696,7 +697,7 @@ switch ($op) {
                             $sendTo = $group->getVar('name');
                         } else {
                             $sendTo = _AM_XFORMS_SENDTO_ADMIN;
-                    }
+                        }
                     $fStatus = '<img src="' . $mypathIcon16 . '/active.gif" ' . 'title="' . _AM_XFORMS_STATUS_ACTIVE . '" ' . 'alt="' . _AM_XFORMS_STATUS_ACTIVE . '"' . '>' . '&nbsp;' . _AM_XFORMS_STATUS_ACTIVE;
                     if (!$f->isActive()) {
                         if (Constants::FORM_INACTIVE == $f->getVar('form_active')) {
@@ -870,5 +871,5 @@ switch ($op) {
         }
         break;
 }
-require __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
 xoops_cp_footer();
