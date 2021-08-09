@@ -1,6 +1,10 @@
 <h5>2.00 Beta 1    [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.15, PHP 8.02
 <hr>
 - fix wrong class name (heyula/mamba)
+- updates/cosmetics (mamba)
+- replace index.html with index.php (mamba)
+- add TestdataButtons (mamba)
+
 
 <h5>2.00 Alpha 3    [2021-02-14]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.15, PHP 8.02
 <hr>
