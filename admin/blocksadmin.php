@@ -32,7 +32,7 @@ if (!is_object($GLOBALS['xoopsUser']) || !is_object($xoopsModule)
     exit(constant('CO_' . $moduleDirNameUpper . '_' . 'ERROR403'));
 }
 if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
-    require_once XOOPS_ROOT_PATH . '/kernel/block.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsblock.php';
     $op = 'list';
     if (isset($_POST)) {
         foreach ($_POST as $k => $v) {

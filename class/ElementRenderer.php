@@ -97,12 +97,14 @@ class ElementRenderer
                 $selected = [];
                 $options  = [];
                 $oCount   = 1;
-                foreach ($eleValue as $key=>$i) {
-                    $options[$oCount] = $key;
-                    if ($i > 0) {
-                        $selected[] = $oCount;
+                if (is_iterable($eleValue)) {
+                    foreach ($eleValue as $key => $i) {
+                        $options[$oCount] = $key;
+                        if ($i > 0) {
+                            $selected[] = $oCount;
+                        }
+                        ++$oCount;
                     }
-                    ++$oCount;
                 }
                 //$formElement = new \XoopsFormElementTray($eleCaption, Constants::DELIMITER_BR == $delimiter ? '<br>' : ' ');
                 //$ckBox = new \XoopsFormCheckBox('', $formEleId, $selected);
@@ -552,11 +554,11 @@ class ElementRenderer
 
     /**
      * @param string $s
-     * @param        $id
+     * @param int    $id
      *
      * @return string HTML output of XoopsFormText element render
      */
-    public function optOther($s = '', $id)
+    public function optOther($s = '', $id = 0)
     {
         if (!\preg_match('/\{OTHER\|+\d+\}/', $s)) {
             return false;
