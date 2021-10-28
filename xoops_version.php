@@ -34,7 +34,7 @@ $moduleDirName                = basename(__DIR__);
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 /*  @var array $modversion */
-$modversion['version']        = '2.00';
+$modversion['version']        = '2.0.1';
 $modversion['module_status']  = 'Alpha 3';
 $modversion['release_date']   = '2021/02/14';
 $modversion['name']           = _MI_XFORMS_NAME;
