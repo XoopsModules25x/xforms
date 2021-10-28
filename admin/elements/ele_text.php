@@ -68,7 +68,7 @@ foreach ($uVars as $uk => $uv) {
 }
 
 //check to see if profile module is active
-$profileHelper = Helper::getHelper('profile');
+$profileHelper = \Xmf\Module\Helper::getHelper('profile');
 if (false !== $profileHelper) {
     $profileHandler = $profileHelper->getHandler('profile');
     $oProfile       = $profileHandler->create();
