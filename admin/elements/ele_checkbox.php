@@ -47,8 +47,8 @@ $keyCount = count($keys);
 for ($i = 0; $i < $keyCount; ++$i) {
     $eleTray     = new \XoopsFormElementTray('');
     $checkboxVal = (isset($value[$keys[$i]]) && !empty($value[$keys[$i]])) ? $i : null;
-    $checkboxEle = new \XoopsFormCheckbox('', 'ckbox', $checkboxVal);
-    $checkboxEle->addOption($i, ' ');
+    $checkboxEle = new \XoopsFormCheckbox('', 'ckbox[' . $i . ']', $checkboxVal);
+    $checkboxEle->addOption(1, ' ');
     $eleTray->addElement($checkboxEle);
     $optVal     = htmlspecialchars($keys[$i], ENT_QUOTES | ENT_HTML5);
     $formEleObj = new \XoopsFormText('', 'ele_value[' . $i . ']', 40, 255, $optVal);
@@ -70,30 +70,27 @@ $output->addElement($optTray);
 $funcScript = new FormRaw(
     "<script>function addToCboxTray() {
 //first time through set id (counter)
-if (typeof addToCboxTray.counter == \"undefined\") {
-  //addToCboxTray.counter = $('[id^=\"ele_value[]\"').length;
-  addToCboxTray.counter.value = 1;
-}
+var counterCB = document.querySelectorAll('[id^=ele_value]').length;
+var checkboxTray = document.getElementById(\"checked_checkboxtray\");
 
 // setup the checkbox button
-var checkboxTray = document.getElementById(\"checked_checkboxtray\");
 var rb = document.createElement(\"input\");
 rb.setAttribute(\"type\", \"checkbox\");
-rb.setAttribute(\"name\", \"ckbox\");
-rb.setAttribute(\"id\", \"ckbox\" + addToCboxTray.counter);
-rb.value = addToCboxTray.counter;
+rb.setAttribute(\"name\",\"ckbox[\" + counterCB + \"]\");
+rb.setAttribute(\"id\", \"ckbox[\" + counterCB + \"]\");
+rb.value = 1;
 
 // setup the label
 var lbl = document.createElement(\"label\");
 lbl.setAttribute(\"name\", \"xolb_ckbox\");
-lbl.setAttribute(\"for\", \"ckbox\" + addToCboxTray.counter);
+lbl.setAttribute(\"for\", \"ckbox[\" + counterCB + \"]\");
 lbl.innerHTML = \" \";
 
 // now create input box
 var ib = document.createElement(\"input\");
 ib.setAttribute(\"type\", \"text\");
-ib.setAttribute(\"name\", \"ele_value[\" + addToCboxTray.counter + \"]\");
-ib.setAttribute(\"id\", \"ele_value[\" + addToCboxTray.counter + \"]\");
+ib.setAttribute(\"name\", \"ele_value[\" + counterCB + \"]\");
+ib.setAttribute(\"id\", \"ele_value[\" + counterCB + \"]\");
 ib.setAttribute(\"size\", 40);
 ib.setAttribute(\"maxwidth\", 255);
 ib.setAttribute(\"placeholder\", \"" . _AM_XFORMS_ELE_OPT_PLACEHOLDER . "\");
@@ -107,7 +104,6 @@ checkboxTray.insertAdjacentHTML('beforeend', \"&nbsp;&nbsp;\");
 checkboxTray.appendChild(ib);
 // add a line feed to separate the elements
 checkboxTray.insertAdjacentHTML('beforeend', \"<br>\");
-addToCboxTray.counter = addToCboxTray.counter + 1;
 }</script>"
 );
 $output->addElement($funcScript);
