@@ -57,7 +57,7 @@ $selDefault->addOption('', _AM_XFORMS_ELE_TEXT_ADD_DEFAULT_SEL);
 
 /** @var \XoopsMemberHandler $memberHandler */
 $memberHandler = xoops_getHandler('member');
-$oUser         = $memberHelper->createUser();
+$oUser         = $memberHandler->createUser();
 $uVars         = $oUser->vars;
 foreach ($uVars as $uk => $uv) {
     if ('pass' !== $uk
@@ -68,7 +68,7 @@ foreach ($uVars as $uk => $uv) {
 }
 
 //check to see if profile module is active
-$profileHelper = Helper::getHelper('profile');
+$profileHelper = \Xmf\Module\Helper::getHelper('profile');
 if (false !== $profileHelper) {
     $profileHandler = $profileHelper->getHandler('profile');
     $oProfile       = $profileHandler->create();
