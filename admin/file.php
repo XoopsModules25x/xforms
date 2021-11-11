@@ -23,7 +23,7 @@
 use Xmf\Request;
 use XoopsModules\Xforms\Constants;
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 $file = Request::getString('f', '', 'GET');
 $path = XFORMS_UPLOAD_PATH . "/{$file}";
 if (!$file || !preg_match('/^\d+_{1}[0-9a-z]+\.[0-9a-z]+$/', $file) || !file_exists($path)) {

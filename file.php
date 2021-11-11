@@ -90,7 +90,7 @@ if (class_exists('finfo')) { // should exist for >= PHP 5.3
     $mimeTypes = require_once $GLOBALS['xoops']->path('www/include/mimetypes.inc.php');
     //$extArray  = explode('.', $filename);
     $extArray  = explode('.', $fname);
-    $ext      = mb_strtolower(array_pop($extArray));
+    $ext      = \mb_strtolower(array_pop($extArray));
     if (array_key_exists($ext, $mimeTypes)) {
         $mimeFile = $mimeTypes[$ext];
     }

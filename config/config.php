@@ -10,17 +10,18 @@
  */
 
 /**
- * @copyright    XOOPS Project https://xoops.org/
+ * Module: xForms
+ *
+ * @package   \XoopsModules\Xforms\include
+ * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
- * @package
- * @since
  * @author       XOOPS Development Team
  */
 
 use Xmf\Module\Admin;
 
-$moduleDirName      = basename(dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirName      = \basename(\dirname(__DIR__));
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 return (object)[
     'name'           => $moduleDirNameUpper . ' Module Configurator',
@@ -33,15 +34,15 @@ return (object)[
         'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
     ],
     'uploadFolders'  => [
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
+            //        constant($moduleDirNameUpper . '_UPLOAD_PATH'),
+            //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/category',
+            //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/screenshots',
         //XOOPS_UPLOAD_PATH . '/flags'
     ],
     'copyBlankFiles' => [
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName,
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/category',
-        XOOPS_UPLOAD_PATH . '/' . $moduleDirName . '/screenshots',
+            //        constant($moduleDirNameUpper . '_UPLOAD_PATH'),
+            //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/category',
+            //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/screenshots',
         //XOOPS_UPLOAD_PATH . '/flags'
     ],
 
@@ -58,16 +59,37 @@ return (object)[
 
     'templateFolders' => [
         '/templates/',
-        //            '/templates/blocks/',
-        //            '/templates/admin/'
+            '/templates/admin/',
+            '/templates/blocks/',
     ],
     'oldFiles'        => [
-        '/class/request.php',
-        '/class/registry.php',
-        '/class/utilities.php',
-        '/class/util.php',
-        //            '/include/constants.php',
-        //            '/include/functions.php',
+            '/admin/ele_check.php',
+            '/admin/ele_date.php',
+            '/admin/ele_html.php',
+            '/admin/ele_radio.php',
+            '/admin/ele_select_ctry.php',
+            '/admin/ele_select.php',
+            '/admin/ele_tarea.php',
+            '/admin/ele_text.php',
+            '/admin/ele_upload.php',
+            '/admin/ele_uploadimg.php',
+            '/admin/ele_yn.php',
+            '/admin/upgrade.php',
+            '/class/constants.php',
+            '/class/dbupdater.php',
+            '/class/elementrenderer.php',
+            '/class/elements.php',
+            '/class/forms.php',
+            '/class/helper.php',
+            '/class/session.php',
+            '/class/uploader.php',
+            '/class/userdata.php',
+            '/class/xforms.php',
+            '/include/directorychecker.php',
+            '/include/filechecker.php',
+            '/include/form_execute.php',
+            '/include/functions.php',
+            '/include/module.php',
         '/ajaxrating.txt',
     ],
     'oldFolders'      => [
@@ -75,9 +97,13 @@ return (object)[
         '/css',
         '/js',
         '/tcpdf',
+            '/images',
+            '/xforms'
     ],
 
     'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
+    ],
+    'renameColumns' => [//        'extcal_event' => ['from' => 'event_etablissement', 'to' => 'event_location'],
     ],
     'moduleStats'  => [
         //            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),

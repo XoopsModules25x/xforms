@@ -42,11 +42,11 @@ use XoopsModules\Xforms\{Common,
 require_once __DIR__ . '/admin_header.php';
 
 /**
- * @var \Xmf\Module\Admin $adminObject
- * @var \XoopsModules\Xforms\Helper $helper
+ * @var \Xmf\Module\Admin                 $adminObject
+ * @var \XoopsModules\Xforms\Helper       $helper
  * @var \XoopsModules\Xforms\FormsHandler $formsHandler
  *
- * @var string $moduleDirName
+ * @var string                            $moduleDirName
  */
 
 xoops_cp_header();
@@ -75,17 +75,18 @@ $utility = new Utility();
 
 //check for latest release
 //$newRelease = $utility::checkVerModule($helper);
-//if (!empty($newRelease)) {
+//if (null !== $newRelease) {
 //    $adminObject->addItemButton($newRelease[0], $newRelease[1], 'download', 'style="color : Red"');
 //}
 
 $adminObject->displayNavigation(basename(__FILE__));
+
 //------------- Test Data Buttons ----------------------------
 if ($helper->getConfig('displaySampleButton')) {
     TestdataButtons::loadButtonConfig($adminObject);
-    $adminObject->displayButton('left', '');;
+    $adminObject->displayButton('left', '');
 }
-$op = \Xmf\Request::getString('op', 0, 'GET');
+$op = Request::getString('op', 0, 'GET');
 switch ($op) {
     case 'hide_buttons':
         TestdataButtons::hideButtons();
@@ -100,4 +101,4 @@ $adminObject->displayIndex();
 echo $utility::getServerStats();
 
 //codeDump(__FILE__);
-require __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

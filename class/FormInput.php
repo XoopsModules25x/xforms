@@ -231,7 +231,7 @@ class FormInput extends \XoopsFormElement
             $htmlTypes = $this->getHtmlTypes();
             if (\is_array($value)) {
                 if (isset($value['type'])) {
-                    $valueType = mb_strtolower(\trim($value['type']));
+                    $valueType = \mb_strtolower(\trim($value['type']));
                     if (isset($valueType) && isset($htmlTypes[$valueType])) {
                         $this->setAttribute('type', $valueType); // set the HTML <input> type
                         foreach ($htmlTypes[$valueType] as $typeAttrib) {
@@ -246,7 +246,7 @@ class FormInput extends \XoopsFormElement
                     $this->setAttribute('type', 'text');
                 }
             } else {
-                $value = isset($htmlTypes[mb_strtolower($value)]) ? mb_strtolower($value) : 'text';
+                $value = isset($htmlTypes[mb_strtolower($value)]) ? \mb_strtolower($value) : 'text';
                 $this->setAttribute('type', $value);
             }
         } else {

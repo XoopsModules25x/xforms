@@ -35,7 +35,7 @@ if (empty($form) || (!$form instanceof Forms)) {
 /** @var \XoopsModules\Xforms\Forms $form */
 $myts = \MyTextSanitizer::getInstance();
 xoops_load('xoopsformloader');
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName = \basename(\dirname(__DIR__));
 
 // Instantiate Element handler
 /**

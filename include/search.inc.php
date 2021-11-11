@@ -23,6 +23,7 @@
 
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Helper;
+/** @var Helper $helper */
 
 /**
  * xforms_search()

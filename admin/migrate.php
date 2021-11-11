@@ -33,10 +33,11 @@ use Xmf\Request;
 use Xmf\Module\Admin;
 use XoopsModules\Xforms;
 use XoopsModules\Xforms\Common\Migrate;
+use XoopsModules\Xforms\Common\Configurator;
 
 /** @var Admin $adminObject */
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 
 $adminObject->displayNavigation(basename(__FILE__));
@@ -57,8 +58,7 @@ EOF;
 
 //XoopsLoad::load('migrate', 'newbb');
 
-$configurator = new Xforms\Common\Configurator();
-
+$configurator = new Configurator();
 $migrator = new Migrate($configurator);
 
 $op        = Request::getCmd('op', 'show');

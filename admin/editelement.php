@@ -71,7 +71,7 @@ switch ($op) {
             $outputTitle = (Constants::FORM_CLONED === $clone) ? _AM_XFORMS_ELE_CREATE : sprintf(_AM_XFORMS_ELE_EDIT, $element->getVar('ele_caption'));
         } else {
             $element     = $xformsEleHandler->create();
-            $eleType     = mb_strtolower(Request::getCmd('ele_type', 'text'));
+            $eleType     = \mb_strtolower(Request::getCmd('ele_type', 'text'));
             $outputTitle = _AM_XFORMS_ELE_CREATE;
         }
 
@@ -140,7 +140,7 @@ switch ($op) {
         $validElements = $xformsEleHandler->getValidElements();
         $validKeys     = array_keys($validElements);
         if (in_array($eleType, $validKeys)) {
-            $elementName = constant('_AM_XFORMS_ELE_' . mb_strtoupper($eleType));
+            $elementName = constant('_AM_XFORMS_ELE_' . \mb_strtoupper($eleType));
             require $helper->path('admin/elements/ele_' . $eleType . '.php');
         } else {
             $helper->redirect(
@@ -209,7 +209,7 @@ switch ($op) {
         }
         $element = $xformsEleHandler->get($eleId);
         if ($element->isNew()) {
-            $eleType = mb_strtolower(Request::getWord('ele_type', 'text', 'POST'));
+            $eleType = \mb_strtolower(Request::getWord('ele_type', 'text', 'POST'));
         } else {
             $eleType = $element->getVar('ele_type');
         }
@@ -586,5 +586,5 @@ switch ($op) {
         echo '  </tbody>' . '  </table>';
         break;
 }
-require __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';
 xoops_cp_footer();

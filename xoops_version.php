@@ -31,12 +31,12 @@ defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName                = basename(__DIR__);
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 /*  @var array $modversion */
-$modversion['version']        = '2.0.1';
-$modversion['module_status']  = 'Alpha 3';
-$modversion['release_date']   = '2021/02/14';
+$modversion['version']        = '2.0.0';
+$modversion['module_status']  = 'Beta 1';
+$modversion['release_date']   = '2021/08/09';
 $modversion['name']           = _MI_XFORMS_NAME;
 $modversion['description']    = _MI_XFORMS_DESC;
 $modversion['author']         = 'Brandycoke Productions, Dylian Melgert, Juan Garcés';
@@ -73,7 +73,7 @@ $modversion['helpsection'] = [
 //About
 $modversion['module_website_url']  = 'https://xoops.org/';
 $modversion['module_website_name'] = 'XOOPS';
-$modversion['min_php']             = '7.2';
+$modversion['min_php']             = '7.3';
 $modversion['min_xoops']           = '2.5.10';
 $modversion['min_admin']           = '1.2';
 $modversion['min_db']              = ['mysql' => '5.5'];
@@ -103,24 +103,12 @@ $modversion['hasMain'] = 1;
 // Display main menu (1 = true)
 $modversion['system_menu'] = 1;
 
-// Templates
+// ------------------- Templates ------------------- //
 $modversion['templates'] = [
-    [
-        'file'        => 'xforms_index.tpl',
-        'description' => _MI_XFORMS_TMPL_MAIN_DESC,
-    ],
-    [
-        'file'        => 'xforms_form.tpl',
-        'description' => _MI_XFORMS_TMPL_FORM_DESC,
-    ],
-    [
-        'file'        => 'xforms_form_poll.tpl',
-        'description' => _MI_XFORMS_TMPL_POLL_DESC,
-    ],
-    [
-        'file'        => 'xforms_error.tpl',
-        'description' => _MI_XFORMS_TMPL_ERROR_DESC,
-    ],
+    ['file' => 'xforms_index.tpl', 'description' => _MI_XFORMS_TMPL_MAIN_DESC,],
+    ['file' => 'xforms_form.tpl', 'description' => _MI_XFORMS_TMPL_FORM_DESC,],
+    ['file' => 'xforms_form_poll.tpl', 'description' => _MI_XFORMS_TMPL_POLL_DESC,],
+    ['file' => 'xforms_error.tpl', 'description' => _MI_XFORMS_TMPL_ERROR_DESC,],
 ];
 
 /*
@@ -133,7 +121,7 @@ $modversion['search']    = [
     'func' => 'xforms_search',
 ];
 
-// Blocks
+// ------------------- Blocks ------------------- //
 $modversion['blocks'] = [
     [
         'file'        => 'list_block.php',

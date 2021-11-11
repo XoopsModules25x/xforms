@@ -28,8 +28,8 @@ trait VersionChecks
      */
     public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
     {
-        $moduleDirName      = \basename(dirname(__DIR__, 2));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
         }
@@ -57,8 +57,8 @@ trait VersionChecks
      */
     public static function checkVerPhp(\XoopsModule $module = null)
     {
-        $moduleDirName      = \basename(dirname(__DIR__, 2));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
         }
@@ -66,7 +66,7 @@ trait VersionChecks
         // check for minimum PHP version
         $success = true;
         $verNum  = \PHP_VERSION;
-        $reqVer = &$module->getInfo('min_php');
+        $reqVer  = &$module->getInfo('min_php');
         if (false !== $reqVer && '' !== $reqVer) {
             if (\version_compare($verNum, $reqVer, '<')) {
                 $module->setErrors(\sprintf(\constant('CO_' . $moduleDirNameUpper . '_ERROR_BAD_PHP'), $reqVer, $verNum));
@@ -78,7 +78,7 @@ trait VersionChecks
     }
 
     /**
-     * compares current module version with latest GitHub release
+     * compares current module version with the latest GitHub release
      * @static
      * @param \Xmf\Module\Helper $helper
      * @param string|null        $source
@@ -86,10 +86,10 @@ trait VersionChecks
      *
      * @return string|array info about the latest module version, if newer
      */
-    public static function checkVerModule($helper, $source = 'github', $default = 'master')
+    public static function checkVerModule(\Xmf\Module\Helper $helper, ?string $source = 'github', ?string $default = 'master'): ?array
     {
-        $moduleDirName      = \basename(dirname(__DIR__, 2));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         $update             = '';
         $repository         = 'XoopsModules25x/' . $moduleDirName;
         /** @internal Developer Note: set repository to development github site for testing
@@ -97,7 +97,7 @@ trait VersionChecks
          $repository         = 'zyspec/xforms'; //developer site
          */
 
-        $ret             = '';
+        $ret             = null;
         $infoReleasesUrl = "https://api.github.com/repos/$repository/releases";
         if ('github' === $source) {
             if (\function_exists('curl_init') && false !== ($curlHandle = \curl_init())) {
@@ -111,7 +111,7 @@ trait VersionChecks
                 } elseif (false !== mb_strpos($curlReturn, 'Not Found')) {
                     \trigger_error(\constant('CO_' . $moduleDirNameUpper . '_' . 'REPO_NOT_FOUND') . $infoReleasesUrl);
                 } else {
-                    $file              = json_decode($curlReturn, false);
+                    $file = json_decode($curlReturn, false);
                     if (empty($file)) {
                         \trigger_error(\constant('CO_' . $moduleDirNameUpper . '_' . 'NO_REL_FOUND') . $infoReleasesUrl);
                     } else {
@@ -122,14 +122,14 @@ trait VersionChecks
                             $update = \constant('CO_' . $moduleDirNameUpper . '_' . 'NEW_VERSION') . $latestVersion;
                         }
                         //"PHP-standardized" version
-                        $latestVersion = mb_strtolower($latestVersion);
+                        $latestVersion = \mb_strtolower($latestVersion);
                         if (false !== mb_strpos($latestVersion, 'final')) {
-                            $latestVersion = \str_replace('_', '', mb_strtolower($latestVersion));
-                            $latestVersion = \str_replace('final', '', mb_strtolower($latestVersion));
+                            $latestVersion = \str_replace('_', '', \mb_strtolower($latestVersion));
+                            $latestVersion = \str_replace('final', '', \mb_strtolower($latestVersion));
                         }
                         $moduleVersion = ($helper->getModule()->getInfo('version') . '_' . $helper->getModule()->getInfo('module_status'));
                         //"PHP-standardized" version
-                        $moduleVersion = \str_replace(' ', '', mb_strtolower($moduleVersion));
+                        $moduleVersion = \str_replace(' ', '', \mb_strtolower($moduleVersion));
                         if (!$prerelease && \version_compare($moduleVersion, $latestVersion, '<')) {
                             $ret   = [];
                             $ret[] = $update;

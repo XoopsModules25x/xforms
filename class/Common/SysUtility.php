@@ -77,7 +77,7 @@ class SysUtility
                     if (\preg_match('/^<(\s*.+?\/\s*|\s*(img|br|input|hr|area|base|basefont|col|frame|isindex|link|meta|param)(\s.+?)?)>$/is', $line_matchings[1])) {
                         // do nothing
                         // if tag is a closing tag
-                    } elseif (\preg_match('/^<\s*\/([^\s]+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
+                    } elseif (\preg_match('/^<\s*\/(\S+?)\s*>$/s', $line_matchings[1], $tag_matchings)) {
                         // delete tag from $open_tags list
                         $pos = \array_search($tag_matchings[1], $open_tags, true);
                         if (false !== $pos) {
@@ -86,7 +86,7 @@ class SysUtility
                         // if tag is an opening tag
                     } elseif (\preg_match('/^<\s*([^\s>!]+).*?' . '>$/s', $line_matchings[1], $tag_matchings)) {
                         // add tag to the beginning of $open_tags list
-                        \array_unshift($open_tags, mb_strtolower($tag_matchings[1]));
+                        \array_unshift($open_tags, \mb_strtolower($tag_matchings[1]));
                     }
                     // add html-tag to $truncate'd text
                     $truncate .= $line_matchings[1];
@@ -194,7 +194,7 @@ class SysUtility
      *
      * @return bool
      */
-    public function fieldExists($fieldname, $table)
+    public static function fieldExists($fieldname, $table)
     {
         global $xoopsDB;
         $result = $xoopsDB->queryF("SHOW COLUMNS FROM   $table LIKE '$fieldname'");
@@ -225,5 +225,35 @@ class SysUtility
             $new_id = $GLOBALS['xoopsDB']->getInsertId();
         }
         return $new_id;
+    }
+
+    /**
+     * Function responsible for checking if a directory exists, we can also write in and create an index.html file
+     *
+     * @param string $folder The full path of the directory to check
+     */
+    public static function prepareFolder($folder)
+    {
+        try {
+            if (!@\mkdir($folder) && !\is_dir($folder)) {
+                throw new \RuntimeException(\sprintf('Unable to create the %s directory', $folder));
+            }
+            file_put_contents($folder . '/index.html', '<script>history.go(-1);</script>');
+        } catch (\Exception $e) {
+            echo 'Caught exception: ', $e->getMessage(), "\n", '<br>';
+        }
+    }
+
+
+    /**
+     * @param string $tablename
+     *
+     * @return bool
+     */
+    public static function tableExists($tablename)
+    {
+        $result = $GLOBALS['xoopsDB']->queryF("SHOW TABLES LIKE '$tablename'");
+
+        return $GLOBALS['xoopsDB']->getRowsNum($result) > 0;
     }
 }
