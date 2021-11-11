@@ -1,5 +1,8 @@
-<h5>2.00 Beta 1    [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.15, PHP 8.02
+<h5>2.0.1 Beta 1   [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.0, PHP 8.0.1
 <hr>
+- semantic versioning (mamba/goffy)
+- fixed bug in creation text elements (heyula/goffy)
+- fixed bug adding option for checkboxes (heyula/goffy)
 - fix wrong class name (heyula/mamba)
 - updates/cosmetics (mamba)
 - replace index.html with index.php (mamba)

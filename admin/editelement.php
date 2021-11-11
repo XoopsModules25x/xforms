@@ -243,14 +243,14 @@ switch ($op) {
 
         switch ($eleType) {
             case 'checkbox':
-                $checked = Request::getArray('checked', Constants::ELE_NOT_CHECKED, 'POST');
+                $checked = Request::getArray('ckbox', Constants::ELE_NOT_CHECKED);
                 $checked = array_map('\intval', $checked);
                 foreach ($eleValue as $key => $v) {
                     //while ($v = each($eleValue)) {
                     if ('' == $v) { // remove 'empty' options
                         unset($eleValue[$key]);
                     } else {
-                        $check     = (isset($checked[$key]) && (Constants::ELE_CHECKED == $checked[$key])) ? Constants::ELE_CHECKED : Constants::ELE_NOT_CHECKED;
+                        $check = (isset($checked[$key]) && $checked[$key] > 0) ? Constants::ELE_CHECKED : Constants::ELE_NOT_CHECKED;
                         $value[$v] = $check;
                     }
                 }
