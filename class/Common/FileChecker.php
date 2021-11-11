@@ -27,7 +27,7 @@ use XoopsModules\Xforms;
 
 require_once \dirname(__DIR__, 4) . '/mainfile.php';
 $moduleDirName      = \basename(\dirname(__DIR__, 2));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 \xoops_loadLanguage('filechecker', $moduleDirName);
 
 /**
@@ -53,7 +53,7 @@ class FileChecker
             $redirectFile = $_SERVER['SCRIPT_NAME'];
         }
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         if (null === $original_file_path) {
             if (self::fileExists($file_path)) {
                 $path_status = "<img src='$pathIcon16/1.png' >";
@@ -111,8 +111,8 @@ class FileChecker
         if (\filesize($file1_path) !== \filesize($file2_path)) {
             return false;
         }
-        $crc1 = mb_strtoupper(\dechex(\crc32(file_get_contents($file1_path))));
-        $crc2 = mb_strtoupper(\dechex(\crc32(file_get_contents($file2_path))));
+        $crc1 = \mb_strtoupper(\dechex(\crc32(file_get_contents($file1_path))));
+        $crc2 = \mb_strtoupper(\dechex(\crc32(file_get_contents($file2_path))));
 
         return !($crc1 !== $crc2);
     }

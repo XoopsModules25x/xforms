@@ -51,8 +51,8 @@ if (!defined($moduleDirNameUpper . '_CONSTANTS_DEFINED')) {
 //define('XFORMS_ROOT_PATH', $helper->path());
 
 $mypathIcon16 = $helper->url('assets/images/icons/16');
-$pathIcon16   = Xmf\Module\Admin::iconUrl('', 16);
-$pathIcon32   = Xmf\Module\Admin::iconUrl('', 32);
+$pathIcon16   = Xmf\Module\Admin::iconUrl('', '16');
+$pathIcon32   = Xmf\Module\Admin::iconUrl('', '32');
 
 //$uploadDir = $helper->getConfig('uploaddir');
 //$uploadDir = ('/' === substr($uploadDir, -1, 1)) ? $uploadDir : $uploadDir . '/';

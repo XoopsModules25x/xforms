@@ -31,10 +31,10 @@ defined('XOOPS_ROOT_PATH') || exit('Restricted access');
 require_once __DIR__ . '/preloads/autoloader.php';
 
 $moduleDirName      = basename(__DIR__);
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 
 /*  @var array $modversion */
-$modversion['version']       = '2.00';
+$modversion['version']       = '2.0.0';
 $modversion['module_status']  = 'Beta 1';
 $modversion['release_date']   = '2021/08/09';
 $modversion['name']          = _MI_XFORMS_NAME;

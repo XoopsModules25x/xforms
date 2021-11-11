@@ -27,7 +27,7 @@ use XoopsModules\Xforms;
 
 require_once \dirname(__DIR__, 4) . '/mainfile.php';
 $moduleDirName      = \basename(\dirname(__DIR__, 2));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 \xoops_loadLanguage('directorychecker', $moduleDirName);
 
 /**
@@ -45,7 +45,7 @@ class DirectoryChecker
      */
     public static function getDirectoryStatus($path, $mode = 0777, $redirectFile = null)
     {
-        $pathIcon16 = \Xmf\Module\Admin::iconUrl('', 16);
+        $pathIcon16 = \Xmf\Module\Admin::iconUrl('', '16');
 
         if (empty($path)) {
             return false;
@@ -54,7 +54,7 @@ class DirectoryChecker
             $redirectFile = $_SERVER['SCRIPT_NAME'];
         }
         $moduleDirName      = \basename(\dirname(__DIR__, 2));
-        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
+        $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
         if (!@\is_dir($path)) {
             $path_status = "<img src='$pathIcon16/0.png' >";
             $path_status .= "$path (" . \constant('CO_' . $moduleDirNameUpper . '_' . 'DC_NOTAVAILABLE') . ') ';

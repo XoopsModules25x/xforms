@@ -258,7 +258,7 @@ class Issues
                 \CURLOPT_VERBOSE        => true,
                 \CURLOPT_TIMEOUT        => 5,
                 \CURLOPT_HTTPGET        => true,
-                \CURLOPT_USERAGENT      => 'XOOPS-' . mb_strtoupper($this->dirname),
+                \CURLOPT_USERAGENT      => 'XOOPS-' . \mb_strtoupper($this->dirname),
                 \CURLOPT_HTTPHEADER     => [
                     'Content-type:application/json',
                     'If-None-Match: ' . $this->getCachedEtag(),

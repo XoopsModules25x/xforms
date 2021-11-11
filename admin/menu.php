@@ -29,7 +29,7 @@ use XoopsModules\Xforms\Helper;
 include \dirname(__DIR__) . '/preloads/autoloader.php';
 
 $moduleDirName      = \basename(\dirname(__DIR__));
-$moduleDirNameUpper = mb_strtoupper($moduleDirName);
+$moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 $pathIcon32         = Admin::menuIconPath('');
 
 /** @var \XoopsModules\Xforms\Helper $helper */

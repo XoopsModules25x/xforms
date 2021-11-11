@@ -324,7 +324,7 @@ switch ($op) {
         }
 
         $dl     = new \stdClass();
-        $format = mb_strtolower($format);
+        $format = \mb_strtolower($format);
         switch ($format) {
             case 'h': //html
                 $xformsTpl->assign('col_count', $eleCount + 3);
@@ -445,7 +445,7 @@ switch ($op) {
         $uDataCount = count($uData);
 
         $dl     = new \stdClass();
-        $format = mb_strtolower($format);
+        $format = \mb_strtolower($format);
         switch ($format) {
             case 'h': //html
                 $dl->_template = $helper->path('templates/admin/xforms_export_hv.tpl');

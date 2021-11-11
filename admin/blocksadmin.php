@@ -424,9 +424,9 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         $myblock->setVar('side', $side);
         $myblock->setVar('bcachetime', $bcachetime);
         //        $myblock->store();
-        /** @var \XoopsBlockHandler $blkhandler */
-        $blkhandler = xoops_getHandler('block');
-        return $blkhandler->insert($myblock);
+        /** @var \XoopsBlockHandler $blockHandler */
+        $blockHandler = xoops_getHandler('block');
+        return $blockHandler->insert($myblock);
     }
 
     /**
@@ -514,10 +514,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
                 $myblock->setVar('options', $options);
             }
         }
-        //        $myblock->store();
-        /** @var \XoopsBlockHandler $blkhandler */
-        $blkhandler = xoops_getHandler('block');
-        return $blkhandler->insert($myblock);
+        $myblock->store();
 
         global $xoopsDB;
 
