@@ -36,7 +36,7 @@ $moduleDirNameUpper = \mb_strtoupper($moduleDirName);
 /*  @var array $modversion */
 $modversion['version']        = '2.0.0';
 $modversion['module_status']  = 'Beta 1';
-$modversion['release_date']   = '2021/08/09';
+$modversion['release_date']   = '2022/02/20';
 $modversion['name']           = _MI_XFORMS_NAME;
 $modversion['description']    = _MI_XFORMS_DESC;
 $modversion['author']         = 'Brandycoke Productions, Dylian Melgert, Juan Garcés';

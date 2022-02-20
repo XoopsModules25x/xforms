@@ -12,7 +12,7 @@
 /**
  * Module: xForms
  *
- * @package   \XoopsModules\Xforms\include
+ * @package      \XoopsModules\Xforms\include
  * @copyright    XOOPS Project (https://xoops.org)
  * @license      GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
  * @author       XOOPS Development Team
@@ -34,15 +34,15 @@ return (object)[
         'uploadUrl'  => XOOPS_UPLOAD_URL . '/' . $moduleDirName,
     ],
     'uploadFolders'  => [
-            //        constant($moduleDirNameUpper . '_UPLOAD_PATH'),
-            //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/category',
-            //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/screenshots',
+        //        constant($moduleDirNameUpper . '_UPLOAD_PATH'),
+        //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/category',
+        //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/screenshots',
         //XOOPS_UPLOAD_PATH . '/flags'
     ],
     'copyBlankFiles' => [
-            //        constant($moduleDirNameUpper . '_UPLOAD_PATH'),
-            //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/category',
-            //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/screenshots',
+        //        constant($moduleDirNameUpper . '_UPLOAD_PATH'),
+        //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/category',
+        //        constant($moduleDirNameUpper . '_UPLOAD_PATH') . '/screenshots',
         //XOOPS_UPLOAD_PATH . '/flags'
     ],
 
@@ -59,37 +59,38 @@ return (object)[
 
     'templateFolders' => [
         '/templates/',
-            '/templates/admin/',
-            '/templates/blocks/',
+        '/templates/admin/',
+        '/templates/blocks/',
     ],
     'oldFiles'        => [
-            '/admin/ele_check.php',
-            '/admin/ele_date.php',
-            '/admin/ele_html.php',
-            '/admin/ele_radio.php',
-            '/admin/ele_select_ctry.php',
-            '/admin/ele_select.php',
-            '/admin/ele_tarea.php',
-            '/admin/ele_text.php',
-            '/admin/ele_upload.php',
-            '/admin/ele_uploadimg.php',
-            '/admin/ele_yn.php',
-            '/admin/upgrade.php',
-            '/class/constants.php',
-            '/class/dbupdater.php',
-            '/class/elementrenderer.php',
-            '/class/elements.php',
-            '/class/forms.php',
-            '/class/helper.php',
-            '/class/session.php',
-            '/class/uploader.php',
-            '/class/userdata.php',
-            '/class/xforms.php',
-            '/include/directorychecker.php',
-            '/include/filechecker.php',
-            '/include/form_execute.php',
-            '/include/functions.php',
-            '/include/module.php',
+        '/admin/ele_check.php',
+        '/admin/ele_date.php',
+        '/admin/ele_html.php',
+        '/admin/ele_radio.php',
+        '/admin/ele_select_ctry.php',
+        '/admin/ele_select.php',
+        '/admin/ele_tarea.php',
+        '/admin/ele_text.php',
+        '/admin/ele_upload.php',
+        '/admin/ele_uploadimg.php',
+        '/admin/ele_yn.php',
+        '/admin/upgrade.php',
+        '/class/constants.php',
+        '/class/dbupdater.php',
+        '/class/elementrenderer.php',
+        '/class/elements.php',
+        '/class/forms.php',
+        '/class/helper.php',
+        '/class/session.php',
+        '/class/uploader.php',
+        '/class/userdata.php',
+        '/class/xforms.php',
+        '/include/directorychecker.php',
+        '/include/filechecker.php',
+        '/include/form_execute.php',
+        '/include/functions.php',
+        '/include/module.php',
+        '/preloads/index.php',
         '/ajaxrating.txt',
     ],
     'oldFolders'      => [
@@ -97,20 +98,20 @@ return (object)[
         '/css',
         '/js',
         '/tcpdf',
-            '/images',
-            '/xforms'
+        '/images',
+        '/xforms',
     ],
 
-    'renameTables' => [//         'XX_archive'     => 'ZZZZ_archive',
+    'renameTables'  => [//         'XX_archive'     => 'ZZZZ_archive',
     ],
     'renameColumns' => [//        'extcal_event' => ['from' => 'event_etablissement', 'to' => 'event_location'],
     ],
-    'moduleStats'  => [
+    'moduleStats'   => [
         //            'totalcategories' => $helper->getHandler('Category')->getCategoriesCount(-1),
         //            'totalitems'      => $helper->getHandler('Item')->getItemsCount(),
         //            'totalsubmitted'  => $helper->getHandler('Item')->getItemsCount(-1, [Constants::PUBLISHER_STATUS_SUBMITTED]),
     ],
-    'modCopyright' => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
+    'modCopyright'  => "<a href='https://xoops.org' title='XOOPS Project' target='_blank'>
                      <img src='" . Admin::iconUrl('xoopsmicrobutton.gif') . "' alt='XOOPS Project'></a>",
 ];
 
